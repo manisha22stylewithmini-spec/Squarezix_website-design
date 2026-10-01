@@ -925,3 +925,10 @@
 /* Blog now closes the page after Creative Campaigns: the campaigns' bottom padding is the gap
    above, and the blog carries the run-out into the outro that the campaigns used to. */
 .reels + .blog { padding-top: clamp(24px, 3vw, 48px); padding-bottom: clamp(72px, 8vw, 110px); }
+
+/* Section heads (Selected Work, Creative Campaigns): the note + button sit on the title's
+   last line instead of floating at the top, and both sections share one aside style. */
+.work-head, .reels-head { align-items: flex-end; }
+.work-aside, .reels-aside { padding-top: 0; padding-bottom: clamp(8px, .9vw, 16px); }
+.reels-aside p { font-family: "JetBrains Mono", monospace; font-size: clamp(13px, 1.1vw, 16px); line-height: 1.7; color: #d0d0d8; }
+.reels-aside .btn-contact { margin-top: 22px; }
