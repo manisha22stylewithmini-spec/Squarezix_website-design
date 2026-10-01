@@ -376,16 +376,18 @@
   }
   .b-strategy { min-height: 380px; }
   .b-tool, .b-projects, .b-laptop, .b-contact { min-height: 180px; }
-  .b-hero { padding: 56px 20px 0; min-height: 480px; }
+  .b-hero { padding: 56px 20px 0; min-height: 400px; }
   .b-hero h3 { font-size: clamp(30px, 5.5vw, 44px); }
-  /* The sticker sits inside the headline card instead of cutting into three cards */
+  /* Same logic as desktop: the panel-coloured disc is centred on the headline card's
+     bottom edge and cuts into the cards beneath it (--gap = the grid gap). */
+  .bento { --gap: 16px; }
   .b-disc {
     grid-area: b; position: relative; left: auto; top: auto;
     align-self: end; justify-self: center;
-    width: 250px; margin-bottom: 24px;
-    background: none;
+    width: 264px;
+    transform: translateY(calc(50% + var(--gap) / 2));
   }
-  .b-sticker { width: 230px; }
+  .b-sticker { width: 224px; }
   .b-expertise { min-height: 400px; }
   .b-grow {
     --u: min(1px, calc((100vw - 72px) / 605));
@@ -401,13 +403,15 @@
   .bento {
     grid-template-columns: 1fr;
     grid-template-areas: "b" "a" "c" "d" "e" "f" "g" "h";
-    gap: 12px;
+    gap: 12px; --gap: 12px;
   }
-  .b-strategy { min-height: 340px; }
+  /* The card under the headline starts below the disc that cuts into it */
+  .b-strategy { min-height: 340px; padding-top: 118px; }
+  .b-logo { margin-bottom: 18px; }
   .b-tool, .b-laptop { min-height: 200px; }
-  .b-hero { min-height: 420px; }
-  .b-disc { width: 220px; }
-  .b-sticker { width: 200px; }
+  .b-hero { min-height: 340px; }
+  .b-disc { width: 200px; }
+  .b-sticker { width: 170px; }
   .b-grow { --u: calc((100vw - 56px) / 605); }
 }
 
