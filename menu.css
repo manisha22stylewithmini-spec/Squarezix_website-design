@@ -29,7 +29,6 @@
 .nav-trigger:focus-visible { outline: 2px solid var(--purple); outline-offset: 4px; border-radius: 4px; }
 
 /* Header goes solid while a menu is open so the panel reads as one surface with it */
-.site-header.mm-active::before { background: linear-gradient(180deg, rgba(255, 255, 255, .78), rgba(255, 255, 255, .66)); }
 
 /* ---------- Panel ---------- */
 .mm-panel {
@@ -39,11 +38,13 @@
   padding: 10px;
   border-radius: 22px;
   /* Frosted glass, same recipe as the header bar */
-  background: linear-gradient(180deg, rgba(255, 255, 255, .74), rgba(255, 255, 255, .6));
-  -webkit-backdrop-filter: blur(26px) saturate(190%);
-          backdrop-filter: blur(26px) saturate(190%);
-  border: 1px solid rgba(255, 255, 255, .55);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .8), 0 30px 60px -12px rgba(0, 0, 0, .5), 0 12px 24px -8px rgba(0, 0, 0, .25);
+  background:
+    radial-gradient(120% 160% at 0% 0%, rgba(171, 36, 242, .10), transparent 55%), radial-gradient(120% 160% at 100% 100%, rgba(98, 29, 208, .10), transparent 55%),
+    linear-gradient(180deg, rgba(255, 255, 255, .92), rgba(248, 243, 255, .86));
+  -webkit-backdrop-filter: blur(26px) saturate(200%);
+          backdrop-filter: blur(26px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, .95);
+  box-shadow: inset 0 1px 0 #fff, 0 0 0 1px rgba(171, 36, 242, .10), 0 30px 60px -12px rgba(0, 0, 0, .5), 0 12px 24px -8px rgba(0, 0, 0, .25);
   color: var(--ink);
   opacity: 0; visibility: hidden;
   transform: translate(-50%, 8px) scale(.985);
@@ -63,14 +64,14 @@
   position: relative;
   display: grid; grid-template-columns: repeat(var(--n), 1fr);
   padding: 4px; border-radius: 14px;
-  background: rgba(40, 20, 90, .08);
+  background: rgba(98, 29, 208, .09);
 }
 .mm-tab-thumb {
   position: absolute; top: 4px; bottom: 4px; left: 4px;
   width: calc((100% - 8px) / var(--n));
   border-radius: 10px;
   background: #fff;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, .08), 0 4px 12px rgba(0, 0, 0, .08);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .08), 0 4px 12px rgba(0, 0, 0, .10), inset 0 0 0 1px rgba(171, 36, 242, .14);
   transform: translateX(calc(var(--i) * 100%));
   transition: transform .35s cubic-bezier(.2, .8, .2, 1);
 }
@@ -78,7 +79,7 @@
   position: relative; z-index: 1;
   height: 40px; padding: 0 12px;
   background: none; border: 0; border-radius: 10px; cursor: pointer;
-  font: inherit; font-size: 14px; font-weight: 500; color: #6b6878;
+  font: inherit; font-size: 14px; font-weight: 500; color: #3d3654;
   white-space: nowrap;
   transition: color .2s ease;
 }
@@ -97,13 +98,13 @@
   min-height: 74px; height: 100%;
   padding: 14px 44px 14px 16px;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, .7);
-  background: rgba(255, 255, 255, .5);
+  border: 1px solid rgba(98, 29, 208, .10);
+  background: rgba(255, 255, 255, .72);
   color: var(--ink); text-decoration: none;
   transition: background .2s ease, border-color .2s ease, transform .2s ease;
 }
 .mm-card-title { font-size: 14.5px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.3; }
-.mm-card-desc { font-size: 12.5px; color: #7a7788; line-height: 1.35; }
+.mm-card-desc { font-size: 12.5px; color: #5c5670; line-height: 1.35; }
 .mm-card-arrow {
   position: absolute; right: 12px; top: 50%;
   width: 24px; height: 24px; border-radius: 50%;
@@ -116,7 +117,7 @@
   width: 12px; height: 12px; fill: none; stroke: var(--purple); stroke-width: 2.4;
   stroke-linecap: round; stroke-linejoin: round;
 }
-.mm-card:hover, .mm-card:focus-visible { background: rgba(255, 255, 255, .82); border-color: #dccbff; }
+.mm-card:hover, .mm-card:focus-visible { background: #fff; border-color: rgba(171, 36, 242, .45); }
 .mm-card:hover .mm-card-arrow, .mm-card:focus-visible .mm-card-arrow { opacity: 1; transform: translate(0, -50%); }
 .mm-card:focus-visible { outline: 2px solid var(--purple); outline-offset: 1px; }
 
