@@ -921,3 +921,7 @@
   .cs-stats dd { font-size: 12.5px; }
 }
 @media (prefers-reduced-motion: reduce) { .cs-panel, .cs-shots img, .cs-mark::after { transition: none; } }
+
+/* Blog now closes the page after Creative Campaigns: the campaigns' bottom padding is the gap
+   above, and the blog carries the run-out into the outro that the campaigns used to. */
+.reels + .blog { padding-top: clamp(24px, 3vw, 48px); padding-bottom: clamp(72px, 8vw, 110px); }
