@@ -199,12 +199,13 @@
   }
 })();
 
-// Case studies — one row open at a time; the shared preview follows the open row
+// Case studies — category filter, one row open at a time; the shared preview follows the open row
 (() => {
   const section = document.querySelector('.cases');
   if (!section) return;
   const rows = [...section.querySelectorAll('.cs-row')];
   const shots = [...section.querySelectorAll('.cs-shots img')];
+  const filters = [...section.querySelectorAll('.cs-filter')];
   const capNo = section.querySelector('.cs-cap-no b');
   const capName = section.querySelector('.cs-cap-name');
 
@@ -220,4 +221,16 @@
   };
 
   rows.forEach((row) => row.querySelector('.cs-toggle').addEventListener('click', () => open(row)));
+
+  filters.forEach((btn) => btn.addEventListener('click', () => {
+    const cat = btn.dataset.filter;
+    filters.forEach((b) => {
+      b.classList.toggle('is-on', b === btn);
+      b.setAttribute('aria-pressed', b === btn);
+    });
+    rows.forEach((r) => { r.hidden = cat !== 'all' && r.dataset.cat !== cat; });
+    // Keep the open row if it survived the filter, otherwise open the first match
+    const shown = rows.filter((r) => !r.hidden);
+    open(shown.find((r) => r.classList.contains('is-open')) || shown[0]);
+  }));
 })();

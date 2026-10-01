@@ -7,14 +7,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&family=Archivo+Black&family=Instrument+Serif:ital@1&family=Plus+Jakarta+Sans:wght@400;500;600&family=Lato:wght@300;400&family=Lexend:wght@400;500;600&family=JetBrains+Mono:wght@400&family=Syne:wght@500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20261001m" />
-  <link rel="stylesheet" href="hero.css?v=20261001m" />
-  <link rel="stylesheet" href="services.css?v=20261001m" />
-  <link rel="stylesheet" href="bento.css?v=20261001m" />
-  <link rel="stylesheet" href="sections.css?v=20261001m" />
-  <link rel="stylesheet" href="footer.css?v=20261001m" />
-  <link rel="stylesheet" href="menu.css?v=20261001m" />
-  <link rel="stylesheet" href="outro.css?v=20261001m" />
+  <link rel="stylesheet" href="styles.css?v=20261001n" />
+  <link rel="stylesheet" href="hero.css?v=20261001n" />
+  <link rel="stylesheet" href="services.css?v=20261001n" />
+  <link rel="stylesheet" href="bento.css?v=20261001n" />
+  <link rel="stylesheet" href="sections.css?v=20261001n" />
+  <link rel="stylesheet" href="footer.css?v=20261001n" />
+  <link rel="stylesheet" href="menu.css?v=20261001n" />
+  <link rel="stylesheet" href="outro.css?v=20261001n" />
 </head>
 <body>
   <header class="site-header">
@@ -509,7 +509,7 @@
     </div>
   </section>
 
-  <!-- ===== Case studies — index on the right, shared preview on the left (sections.js) ===== -->
+  <!-- ===== Case studies — category filter + index on the right, shared preview on the left (sections.js) ===== -->
   <section class="cases" id="case-studies" aria-labelledby="cases-title">
     <div class="cs-head">
       <div>
@@ -523,83 +523,86 @@
         <figcaption><span class="cs-cap-no">Case <b>01</b> / 03</span><span class="cs-cap-name">Digital Stream</span></figcaption>
         <div class="cs-shots"><img src="assets/work/project-1.png" alt="" data-case="0" class="is-on" loading="lazy" /><img src="assets/work/project-2.png" alt="" data-case="1" loading="lazy" /><img src="assets/work/project-3.png" alt="" data-case="2" loading="lazy" /></div>
       </figure>
-      <ol class="cs-list">
-      <li class="cs-row is-open" data-case="0">
-        <h3 class="cs-row-h">
-          <button class="cs-toggle" type="button" id="cs-t0" aria-expanded="true" aria-controls="cs-p0">
-            <span class="cs-no">01</span>
-            <span class="cs-client">Digital Stream</span>
-            <span class="cs-kind">Website design &amp; build</span>
-            <span class="cs-year">2025</span>
-            <span class="cs-mark" aria-hidden="true"></span>
-          </button>
-        </h3>
-        <div class="cs-panel" id="cs-p0" role="region" aria-labelledby="cs-t0">
-          <div class="cs-panel-in">
-            <img class="cs-inline" src="assets/work/project-1.png" alt="Digital Stream website home page" loading="lazy" />
-            <div class="cs-copy">
-              <p><b>The brief</b>A strong product hidden behind a site that read like a spec sheet. Visitors left before they understood what it did.</p>
-              <p><b>What we did</b>Rewrote the story around one outcome, redesigned every page to lead to a demo, and rebuilt the front end for speed.</p>
-            </div>
-            <dl class="cs-stats"><div><dt>+212%</dt><dd>demo requests</dd></div><div><dt>1.1s</dt><dd>largest paint, mobile</dd></div><div><dt>9 wks</dt><dd>brief to launch</dd></div></dl>
-            <div class="cs-end">
-              <ul class="cs-tags"><li>Positioning</li><li>UX/UI</li><li>Development</li><li>SEO</li></ul>
-              <a class="cs-link" href="#contact">Start a project like this <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
-            </div>
-          </div>
-        </div>
-      </li>
-      <li class="cs-row" data-case="1">
-        <h3 class="cs-row-h">
-          <button class="cs-toggle" type="button" id="cs-t1" aria-expanded="false" aria-controls="cs-p1">
-            <span class="cs-no">02</span>
-            <span class="cs-client">Hero Gradients</span>
-            <span class="cs-kind">Headless storefront</span>
-            <span class="cs-year">2025</span>
-            <span class="cs-mark" aria-hidden="true"></span>
-          </button>
-        </h3>
-        <div class="cs-panel" id="cs-p1" role="region" aria-labelledby="cs-t1">
-          <div class="cs-panel-in">
-            <img class="cs-inline" src="assets/work/project-2.png" alt="Hero Gradients storefront product page" loading="lazy" />
-            <div class="cs-copy">
-              <p><b>The brief</b>Plenty of traffic, a slow catalogue and a checkout that lost shoppers at the shipping step.</p>
-              <p><b>What we did</b>Moved the store to a headless stack, cut checkout from five screens to two and rebuilt product pages around the photography.</p>
-            </div>
-            <dl class="cs-stats"><div><dt>+38%</dt><dd>conversion rate</dd></div><div><dt>−41%</dt><dd>cart abandonment</dd></div><div><dt>2.4×</dt><dd>returning buyers</dd></div></dl>
-            <div class="cs-end">
-              <ul class="cs-tags"><li>E-commerce</li><li>UX/UI</li><li>Development</li><li>CRO</li></ul>
-              <a class="cs-link" href="#contact">Start a project like this <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+      <div class="cs-main">
+        <div class="cs-filters" role="group" aria-label="Filter case studies by category"><button type="button" class="cs-filter is-on" data-filter="all" aria-pressed="true">All work<sup>03</sup></button><button type="button" class="cs-filter" data-filter="web" aria-pressed="false">Websites<sup>01</sup></button><button type="button" class="cs-filter" data-filter="ecom" aria-pressed="false">E-commerce<sup>01</sup></button><button type="button" class="cs-filter" data-filter="product" aria-pressed="false">Product &amp; AI<sup>01</sup></button></div>
+        <ol class="cs-list">
+        <li class="cs-row is-open" data-case="0" data-cat="web">
+          <h3 class="cs-row-h">
+            <button class="cs-toggle" type="button" id="cs-t0" aria-expanded="true" aria-controls="cs-p0">
+              <span class="cs-no">01</span>
+              <span class="cs-client">Digital Stream</span>
+              <span class="cs-meta"><span class="cs-cat">Website</span><span>B2B SaaS</span><span>2025</span></span>
+              <span class="cs-mark" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="cs-panel" id="cs-p0" role="region" aria-labelledby="cs-t0">
+            <div class="cs-panel-in">
+              <img class="cs-inline" src="assets/work/project-1.png" alt="Digital Stream website home page" loading="lazy" />
+              <p class="cs-label">Results</p>
+              <dl class="cs-stats"><div><dt>Demo requests</dt><dd>+212%</dd></div><div><dt>Mobile load (LCP)</dt><dd>1.1s</dd></div><div><dt>Brief to launch</dt><dd>9 wks</dd></div></dl>
+              <div class="cs-copy">
+                <div><p class="cs-label">The challenge</p><p>A strong product hidden behind a site that read like a spec sheet. Visitors left before they understood what it did.</p></div>
+                <div><p class="cs-label">What we did</p><p>Rewrote the story around one outcome, redesigned every page to lead to a demo, and rebuilt the front end for speed.</p></div>
+              </div>
+              <div class="cs-end">
+                <div><p class="cs-label">Services</p><ul class="cs-tags"><li>Positioning</li><li>UX/UI</li><li>Development</li><li>SEO</li></ul></div>
+                <a class="cs-link" href="#contact">Start a project like this <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+              </div>
             </div>
           </div>
-        </div>
-      </li>
-      <li class="cs-row" data-case="2">
-        <h3 class="cs-row-h">
-          <button class="cs-toggle" type="button" id="cs-t2" aria-expanded="false" aria-controls="cs-p2">
-            <span class="cs-no">03</span>
-            <span class="cs-client">Lissr.ai</span>
-            <span class="cs-kind">Product &amp; dashboard design</span>
-            <span class="cs-year">2024</span>
-            <span class="cs-mark" aria-hidden="true"></span>
-          </button>
-        </h3>
-        <div class="cs-panel" id="cs-p2" role="region" aria-labelledby="cs-t2">
-          <div class="cs-panel-in">
-            <img class="cs-inline" src="assets/work/project-3.png" alt="Lissr.ai product site and dashboard" loading="lazy" />
-            <div class="cs-copy">
-              <p><b>The brief</b>An AI tool people signed up for and then abandoned, because the first screen asked for too much too soon.</p>
-              <p><b>What we did</b>Mapped the first ten minutes of use, redesigned onboarding around a single task and rebuilt the dashboard to match.</p>
-            </div>
-            <dl class="cs-stats"><div><dt>3×</dt><dd>trial to paid</dd></div><div><dt>−57%</dt><dd>support tickets</dd></div><div><dt>4 min</dt><dd>to first result</dd></div></dl>
-            <div class="cs-end">
-              <ul class="cs-tags"><li>Product design</li><li>Design system</li><li>AI &amp; Intelligence</li></ul>
-              <a class="cs-link" href="#contact">Start a project like this <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+        </li>
+        <li class="cs-row" data-case="1" data-cat="ecom">
+          <h3 class="cs-row-h">
+            <button class="cs-toggle" type="button" id="cs-t1" aria-expanded="false" aria-controls="cs-p1">
+              <span class="cs-no">02</span>
+              <span class="cs-client">Hero Gradients</span>
+              <span class="cs-meta"><span class="cs-cat">E-commerce</span><span>Digital goods</span><span>2025</span></span>
+              <span class="cs-mark" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="cs-panel" id="cs-p1" role="region" aria-labelledby="cs-t1">
+            <div class="cs-panel-in">
+              <img class="cs-inline" src="assets/work/project-2.png" alt="Hero Gradients storefront product page" loading="lazy" />
+              <p class="cs-label">Results</p>
+              <dl class="cs-stats"><div><dt>Conversion rate</dt><dd>+38%</dd></div><div><dt>Cart abandonment</dt><dd>−41%</dd></div><div><dt>Returning buyers</dt><dd>2.4×</dd></div></dl>
+              <div class="cs-copy">
+                <div><p class="cs-label">The challenge</p><p>Plenty of traffic, a slow catalogue and a checkout that lost shoppers at the shipping step.</p></div>
+                <div><p class="cs-label">What we did</p><p>Moved the store to a headless stack, cut checkout from five screens to two and rebuilt product pages around the photography.</p></div>
+              </div>
+              <div class="cs-end">
+                <div><p class="cs-label">Services</p><ul class="cs-tags"><li>UX/UI</li><li>Headless build</li><li>CRO</li></ul></div>
+                <a class="cs-link" href="#contact">Start a project like this <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+              </div>
             </div>
           </div>
-        </div>
-      </li>
-      </ol>
+        </li>
+        <li class="cs-row" data-case="2" data-cat="product">
+          <h3 class="cs-row-h">
+            <button class="cs-toggle" type="button" id="cs-t2" aria-expanded="false" aria-controls="cs-p2">
+              <span class="cs-no">03</span>
+              <span class="cs-client">Lissr.ai</span>
+              <span class="cs-meta"><span class="cs-cat">Product &amp; AI</span><span>AI SaaS</span><span>2024</span></span>
+              <span class="cs-mark" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="cs-panel" id="cs-p2" role="region" aria-labelledby="cs-t2">
+            <div class="cs-panel-in">
+              <img class="cs-inline" src="assets/work/project-3.png" alt="Lissr.ai product site and dashboard" loading="lazy" />
+              <p class="cs-label">Results</p>
+              <dl class="cs-stats"><div><dt>Trial to paid</dt><dd>3×</dd></div><div><dt>Support tickets</dt><dd>−57%</dd></div><div><dt>To first result</dt><dd>4 min</dd></div></dl>
+              <div class="cs-copy">
+                <div><p class="cs-label">The challenge</p><p>An AI tool people signed up for and then abandoned, because the first screen asked for too much too soon.</p></div>
+                <div><p class="cs-label">What we did</p><p>Mapped the first ten minutes of use, redesigned onboarding around a single task and rebuilt the dashboard to match.</p></div>
+              </div>
+              <div class="cs-end">
+                <div><p class="cs-label">Services</p><ul class="cs-tags"><li>Product design</li><li>Design system</li><li>AI integration</li></ul></div>
+                <a class="cs-link" href="#contact">Start a project like this <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+              </div>
+            </div>
+          </div>
+        </li>
+        </ol>
+      </div>
     </div>
   </section>
 
@@ -961,14 +964,14 @@
   </footer>
 
 
-  <script src="hero-zoom.js?v=20261001m"></script>
-  <script src="site.js?v=20261001m"></script>
-  <script src="menu.js?v=20261001m"></script>
-  <script src="services.js?v=20261001m"></script>
-  <script src="bento.js?v=20261001m"></script>
-  <script src="sections.js?v=20261001m"></script>
-  <script src="amethyst-wash.js?v=20261001m"></script>
-  <script src="outro.js?v=20261001m"></script>
-  <script src="whyus.js?v=20261001m"></script>
+  <script src="hero-zoom.js?v=20261001n"></script>
+  <script src="site.js?v=20261001n"></script>
+  <script src="menu.js?v=20261001n"></script>
+  <script src="services.js?v=20261001n"></script>
+  <script src="bento.js?v=20261001n"></script>
+  <script src="sections.js?v=20261001n"></script>
+  <script src="amethyst-wash.js?v=20261001n"></script>
+  <script src="outro.js?v=20261001n"></script>
+  <script src="whyus.js?v=20261001n"></script>
 </body>
 </html>
