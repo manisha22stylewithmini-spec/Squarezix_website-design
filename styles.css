@@ -13,8 +13,8 @@
 }
 
 html { background: var(--bg); }
-/* Tilted sections (lens.js) can poke past the screen edges mid-scroll; clip that so the
-   page never scrolls sideways. `clip` (not `hidden`) keeps position: sticky working. */
+/* Never let the page scroll sideways (wide loops and transformed sections can poke past
+   the screen edges). `clip` (not `hidden`) keeps position: sticky working. */
 html, body { overflow-x: clip; }
 body {
   font-family: "Inter", system-ui, sans-serif;
