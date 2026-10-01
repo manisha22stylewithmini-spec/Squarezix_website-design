@@ -1,4 +1,4 @@
-// Bento grid: staggered reveal, sticker tilt, animated project counter.
+// Bento grid: staggered reveal, animated project counter.
 (() => {
   const bento = document.querySelector('.bento');
   if (!bento) return;
@@ -28,21 +28,5 @@
       if (t < 1) requestAnimationFrame(step);
     };
     requestAnimationFrame(step);
-  }
-
-  // --- Sticker tilts toward the pointer (desktop only) ---
-  const sticker = bento.querySelector('.b-sticker');
-  if (window.matchMedia('(hover: hover)').matches) {
-    bento.addEventListener('pointermove', (e) => {
-      const r = sticker.getBoundingClientRect();
-      const dx = (e.clientX - (r.left + r.width / 2)) / window.innerWidth;
-      const dy = (e.clientY - (r.top + r.height / 2)) / window.innerHeight;
-      sticker.style.setProperty('--rx', `${(dx * 24).toFixed(2)}deg`);
-      sticker.style.setProperty('--ry', `${(-dy * 24).toFixed(2)}deg`);
-    });
-    bento.addEventListener('pointerleave', () => {
-      sticker.style.setProperty('--rx', '0deg');
-      sticker.style.setProperty('--ry', '0deg');
-    });
   }
 })();

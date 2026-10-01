@@ -7,14 +7,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20261001p" />
-  <link rel="stylesheet" href="hero.css?v=20261001p" />
-  <link rel="stylesheet" href="services.css?v=20261001p" />
-  <link rel="stylesheet" href="bento.css?v=20261001p" />
-  <link rel="stylesheet" href="sections.css?v=20261001p" />
-  <link rel="stylesheet" href="footer.css?v=20261001p" />
-  <link rel="stylesheet" href="menu.css?v=20261001p" />
-  <link rel="stylesheet" href="outro.css?v=20261001p" />
+  <link rel="stylesheet" href="styles.css?v=20261001r" />
+  <link rel="stylesheet" href="hero.css?v=20261001r" />
+  <link rel="stylesheet" href="services.css?v=20261001r" />
+  <link rel="stylesheet" href="bento.css?v=20261001r" />
+  <link rel="stylesheet" href="sections.css?v=20261001r" />
+  <link rel="stylesheet" href="footer.css?v=20261001r" />
+  <link rel="stylesheet" href="menu.css?v=20261001r" />
+  <link rel="stylesheet" href="outro.css?v=20261001r" />
 </head>
 <body>
   <header class="site-header">
@@ -223,7 +223,14 @@
 
         <!-- Centre sticker: a disc in the panel colour "cuts" the three cards around it -->
         <div class="b-disc" aria-hidden="true">
-          <img class="b-sticker" src="assets/bento/sticker.png" alt="" />
+          <!-- Peeled glass badge: the top-left corner is folded over and lies flat on hover.
+               One image throughout — the fold is a clip + mirrored flap, not a second picture. -->
+          <div class="b-sticker" role="img" aria-label="Squarezix SZ badge">
+            <div class="stk-frame">
+              <div class="stk-face"><img src="assets/bento/sz-badge.webp" alt="" width="1119" height="1112" /></div>
+              <div class="stk-under"><div class="stk-flap"></div></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -964,14 +971,14 @@
   </footer>
 
 
-  <script src="hero-zoom.js?v=20261001p"></script>
-  <script src="site.js?v=20261001p"></script>
-  <script src="menu.js?v=20261001p"></script>
-  <script src="services.js?v=20261001p"></script>
-  <script src="bento.js?v=20261001p"></script>
-  <script src="sections.js?v=20261001p"></script>
-  <script src="amethyst-wash.js?v=20261001p"></script>
-  <script src="outro.js?v=20261001p"></script>
-  <script src="whyus.js?v=20261001p"></script>
+  <script src="hero-zoom.js?v=20261001r"></script>
+  <script src="site.js?v=20261001r"></script>
+  <script src="menu.js?v=20261001r"></script>
+  <script src="services.js?v=20261001r"></script>
+  <script src="bento.js?v=20261001r"></script>
+  <script src="sections.js?v=20261001r"></script>
+  <script src="amethyst-wash.js?v=20261001r"></script>
+  <script src="outro.js?v=20261001r"></script>
+  <script src="whyus.js?v=20261001r"></script>
 </body>
 </html>

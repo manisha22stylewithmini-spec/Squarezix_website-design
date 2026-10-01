@@ -314,17 +314,32 @@
   z-index: 2;
   perspective: 800px;
 }
+/* How far the top-left corner is peeled back, as a share of the badge's diameter.
+   Registered so it can transition: hovering eases it to 0 and the badge lies flat. */
+@property --stk-peel { syntax: "<percentage>"; inherits: true; initial-value: 0%; }
 .b-sticker {
-  width: calc(292 * var(--u)); height: auto;
+  --stk-peel: 11%; --stk-angle: 28deg;   /* fold sits above the S, clear of the lettering */
+  position: relative;
+  width: calc(292 * var(--u)); aspect-ratio: 1;
   filter: drop-shadow(0 18px 30px rgba(0, 0, 0, .55));
-  transform: rotateX(var(--ry, 0deg)) rotateY(var(--rx, 0deg));
-  transition: transform .4s ease-out;
-  animation: sticker-bob 6s ease-in-out infinite;
+  transition: --stk-peel 750ms cubic-bezier(.16, 1, .3, 1);      /* fold back on leave */
 }
-@keyframes sticker-bob {
-  0%, 100% { translate: 0 0; }
-  50% { translate: 0 calc(-6 * var(--u)); }
+.b-sticker:hover { --stk-peel: 0%; transition: --stk-peel 650ms cubic-bezier(.22, 1, .36, 1); }
+/* Work in a turned frame so the fold line is simply "the top edge, moved down by --stk-peel" */
+.stk-frame { position: absolute; inset: 0; transform: rotate(calc(-1 * var(--stk-angle))); }
+.stk-face, .stk-under, .stk-flap { position: absolute; inset: 0; border-radius: 50%; }
+/* The badge itself, minus the part that is folded over */
+.stk-face { clip-path: inset(var(--stk-peel) 0 0 0); }
+.stk-face img { width: 100%; height: 100%; display: block; transform: rotate(var(--stk-angle)); }
+/* Keeps the flap and its shadow inside the visible part of the badge */
+.stk-under { overflow: hidden; clip-path: inset(var(--stk-peel) 0 0 0); filter: drop-shadow(0 calc(3 * var(--u)) calc(5 * var(--u)) rgba(0, 0, 0, .5)); }
+/* Back of the folded corner: the cut-off segment mirrored across the fold line */
+.stk-flap {
+  clip-path: inset(0 0 calc(100% - var(--stk-peel)) 0);
+  transform-origin: 50% var(--stk-peel); transform: scaleY(-1);
+  background: linear-gradient(180deg, #8f8ca3 0%, #ecebf3 30%, #fff 55%, #d7d4e4 82%, #a3a0b6 100%) top / 100% var(--stk-peel) no-repeat;
 }
+@media (prefers-reduced-motion: reduce) { .b-sticker, .b-sticker:hover { transition: none; } }
 
 /* ---------- Scroll-in reveal (bento.js adds .is-in) ---------- */
 .bento.reveal .bento-card {
@@ -334,14 +349,14 @@
   transition-delay: var(--delay, 0s);
 }
 /* The disc itself never fades (it must always hide the card corners behind it) —
-   only the sticker pops in */
-.bento.reveal .b-sticker {
+   only the sticker pops in (on its inner frame, so the hover peel keeps its own timing) */
+.bento.reveal .stk-frame {
   opacity: 0; scale: .8;
   transition: opacity .8s ease, scale .9s cubic-bezier(.2, .8, .2, 1);
   transition-delay: var(--delay, 0s);
 }
 .bento.reveal.is-in .bento-card { opacity: 1; translate: 0 0; }
-.bento.reveal.is-in .b-sticker { opacity: 1; scale: 1; }
+.bento.reveal.is-in .stk-frame { opacity: 1; scale: 1; }
 
 /* ---------- Tablet: 2-column stack ---------- */
 @media (max-width: 1100px) {
@@ -399,5 +414,5 @@
 @media (prefers-reduced-motion: reduce) {
   .b-tag, .b-float, .b-sticker, .b-pulse--v { animation: none; }
   .b-spark { display: none; }
-  .bento.reveal .bento-card, .bento.reveal .b-sticker { transition: none; }
+  .bento.reveal .bento-card, .bento.reveal .stk-frame { transition: none; }
 }
