@@ -29,7 +29,7 @@ html { background: var(--bg); }
    the screen edges). `clip` (not `hidden`) keeps position: sticky working. */
 html, body { overflow-x: clip; }
 body {
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: "DM Sans", sans-serif;
   background: var(--bg);
   color: var(--fg);
   -webkit-font-smoothing: antialiased;
@@ -151,7 +151,7 @@ body {
 .marquee-group { display: flex; list-style: none; }
 .marquee-group li {
   display: flex; align-items: center;
-  font-family: "Space Grotesk", sans-serif;
+  font-family: "Sora", sans-serif;
   font-weight: 700; font-size: clamp(18px, 1.6vw, 24px);
   color: #fff; white-space: nowrap;
 }
@@ -194,3 +194,11 @@ body {
 @media (max-width: 420px) {
   .btn-contact svg { display: none; }
 }
+
+/* ---------- Typography roles ----------
+   Three families only: Sora for titles, DM Sans for body and UI text, Instrument Serif
+   italic for the accent word inside a title. These rules settle the few places where a
+   title or a UI label would otherwise inherit the wrong one. */
+h1, h2, h3, h4 { font-family: "Sora", sans-serif; }
+/* Display text that isn't a heading tag: bento title lines, footer letter tiles */
+.b-grow-title p, .szf-tiles span { font-family: "Sora", sans-serif; }

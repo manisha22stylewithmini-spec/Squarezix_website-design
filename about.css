@@ -1,5 +1,5 @@
 /* ===== About page =====
-   Same language as the home page: black stage, violet light, Lexend + Instrument Serif
+   Same language as the home page: black stage, violet light, Sora + Instrument Serif
    italics, pill badges, hairline grids. The hero continues the home dive — we're
    "inside Squarezix" — so it opens in the same starfield universe. */
 .page-about main { --u: 1px; background: var(--page); color: #fff; }   /* --u sizes the shared xl buttons */
@@ -11,7 +11,7 @@
 
 /* Shared type */
 .ab-h2 {
-  font-family: "Lexend", sans-serif; font-weight: 500;
+  font-family: "Sora", sans-serif; font-weight: 500;
   font-size: clamp(34px, 4.4vw, 64px); line-height: 1.06; letter-spacing: -0.035em;
 }
 .ab-h2 em, .ab-hero-title em, .work-head h2 em {
@@ -72,7 +72,7 @@
 .ab-badge { text-transform: uppercase; letter-spacing: .08em; }
 .ab-hero-title {
   margin-top: 22px;
-  font-family: "Lexend", sans-serif; font-weight: 500;
+  font-family: "Sora", sans-serif; font-weight: 500;
   font-size: clamp(38px, 4.6vw, 76px); line-height: 1.04; letter-spacing: -0.04em;
 }
 .ab-hero-title > span { display: block; }
@@ -120,7 +120,7 @@
   position: absolute; left: 0; right: 0; top: 0;
   display: flex; justify-content: space-between;
   padding: clamp(12px, 1.4vw, 20px) clamp(14px, 1.6vw, 24px);
-  font-family: "JetBrains Mono", monospace; font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  font-family: "DM Sans", sans-serif; font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
   color: rgba(243, 240, 247, .75);
 }
 .ab-screen-ui span { display: inline-flex; align-items: center; gap: 8px; }
@@ -141,7 +141,7 @@
   -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
   box-shadow: 0 16px 40px rgba(0, 0, 0, .45);
 }
-.ab-stat strong { font-family: "Lexend", sans-serif; font-size: clamp(24px, 2.4vw, 34px); font-weight: 500; letter-spacing: -0.03em; }
+.ab-stat strong { font-family: "Sora", sans-serif; font-size: clamp(24px, 2.4vw, 34px); font-weight: 500; letter-spacing: -0.03em; }
 .ab-stat span { font-size: 12px; color: #d9ccff; }
 .ab-stat--a { left: clamp(-28px, -2vw, -12px); bottom: clamp(-24px, -2vw, -12px); }
 .ab-stat--b { right: clamp(-20px, -1.6vw, -10px); top: 18%; }
@@ -167,7 +167,7 @@
 .ab-cmp h3 {
   padding-bottom: 20px; margin-bottom: 22px;
   border-bottom: 1px solid rgba(255, 255, 255, .08);
-  font-family: "Lexend", sans-serif; font-weight: 500;
+  font-family: "Sora", sans-serif; font-weight: 500;
   font-size: clamp(19px, 1.6vw, 24px); letter-spacing: -0.02em;
 }
 .ab-cmp h3 em { font-family: "Instrument Serif", serif; font-style: italic; font-weight: 400; font-size: 1.2em; color: #c9a8ff; }
@@ -242,7 +242,7 @@
   width: 100%; display: flex; align-items: center; gap: 14px;
   padding: clamp(20px, 2vw, 28px) clamp(20px, 2.2vw, 32px);
   background: none; border: 0; cursor: pointer; color: #fff; text-align: left;
-  font-family: "Lexend", sans-serif; font-size: clamp(18px, 1.6vw, 22px); font-weight: 500; letter-spacing: -0.02em;
+  font-family: "Sora", sans-serif; font-size: clamp(18px, 1.6vw, 22px); font-weight: 500; letter-spacing: -0.02em;
 }
 .ab-acc-head:focus-visible { outline: 2px solid #b57bff; outline-offset: -4px; border-radius: 18px; }
 .ab-acc-icon { width: 24px; height: 24px; flex: none; fill: none; stroke: #b57bff; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
@@ -288,7 +288,7 @@
   grid-row: span 2;
   font-family: "Instrument Serif", serif; font-style: italic; font-size: 26px; line-height: 1; color: #b57bff;
 }
-.ab-values h4 { font-family: "Lexend", sans-serif; font-weight: 500; font-size: 17px; color: #fff; }
+.ab-values h4 { font-family: "Sora", sans-serif; font-weight: 500; font-size: 17px; color: #fff; }
 .ab-values p { padding: 0; margin-top: 4px; font-size: 15px; opacity: 1; translate: none; }
 
 /* ---------- Technology ---------- */
@@ -332,7 +332,7 @@
 .ab-quote figcaption {
   display: flex; align-items: center; gap: 14px;
   padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, .08);
-  font-family: "Lexend", sans-serif; font-weight: 500; font-size: 15px; color: #fff;
+  font-family: "DM Sans", sans-serif; font-weight: 500; font-size: 15px; color: #fff;
 }
 .ab-avatar {
   flex: none; width: 40px; height: 40px; border-radius: 50%;
@@ -381,12 +381,12 @@
   background: linear-gradient(180deg, #d9b8ff, #621dd0);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
-.ab-step h3 { margin-top: 14px; font-family: "Lexend", sans-serif; font-weight: 500; font-size: clamp(20px, 1.7vw, 24px); letter-spacing: -0.02em; }
+.ab-step h3 { margin-top: 14px; font-family: "Sora", sans-serif; font-weight: 500; font-size: clamp(20px, 1.7vw, 24px); letter-spacing: -0.02em; }
 .ab-step p { margin-top: 10px; font-size: 15px; line-height: 1.6; color: #b8b8d1; }
 
 /* ---------- Work (reuses home cards) ---------- */
 .ab-work { padding-top: clamp(100px, 11vw, 160px); }
-.ab-work .work-head h2 { font-family: "Lexend", sans-serif; }
+.ab-work .work-head h2 { font-family: "Sora", sans-serif; }
 .ab-work-sub { margin-top: 18px; max-width: 520px; font-size: 16px; line-height: 1.6; color: #b8b8d1; }
 .ab-work .work-aside { align-self: end; }
 .ab-work-stage { margin-top: clamp(40px, 5vw, 70px); padding-bottom: 0; }
@@ -468,7 +468,7 @@
   padding: clamp(24px, 2.6vw, 34px) clamp(32px, 4vw, 60px);
   border-right: 1px solid rgba(255, 255, 255, .07);
 }
-.ab-partners-group strong { font-family: "Lexend", sans-serif; font-weight: 600; font-size: clamp(22px, 2vw, 30px); letter-spacing: -0.03em; color: #f3f0f7; }
+.ab-partners-group strong { font-family: "Sora", sans-serif; font-weight: 600; font-size: clamp(22px, 2vw, 30px); letter-spacing: -0.03em; color: #f3f0f7; }
 .ab-partners-group span { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: #8f8a9f; }
 
 /* ---------- Responsive ---------- */

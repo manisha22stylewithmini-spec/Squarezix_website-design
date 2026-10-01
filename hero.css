@@ -66,7 +66,7 @@
 .hero-copy {
   grid-column: 1 / 4;
   padding-left: calc(117 * var(--u));
-  font-family: "Lexend", "Inter", sans-serif;
+  font-family: "Sora", sans-serif;
 }
 
 .hero-badge {
@@ -76,7 +76,7 @@
   border-radius: calc(11 * var(--u));
   background: rgba(64, 22, 130, 0.22);
   color: #e6ddff;
-  font-family: "Inter", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: max(11px, calc(13.5 * var(--u)));
   font-weight: 500;
   letter-spacing: 0.02em;
@@ -125,7 +125,7 @@
 .hero-text {
   margin-top: calc(22 * var(--u));
   max-width: max(330px, calc(560 * var(--u)));
-  font-family: "Inter", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: max(13px, calc(15 * var(--u)));
   line-height: 1.42;
   letter-spacing: 0.012em;
@@ -148,7 +148,7 @@
     inset 0 1px 0 rgba(255, 255, 255, .3),
     inset 0 -2px 8px rgba(0, 0, 0, .3);
   color: #fff;
-  font-family: "Inter", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: max(13px, calc(14 * var(--u)));
   font-weight: 500;
   text-decoration: none;
@@ -173,7 +173,7 @@
   padding: 0 calc(16 * var(--u)) calc(16 * var(--u));
   border-bottom: 1px solid rgba(255, 255, 255, 0.16);
   color: #fff;
-  font-family: "Inter", sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: max(14px, calc(17.5 * var(--u)));
   text-decoration: none;
   transition: color .25s ease, border-color .25s ease;
@@ -277,7 +277,7 @@
   margin: 0;
   padding: 0 24px;
   text-align: center;
-  font-family: "Inter", sans-serif;
+  font-family: "Sora", sans-serif;
   font-weight: 500;
   font-size: clamp(42px, 7.2vw, 132px);
   line-height: .98;
@@ -322,7 +322,7 @@
 .crt-meta {
   position: absolute;
   display: flex; align-items: center; gap: 10px;
-  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-family: "DM Sans", sans-serif;
   font-size: clamp(10px, .78vw, 12px);
   letter-spacing: .14em;
   text-transform: uppercase;
