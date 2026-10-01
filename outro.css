@@ -9,9 +9,9 @@
 :root {
   --sz-ink: #f4f1fa;
   --sz-night: #15141d;
-  --sz-void: #000;
-  --sz-violet: #b04dff;
-  --sz-magenta: #c95cf5;
+  --sz-void: #070511;                    /* --bg-dark */
+  --sz-violet: #AB24F2;                  /* --brand-pink */
+  --sz-magenta: #AB24F2;
   --sz-mute: #6f6c7d;
 }
 
@@ -38,7 +38,7 @@
 }
 .outro-panel {
   position: absolute; inset: 0; z-index: 3;
-  background: linear-gradient(180deg, #7340b6, #ab5fdc 50%, #dd7aff) no-repeat;
+  background: linear-gradient(180deg, #621dd0, #8721e1 50%, #ab24f2) no-repeat;
   clip-path: inset(0 0 0 0);
   pointer-events: none;
   will-change: clip-path;
@@ -158,7 +158,7 @@
   background: var(--sz-violet); color: #fff;
   transition: background .2s ease, transform .2s ease;
 }
-.szf-send:hover { background: #9333ea; transform: translateX(2px); }
+.szf-send:hover { background: #621dd0; transform: translateX(2px); }
 .szf-send svg { width: 42%; height: 42%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .szf-news-note { min-height: 1.2em; margin-top: 8px; font-size: 13px; color: #c9a8ff; }
 

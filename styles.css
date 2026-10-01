@@ -1,13 +1,25 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #000;
+  /* ---- Squarezix brand colours ---- */
+  --sqz-max-width: 92.1875em;
+  --brand-purple: #621DD0;
+  --brand-pink: #AB24F2;
+  --brand-gradient: linear-gradient(135deg, #621DD0 0%, #AB24F2 100%);
+  --brand-gradient-hover: linear-gradient(135deg, #AB24F2 0%, #621DD0 100%);
+  --bg-dark: #070511;
+  --header-dark: #0a0a15;
+  --header-dark-2: #14142b;
+  --text-light: #ffffff;
+  --text-muted: #b8b8d1;
+
+  --bg: #000;                            /* hero only: its video sky is pure black */
   /* Page colour for every section after the hero's "inside of Squarezix" dive */
-  --page: #000;
+  --page: var(--bg-dark);
   --fg: #f5f5f7;
   --muted: rgba(245, 245, 247, 0.7);
-  --accent: #9b5cff;
-  --purple: #7a12f2;          /* marquee band + logo */
+  --accent: var(--brand-pink);
+  --purple: var(--brand-purple);         /* header states, focus rings */
   --ink: #111114;             /* header text */
   --header-h: 80px;
 }
@@ -78,7 +90,7 @@ body {
   white-space: nowrap;
   padding: 11px 22px;
   border-radius: 999px;
-  background: linear-gradient(180deg, #a765ff 0%, #8a3cf5 100%);
+  background: var(--brand-gradient);
   color: #fff; text-decoration: none;
   font-size: 14px; font-weight: 500;
   /* Grey outer ring + soft inner depth, as in the reference */
@@ -89,7 +101,7 @@ body {
     inset 0 1px 0 rgba(255, 255, 255, .25);
   transition: transform .2s ease, filter .2s ease;
 }
-.btn-contact:hover { transform: translateY(-1px); filter: brightness(1.08); }
+.btn-contact:hover { transform: translateY(-1px); background: var(--brand-gradient-hover); }
 
 .menu-toggle {
   display: none;
@@ -117,7 +129,7 @@ body {
 /* ---------- Services marquee ---------- */
 .marquee {
   position: relative; z-index: 1;
-  background: #201E3E;             /* deep indigo band (was the brand purple #7A12F2) */
+  background: #201E3E;             /* deep indigo band (was the brand purple #621dd0) */
   overflow: hidden;
   padding: 14px 0;
 }

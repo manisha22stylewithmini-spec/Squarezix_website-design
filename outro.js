@@ -47,7 +47,7 @@
     const CARD_RATIO = 531 / 1676;
     const CARD_RADIUS = 61 / 531;
     const TEXT_RATIO = 113 / 1676;
-    const VIOLET = '176, 77, 255';            // #b04dff — the square from frame 4 on
+    const VIOLET = '171, 36, 242';            // #ab24f2 — the square from frame 4 on
 
     let g = null;
     let lastWash = null;
@@ -121,7 +121,7 @@
       const frameH = lerp(H, g.cardH, fold);
       frame.style.height = `${frameH.toFixed(2)}px`;
       frame.style.borderRadius = `${(g.R * fold).toFixed(2)}px`;
-      frame.style.borderColor = `rgba(157, 90, 255, ${(0.75 * fold).toFixed(3)})`;
+      frame.style.borderColor = `rgba(171, 36, 242, ${(0.75 * fold).toFixed(3)})`;
       cue.style.visibility = fold > 0 ? 'hidden' : '';   // (its blink animation owns opacity)
 
       // --- Headline stays centred in the screen/card; revealed behind the square ---
@@ -176,7 +176,7 @@
       }
 
       // Colour: the wash (or the design's gradient) → solid violet as it becomes the square
-      const base = wash ? 'linear-gradient(#0a0720, #0a0720)' : 'linear-gradient(180deg, #7340b6, #ab5fdc 50%, #dd7aff)';
+      const base = wash ? 'linear-gradient(#0a0720, #0a0720)' : 'linear-gradient(180deg, #621dd0, #8721e1 50%, #ab24f2)';
       panel.style.backgroundImage = `linear-gradient(rgba(${VIOLET}, ${e2.toFixed(3)}), rgba(${VIOLET}, ${e2.toFixed(3)})), ${base}`;
       panel.style.backgroundSize = `${w.toFixed(2)}px ${h.toFixed(2)}px`;
       panel.style.backgroundPosition = `${l.toFixed(2)}px ${t.toFixed(2)}px`;

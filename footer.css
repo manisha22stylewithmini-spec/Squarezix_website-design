@@ -37,7 +37,7 @@
 .cta-inner { position: relative; text-align: center; padding: 48px 20px; max-width: 900px; }
 .cta-badge {
   display: inline-block; padding: 6px 16px; border-radius: 999px;
-  background: #5b21b6; border: 1px solid #b57bff;
+  background: #621dd0; border: 1px solid #b57bff;
   font-family: "Inter", sans-serif; font-size: 13px; font-weight: 600; color: #e9dcff;
 }
 .cta-inner h2 {
@@ -65,7 +65,7 @@
   font-family: "Syne", sans-serif; font-weight: 500;
   font-size: clamp(28px, 3vw, 44px); line-height: 1.12; letter-spacing: -0.01em;
 }
-.ft-intro p { margin-top: 22px; max-width: 1100px; font-family: "Lato", sans-serif; font-size: 15px; line-height: 1.6; color: #8f8f9a; }
+.ft-intro p { margin-top: 22px; max-width: 1100px; font-family: "Lato", sans-serif; font-size: 15px; line-height: 1.6; color: #b8b8d1; }
 
 /* Three black cards sitting in a purple gradient frame */
 .ft-cards {
@@ -73,7 +73,7 @@
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 17px;
   padding: 17px; border-radius: 12px;
   background: linear-gradient(135deg, #b556f7 0%, #8d5cf6 50%, #a55cf8 100%);
-  box-shadow: 0 0 60px rgba(168, 85, 247, .25);
+  box-shadow: 0 0 60px rgba(171, 36, 242, .25);
 }
 .ft-card {
   position: relative; display: block;
@@ -89,8 +89,8 @@
   position: absolute; top: 34px; right: 34px;
   width: 45px; height: 45px; border-radius: 50%;
   display: grid; place-items: center;
-  background: radial-gradient(circle at 30% 25%, #c084fc 0%, #9b5cf6 45%, #7c3aed 100%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), 0 6px 18px rgba(139, 92, 246, .45);
+  background: radial-gradient(circle at 30% 25%, #c084fc 0%, #9b5cf6 45%, #621dd0 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), 0 6px 18px rgba(171, 36, 242, .45);
   transition: transform .45s cubic-bezier(.2, .8, .2, 1);
 }
 .ft-arrow svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
@@ -100,7 +100,7 @@
 /* Gradient rule (Vector 7094.svg) */
 .ft-rule {
   height: 1px; margin: clamp(60px, 7vw, 104px) 22px 0;
-  background: linear-gradient(90deg, transparent 8%, #d35cff 44%, #7e5eff 61%, transparent 92%);
+  background: linear-gradient(90deg, transparent 8%, #ab24f2 44%, #621dd0 61%, transparent 92%);
 }
 
 .ft-cols {
@@ -110,7 +110,7 @@
 .ft-cols h4 { font-family: "Inter", sans-serif; font-weight: 500; font-size: 16px; color: #fff; }
 .ft-cols ul { list-style: none; margin-top: 30px; display: grid; gap: 16px; }
 .ft-cols li { display: flex; align-items: center; gap: 8px; }
-.ft-cols a { color: #9a9aa6; text-decoration: none; font-family: "Inter", sans-serif; font-size: 15px; transition: color .2s ease; }
+.ft-cols a { color: #b8b8d1; text-decoration: none; font-family: "Inter", sans-serif; font-size: 15px; transition: color .2s ease; }
 .ft-cols a:hover { color: #fff; }
 .ft-new { padding: 3px 10px; border-radius: 6px; background: #1c1c22; border: 1px solid #2c2c35; font-family: "Inter", sans-serif; font-size: 13px; color: #d4d4dc; }
 .ft-pills { gap: 12px !important; }
@@ -120,8 +120,8 @@
   background: #16161b; border: 1px solid #26262e; color: #d8d8e0;
   transition: border-color .25s ease, background .25s ease;
 }
-.ft-pills a:hover { border-color: #8b5cf6; background: #1b1426; }
-.ft-pills svg { width: 16px; height: 16px; fill: none; stroke: #8b5cf6; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ft-pills a:hover { border-color: #ab24f2; background: #1b1426; }
+.ft-pills svg { width: 16px; height: 16px; fill: none; stroke: #ab24f2; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
 /* 3D SZ on the wet floor, fading into black at the sides */
 .ft-stage {
@@ -135,7 +135,7 @@
 }
 .ft-stage::after { /* violet horizon line under the logo */
   content: ""; position: absolute; left: 8%; right: 8%; bottom: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, #8b5cf6 30%, #d35cff 50%, #8b5cf6 70%, transparent);
+  background: linear-gradient(90deg, transparent, #ab24f2 30%, #ab24f2 50%, #ab24f2 70%, transparent);
 }
 
 .ft-bottom {
@@ -145,7 +145,7 @@
 .ft-bottom > * { flex: 1; }
 .ft-legal { display: flex; align-items: center; gap: 12px; padding-left: 36px; }
 .ft-legal span { width: 1px; height: 20px; background: #3a3a44; }
-.ft-legal a, .ft-copy { font-family: "Inter", sans-serif; font-size: 15px; color: #8f8f9a; text-decoration: none; }
+.ft-legal a, .ft-copy { font-family: "Inter", sans-serif; font-size: 15px; color: #b8b8d1; text-decoration: none; }
 .ft-legal a:hover { color: #fff; }
 .ft-social { display: flex; justify-content: center; gap: 18px; }
 .ft-social a { color: #fff; opacity: .85; transition: opacity .2s ease, color .2s ease; }

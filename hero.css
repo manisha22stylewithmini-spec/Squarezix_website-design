@@ -3,7 +3,7 @@
    viewport (clamped), so the copy keeps its place on the black sky above the TV. */
 .hero {
   --u: clamp(0.6px, calc(100vw / 1686), 1.2px);
-  --hero-violet: #9d3cf4;
+  --hero-violet: #ab24f2;
   --hero-lilac: #dccdff;
   --hero-line: rgba(255, 255, 255, 0.075);
 
@@ -72,7 +72,7 @@
 .hero-badge {
   display: inline-block;
   padding: calc(6 * var(--u)) calc(9 * var(--u));
-  border: 1px solid #8752f0;
+  border: 1px solid #ab24f2;
   border-radius: calc(11 * var(--u));
   background: rgba(64, 22, 130, 0.22);
   color: #e6ddff;
@@ -110,7 +110,7 @@
   letter-spacing: -0.03em;
   background: linear-gradient(90deg,
       #e3d7ff 0%, #c4a6fb 12%, var(--hero-violet) 30%,
-      #9a38f2 62%, #a95cf6 82%, #cdb6ff 100%);
+      #ab24f2 62%, #ab24f2 82%, #cdb6ff 100%);
   -webkit-background-clip: text;
           background-clip: text;
   color: transparent;
@@ -138,10 +138,10 @@
   min-width: max(170px, calc(218 * var(--u)));
   height: max(38px, calc(40 * var(--u)));
   padding: 0 24px;
-  border: 1.5px solid #8b4ff2;
+  border: 1.5px solid #ab24f2;
   border-radius: 6px;
   background: linear-gradient(180deg, #25104a 0%, #1a0a36 100%);
-  box-shadow: 0 0 0 1px rgba(155, 92, 255, .12), 0 8px 24px rgba(122, 18, 242, .18);
+  box-shadow: 0 0 0 1px rgba(171, 36, 242, .12), 0 8px 24px rgba(98, 29, 208, .18);
   color: #fff;
   font-family: "Inter", sans-serif;
   font-size: max(13px, calc(14 * var(--u)));
@@ -151,7 +151,7 @@
 }
 .hero-cta:hover {
   background: linear-gradient(180deg, #3a1872 0%, #260d52 100%);
-  box-shadow: 0 0 0 1px rgba(155, 92, 255, .35), 0 10px 32px rgba(122, 18, 242, .35);
+  box-shadow: 0 0 0 1px rgba(171, 36, 242, .35), 0 10px 32px rgba(98, 29, 208, .35);
   transform: translateY(-1px);
 }
 
@@ -182,7 +182,7 @@
   transition: color .25s ease, transform .25s ease;
 }
 .hero-services a span:first-child { transition: transform .25s ease; }
-.hero-services a:hover { border-color: rgba(157, 60, 244, .7); }
+.hero-services a:hover { border-color: rgba(171, 36, 242, .7); }
 .hero-services a:hover span:first-child { transform: translateX(6px); }
 .hero-services a:hover .num { color: #b57cff; }
 
@@ -242,8 +242,8 @@
   height: 100%;
   overflow: hidden;
   background:
-    radial-gradient(45% 55% at 28% 38%, rgba(124, 58, 237, .20), transparent 70%),
-    radial-gradient(40% 50% at 76% 66%, rgba(210, 123, 255, .12), transparent 70%),
+    radial-gradient(45% 55% at 28% 38%, rgba(98, 29, 208, .20), transparent 70%),
+    radial-gradient(40% 50% at 76% 66%, rgba(171, 36, 242, .12), transparent 70%),
     radial-gradient(120% 90% at 50% 50%, #140a26 0%, #0a0616 50%, #040209 100%);
   animation: crt-flicker 3.2s infinite;
 }

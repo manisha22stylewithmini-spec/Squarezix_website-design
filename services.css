@@ -1,7 +1,7 @@
 /* ===== Services section ===== */
 .services {
-  --svc-purple: #7c3aed;
-  --svc-pink: #d27bff;
+  --svc-purple: #621dd0;
+  --svc-pink: #ab24f2;
 
   position: relative;
   background: var(--page);
@@ -17,7 +17,7 @@
   padding: 5px 10px;
   border-radius: 999px;
   background: #120a24;
-  border: 1px solid #8b5cf6;
+  border: 1px solid #ab24f2;
   color: #e9e3ff;
   font-size: 12px; font-weight: 500;
 }
@@ -30,12 +30,12 @@
   font-family: "Instrument Serif", serif;
   font-style: italic; font-weight: 400;
   font-size: 1.18em; letter-spacing: -0.01em;
-  color: #9b5cff;
+  color: #ab24f2;
 }
 .svc-sub {
   margin: 22px auto 0; max-width: 600px;
   font-size: clamp(14px, 1.3vw, 17px); line-height: 1.55;
-  color: #b4b4c0;
+  color: #b8b8d1;
 }
 /* Scroll reveal: each word fades from faint to full */
 [data-reveal] .word { opacity: var(--o, 0.1); transition: opacity .15s linear; }
@@ -72,7 +72,7 @@
 }
 .chip svg {
   width: 24px; height: 24px;
-  fill: none; stroke: #8b5cf6; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+  fill: none; stroke: #ab24f2; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
 }
 @keyframes chip-scroll { to { transform: translateX(calc(-1 * var(--chip-group-width, 50%))); } }
 
@@ -114,7 +114,7 @@
 .svc-card::before {
   content: ""; position: absolute; z-index: -1;
   left: 8%; right: 8%; bottom: -14px; height: 40%;
-  background: radial-gradient(50% 50% at 50% 50%, rgba(139, 92, 246, .55), transparent 70%);
+  background: radial-gradient(50% 50% at 50% 50%, rgba(171, 36, 242, .55), transparent 70%);
   filter: blur(20px);
   opacity: calc(var(--open) * .9);
   pointer-events: none;
@@ -208,7 +208,7 @@
   display: grid; place-items: center;
   border-radius: 50%;
   background: #1c0b2e; color: #fff;
-  box-shadow: 0 0 36px 14px rgba(139, 92, 246, 0.28);
+  box-shadow: 0 0 36px 14px rgba(171, 36, 242, 0.28);
   opacity: 0;
   transform: translateY(-50%) scale(.4) rotate(90deg);
   transition: opacity .35s ease, transform .7s cubic-bezier(.22, 1, .36, 1);
@@ -216,7 +216,7 @@
 .svc-arrow svg { width: 45%; height: 45%; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
 
 /* Open state (services.js toggles .is-open on hover, focus, or scroll on touch) */
-.svc-card.is-open { --border: linear-gradient(90deg, #b36bff, #6d28d9); }
+.svc-card.is-open { --border: linear-gradient(90deg, #ab24f2, #621dd0); }
 .svc-card.is-open .svc-thumb { opacity: 0; transform: translateY(-160%) scale(.5); }
 .svc-card.is-open .svc-arrow { opacity: 1; transform: translateY(-50%) scale(1) rotate(0deg); }
 .svc-card:focus-visible { outline: none; }
