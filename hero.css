@@ -138,10 +138,15 @@
   min-width: max(170px, calc(218 * var(--u)));
   height: max(38px, calc(40 * var(--u)));
   padding: 0 24px;
-  border: 1.5px solid #ab24f2;
-  border-radius: 6px;
-  background: linear-gradient(180deg, #25104a 0%, #1a0a36 100%);
-  box-shadow: 0 0 0 1px rgba(171, 36, 242, .12), 0 8px 24px rgba(98, 29, 208, .18);
+  /* Same surface as the site-wide .btn-contact: brand gradient pill, soft ring, dark shadow */
+  border: 0;
+  border-radius: 999px;
+  background: var(--brand-gradient);
+  box-shadow:
+    0 0 0 max(4px, calc(5 * var(--u))) rgba(190, 182, 206, .32),
+    0 6px 18px rgba(0, 0, 0, .45),
+    inset 0 1px 0 rgba(255, 255, 255, .3),
+    inset 0 -2px 8px rgba(0, 0, 0, .3);
   color: #fff;
   font-family: "Inter", sans-serif;
   font-size: max(13px, calc(14 * var(--u)));
@@ -150,8 +155,7 @@
   transition: background .25s ease, box-shadow .25s ease, transform .25s ease;
 }
 .hero-cta:hover {
-  background: linear-gradient(180deg, #3a1872 0%, #260d52 100%);
-  box-shadow: 0 0 0 1px rgba(171, 36, 242, .35), 0 10px 32px rgba(98, 29, 208, .35);
+  background: var(--brand-gradient-hover);
   transform: translateY(-1px);
 }
 

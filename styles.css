@@ -101,7 +101,7 @@ body {
   box-shadow:
     0 0 0 3px #cfcfd6,
     0 0 0 4px #b9b9c2,
-    inset 0 -2px 6px rgba(40, 0, 90, .35),
+    inset 0 -2px 6px rgba(0, 0, 0, .3),
     inset 0 1px 0 rgba(255, 255, 255, .25);
   transition: transform .2s ease, filter .2s ease;
 }

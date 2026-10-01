@@ -22,8 +22,8 @@
   --uw: min(1px, calc((100vw - 32px) / 1314));
   --u: var(--uw);
   --panel: var(--page);                                          /* matches the page, so no visible box around the cards */
-  --navy-1: #282650;
-  --navy-2: #1b1a34;
+  --navy-1: #14142b;
+  --navy-2: #0a0a15;
   --radius: calc(26 * var(--u));
 
   max-width: calc(1314 * var(--uw));
@@ -51,7 +51,7 @@
   position: relative;
   overflow: hidden;
   border-radius: var(--radius);
-  background: linear-gradient(165deg, var(--navy-1) 0%, var(--navy-2) 55%, #201e3d 100%);
+  background: linear-gradient(165deg, var(--navy-1) 0%, var(--navy-2) 55%, #0a0a15 100%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.07),
     inset 0 0 0 1px rgba(255, 255, 255, 0.04),
@@ -71,7 +71,7 @@
 .b-grad-title {
   font-weight: 500;
   letter-spacing: -0.02em;
-  background: linear-gradient(180deg, #f3f0ff 0%, #b9adff 100%);
+  background: linear-gradient(180deg, #f3f0ff 0%, #d9b8ff 100%);
   -webkit-background-clip: text; background-clip: text;
   color: transparent;
 }
@@ -111,7 +111,7 @@
   background:
     radial-gradient(ellipse 70% 60% at 30% 110%, rgba(171, 36, 242, 0.9), transparent 70%),
     radial-gradient(ellipse 50% 50% at 100% 100%, rgba(236, 110, 255, 0.55), transparent 70%),
-    linear-gradient(180deg, #1f1d3a 0%, #3b2c79 100%);
+    linear-gradient(180deg, #14142b 0%, #3a1872 100%);
 }
 .b-tool img {
   position: absolute; left: 50%; bottom: 0;
@@ -131,7 +131,7 @@
 .b-projects h3 {
   font-size: calc(30 * var(--u)); line-height: 1.2;
   text-transform: uppercase;
-  background: linear-gradient(180deg, #d6d0ff 0%, #9d90ff 100%);
+  background: linear-gradient(180deg, #d6d0ff 0%, #b57bff 100%);
   -webkit-background-clip: text; background-clip: text;
 }
 /* Pill with the purple "I-beam" brackets on each side */
@@ -139,7 +139,7 @@
   position: relative;
   padding: calc(11 * var(--u)) calc(26 * var(--u));
   font-size: max(9px, calc(14 * var(--u)));
-  color: #bdb4f5;
+  color: #b8b8d1;
   background: rgba(255, 255, 255, 0.04);
   white-space: nowrap;
 }
@@ -158,7 +158,7 @@
 .b-laptop {
   grid-area: e;
   background:
-    linear-gradient(180deg, #ab24f2 0%, #ab24f2 32%, #3a2b6e 70%, #211f3c 100%);
+    linear-gradient(180deg, #ab24f2 0%, #ab24f2 32%, #3a1872 70%, #14142b 100%);
 }
 .b-laptop img {
   position: absolute; right: 0; bottom: 0;
@@ -171,7 +171,7 @@
 .b-contact {
   grid-area: f;
   display: grid; place-items: center;
-  background: linear-gradient(165deg, #25234a 0%, #1a1932 100%);
+  background: linear-gradient(165deg, #14142b 0%, #0a0a15 100%);
   box-shadow:
     inset 0 0 0 calc(10 * var(--u)) rgba(0, 0, 0, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.07),
@@ -191,7 +191,7 @@
     0 0 0 calc(7 * var(--u)) rgba(190, 182, 206, 0.32),
     0 calc(6 * var(--u)) calc(18 * var(--u)) rgba(0, 0, 0, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    inset 0 -2px 8px rgba(40, 0, 110, 0.35);
+    inset 0 -2px 8px rgba(0, 0, 0, 0.3);
 }
 .btn-contact--xl svg { width: 1.1em; height: 1.1em; }
 
@@ -203,7 +203,7 @@
   position: absolute; left: calc(6 * var(--u)); top: calc(21 * var(--u));
   width: calc(62 * var(--u)); height: auto;
   border-radius: 50%;
-  box-shadow: 0 0 0 calc(8 * var(--u)) rgba(20, 18, 40, 0.9), 0 0 30px rgba(171, 36, 242, 0.35);
+  box-shadow: 0 0 0 calc(8 * var(--u)) rgba(20, 18, 40, 0.9), 0 14px 30px rgba(0, 0, 0, 0.5);
 }
 /* Glowing packet that travels down the connector */
 .b-pulse--v {
@@ -229,7 +229,7 @@
   margin-top: calc(14 * var(--u));
   font-family: "Lato", sans-serif;
   font-size: max(10px, calc(15.5 * var(--u))); line-height: 1.45;
-  color: #a792ff;
+  color: #b57bff;
 }
 
 /* ---------- H: Everything your business needs ---------- */
@@ -239,14 +239,14 @@
   width: calc(217 * var(--u)); height: auto;
   overflow: visible;
 }
-.b-rail { fill: none; stroke: #3a3858; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.b-rail { fill: none; stroke: #2b2b4a; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
 .b-spark { fill: #ffb37a; }
 .b-grow-title {
   position: absolute; right: calc(35 * var(--u)); top: calc(38 * var(--u));
   text-align: right;
 }
 .b-grow-title h3 { font-size: calc(20 * var(--u)); font-weight: 600; color: #fff; letter-spacing: -0.01em; }
-.b-grow-title p { margin-top: calc(4 * var(--u)); font-size: calc(33 * var(--u)); font-weight: 400; color: #a99dff; letter-spacing: -0.01em; }
+.b-grow-title p { margin-top: calc(4 * var(--u)); font-size: calc(33 * var(--u)); font-weight: 400; color: #b57bff; letter-spacing: -0.01em; }
 
 .b-tags { list-style: none; }
 .b-tag, .b-float {
@@ -270,11 +270,11 @@
   color: #e6e2ff; white-space: nowrap;
   transition: background .3s ease, box-shadow .3s ease;
 }
-.b-tag:hover { background: rgba(88, 80, 150, 0.7); box-shadow: 0 10px 30px rgba(171, 36, 242, .35); }
+.b-tag:hover { background: rgba(98, 29, 208, 0.45); box-shadow: 0 10px 30px rgba(0, 0, 0, .55); }
 .dot { width: calc(10 * var(--u)); height: calc(10 * var(--u)); border-radius: 50%; display: inline-block; flex: none; }
 .dot--purple { background: #b18cff; }
 .dot--orange { background: #ffa25c; }
-.dot--blue { background: #4db1ff; }
+.dot--blue { background: #ab24f2; }
 .t-seo { gap: calc(6 * var(--u)); letter-spacing: .02em; }
 .t-seo .dot:not(:first-child) { margin-left: calc(14 * var(--u)); }
 
@@ -316,7 +316,7 @@
 }
 .b-sticker {
   width: calc(292 * var(--u)); height: auto;
-  filter: drop-shadow(0 18px 30px rgba(98, 29, 208, .35));
+  filter: drop-shadow(0 18px 30px rgba(0, 0, 0, .55));
   transform: rotateX(var(--ry, 0deg)) rotateY(var(--rx, 0deg));
   transition: transform .4s ease-out;
   animation: sticker-bob 6s ease-in-out infinite;
