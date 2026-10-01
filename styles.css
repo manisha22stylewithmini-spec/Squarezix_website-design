@@ -3,7 +3,7 @@
 :root {
   --bg: #000;
   /* Page colour for every section after the hero's "inside of Squarezix" dive */
-  --page: #09080D;
+  --page: #000;
   --fg: #f5f5f7;
   --muted: rgba(245, 245, 247, 0.7);
   --accent: #9b5cff;
