@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SquareZix — Footer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="footer.css" />
+    <style>
+      body {
+        margin: 0;
+        background: #0a0714;
+        color: #c9bfe0;
+        font-family: "IBM Plex Sans", system-ui, sans-serif;
+      }
+      .demo-page {
+        min-height: 60vh;
+        display: grid;
+        place-items: center;
+        text-align: center;
+        padding: 64px 24px;
+      }
+      .demo-page p {
+        color: #6b5d91;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="demo-page">
+      <p>Page content — scroll down to the footer</p>
+    </main>
+
+    <!-- ===== SquareZix footer: copy from here ===== -->
+    <footer class="sz-footer">
+      <div class="sz-footer__top">
+        <div>
+          <p class="sz-footer__eyebrow">SquareZix · Dubai</p>
+          <h2 class="sz-footer__headline">One system. Every outcome.</h2>
+        </div>
+        <a class="sz-footer__cta" href="/contact">Start a Project</a>
+      </div>
+
+      <canvas
+        class="sz-footer__crowd"
+        data-sz-crowd
+        data-src="open-peeps-sheet.avif"
+        aria-hidden="true"
+      ></canvas>
+
+      <div class="sz-footer__bar">
+        <p>© <span data-sz-year>2026</span> SquareZix. Connected by design.</p>
+        <span class="sz-footer__sep" aria-hidden="true"></span>
+        <nav aria-label="Footer">
+          <a href="/approach">Our Approach</a>
+          <a href="/work">Our Work</a>
+          <a href="https://www.linkedin.com/company/squarezix" target="_blank" rel="noopener">LinkedIn</a>
+        </nav>
+      </div>
+    </footer>
+    <script>
+      document.querySelector("[data-sz-year]").textContent = new Date().getFullYear();
+    </script>
+    <script defer src="crowd.js"></script>
+    <!-- ===== SquareZix footer: to here ===== -->
+  </body>
+</html>

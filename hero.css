@@ -1,0 +1,417 @@
+/* ---------- Hero ----------
+   Built from a 1686px-wide reference. --u is one reference pixel, scaled to the
+   viewport (clamped), so the copy keeps its place on the black sky above the TV. */
+.hero {
+  --u: clamp(0.6px, calc(100vw / 1686), 1.2px);
+  --hero-violet: #9d3cf4;
+  --hero-lilac: #dccdff;
+  --hero-line: rgba(255, 255, 255, 0.075);
+
+  /* Stage keeps the reference proportions but never gets shorter than the viewport */
+  --stage-h: max(calc(100svh - var(--header-h)), calc(1155 * var(--u)));
+  /* Scroll distance the stage stays pinned for — the zoom plays across it */
+  --zoom-length: 360svh;
+
+  position: relative;
+  margin-top: var(--header-h);
+  height: calc(var(--stage-h) + var(--zoom-length));
+  background: #000;
+}
+
+/* Pins once its bottom meets the viewport bottom. If the stage is taller than the
+   viewport, the negative top lets the user scroll down to the TV first. */
+.hero-stage {
+  position: sticky;
+  top: min(var(--header-h), calc(100svh - var(--stage-h)));
+  height: var(--stage-h);
+  overflow: hidden;
+  isolation: isolate;
+  background: #000;
+}
+
+/* Video: full width at its own 16:9, pinned to the bottom */
+.hero-media {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 0;
+  aspect-ratio: 16 / 9;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%);
+          mask-image: linear-gradient(to bottom, transparent 0, #000 14%);
+}
+.hero-media, .hero-grid { will-change: transform, opacity; }
+.hero-video { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* 5 equal columns; each boundary shows as a pair of hairlines 17px apart */
+.hero-grid {
+  position: absolute; inset: 0 0 auto 0; z-index: 1;
+  height: calc(887 * var(--u));
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, rgba(0, 0, 0, .35) 100%);
+          mask-image: linear-gradient(to bottom, #000 55%, rgba(0, 0, 0, .35) 100%);
+}
+.hero-grid span {
+  margin: 0 calc(8.5 * var(--u));
+  border-left: 1px solid var(--hero-line);
+  border-right: 1px solid var(--hero-line);
+}
+
+.hero-inner {
+  position: relative; z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding-top: calc(95 * var(--u));
+}
+
+/* ----- Left copy ----- */
+.hero-copy {
+  grid-column: 1 / 4;
+  padding-left: calc(117 * var(--u));
+  font-family: "Lexend", "Inter", sans-serif;
+}
+
+.hero-badge {
+  display: inline-block;
+  padding: calc(6 * var(--u)) calc(9 * var(--u));
+  border: 1px solid #8752f0;
+  border-radius: calc(11 * var(--u));
+  background: rgba(64, 22, 130, 0.22);
+  color: #e6ddff;
+  font-family: "Inter", sans-serif;
+  font-size: max(11px, calc(13.5 * var(--u)));
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+
+.hero-title { margin-top: calc(22 * var(--u)); font-weight: 400; }
+.hero-title > span { display: block; white-space: nowrap; }
+.hero-title-main {
+  font-size: calc(132 * var(--u));
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  color: #fff;
+}
+.hero-title-main sup {
+  display: inline-block;
+  margin-left: calc(12 * var(--u));
+  font-size: 0.32em;
+  vertical-align: top;
+  line-height: 1;
+  transform: translateY(0.35em);
+  letter-spacing: 0;
+}
+.hero-title-sub {
+  margin-top: calc(10 * var(--u));
+  padding-left: calc(4 * var(--u));
+  padding-bottom: 0.14em; /* keep the descenders inside the clipped gradient */
+  font-size: calc(84 * var(--u));
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  background: linear-gradient(90deg,
+      #e3d7ff 0%, #c4a6fb 12%, var(--hero-violet) 30%,
+      #9a38f2 62%, #a95cf6 82%, #cdb6ff 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+}
+
+.hero-lead {
+  margin-top: calc(10 * var(--u));
+  font-size: max(17px, calc(22.5 * var(--u)));
+  letter-spacing: 0.025em;
+  color: #fff;
+}
+.hero-text {
+  margin-top: calc(22 * var(--u));
+  max-width: max(330px, calc(560 * var(--u)));
+  font-family: "Inter", sans-serif;
+  font-size: max(13px, calc(15 * var(--u)));
+  line-height: 1.42;
+  letter-spacing: 0.012em;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.hero-cta {
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-top: calc(38 * var(--u));
+  min-width: max(170px, calc(218 * var(--u)));
+  height: max(38px, calc(40 * var(--u)));
+  padding: 0 24px;
+  border: 1.5px solid #8b4ff2;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #25104a 0%, #1a0a36 100%);
+  box-shadow: 0 0 0 1px rgba(155, 92, 255, .12), 0 8px 24px rgba(122, 18, 242, .18);
+  color: #fff;
+  font-family: "Inter", sans-serif;
+  font-size: max(13px, calc(14 * var(--u)));
+  font-weight: 500;
+  text-decoration: none;
+  transition: background .25s ease, box-shadow .25s ease, transform .25s ease;
+}
+.hero-cta:hover {
+  background: linear-gradient(180deg, #3a1872 0%, #260d52 100%);
+  box-shadow: 0 0 0 1px rgba(155, 92, 255, .35), 0 10px 32px rgba(122, 18, 242, .35);
+  transform: translateY(-1px);
+}
+
+/* ----- Right service index (inside column 5) ----- */
+.hero-services {
+  grid-column: 5;
+  margin: calc(-57 * var(--u)) calc(8.5 * var(--u)) 0;
+  width: calc(230 * var(--u));
+  min-width: 190px;
+  display: flex; flex-direction: column;
+}
+.hero-services a {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  height: calc(136 * var(--u));
+  padding: 0 calc(16 * var(--u)) calc(16 * var(--u));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font-family: "Inter", sans-serif;
+  font-size: max(14px, calc(17.5 * var(--u)));
+  text-decoration: none;
+  transition: color .25s ease, border-color .25s ease;
+}
+.hero-services a:nth-child(3) { height: calc(145 * var(--u)); }
+.hero-services a:last-child { height: calc(133 * var(--u)); }
+.hero-services .num {
+  font-size: max(11px, calc(14 * var(--u)));
+  font-variant-numeric: tabular-nums;
+  transition: color .25s ease, transform .25s ease;
+}
+.hero-services a span:first-child { transition: transform .25s ease; }
+.hero-services a:hover { border-color: rgba(157, 60, 244, .7); }
+.hero-services a:hover span:first-child { transform: translateX(6px); }
+.hero-services a:hover .num { color: #b57cff; }
+
+.hero a:focus-visible { outline: 2px solid var(--hero-violet); outline-offset: 3px; }
+
+/* ----- Depth layers for the push-in (driven by hero-zoom.js) ----- */
+/* TV glass in the 1920×1080 plate: box x 878–1100, y 338–530, plus a 6/4px margin so the
+   bulging edges fit. The curved glass outline is cut out inside the canvas itself
+   (hero-zoom.js) — a CSS mask here gets tiled when zoomed and shows seams. */
+.hero-screen {
+  position: absolute;
+  left: calc(872 / 1920 * 100%); top: calc(334 / 1080 * 100%);
+  width: calc(234 / 1920 * 100%); height: calc(200 / 1080 * 100%);
+  visibility: hidden;
+  pointer-events: none;
+}
+.hero-screen-noise { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+/* Foreground grass: a live copy of the video, masked to the bottom band, that
+   scales faster than the plate so it rushes past the camera */
+.hero-fg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  visibility: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 60%, #000 78%);
+          mask-image: linear-gradient(to bottom, transparent 60%, #000 78%);
+}
+/* Floating dust in front of the scene */
+.hero-dust {
+  position: absolute; inset: 0; z-index: 1;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+/* Brand-toned static over the stage: carries the dive from the TV glass into the
+   Squarezix universe, then settles to a low hiss. Same violet-grey as the glass static. */
+.hero-noise {
+  position: absolute; left: 0; bottom: 0; z-index: 5;
+  top: var(--vis-top, 0px);
+  width: 100%; height: calc(100% - var(--vis-top, 0px));
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* ----- Inside: the Squarezix universe -----
+   No TV bezel — once through the glass the space is boundless: deep violet-black,
+   a soft nebula, and a starfield we fly through (hero-zoom.js). */
+.hero-crt {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 4;
+  top: var(--vis-top, 0px);
+  background: #05030a;
+  visibility: hidden;
+  opacity: 0;
+  transform-origin: 50% 50%;
+}
+.crt-screen {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background:
+    radial-gradient(45% 55% at 28% 38%, rgba(124, 58, 237, .20), transparent 70%),
+    radial-gradient(40% 50% at 76% 66%, rgba(210, 123, 255, .12), transparent 70%),
+    radial-gradient(120% 90% at 50% 50%, #140a26 0%, #0a0616 50%, #040209 100%);
+  animation: crt-flicker 3.2s infinite;
+}
+.crt-stars { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; }
+/* Faint scanlines — we're still on the signal */
+.crt-screen::before {
+  content: ""; position: absolute; inset: 0; z-index: 3;
+  background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, .22) 0 1px, transparent 1px 3px);
+  pointer-events: none;
+}
+/* Slow tracking band + edge vignette */
+.crt-screen::after {
+  content: ""; position: absolute; inset: 0; z-index: 4;
+  background:
+    linear-gradient(to bottom, transparent, rgba(200, 170, 255, .03) 40%, rgba(200, 170, 255, .07) 50%, rgba(200, 170, 255, .03) 60%, transparent) 0 -40% / 100% 14% no-repeat,
+    radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, .6) 100%);
+  pointer-events: none;
+  animation: vhs-band 5.5s linear infinite;
+}
+.crt-content {
+  position: absolute; inset: 0; z-index: 2;
+  display: grid; place-items: center;
+  animation: crt-jitter 6s infinite;
+}
+
+.crt-title {
+  margin: 0;
+  padding: 0 24px;
+  text-align: center;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: clamp(42px, 7.2vw, 132px);
+  line-height: .98;
+  letter-spacing: -0.05em;
+  color: #f3f0f7;
+  /* Colour fringing, like a misconverged tube */
+  text-shadow: -0.018em 0 rgba(255, 40, 90, .38), 0.018em 0 rgba(40, 200, 255, .32);
+  animation: rgb-shift 4.5s infinite;
+}
+.crt-line { display: block; overflow: hidden; padding: 0.04em 0.06em 0.1em; }
+.crt-line > span { display: block; }
+.crt-title em {
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.12em;
+  letter-spacing: -0.01em;
+  color: #cdbcff;
+}
+.crt-title sup {
+  font-size: .22em;
+  vertical-align: top;
+  position: relative; top: .6em;
+  margin-left: .12em;
+  letter-spacing: 0;
+  text-shadow: none;
+  color: rgba(243, 240, 247, .6);
+}
+
+/* Camcorder viewfinder */
+.crt-ui { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.crt-corner {
+  position: absolute;
+  width: clamp(14px, 1.6vw, 24px); height: clamp(14px, 1.6vw, 24px);
+  border: 0 solid rgba(243, 240, 247, .45);
+}
+.crt-corner.tl { top: var(--crt-inset); left: var(--crt-inset); border-top-width: 1px; border-left-width: 1px; }
+.crt-corner.tr { top: var(--crt-inset); right: var(--crt-inset); border-top-width: 1px; border-right-width: 1px; }
+.crt-corner.bl { bottom: var(--crt-inset); left: var(--crt-inset); border-bottom-width: 1px; border-left-width: 1px; }
+.crt-corner.br { bottom: var(--crt-inset); right: var(--crt-inset); border-bottom-width: 1px; border-right-width: 1px; }
+.crt-ui { --crt-inset: clamp(16px, 2.4vw, 40px); --crt-meta: calc(var(--crt-inset) + clamp(14px, 1.4vw, 22px)); }
+.crt-meta {
+  position: absolute;
+  display: flex; align-items: center; gap: 10px;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: clamp(10px, .78vw, 12px);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(243, 240, 247, .6);
+  white-space: nowrap;
+}
+.crt-meta.tl { top: var(--crt-meta); left: var(--crt-meta); }
+.crt-meta.tr { top: var(--crt-meta); right: var(--crt-meta); font-variant-numeric: tabular-nums; }
+.crt-meta.bl { bottom: var(--crt-meta); left: var(--crt-meta); }
+.crt-meta.br { bottom: var(--crt-meta); right: var(--crt-meta); }
+.crt-rec {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #ff3d3d;
+  box-shadow: 0 0 8px rgba(255, 61, 61, .8);
+  animation: rec-blink 1.2s steps(1) infinite;
+}
+
+@keyframes vhs-band { from { background-position: 0 -40%, 0 0; } to { background-position: 0 140%, 0 0; } }
+@keyframes crt-flicker {
+  0%, 100% { filter: brightness(1); }
+  8% { filter: brightness(.96); } 9% { filter: brightness(1.02); }
+  47% { filter: brightness(1); } 48% { filter: brightness(.94); } 49% { filter: brightness(1.01); }
+}
+@keyframes crt-jitter {
+  0%, 88%, 100% { transform: none; }
+  89% { transform: translate3d(3px, 0, 0) skewX(-.6deg); }
+  90% { transform: translate3d(-2px, 1px, 0); }
+  91% { transform: translate3d(1px, 0, 0) skewX(.4deg); }
+  92% { transform: none; }
+  96% { transform: translate3d(0, -2px, 0); }
+  97% { transform: none; }
+}
+@keyframes rgb-shift {
+  0%, 100% { text-shadow: -0.018em 0 rgba(255, 40, 90, .38), 0.018em 0 rgba(40, 200, 255, .32); }
+  89% { text-shadow: -0.05em 0 rgba(255, 40, 90, .5), 0.04em 0 rgba(40, 200, 255, .45); }
+  91% { text-shadow: 0.03em 0 rgba(255, 40, 90, .45), -0.03em 0 rgba(40, 200, 255, .4); }
+  93% { text-shadow: -0.018em 0 rgba(255, 40, 90, .38), 0.018em 0 rgba(40, 200, 255, .32); }
+}
+@keyframes rec-blink { 0%, 60% { opacity: 1; } 61%, 100% { opacity: .15; } }
+@media (prefers-reduced-motion: reduce) {
+  .crt-screen, .crt-screen::after, .crt-content, .crt-title, .crt-rec { animation: none; }
+}
+
+/* ----- Entrance (fill: backwards, so the scroll parallax owns the final state) ----- */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-copy > *, .hero-services a {
+    animation: hero-rise .9s cubic-bezier(.2, .7, .2, 1) backwards;
+  }
+  .hero-badge { animation-delay: .05s; }
+  .hero-title { animation-delay: .15s; }
+  .hero-lead  { animation-delay: .3s; }
+  .hero-text  { animation-delay: .38s; }
+  .hero-cta   { animation-delay: .46s; }
+  .hero-services a:nth-child(1) { animation-delay: .35s; }
+  .hero-services a:nth-child(2) { animation-delay: .45s; }
+  .hero-services a:nth-child(3) { animation-delay: .55s; }
+  .hero-services a:nth-child(4) { animation-delay: .65s; }
+  .hero-media { animation: hero-fade 1.4s ease backwards; }
+}
+@keyframes hero-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes hero-fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* ----- Small screens: full-screen stage, copy over the sky, TV below ----- */
+@media (max-width: 900px) {
+  .hero { --stage-h: calc(100svh - var(--header-h)); --zoom-length: 300svh; }
+  .hero-grid { height: 100%; }
+  .hero-inner {
+    grid-template-columns: 1fr;
+    padding: clamp(28px, 6svh, 56px) 20px 0;
+  }
+  .hero-copy { grid-column: 1; padding-left: 0; }
+  .hero-title { margin-top: 18px; }
+  .hero-title-main { font-size: clamp(52px, 18vw, 120px); }
+  .hero-title-sub { font-size: clamp(34px, 11vw, 82px); padding-left: 2px; }
+  .hero-lead { margin-top: 14px; }
+  .hero-text { margin-top: 14px; max-width: 34em; }
+  .hero-cta { margin-top: 24px; }
+  /* No room beside the TV on a phone; these services are in the menu and below */
+  .hero-services { display: none; }
+
+  /* Video keeps 16:9, sized by height and centred on the TV */
+  .hero-media {
+    left: 50%; right: auto;
+    height: 48%;
+    translate: -50% 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .crt-meta.bl { display: none; }
+  .crt-title { font-size: clamp(38px, 11.5vw, 64px); }
+}
+
+@media (max-width: 380px) {
+  .hero-badge { font-size: 10px; letter-spacing: 0; }
+}

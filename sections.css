@@ -1,0 +1,784 @@
+/* ===== Why us · Work flow · Selected work · Partners ===== */
+
+/* Contact button used inside these sections follows the "btn design" spec (bento.css),
+   but those sizes are in --u units — give them a fallback outside the bento panel. */
+.services, .why-us, .workflow, .work { --u: 1px; }
+
+/* Registered so the hover spotlight can fade instead of snapping */
+@property --spot { syntax: "<number>"; inherits: false; initial-value: 0; }
+
+/* ---------- Why us ---------- */
+.why-us { background: var(--page); color: #fff; }
+.wu-intro { text-align: center; padding: 0 16px; max-width: 1240px; margin: 0 auto; }
+.wu-heading { margin-top: 26px; font-family: "Lexend", sans-serif; }
+.wu-line1 {
+  display: block;
+  font-size: clamp(38px, 5.4vw, 70px); font-weight: 600; letter-spacing: -0.01em; line-height: 1.1;
+}
+.wu-line1 em {
+  font-family: "Instrument Serif", serif; font-style: italic; font-weight: 400;
+  font-size: 1.12em; letter-spacing: -0.01em;
+  background: linear-gradient(90deg, #8b5cf6, #b57bff);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  padding-right: .06em;
+}
+.wu-line2 {
+  display: block; margin-top: 14px;
+  font-size: clamp(26px, 4.1vw, 56px); font-weight: 400; letter-spacing: -0.02em; line-height: 1.15;
+}
+.wu-sub {
+  margin: 30px auto 0; max-width: 640px;
+  font-family: "Lato", sans-serif; font-size: clamp(15px, 1.35vw, 18px); line-height: 1.55;
+  color: #8f8f9a;
+}
+.wu-cta { margin-top: 32px; justify-self: center; }
+
+/* ---------- Why us: horizontal scroll ----------
+   Pinned stage (whyus.js sizes the section): intro on the left, cards glide sideways
+   on the right. Card language borrowed from "How We Work" on the About page. */
+.wu-h { --wu-p: 0; padding: 0; }   /* --wu-p (0…1) is set by whyus.js */
+.wu-pin {
+  position: sticky; top: var(--header-h);
+  height: calc(100svh - var(--header-h));
+  display: grid; grid-template-columns: minmax(400px, 1fr) 1.45fr; align-items: center;
+  gap: clamp(24px, 3vw, 56px);
+  padding-left: clamp(16px, 5vw, 96px);
+  overflow: hidden;
+}
+.wu-h .wu-intro { text-align: left; padding: 0; margin: 0; max-width: 560px; }
+.wu-h .wu-line1 { font-size: clamp(36px, 4vw, 64px); }
+.wu-h .wu-line2 { font-size: clamp(22px, 2.4vw, 38px); }
+.wu-h .wu-sub { margin: 22px 0 0; max-width: 470px; }
+.wu-h .wu-cta { margin-top: 28px; margin-left: 7px; }
+/* Live position: 01 / 06 with a mini progress bar */
+.wu-count {
+  display: flex; align-items: center; gap: 10px;
+  margin-top: 34px;
+  font-family: "JetBrains Mono", monospace; font-size: 13px; letter-spacing: .12em;
+  color: #6f6c7d;
+}
+.wu-count-now { color: #fff; }
+.wu-count-bar { position: relative; width: 120px; height: 2px; background: rgba(255, 255, 255, .1); border-radius: 2px; overflow: hidden; }
+.wu-count-bar b {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, #7c3aed, #d27bff);
+  transform-origin: left; transform: scaleX(var(--wu-p, 0));
+}
+
+.wu-rail {
+  position: relative; min-width: 0; height: 100%;
+  display: flex; align-items: center;
+  overflow: hidden;                 /* cards slide out under a soft left edge, never over the intro */
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 56px);
+          mask-image: linear-gradient(90deg, transparent 0, #000 56px);
+}
+.wu-h .wu-intro { position: relative; z-index: 1; }
+.wu-move { position: relative; will-change: transform; }
+.wu-track {
+  list-style: none;
+  display: flex; gap: clamp(14px, 1.4vw, 22px);
+  padding-right: clamp(16px, 5vw, 96px);
+}
+/* Progress line across the card tops */
+.wu-line {
+  position: absolute; left: 0; right: clamp(16px, 5vw, 96px); top: 0; z-index: 1;
+  height: 2px; border-radius: 2px;
+  background: rgba(255, 255, 255, .08);
+}
+.wu-line b {
+  position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(90deg, #7c3aed, #d27bff);
+  box-shadow: 0 0 16px rgba(157, 60, 244, .7);
+  transform-origin: left; transform: scaleX(var(--wu-p));
+}
+.wu-card {
+  position: relative; flex: none;
+  width: clamp(280px, 24vw, 380px);
+  min-height: clamp(300px, 44svh, 400px);
+  display: flex; flex-direction: column;
+  padding: clamp(34px, 3vw, 46px) clamp(22px, 2vw, 30px) clamp(26px, 2.4vw, 34px);
+  border-radius: 0 0 20px 20px;
+  background: linear-gradient(180deg, rgba(124, 58, 237, .08), transparent 70%), #07060b;
+  border: 1px solid rgba(255, 255, 255, .06); border-top: 0;
+  transition: background .5s ease, border-color .5s ease;
+}
+/* Dot on the line — lights when the fill reaches it */
+.wu-card::before {
+  content: ""; position: absolute; left: clamp(22px, 2vw, 30px); top: -6px; z-index: 2;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: #1a1030; border: 2px solid rgba(255, 255, 255, .25);
+  transition: background .4s ease, border-color .4s ease, box-shadow .4s ease;
+}
+.wu-card.is-lit::before { background: #b57bff; border-color: #e9d5ff; box-shadow: 0 0 14px rgba(181, 123, 255, .9); }
+.wu-card.is-lit { background: linear-gradient(180deg, rgba(124, 58, 237, .24), transparent 75%), #09070f; border-color: rgba(181, 123, 255, .16); }
+.wu-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.wu-num {
+  font-family: "Instrument Serif", serif; font-style: italic;
+  font-size: clamp(56px, 5vw, 84px); line-height: .9;
+  background: linear-gradient(180deg, #d9b8ff, #7c3aed);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.wu-card .wu-icon { flex: none; margin: 4px 0 0; opacity: .55; transition: opacity .5s ease, transform .6s cubic-bezier(.22, 1, .36, 1); }
+.wu-card.is-lit .wu-icon { opacity: 1; transform: scale(1.08); }
+.wu-card h3 {
+  margin-top: auto; padding-top: clamp(28px, 4svh, 48px);
+  font-family: "Lexend", sans-serif; font-weight: 500;
+  font-size: clamp(20px, 1.7vw, 26px); letter-spacing: -0.01em;
+}
+.wu-card p {
+  margin-top: 10px;
+  font-family: "Inter", sans-serif; font-size: clamp(14px, 1.05vw, 16px); line-height: 1.6;
+  color: #a9a9b6;
+}
+
+/* Tablet: intro above, cards below — still pinned */
+@media (max-width: 1080px) {
+  .wu-pin {
+    grid-template-columns: 1fr; grid-template-rows: auto 1fr; align-items: start;
+    gap: 0; padding-top: clamp(24px, 5svh, 56px);
+  }
+  .wu-h .wu-intro { max-width: 720px; padding-right: 16px; }
+  .wu-h .wu-sub { display: none; }                   /* room for the cards */
+  .wu-h .wu-cta { margin-top: 20px; }
+  .wu-count { margin-top: 20px; }
+  .wu-card { min-height: clamp(260px, 36svh, 340px); }
+}
+/* Phones: no pinning — a swipe strip; the line follows the swipe */
+@media (max-width: 700px) {
+  .wu-h { height: auto !important; padding: clamp(56px, 12vw, 80px) 0 20px; }
+  .wu-pin { position: static; height: auto; overflow: visible; padding-top: 0; }
+  .wu-h .wu-sub { display: block; }
+  .wu-rail {
+    -webkit-mask-image: none; mask-image: none;
+    height: auto; margin-top: 32px;
+    overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+    padding-top: 8px;
+  }
+  .wu-rail::-webkit-scrollbar { display: none; }
+  .wu-move { transform: none !important; }
+  .wu-card { width: 78vw; min-height: 280px; scroll-snap-align: start; }
+}
+
+.wu-icon { width: 48px; height: 48px; overflow: visible; }
+
+/* Icon micro-animations (2s loop, from section.mp4) */
+.wu-icon * { transform-box: fill-box; transform-origin: center; }
+.i-chip .pins path { opacity: .4; animation: pin 2s ease-in-out infinite; }
+.i-chip .pins path:nth-child(3n+2) { animation-delay: .25s; }
+.i-chip .pins path:nth-child(3n) { animation-delay: .5s; }
+@keyframes pin { 50% { opacity: 1; } }
+.i-chip .core { animation: glow 2s ease-in-out infinite; }
+@keyframes glow { 50% { opacity: .9; } }
+.i-bolt .speed { animation: speed 2s ease-in-out infinite; }
+@keyframes speed { 50% { transform: translateX(-3px); opacity: .9; } }
+.i-bolt .bolt { animation: bolt 2s ease-in-out infinite; }
+@keyframes bolt { 45%, 55% { filter: drop-shadow(0 0 4px rgba(211, 92, 255, .9)); } }
+.i-link .link-l { animation: link-l 2s ease-in-out infinite; }
+.i-link .link-r { animation: link-r 2s ease-in-out infinite; }
+.i-link .link-bar { animation: link-bar 2s ease-in-out infinite; }
+@keyframes link-l { 50% { transform: translateX(2px); } }
+@keyframes link-r { 50% { transform: translateX(-2px); } }
+@keyframes link-bar { 50% { opacity: 1; transform: scaleX(1.12); } }
+.i-swap .arrows { animation: swap 2s ease-in-out infinite; }
+@keyframes swap { 50% { opacity: .95; transform: translateX(2px); } }
+.i-stack .back { animation: stack-back 2s ease-in-out infinite; }
+.i-stack .front { animation: stack-front 2s ease-in-out infinite; }
+@keyframes stack-back { 50% { transform: translate(2px, -2px); opacity: .8; } }
+@keyframes stack-front { 50% { transform: translate(-1px, 1px); } }
+.i-card .back { animation: stack-back 2s ease-in-out infinite; }
+.i-card .digits { animation: glow 2s ease-in-out infinite .4s; }
+
+/* ---------- Work flow ---------- */
+.workflow { background: var(--page); color: #fff; padding: clamp(80px, 9vw, 130px) clamp(16px, 2vw, 32px) clamp(24px, 3vw, 40px); }
+.wf-wrap {
+  max-width: 1440px; margin: 0 auto;
+  display: grid; grid-template-columns: minmax(300px, 478px) 1fr; gap: 32px;
+  align-items: stretch;
+}
+.wf-intro {
+  display: flex; flex-direction: column; align-items: flex-start;
+  padding: 20px 16px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 20px;
+}
+.wf-intro h2 {
+  margin-top: 30px;
+  font-family: "Lexend", sans-serif; font-weight: 400;
+  font-size: clamp(36px, 3.7vw, 54px); line-height: 1.12; letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+.wf-intro h2 em {
+  font-family: "Instrument Serif", serif; font-style: italic;
+  font-size: 1.12em; margin-left: .15em;
+  background: linear-gradient(90deg, #8b5cf6, #b57bff);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  padding-right: .06em;
+}
+.wf-intro p {
+  margin-top: 12px; max-width: 460px;
+  font-family: "Lato", sans-serif; font-size: 17px; line-height: 1.6; color: #8f8f9a;
+}
+.wf-intro p { margin-bottom: 40px; }
+.wf-cta { margin-top: auto; margin-left: 10px; }
+
+.wf-steps { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.wf-step {
+  position: relative; overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px;
+  /* Collapsed texture: tiny corner marks + a soft diagonal sheen */
+  background:
+    linear-gradient(115deg, transparent 55%, rgba(255, 255, 255, 0.05) 62%, transparent 70%),
+    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.07) 1px, transparent 1.5px) 0 0 / 14px 14px,
+    #050507;
+  transition: background-color .4s ease, border-color .4s ease;
+}
+.wf-step.is-active {
+  background: linear-gradient(180deg, #1b1224 0%, #140e1c 100%);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+.wf-head {
+  width: 100%; min-height: 78px;
+  display: grid; grid-template-columns: 58px 1fr auto; align-items: center; gap: 0;
+  padding: 0 14px 0 28px;
+  background: none; border: 0; color: inherit; text-align: left; cursor: pointer;
+  font: inherit;
+}
+.wf-num { font-family: "JetBrains Mono", monospace; font-size: 12px; color: #6e6e78; }
+.wf-title { font-family: "Plus Jakarta Sans", sans-serif; font-size: 17px; font-weight: 500; }
+.wf-tag {
+  padding: 4px 11px; border-radius: 999px;
+  background: #fff; color: #111;
+  font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: .06em;
+  opacity: 0; transform: scale(.8);
+  transition: opacity .3s ease, transform .3s ease;
+}
+.wf-step.is-active .wf-tag { opacity: 1; transform: none; }
+.wf-head:focus-visible { outline: 2px solid #8b5cf6; outline-offset: -4px; border-radius: 16px; }
+
+/* Smooth height animation via grid-template-rows 0fr → 1fr */
+.wf-panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .55s cubic-bezier(.2, .8, .2, 1); }
+.wf-panel > div { overflow: hidden; }
+.wf-step.is-active .wf-panel { grid-template-rows: 1fr; }
+.wf-panel p {
+  padding: 0 28px 34px 86px; max-width: 700px;
+  font-size: 14px; line-height: 1.75; letter-spacing: .03em; color: #d6d4de;
+  opacity: 0; transform: translateY(6px);
+  transition: opacity .4s ease .15s, transform .4s ease .15s;
+}
+.wf-step.is-active .wf-panel p { opacity: 1; transform: none; }
+/* Auto-advance timer bar */
+.wf-progress {
+  position: absolute; left: 0; bottom: 0; height: 2px; width: 100%;
+  background: linear-gradient(90deg, #7e5eff, #d35cff);
+  transform-origin: left; transform: scaleX(0);
+}
+.wf-step.is-active .wf-progress { animation: wf-timer var(--wf-duration, 5s) linear forwards; }
+.wf-steps.is-paused .wf-progress { animation-play-state: paused; }
+@keyframes wf-timer { to { transform: scaleX(1); } }
+
+/* ---------- Selected work ---------- */
+.work { background: var(--page); color: #fff; padding: clamp(80px, 9vw, 120px) 0 clamp(60px, 7vw, 100px); overflow: hidden; }
+.work-head {
+  max-width: 1676px; margin: 0 auto;
+  padding: 0 clamp(16px, 6.6vw, 110px);
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 32px; flex-wrap: wrap;
+}
+.work-badge { letter-spacing: .02em; }
+.work-head h2 {
+  margin-top: clamp(40px, 5vw, 70px);
+  font-family: "Plus Jakarta Sans", sans-serif; font-weight: 400;
+  font-size: clamp(44px, 5.2vw, 80px); line-height: 1.05; letter-spacing: -0.03em;
+}
+.work-head h2 em {
+  font-family: "Instrument Serif", serif; font-style: italic;
+  font-size: 1.12em; letter-spacing: -0.02em;
+  background: linear-gradient(90deg, #8b5cf6, #c084fc);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  padding-right: .05em;
+}
+.work-aside { padding-top: clamp(24px, 3vw, 50px); }
+.work-aside p { font-family: "JetBrains Mono", monospace; font-size: clamp(13px, 1.1vw, 16px); line-height: 1.7; color: #d0d0d8; }
+.work-aside .btn-contact { margin-top: 22px; margin-left: 6px; }
+
+.work-stage { position: relative; margin-top: clamp(60px, 8vw, 130px); }
+.work-cards {
+  list-style: none;
+  max-width: 1676px; margin: 0 auto;
+  padding: 0 clamp(16px, 5vw, 84px);
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 2vw, 24px);
+}
+.work-card {
+  position: relative; display: flex; flex-direction: column; height: 100%;
+  padding: 7px;
+  border-radius: 16px;
+  color: inherit; text-decoration: none;
+  background:
+    linear-gradient(#000, #000) padding-box,
+    linear-gradient(180deg, #8b5cf6, #c06cff 50%, #7c3aed) border-box;
+  border: 1px solid transparent;
+  transition: transform .5s cubic-bezier(.2, .8, .2, 1), box-shadow .5s ease;
+}
+.work-card:hover { transform: translateY(-8px); box-shadow: 0 24px 60px rgba(139, 92, 246, .25); }
+.wc-top { position: relative; padding: 18px 18px 26px; min-height: 190px; }
+.wc-num {
+  display: inline-flex; align-items: center; gap: 14px;
+  font-family: "Plus Jakarta Sans", sans-serif; font-weight: 600; font-size: 15px; color: #a78bfa;
+}
+.wc-num::after { content: ""; width: 42px; height: 1px; background: #8b5cf6; }
+.wc-arrow {
+  position: absolute; right: 12px; top: 12px;
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 1.5px solid #8b5cf6;
+  display: grid; place-items: center;
+  transition: background .3s ease, transform .5s cubic-bezier(.2, .8, .2, 1);
+}
+.wc-arrow svg { width: 14px; height: 14px; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.work-card:hover .wc-arrow { background: #8b5cf6; transform: rotate(45deg); }
+.wc-top h3 {
+  margin-top: 10px;
+  font-family: "Inter", sans-serif; font-weight: 400;
+  font-size: clamp(18px, 1.6vw, 24px); letter-spacing: -0.005em;
+}
+.wc-top p {
+  margin-top: 12px; max-width: 440px;
+  font-family: "Lato", sans-serif; font-size: clamp(13px, 1vw, 15px); line-height: 1.55;
+  color: #c9c9d2;
+}
+.wc-media {
+  margin-top: auto;
+  aspect-ratio: 530 / 410;
+  border-radius: 8px; overflow: hidden;
+  border: 1px solid rgba(167, 139, 250, .7);
+  background: #111;
+}
+.wc-media img { width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform .8s cubic-bezier(.2, .8, .2, 1); }
+.work-card:hover .wc-media img { transform: scale(1.05); }
+
+/* Crossing ribbons — sit over the bottom of the cards */
+.ribbons { position: absolute; left: 0; right: 0; bottom: 0; height: clamp(180px, 17vw, 280px); pointer-events: none; }
+/* Both ribbons share one centre point and tilt by equal, opposite angles,
+   so they form a symmetric X centred under the middle card */
+.ribbon {
+  position: absolute; left: -10%; width: 120%; top: 50%;
+  padding: clamp(10px, 1vw, 16px) 0;
+  background: linear-gradient(90deg, #8e5bff, #b865f7 50%, #9a5cff);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, .45);
+  overflow: hidden;
+}
+.ribbon--front { transform: translateY(-50%) rotate(5.5deg); z-index: 2; }
+.ribbon--back  { transform: translateY(-50%) rotate(-5.5deg); z-index: 1; filter: brightness(.92); }
+.ribbon-track { display: flex; width: max-content; }   /* static — the looping scroll was removed */
+.ribbon ul { display: flex; list-style: none; }
+.ribbon li {
+  display: flex; align-items: center; white-space: nowrap;
+  font-family: "Space Grotesk", sans-serif; font-weight: 700;
+  font-size: clamp(18px, 1.8vw, 28px); letter-spacing: .03em; color: #fff;
+}
+.ribbon li::after {
+  content: ""; width: 1em; height: 1em; margin: 0 clamp(26px, 3vw, 50px);
+  background: #fff;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0C12.6 6.6 17.4 11.4 24 12 17.4 12.6 12.6 17.4 12 24 11.4 17.4 6.6 12.6 0 12 6.6 11.4 11.4 6.6 12 0Z'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0C12.6 6.6 17.4 11.4 24 12 17.4 12.6 12.6 17.4 12 24 11.4 17.4 6.6 12.6 0 12 6.6 11.4 11.4 6.6 12 0Z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+@keyframes ribbon { to { transform: translateX(calc(-1 * var(--ribbon-group-width, 50%))); } }
+
+/* ---------- Partners ---------- */
+.partners { background: var(--page); padding: clamp(40px, 5vw, 60px) 0 clamp(56px, 6vw, 80px); text-align: center; }
+.partners-label { font-family: "Inter", sans-serif; font-size: 15px; color: #8f8f9a; }
+.partners-row {
+  margin-top: clamp(36px, 4vw, 56px);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 4%, rgba(0,0,0,.35) 14%, #000 30%, #000 70%, rgba(0,0,0,.35) 86%, transparent 96%);
+          mask-image: linear-gradient(90deg, transparent 4%, rgba(0,0,0,.35) 14%, #000 30%, #000 70%, rgba(0,0,0,.35) 86%, transparent 96%);
+}
+.partners-track { display: flex; width: max-content; animation: ribbon var(--partners-duration, 30s) linear infinite; }
+.partners-row:hover .partners-track { animation-play-state: paused; }
+.partners-group { display: flex; align-items: center; list-style: none; }
+.partners-group li { padding: 0 clamp(36px, 4.5vw, 50px); }
+.partners-group img { display: block; height: clamp(32px, 3vw, 44px); width: auto; }
+
+/* ---------- Social media reels ---------- */
+.reels { --u: 1px; background: var(--page); color: #fff; padding: clamp(72px, 8vw, 110px) 0 clamp(72px, 8vw, 110px); overflow: hidden; }
+.reels-head {
+  /* Same left/right edges as the Why SquareZix stage (.wu-pin), so the two line up */
+  padding: 0 clamp(16px, 5vw, 96px);
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 32px; flex-wrap: wrap;
+}
+.reels-head h2 {
+  margin-top: clamp(24px, 2.4vw, 34px);
+  font-family: "Lexend", sans-serif; font-weight: 400;
+  font-size: clamp(40px, 4.2vw, 64px); line-height: 1.12; letter-spacing: -0.02em;
+}
+.reels-head h2 em {
+  font-family: "Instrument Serif", serif; font-style: italic;
+  font-size: 1.18em; letter-spacing: -0.01em;
+  background: linear-gradient(90deg, #a855f7, #c084fc);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  padding-right: .05em;
+}
+.reels-aside { padding-top: 6px; }
+.reels-aside p { font-family: "Lato", sans-serif; font-size: 16px; line-height: 1.45; color: #8f8f9a; }
+.reels-aside .btn-contact { margin-top: 18px; margin-left: 6px; }
+
+.reels-row {
+  --pw: clamp(96px, 7.1vw, 120px);   /* phone width */
+  --gap: clamp(10px, .8vw, 14px);
+  max-width: 1440px; margin: clamp(32px, 3vw, 44px) auto 0;
+  overflow: hidden;
+  padding: 18px 0 8px;               /* room for the hover lift + shadows */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+.reels-track { display: flex; width: max-content; animation: ribbon var(--reels-duration, 40s) linear infinite; }
+.reels-row:hover .reels-track { animation-play-state: paused; }
+.reels-group { display: flex; gap: var(--gap); padding-right: var(--gap); list-style: none; }
+.reel { width: var(--pw); flex: none; }
+
+/* iPhone 15 Pro–style mockup, drawn in CSS so it stays crisp at any size */
+.phone {
+  position: relative;
+  aspect-ratio: 9 / 18.9;
+  border-radius: calc(var(--pw) * .17);
+  padding: calc(var(--pw) * .028);                                   /* titanium rim */
+  background:
+    linear-gradient(145deg, #6d6a74 0%, #2c2b31 18%, #16151a 50%, #2e2d33 82%, #77737e 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .18),
+    inset 0 0 2px 1px rgba(0, 0, 0, .8),
+    0 18px 30px -8px rgba(0, 0, 0, .7),
+    0 0 26px rgba(139, 92, 246, .16);
+  transition: transform .5s cubic-bezier(.2, .8, .2, 1), box-shadow .5s ease;
+}
+/* Side buttons: action + volume on the left, power on the right */
+.phone::before, .phone::after {
+  content: ""; position: absolute; width: 2px; border-radius: 2px;
+  background: linear-gradient(90deg, #4a4850, #1d1c21);
+}
+.phone::before {
+  left: -2px; top: 19%; height: 26%;
+  box-shadow: 0 calc(var(--pw) * -.16) 0 0 #3a3940;               /* action button */
+  -webkit-mask: linear-gradient(#000 0 44%, transparent 44% 56%, #000 56%);   /* two volume keys */
+          mask: linear-gradient(#000 0 44%, transparent 44% 56%, #000 56%);
+}
+.phone::after { right: -2px; top: 27%; height: 16%; }
+
+.phone-screen {
+  position: relative; height: 100%;
+  border-radius: calc(var(--pw) * .145);
+  padding: calc(var(--pw) * .022);                                   /* black bezel */
+  background: #000;
+  overflow: hidden;
+  isolation: isolate;
+}
+/* Poster frame (added by sections.js) sits under the video until the video is live */
+.reel-poster {
+  position: absolute; inset: calc(var(--pw) * .022);
+  width: calc(100% - var(--pw) * .044); height: calc(100% - var(--pw) * .044);
+  object-fit: cover;
+  border-radius: calc(var(--pw) * .125);
+}
+.phone-screen video {
+  position: relative;
+  display: block; width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: calc(var(--pw) * .125);
+  background: transparent;
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+.phone-screen video.is-live { opacity: 1; }
+/* Dynamic Island */
+.phone-screen::before {
+  content: ""; position: absolute; z-index: 2;
+  top: calc(var(--pw) * .06); left: 50%; transform: translateX(-50%);
+  width: 30%; height: calc(var(--pw) * .085);
+  border-radius: 999px; background: #000;
+  box-shadow: inset calc(var(--pw) * .09) 0 0 -2px #000, inset -6px 0 4px -3px rgba(40, 60, 120, .35);
+}
+/* Glass reflection */
+.phone-screen::after {
+  content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(118deg, rgba(255, 255, 255, .14) 0%, rgba(255, 255, 255, .03) 32%, transparent 33%, transparent 100%);
+}
+.reel:hover .phone {
+  transform: translateY(-8px) scale(1.04);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, .22),
+    inset 0 0 2px 1px rgba(0, 0, 0, .8),
+    0 26px 40px -10px rgba(0, 0, 0, .8),
+    0 0 40px rgba(168, 85, 247, .45);
+}
+.reel-tag {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 12px;
+  font-family: "Lexend", sans-serif; font-size: 12px; color: #6f6f7a;
+  white-space: nowrap;
+}
+.reel-tag::after { content: "↗"; font-size: 11px; opacity: .7; flex: none; margin-left: 4px; }
+@media (max-width: 700px) {
+  /* Phones are narrower here — keep each tag inside its own phone width */
+  .reel-tag { font-size: 10px; overflow: hidden; }
+}
+
+/* ---------- Where we show up (cursor parallax) ----------
+   Positions are in 1440×451 design px (--x/--y = chip centre, --w = chip width) and
+   converted to % so the whole stage scales. --mx/--my (-1…1) come from sections.js. */
+.wwsu { background: var(--page); padding: clamp(40px, 5vw, 80px) 16px clamp(72px, 8vw, 110px); }
+.wwsu-stage {
+  --mx: 0; --my: 0;
+  position: relative;
+  max-width: 1440px; margin: 0 auto;
+  aspect-ratio: 1440 / 451;
+  border-radius: clamp(40px, 7.5vw, 108px);
+  overflow: hidden;
+  perspective: 1100px;
+  container-type: inline-size;          /* cqw units below scale type with the stage */
+  box-shadow: 0 0 0 1px rgba(139, 92, 246, .25), 0 30px 80px rgba(80, 30, 160, .25);
+  isolation: isolate;
+}
+/* Only the background layer (and its light) moves — heading and chips stay fixed */
+.wwsu-3d { position: absolute; inset: 0; }
+/* Far layer: oversized so edges never show, drifts against the cursor */
+.wwsu-bg {
+  /* Overscan covers the max drift (chip layer math in .wwsu-chips depends on these numbers) */
+  position: absolute; inset: -8% -5%;
+  transform: translate3d(calc(var(--mx) * -2.4%), calc(var(--my) * -3.5%), 0);
+  will-change: transform;
+}
+.wwsu-bg img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* Soft purple light that follows the pointer */
+.wwsu-light {
+  position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen;
+  background: radial-gradient(38% 60% at calc(50% + var(--mx) * 45%) calc(50% + var(--my) * 45%), rgba(168, 85, 247, .22), transparent 70%);
+}
+.wwsu-head {
+  position: absolute; left: 0; right: 0; top: calc(52 / 451 * 100%);
+  text-align: center;
+}
+.wwsu-badge { font-size: max(9px, 0.76cqw); letter-spacing: .04em; padding: .45em 1em; }
+.wwsu-head h2 {
+  margin-top: 1.6cqw;
+  font-family: "Lexend", sans-serif; font-weight: 500;
+  font-size: max(20px, 3.1cqw); letter-spacing: -0.03em; line-height: 1.1;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, .6);
+}
+.wwsu-head h2 em {
+  font-family: "Instrument Serif", serif; font-style: italic; font-weight: 400;
+  font-size: 1.15em; letter-spacing: -0.01em;
+  background: linear-gradient(90deg, #8b5cf6, #b57bff);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  padding-right: .06em;
+}
+/* Chips are glued to the photo: this layer is stage-sized and moves by exactly the same
+   distance as .wwsu-bg (its % drift × the bg's 1.10 / 1.16 overscan), so the cards
+   look like objects sitting in the scene rather than floating over it. */
+.wwsu-chips {
+  list-style: none; position: absolute; inset: 0;
+  transform: translate3d(calc(var(--mx) * -2.64%), calc(var(--my) * -4.06%), 0);
+  will-change: transform;
+}
+.wwsu-chips li {
+  position: absolute;
+  left: calc(var(--x) / 1440 * 100%); top: calc(var(--y) / 451 * 100%);
+  width: calc(var(--w) / 1440 * 100%);
+  transform: translate(-50%, -50%);
+}
+/* The Dribbble card is cropped by design — tuck it past the left edge so the crop stays hidden while drifting */
+.wwsu-chips li.chip-dr { left: -3%; transform: translate(0, -50%); }
+.wwsu-chips a { display: block; border-radius: 22px; }
+.chip-img {
+  display: block; width: 100%; height: auto;
+  /* Contact shadow + faint purple bounce from the lit floor, so the cards sit in the scene */
+  filter: drop-shadow(0 14px 14px rgba(0, 0, 0, .6)) drop-shadow(0 2px 10px rgba(124, 58, 237, .25));
+  transition: filter .35s ease;
+}
+.chip-pill { display: none; }
+/* Hover only brightens the card — it never moves */
+.wwsu-chips a:hover .chip-img, .wwsu-chips a:focus-visible .chip-img {
+  filter: drop-shadow(0 16px 20px rgba(0, 0, 0, .6)) drop-shadow(0 0 18px rgba(192, 132, 252, .7)) brightness(1.12);
+}
+.wwsu-chips a:focus-visible { outline: 2px solid #c084fc; outline-offset: 4px; }
+
+/* Phones: the panorama is too short, so the stage becomes a tall card —
+   photo behind, heading on top, and straight glass pills in a clean 2-column grid */
+@media (max-width: 700px) {
+  .wwsu-stage {
+    aspect-ratio: auto;
+    border-radius: 32px;
+    padding: 36px 16px 20px;
+    container-type: normal;
+  }
+  .wwsu-3d { position: relative; inset: auto; }
+  .wwsu-bg img { object-position: 22% 60%; }       /* keep the lit SZ crates in frame */
+  /* Darken the top so the heading reads, let the lit floor glow through below */
+  .wwsu-3d::before {
+    content: ""; position: absolute; inset: -36px -16px -20px; pointer-events: none; z-index: 1;
+    background: linear-gradient(180deg, rgba(0, 0, 0, .75) 0%, rgba(0, 0, 0, .35) 45%, rgba(0, 0, 0, .15) 100%);
+  }
+  .wwsu-bg, .wwsu-light { inset: -90px -50px -70px; }   /* extra room so the idle drift never shows an edge */
+  .wwsu-head { position: relative; z-index: 2; top: auto; padding: 0 8px; }
+  .wwsu-badge { font-size: 10px; }
+  .wwsu-head h2 { margin-top: 14px; font-size: clamp(26px, 8vw, 34px); }
+
+  .wwsu-chips {
+    position: relative; z-index: 2; inset: auto; transform: none;
+    margin-top: 150px;                             /* reveal the scene between heading and links */
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  }
+  .wwsu-chips li, .wwsu-chips li.chip-dr { position: static; width: auto; transform: none; }
+  .wwsu-chips li:last-child { grid-column: 1 / -1; }   /* 9 links → last one spans the row */
+  .chip-img { display: none; }
+  .chip-pill {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    height: 52px; padding: 0 8px 0 18px;
+    border-radius: 16px;
+    font-family: "Lexend", sans-serif; font-size: 14px; color: #f1ecff;
+    /* Same glass as the desktop cards: dark core, violet rim, top highlight */
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, .14), rgba(255, 255, 255, 0) 45%),
+      radial-gradient(120% 140% at 50% 120%, rgba(168, 85, 247, .55), transparent 60%),
+      rgba(24, 12, 48, .72);
+    border: 1px solid rgba(192, 132, 252, .55);
+    box-shadow: inset 0 0 12px rgba(168, 85, 247, .35), 0 8px 20px rgba(0, 0, 0, .45);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    transition: border-color .25s ease, box-shadow .25s ease;
+  }
+  .chip-pill svg {
+    flex: none; width: 34px; height: 34px;
+    fill: #fff;
+    border-radius: 50%; border: 1px solid rgba(255, 255, 255, .3);
+  }
+  .wwsu-chips a:active .chip-pill,
+  .wwsu-chips a:hover .chip-pill { border-color: #d8b4fe; box-shadow: inset 0 0 14px rgba(192, 132, 252, .5), 0 0 18px rgba(168, 85, 247, .45); }
+}
+
+
+/* ---------- Spacing where sections meet (page order: overview → logos → work → reels → services) ---------- */
+.partners { padding-bottom: clamp(24px, 3vw, 40px); }
+.why + .partners { padding-top: clamp(20px, 2.5vw, 36px); }
+.partners + .work { padding-top: clamp(56px, 7.6vw, 110px); }
+.work + .services { padding-top: clamp(32px, 3.5vw, 50px); }   /* keeps the ~150px section gap */
+.work + .reels { padding-top: clamp(24px, 3vw, 48px); }
+.reels:has(+ .services) { padding-bottom: clamp(24px, 3vw, 40px); }
+.reels + .services { padding-top: clamp(40px, 5vw, 72px); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1000px) {
+  .wf-wrap { grid-template-columns: 1fr; }
+  .work-cards { grid-template-columns: 1fr 1fr; }
+  .work-cards li:last-child { grid-column: 1 / -1; max-width: 560px; justify-self: center; width: 100%; }
+}
+@media (max-width: 640px) {
+  .work-cards { grid-template-columns: 1fr; }
+  .wf-head { grid-template-columns: 48px 1fr auto; padding-left: 18px; }
+  .wf-panel p { padding: 0 18px 26px 66px; }
+}
+@media (max-width: 480px) {
+  .wf-intro h2 { white-space: normal; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wu-icon *, .ribbon-track, .partners-track, .reels-track { animation: none !important; }
+  .reels-row { overflow-x: auto; }
+}
+
+/* ---------- Home flow spacing ----------
+   Overview → Featured on → Services → Why SquareZix → Creative Campaigns → outro,
+   with one even gap (~150px on desktop) between sections. The pinned Why SquareZix
+   stage centres its content and supplies that space itself, so its neighbours drop
+   their own padding on that side. */
+.why + .partners { padding-top: clamp(56px, 6vw, 88px); }
+.services:has(+ .why-us) { padding-bottom: 0; }
+.why-us + .reels { padding-top: 0; }
+
+/* ---------- Blog — "What we're thinking about." (Blog Section.pdf) ---------- */
+.blog { background: var(--page); color: #fff; padding: clamp(80px, 9vw, 130px) 0 clamp(24px, 3vw, 40px); }
+.why-us + .blog { padding-top: 0; }                  /* the pinned stage already supplies the gap */
+.blog-head { text-align: center; padding: 0 16px; }
+.blog-badge {
+  display: inline-block;
+  padding: 6px 12px; border-radius: 999px;
+  background: #54458a; border: 1px solid #7d67c7;
+  font-family: "Lexend", sans-serif; font-size: 14px; color: #ece6ff;
+}
+.blog-head h2 {
+  margin-top: clamp(20px, 2.4vw, 32px);
+  font-family: "Lexend", sans-serif; font-weight: 400;
+  font-size: clamp(38px, 5.4vw, 80px); line-height: 1.08; letter-spacing: -0.03em;
+}
+.blog-head h2 em {
+  font-family: "Instrument Serif", serif; font-style: italic;
+  font-size: 1.16em; letter-spacing: -0.01em;
+  background: linear-gradient(90deg, #a855f7, #c084fc);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  padding-right: .06em;
+}
+.blog-head p {
+  margin: clamp(12px, 1.4vw, 20px) auto 0; max-width: 760px;
+  font-size: clamp(15px, 1.25vw, 18px); line-height: 1.55; color: #8f8ba3;
+}
+
+.blog-list {
+  list-style: none;
+  max-width: 1680px; margin: clamp(44px, 5.4vw, 80px) auto 0;
+  padding: 0 clamp(8px, 1vw, 16px);
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(8px, .8vw, 12px);
+}
+.blog-card {
+  display: grid; grid-template-columns: 36% 1fr; gap: clamp(14px, 1.4vw, 22px);
+  height: 100%;
+  padding: clamp(12px, 1.2vw, 17px);
+  border-radius: 12px;
+  background: linear-gradient(180deg, #2a2650 0%, #1b1935 100%);
+  border: 1px solid rgba(255, 255, 255, .05);
+  color: inherit; text-decoration: none;
+  transition: transform .5s cubic-bezier(.22, 1, .36, 1), border-color .3s ease, box-shadow .5s ease;
+}
+.blog-card:hover { transform: translateY(-4px); border-color: rgba(181, 123, 255, .35); box-shadow: 0 24px 50px rgba(20, 10, 60, .5); }
+.blog-card:focus-visible { outline: 2px solid #b57bff; outline-offset: 3px; }
+.blog-media { overflow: hidden; border-radius: 4px; aspect-ratio: 162 / 192; }
+.blog-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .8s cubic-bezier(.22, 1, .36, 1); }
+.blog-card:hover .blog-media img { transform: scale(1.05); }
+
+.blog-body { display: flex; flex-direction: column; min-width: 0; padding: 4px 4px 2px 0; }
+.blog-meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.blog-meta time { flex: none; }
+.blog-meta time { font-size: clamp(12px, .9vw, 13.5px); color: #a7a3bb; }
+.blog-tag {
+  min-width: 0; overflow: hidden; text-overflow: ellipsis;
+  padding: 3px clamp(8px, .9vw, 14px); border-radius: 999px;
+  background: #3a3572;
+  font-size: clamp(10.5px, .8vw, 12px); color: #ddd6ff; white-space: nowrap;
+}
+.blog-card h3 {
+  margin-top: clamp(14px, 1.4vw, 20px);
+  font-family: "Inter", sans-serif; font-weight: 500;
+  font-size: clamp(16px, 1.3vw, 19px); line-height: 1.35; letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+.blog-card p {
+  margin-top: clamp(10px, 1vw, 14px);
+  font-size: clamp(12.5px, .95vw, 14px); line-height: 1.6; color: #b3afc6;
+}
+.blog-more {
+  margin-top: auto; padding-top: 16px;
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: clamp(13px, 1vw, 14.5px); color: #fff;
+}
+.blog-arrow {
+  display: grid; place-items: center;
+  width: 22px; height: 22px; border-radius: 50%;
+  color: #fff; background: transparent;
+  transition: background .3s ease, color .3s ease, transform .3s ease;
+}
+.blog-arrow svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.blog-card:hover .blog-arrow { background: #fff; color: #1b1935; transform: translateX(2px); }
+
+@media (max-width: 1180px) {
+  .blog-list { grid-template-columns: 1fr; max-width: 760px; padding: 0 16px; }
+  .blog-card { grid-template-columns: 34% 1fr; }
+}
+@media (max-width: 520px) {
+  .blog-card { grid-template-columns: 1fr; }
+  .blog-media { aspect-ratio: 16 / 10; }
+}

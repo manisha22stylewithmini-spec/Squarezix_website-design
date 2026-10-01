@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Squarezix — Marketing Partner in Dubai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&family=Archivo+Black&family=Instrument+Serif:ital@1&family=Plus+Jakarta+Sans:wght@400;500;600&family=Lato:wght@300;400&family=Lexend:wght@400;500;600&family=JetBrains+Mono:wght@400&family=Syne:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=20260930k" />
+  <link rel="stylesheet" href="hero.css?v=20260930i" />
+  <link rel="stylesheet" href="services.css?v=20260930e" />
+  <link rel="stylesheet" href="bento.css?v=20260930b" />
+  <link rel="stylesheet" href="sections.css?v=20260930t" />
+  <link rel="stylesheet" href="footer.css?v=20260929m" />
+  <link rel="stylesheet" href="menu.css?v=20260930h" />
+  <link rel="stylesheet" href="outro.css?v=20260930k" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#" class="logo" aria-label="Squarezix home">
+        <img src="assets/brand/sz-logo.png" alt="Squarezix — Marketing Agency" width="132" height="132" />
+      </a>
+
+      <!-- Each trigger opens a mega-menu built by menu.js from its data-menu key
+           (desktop: hover dropdown · tablet/mobile: accordion inside the sheet) -->
+      <nav class="main-nav" id="main-nav" aria-label="Main">
+        <div class="nav-item" data-menu="web"><button class="nav-trigger" type="button">Web &amp; Brand</button></div>
+        <div class="nav-item" data-menu="growth"><button class="nav-trigger" type="button">Growth Marketing</button></div>
+        <div class="nav-item" data-menu="ai"><button class="nav-trigger" type="button">AI &amp; Intelligence</button></div>
+        <div class="nav-item" data-menu="insights"><button class="nav-trigger" type="button">Insights</button></div>
+        <div class="nav-item"><a class="nav-link" href="about-us.html">About us</a></div>
+      </nav>
+
+      <a href="#contact" class="btn-contact">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.18 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.1 9.9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+          <path d="M15 2.5a6 6 0 0 1 6.5 6.5M15 6a2.5 2.5 0 0 1 3 3" />
+        </svg>
+        Contact us
+      </a>
+
+      <button class="menu-toggle" id="menu-toggle" aria-label="Open menu" aria-controls="main-nav" aria-expanded="false">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero: looping TV-in-meadow video anchored to the bottom, copy on the black sky,
+       5-column double-line grid, service index in the last column. Styles in hero.css.
+       The section is tall; .hero-stage sticks while hero-zoom.js scrubs a push-in
+       through the TV screen into the "inside of Squarezix" frame. -->
+  <section class="hero" id="hero">
+    <div class="hero-stage" id="hero-stage">
+      <div class="hero-media" aria-hidden="true">
+        <video class="hero-video" id="hero-video" src="assets/hero/hero-video.mp4" poster="assets/hero/hero-poster.jpg"
+               autoplay muted loop playsinline preload="auto"></video>
+        <!-- Static that lives on the TV glass itself — zooms with the video -->
+        <div class="hero-screen" aria-hidden="true">
+          <canvas class="hero-screen-noise"></canvas>
+        </div>
+        <canvas class="hero-fg"></canvas>
+      </div>
+
+      <canvas class="hero-dust" aria-hidden="true"></canvas>
+
+      <div class="hero-grid" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="hero-badge">Digital Growth Partner · Dubai · GCC · Global</p>
+          <h1 class="hero-title">
+            <span class="hero-title-main">Squarezix<sup>®</sup></span>
+            <span class="hero-title-sub">Creative Agency</span>
+          </h1>
+          <p class="hero-lead">Building what’s next for ambitious brands.</p>
+          <p class="hero-text">SquareZix combines brand, digital experience, growth and AI to help ambitious businesses become more visible, more relevant, more valuable.</p>
+          <a href="#contact" class="hero-cta">Start a Project</a>
+        </div>
+
+        <nav class="hero-services" aria-label="Services">
+          <a href="#services"><span>Development</span><span class="num">01</span></a>
+          <a href="#services"><span>Design</span><span class="num">02</span></a>
+          <a href="#services"><span>Marketing</span><span class="num">03</span></a>
+          <a href="#services"><span>Seo</span><span class="num">04</span></a>
+        </nav>
+      </div>
+
+      <div class="hero-crt">
+        <div class="crt-screen">
+          <canvas class="crt-stars" aria-hidden="true"></canvas>
+          <div class="crt-content">
+            <h2 class="crt-title">
+              <span class="crt-line"><span>Welcome to the <em>inside</em></span></span>
+              <span class="crt-line"><span>of Squarezix<sup>®</sup></span></span>
+            </h2>
+          </div>
+          <div class="crt-ui" aria-hidden="true">
+            <span class="crt-corner tl"></span><span class="crt-corner tr"></span>
+            <span class="crt-corner bl"></span><span class="crt-corner br"></span>
+            <p class="crt-meta tl"><i class="crt-rec"></i>Rec · CH 01</p>
+            <p class="crt-meta tr" id="crt-timecode">00:00:00:00</p>
+            <p class="crt-meta bl">Squarezix — Dubai · GCC · Global</p>
+            <p class="crt-meta br">Scroll to explore ↓</p>
+          </div>
+        </div>
+      </div>
+      <canvas class="hero-noise" aria-hidden="true"></canvas>
+    </div>
+  </section>
+
+  <!-- Infinite text loop. site.js clones the group so it scrolls seamlessly. -->
+  <div class="marquee" aria-label="Our services">
+    <div class="marquee-track" id="marquee-track">
+      <ul class="marquee-group">
+        <li>AI Search Visibility</li>
+        <li>Web Design &amp; Development</li>
+        <li>SEO &amp; Growth</li>
+        <li>Branding &amp; Strategy</li>
+        <li>Social Media Marketing</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===== Overview — bento grid ===== -->
+  <section class="why" id="why" data-lens>
+    <div class="svc-intro">
+      <span class="svc-badge">Squarezix · Dubai design &amp; growth studio</span>
+      <h2 class="svc-heading" data-reveal>All your <em>design</em> needs.</h2>
+      <p class="svc-sub" data-reveal>From first sketch to final launch, one team carries the work through, no handoffs, no lost context.</p>
+    </div>
+
+    <div class="bento-panel">
+      <div class="bento">
+        <!-- A: Strategy -->
+        <article class="bento-card b-strategy">
+          <img class="b-logo" src="assets/bento/logo-small.png" alt="Squarezix" width="58" height="59" />
+          <h3 class="b-grad-title">Strategy<br />Design.<br />Growth</h3>
+          <p>Helping ambitious businesses across GCC and Asia build digital experiences that drive measurable business results.</p>
+        </article>
+
+        <!-- B: Headline card (the sticker disc cuts into its bottom edge) -->
+        <article class="bento-card b-hero">
+          <h3>Digital Experiences<br />Built for Growth</h3>
+        </article>
+
+        <!-- C: Design tool illustration -->
+        <article class="bento-card b-tool">
+          <img src="assets/bento/design-tool.png" alt="" loading="lazy" />
+        </article>
+
+        <!-- D: Projects -->
+        <article class="bento-card b-projects">
+          <h3 class="b-grad-title">Successful<br />Projects</h3>
+          <span class="b-bracket">120+ Projects Delivered</span>
+        </article>
+
+        <!-- E: Laptop -->
+        <article class="bento-card b-laptop">
+          <img src="assets/bento/laptop.png" alt="" loading="lazy" />
+        </article>
+
+        <!-- F: Contact -->
+        <article class="bento-card b-contact">
+          <a href="#contact" class="btn-contact btn-contact--xl">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.18 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.1 9.9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+              <path d="M15 2.5a6 6 0 0 1 6.5 6.5M15 6a2.5 2.5 0 0 1 3 3" />
+            </svg>
+            Contact us
+          </a>
+        </article>
+
+        <!-- G: End-to-end -->
+        <article class="bento-card b-expertise">
+          <div class="b-vline" aria-hidden="true">
+            <img class="b-vline-track" src="assets/bento/connector-v.png" alt="" />
+            <img class="b-vline-icon" src="assets/bento/icon-branch.png" alt="" />
+            <span class="b-pulse b-pulse--v"></span>
+          </div>
+          <div class="b-expertise-copy">
+            <h3>End-to-End Digital<br />Expertise</h3>
+            <p>Branding, website design, development, SEO, AI search optimisation, and growth marketing all under one roof.</p>
+          </div>
+        </article>
+
+        <!-- H: Everything your business needs -->
+        <article class="bento-card b-grow">
+          <!-- Connector redrawn as SVG (the exported PNG had a static glow baked in);
+               a single spark travels along the rail -->
+          <svg class="b-hline" viewBox="0 0 217 114" aria-hidden="true">
+            <defs>
+              <filter id="spark-glow" x="-200%" y="-400%" width="500%" height="900%">
+                <feGaussianBlur stdDeviation="3.5" result="b" />
+                <feMerge><feMergeNode in="b" /><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+              </filter>
+            </defs>
+            <path id="rail" class="b-rail" d="M0 90 H86 Q96 90 101 81 L126 36 Q131 27 141 27 H180" />
+            <circle cx="187" cy="27" r="8" fill="#6f6b86" />
+            <circle cx="187" cy="27" r="4.5" fill="#ff9a5c" />
+            <rect class="b-spark" x="-13" y="-2.5" width="26" height="5" rx="2.5" filter="url(#spark-glow)">
+              <animateMotion dur="3.4s" repeatCount="indefinite" rotate="auto" keyPoints="0;1" keyTimes="0;1" calcMode="spline" keySplines="0.6 0 0.4 1">
+                <mpath href="#rail" />
+              </animateMotion>
+              <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.15;0.8;1" dur="3.4s" repeatCount="indefinite" />
+            </rect>
+          </svg>
+          <div class="b-grow-title">
+            <h3>Everything Your Business</h3>
+            <p>Needs to Grow</p>
+          </div>
+          <ul class="b-tags" aria-label="Services">
+            <li class="b-tag t-ecom">E-commerce Solutions</li>
+            <li class="b-tag t-brand">✓ Brand Strategy &amp; Identity</li>
+            <li class="b-tag t-seo"><i class="dot dot--purple"></i>SEO <i class="dot dot--orange"></i>LOCAL SEO <i class="dot dot--blue"></i>AI SEO</li>
+            <li class="b-tag t-web"><i class="dot dot--blue"></i>Website Design &amp; Development</li>
+            <li class="b-float t-gift" aria-hidden="true"><img src="assets/bento/icon-gift.png" alt="" /></li>
+            <li class="b-float t-camera" aria-hidden="true"><img src="assets/bento/icon-camera.png" alt="" /></li>
+            <li class="b-float t-toggle" aria-hidden="true"><img src="assets/bento/toggle-pill.png" alt="" /></li>
+          </ul>
+        </article>
+
+        <!-- Centre sticker: a disc in the panel colour "cuts" the three cards around it -->
+        <div class="b-disc" aria-hidden="true">
+          <img class="b-sticker" src="assets/bento/sticker.png" alt="" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Featured on — logo loop ===== -->
+  <section class="partners" id="partners" aria-label="Featured on" data-lens>
+    <p class="partners-label">Our designs are featured on:</p>
+    <div class="partners-row">
+      <div class="partners-track" id="partners-track">
+        <ul class="partners-group">
+          <li><img src="assets/partners/shopify.png" alt="Shopify" /></li>
+          <li><img src="assets/partners/shopify.png" alt="Shopify" /></li>
+          <li><img src="assets/partners/shopify.png" alt="Shopify" /></li>
+          <li><img src="assets/partners/shopify.png" alt="Shopify" /></li>
+          <li><img src="assets/partners/shopify.png" alt="Shopify" /></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Selected work — cards + crossing ribbons ===== -->
+  <section class="work" id="work" data-lens>
+    <div class="work-head">
+      <div>
+        <span class="svc-badge work-badge">SELECTED WORK — WEB &amp; UX</span>
+        <h2><em>Websites</em> we've<br />built to perform</h2>
+      </div>
+      <div class="work-aside">
+        <p>Live sites and products,<br />designed, built and shipped.</p>
+        <a href="#contact" class="btn-contact btn-contact--xl">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.18 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.1 9.9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" /><path d="M15 2.5a6 6 0 0 1 6.5 6.5M15 6a2.5 2.5 0 0 1 3 3" /></svg>
+          Contact us
+        </a>
+      </div>
+    </div>
+
+    <div class="work-stage">
+      <ul class="work-cards">
+        <li><a class="work-card" href="#">
+          <div class="wc-top">
+            <span class="wc-num">01</span>
+            <span class="wc-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+            <h3>Website Design &amp; Development</h3>
+            <p>Custom-built sites designed around conversion and engineered for speed, structure and search.</p>
+          </div>
+          <div class="wc-media"><img src="assets/work/project-1.png" alt="Digital Stream website" loading="lazy" /></div>
+        </a></li>
+        <li><a class="work-card" href="#">
+          <div class="wc-top">
+            <span class="wc-num">02</span>
+            <span class="wc-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+            <h3>Product listing or cart screen</h3>
+            <p>Storefronts built on headless architecture: fast browsing, flexible content and a checkout with no friction.</p>
+          </div>
+          <div class="wc-media"><img src="assets/work/project-2.png" alt="Hero Gradients storefront" loading="lazy" /></div>
+        </a></li>
+        <li><a class="work-card" href="#">
+          <div class="wc-top">
+            <span class="wc-num">03</span>
+            <span class="wc-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+            <h3>Dashboard or app screen</h3>
+            <p>Complex products made usable. Dashboards, portals and internal tools designed for clarity and built to scale.</p>
+          </div>
+          <div class="wc-media"><img src="assets/work/project-3.png" alt="Lissr.ai product site" loading="lazy" /></div>
+        </a></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== Services ===== -->
+  <section class="services" id="services" data-lens>
+    <div class="svc-intro">
+      <span class="svc-badge">All your growth needs.</span>
+      <!-- Words light up one by one as the section scrolls into view (services.js) -->
+      <h2 class="svc-heading" data-reveal>All your <em>growth</em> needs.</h2>
+      <p class="svc-sub" data-reveal>One partner, four disciplines — everything a growing brand needs, without juggling five different vendors.</p>
+    </div>
+
+    <div class="chip-rows" aria-label="What we build">
+      <div class="chip-row">
+        <div class="chip-track">
+          <ul class="chip-group">
+            <li class="chip"><svg viewBox="0 0 24 24"><path d="m21.64 3.64-1.28-1.28a1.2 1.2 0 0 0-1.72 0L2.36 18.64a1.2 1.2 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72M14 7l3 3M5 6v4M19 14v4M10 2v2M7 8H3M21 16h-4M11 3H9"/></svg>Logos</li>
+            <li class="chip"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Landing Pages</li>
+            <li class="chip"><svg viewBox="0 0 24 24"><path d="M18 5a2 2 0 0 1 2 2v8.5H4V7a2 2 0 0 1 2-2zM2 19h20"/></svg>Websites</li>
+            <li class="chip"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 9a4 4 0 0 0 8 0"/></svg>Digital Products</li>
+          </ul>
+        </div>
+      </div>
+      <div class="chip-row chip-row--reverse">
+        <div class="chip-track">
+          <ul class="chip-group">
+            <li class="chip"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>Landing Pages</li>
+            <li class="chip"><svg viewBox="0 0 24 24"><path d="M18 5a2 2 0 0 1 2 2v8.5H4V7a2 2 0 0 1 2-2zM2 19h20"/></svg>Websites</li>
+            <li class="chip"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 9a4 4 0 0 0 8 0"/></svg>Digital Products</li>
+            <li class="chip"><svg viewBox="0 0 24 24"><path d="m21.64 3.64-1.28-1.28a1.2 1.2 0 0 0-1.72 0L2.36 18.64a1.2 1.2 0 0 0 0 1.72l1.28 1.28a1.2 1.2 0 0 0 1.72 0L21.64 5.36a1.2 1.2 0 0 0 0-1.72M14 7l3 3M5 6v4M19 14v4M10 2v2M7 8H3M21 16h-4M11 3H9"/></svg>Logos</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="svc-cta">
+      <a href="#contact" class="btn-contact btn-contact--xl">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.18 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.1 9.9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />
+          <path d="M15 2.5a6 6 0 0 1 6.5 6.5M15 6a2.5 2.5 0 0 1 3 3" />
+        </svg>
+        Contact us
+      </a>
+    </div>
+
+    <!-- Each card is a real 3D fold (services.js): on hover the image panel hinges up from
+         the crease, the title panel tips back, and the card twists toward the cursor -->
+    <ul class="svc-list">
+      <li><a class="svc-card" href="#">
+        <div class="svc-fold">
+          <div class="svc-top"><img src="assets/services/branding.png" alt="" loading="lazy" /><span class="svc-sheen"></span></div>
+          <div class="svc-front">
+            <h3>BRANDING</h3>
+            <img class="svc-thumb" src="assets/services/branding-thumb.png" alt="" loading="lazy" />
+            <span class="svc-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M17 17 7 7M7 16V7h9"/></svg></span>
+          </div>
+        </div>
+      </a></li>
+      <li><a class="svc-card" href="#">
+        <div class="svc-fold">
+          <div class="svc-top"><img src="assets/services/marketing.png" alt="" loading="lazy" /><span class="svc-sheen"></span></div>
+          <div class="svc-front">
+            <h3>MARKETING</h3>
+            <img class="svc-thumb" src="assets/services/marketing-thumb.png" alt="" loading="lazy" />
+            <span class="svc-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M17 17 7 7M7 16V7h9"/></svg></span>
+          </div>
+        </div>
+      </a></li>
+      <li><a class="svc-card" href="#">
+        <div class="svc-fold">
+          <div class="svc-top"><img src="assets/services/social.png" alt="" loading="lazy" /><span class="svc-sheen"></span></div>
+          <div class="svc-front">
+            <h3>SOCIAL MEDIA MARKETING</h3>
+            <img class="svc-thumb" src="assets/services/social-thumb.png" alt="" loading="lazy" />
+            <span class="svc-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M17 17 7 7M7 16V7h9"/></svg></span>
+          </div>
+        </div>
+      </a></li>
+      <li><a class="svc-card" href="#">
+        <div class="svc-fold">
+          <div class="svc-top"><img src="assets/services/uxui.png" alt="" loading="lazy" /><span class="svc-sheen"></span></div>
+          <div class="svc-front">
+            <h3>UX/UI DESIGNING</h3>
+            <img class="svc-thumb" src="assets/services/uxui-thumb.png" alt="" loading="lazy" />
+            <span class="svc-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M17 17 7 7M7 16V7h9"/></svg></span>
+          </div>
+        </div>
+      </a></li>
+      <li><a class="svc-card" href="#">
+        <div class="svc-fold">
+          <div class="svc-top"><img src="assets/services/ai.png" alt="" loading="lazy" /><span class="svc-sheen"></span></div>
+          <div class="svc-front">
+            <h3>AI &amp; Intelligence</h3>
+            <img class="svc-thumb" src="assets/services/ai-thumb.png" alt="" loading="lazy" />
+            <span class="svc-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M17 17 7 7M7 16V7h9"/></svg></span>
+          </div>
+        </div>
+      </a></li>
+    </ul>
+  </section>
+
+  <!-- ===== Why us — "More than an agency" =====
+       Horizontal scroll: the section pins, the intro holds on the left and the six cards
+       glide sideways while a line across their tops fills and each dot lights up
+       (same card language as "How We Work" on the About page). whyus.js drives it;
+       phones get a native swipe strip instead. -->
+  <section class="why-us wu-h" id="why-us" data-lens>
+    <div class="wu-pin">
+      <div class="wu-intro">
+        <span class="svc-badge">Why SquareZix</span>
+        <h2 class="wu-heading">
+          <span class="wu-line1">More than an <em>agency.</em></span>
+          <span class="wu-line2">A growth partner built for what's next.</span>
+        </h2>
+        <p class="wu-sub">Four disciplines working as one system — brand, digital experience, growth, and AI&nbsp; so nothing gets stitched together after the fact.</p>
+        <a href="#contact" class="btn-contact btn-contact--xl wu-cta">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.18 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.1 9.9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" /><path d="M15 2.5a6 6 0 0 1 6.5 6.5M15 6a2.5 2.5 0 0 1 3 3" /></svg>
+          Contact us
+        </a>
+        <p class="wu-count" aria-hidden="true"><span class="wu-count-now">01</span> / 06<i class="wu-count-bar"><b></b></i></p>
+      </div>
+
+      <div class="wu-rail" id="wu-rail">
+        <!-- Icons are the exported Figma SVGs, inlined so their layers can animate -->
+        <div class="wu-move" id="wu-move">
+          <div class="wu-line" aria-hidden="true"><b></b></div>
+          <ol class="wu-track">
+            <li class="wu-card">
+              <div class="wu-card-top">
+                <span class="wu-num">01</span>
+                <svg class="wu-icon i-chip" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <path d="M18.9667 39.6663H28.3667C36.2 39.6663 39.3333 36.533 39.3333 28.6997V19.2997C39.3333 11.4663 36.2 8.33301 28.3667 8.33301H18.9667C11.1333 8.33301 8 11.4663 8 19.2997V28.6997C8 36.533 11.1333 39.6663 18.9667 39.6663Z" stroke="white" stroke-width="2.9375" stroke-linecap="round" stroke-linejoin="round"/>
+              <path class="core" opacity="0.4" d="M20.7292 33.7913H26.6042C31.5 33.7913 33.4583 31.833 33.4583 26.9372V21.0622C33.4583 16.1663 31.5 14.208 26.6042 14.208H20.7292C15.8333 14.208 13.875 16.1663 13.875 21.0622V26.9372C13.875 31.833 15.8333 33.7913 20.7292 33.7913Z" stroke="url(#wu-g0)" stroke-width="2.9375" stroke-linecap="round" stroke-linejoin="round"/>
+              <g class="pins" stroke="white" stroke-width="2.9375" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15.8438 8.33366V4.41699"/><path d="M23.6641 8.33366V4.41699"/><path d="M31.5 8.33366V4.41699"/>
+                <path d="M39.3281 16.167H43.2448"/><path d="M39.3281 24H43.2448"/><path d="M39.3281 31.833H43.2448"/>
+                <path d="M31.5 39.667V43.5837"/><path d="M23.6797 39.667V43.5837"/><path d="M15.8438 39.667V43.5837"/>
+                <path d="M4.07812 16.167H7.99479"/><path d="M4.07812 24H7.99479"/><path d="M4.07812 31.833H7.99479"/>
+              </g>
+              <defs><linearGradient id="wu-g0" x1="23.6667" y1="14.208" x2="23.6667" y2="33.7913" gradientUnits="userSpaceOnUse"><stop stop-color="#7E5EFF"/><stop offset="1" stop-color="#D35CFF"/></linearGradient></defs>
+            </svg>
+              </div>
+              <h3>Structured Process</h3>
+              <p>Every project follows:<br />Discover → Design → Build → Grow</p>
+            </li>
+            <li class="wu-card">
+              <div class="wu-card-top">
+                <span class="wu-num">02</span>
+                <svg class="wu-icon i-bolt" viewBox="0 0 48 47" fill="none" aria-hidden="true">
+              <path class="bolt" d="M18.748 26.0076H24.7991V40.1076C24.7991 42.1834 27.3841 43.1626 28.755 41.5959L43.5796 24.7542C44.8721 23.2855 43.8341 20.9942 41.8758 20.9942H35.8246V6.89419C35.8246 4.81836 33.2396 3.83919 31.8687 5.40586L17.0442 22.2476C15.7713 23.7163 16.8092 26.0076 18.748 26.0076Z" stroke="white" stroke-width="2.9375" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+              <path class="speed" opacity="0.4" d="M15.1875 37.6982C15.9987 37.6982 16.6562 38.3558 16.6562 39.167C16.6562 39.9782 15.9987 40.6357 15.1875 40.6357H3.4375C2.62633 40.6357 1.96875 39.9782 1.96875 39.167C1.96875 38.3558 2.62633 37.6982 3.4375 37.6982H15.1875ZM9.3125 22.0312C10.1237 22.0312 10.7812 22.6888 10.7812 23.5C10.7812 24.3112 10.1237 24.9688 9.3125 24.9688H3.4375C2.62633 24.9688 1.96875 24.3112 1.96875 23.5C1.96875 22.6888 2.62633 22.0312 3.4375 22.0312H9.3125ZM17.1455 6.36426C17.9567 6.36426 18.6143 7.02184 18.6143 7.83301C18.6143 8.64418 17.9567 9.30176 17.1455 9.30176H3.4375C2.62633 9.30176 1.96875 8.64418 1.96875 7.83301C1.96875 7.02184 2.62633 6.36426 3.4375 6.36426H17.1455Z" fill="url(#wu-g1)"/>
+              <defs><linearGradient id="wu-g1" x1="10.2915" y1="6.36426" x2="10.2915" y2="40.6357" gradientUnits="userSpaceOnUse"><stop stop-color="#7E5EFF"/><stop offset="1" stop-color="#D35CFF"/></linearGradient></defs>
+            </svg>
+              </div>
+              <h3>Clear Timelines</h3>
+              <p>A roadmap you sign off on before<br />we build</p>
+            </li>
+            <li class="wu-card">
+              <div class="wu-card-top">
+                <span class="wu-num">03</span>
+                <svg class="wu-icon i-link" viewBox="0 0 48 47" fill="none" aria-hidden="true">
+              <path class="link-r" d="M30.1875 34.2712H33.1446C39.0588 34.2712 43.9154 29.4341 43.9154 23.5003C43.9154 17.5862 39.0783 12.7295 33.1446 12.7295H30.1875" stroke="white" stroke-width="2.9375" stroke-linecap="round" stroke-linejoin="round"/>
+              <path class="link-l" d="M18.4505 12.7295H15.513C9.57927 12.7295 4.74219 17.5666 4.74219 23.5003C4.74219 29.4145 9.57927 34.2712 15.513 34.2712H18.4505" stroke="white" stroke-width="2.9375" stroke-linecap="round" stroke-linejoin="round"/>
+              <path class="link-bar" opacity="0.4" d="M32.1592 22.0312C32.9702 22.0314 33.6279 22.6889 33.6279 23.5C33.6279 24.3111 32.9702 24.9686 32.1592 24.9688H16.4922C15.681 24.9688 15.0234 24.3112 15.0234 23.5C15.0234 22.6888 15.681 22.0312 16.4922 22.0312H32.1592Z" fill="url(#wu-g2)"/>
+              <defs><linearGradient id="wu-g2" x1="15" y1="23.5" x2="33.6" y2="23.5" gradientUnits="userSpaceOnUse"><stop stop-color="#7E5EFF"/><stop offset="1" stop-color="#D35CFF"/></linearGradient></defs>
+            </svg>
+              </div>
+              <h3>Never Templated</h3>
+              <p>Real strategy behind every deliverable</p>
+            </li>
+            <li class="wu-card">
+              <div class="wu-card-top">
+                <span class="wu-num">04</span>
+                <svg class="wu-icon i-swap" viewBox="0 0 48 47" fill="none" aria-hidden="true">
+              <path d="M17.7865 43.0837H29.5365C39.3281 43.0837 43.2448 39.167 43.2448 29.3753V17.6253C43.2448 7.83366 39.3281 3.91699 29.5365 3.91699H17.7865C7.9948 3.91699 4.07812 7.83366 4.07812 17.6253V29.3753C4.07812 39.167 7.9948 43.0837 17.7865 43.0837Z" stroke="white" stroke-width="2.9375" stroke-linecap="round" stroke-linejoin="round"/>
+              <path class="arrows" opacity="0.4" d="M33.8467 25.6004C33.862 25.6014 33.8773 25.6019 33.8926 25.6034C34.64 25.6719 35.2256 26.2999 35.2256 27.0653C35.2255 27.5044 35.0311 27.8967 34.7256 28.1659L28.835 34.0575C28.2615 34.6305 27.3323 34.6305 26.7588 34.0575C26.1852 33.4839 26.1853 32.5539 26.7588 31.9803L30.2051 28.534H13.5859C12.7748 28.534 12.1173 27.8764 12.1172 27.0653C12.1172 26.2541 12.7748 25.5965 13.5859 25.5965H33.7568C33.787 25.5965 33.8169 25.5986 33.8467 25.6004ZM18.501 12.9452C19.0746 12.3719 20.0047 12.3727 20.5781 12.9461C21.1513 13.5198 21.1516 14.4498 20.5781 15.0233L17.1318 18.4686H33.7568C34.568 18.4686 35.2256 19.1262 35.2256 19.9373C35.2255 20.7484 34.5679 21.406 33.7568 21.4061H13.5859L13.585 21.4051C13.5357 21.4051 13.4865 21.4032 13.4375 21.3983C13.4309 21.3976 13.4245 21.3961 13.418 21.3954C13.3278 21.3851 13.2387 21.3666 13.1514 21.3397C13.1448 21.3376 13.1384 21.335 13.1318 21.3329C13.0934 21.3204 13.0551 21.3075 13.0176 21.2918C13.0095 21.2885 13.0021 21.2836 12.9941 21.2801C12.8322 21.2089 12.6795 21.109 12.5469 20.9764C12.418 20.8475 12.3199 20.6996 12.249 20.5428C12.2427 20.5288 12.2354 20.5151 12.2295 20.5008C12.1175 20.2305 12.089 19.9338 12.1455 19.6502C12.1497 19.6292 12.1551 19.6085 12.1602 19.5877C12.1668 19.5606 12.1734 19.5335 12.1816 19.5067C12.1875 19.4875 12.1946 19.4688 12.2012 19.45C12.2098 19.4256 12.2176 19.4008 12.2275 19.3768C12.2374 19.3529 12.2487 19.3297 12.2598 19.3065C12.2699 19.2853 12.2798 19.2638 12.291 19.243C12.3033 19.2202 12.3177 19.1987 12.3311 19.1766C12.3414 19.1596 12.3502 19.1415 12.3613 19.1248C12.4157 19.0431 12.4786 18.9674 12.5479 18.8983L18.501 12.9452Z" fill="url(#wu-g3)"/>
+              <defs><linearGradient id="wu-g3" x1="23.6714" y1="12.5156" x2="23.6714" y2="34.4873" gradientUnits="userSpaceOnUse"><stop stop-color="#7E5EFF"/><stop offset="1" stop-color="#D35CFF"/></linearGradient></defs>
+            </svg>
+              </div>
+              <h3>Transparent Pricing</h3>
+              <p>Scope and cost agreed<br />upfront</p>
+            </li>
+            <li class="wu-card">
+              <div class="wu-card-top">
+                <span class="wu-num">05</span>
+                <svg class="wu-icon i-stack" viewBox="0 0 48 47" fill="none" aria-hidden="true">
+              <path class="back" opacity="0.4" d="M23.9974 33.2917V37.9525C23.9974 41.6146 22.5286 43.0833 18.847 43.0833H9.5449C5.88281 43.0833 4.41406 41.6146 4.41406 37.9525V28.6504C4.41406 24.9688 5.88281 23.5 9.5449 23.5H14.2057V28.1412C14.2057 31.8229 15.6745 33.2917 19.3366 33.2917H23.9974Z" stroke="url(#wu-g4)" stroke-width="2.9375" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M33.7943 23.4997V28.1409C33.7943 31.8226 32.3255 33.2913 28.6439 33.2913H19.3418C15.6797 33.2913 14.2109 31.8226 14.2109 28.1409V18.8388C14.2109 15.1768 15.6797 13.708 19.3418 13.708H24.0026V18.3493C24.0026 22.0309 25.4714 23.4997 29.1334 23.4997H33.7943Z" stroke="white" stroke-width="2.9375" stroke-linecap="round" stroke-linejoin="round"/>
+              <path class="front" d="M43.5833 9.04783V18.3499C43.5833 22.0316 42.1146 23.5003 38.4329 23.5003H29.1308C25.4687 23.5003 24 22.0316 24 18.3499V9.04783C24 5.38574 25.4687 3.91699 29.1308 3.91699H38.4329C42.1146 3.91699 43.5833 5.38574 43.5833 9.04783Z" stroke="white" stroke-width="2.9375" stroke-linecap="round" stroke-linejoin="round"/>
+              <defs><linearGradient id="wu-g4" x1="14.2057" y1="23.5" x2="14.2057" y2="43.0833" gradientUnits="userSpaceOnUse"><stop stop-color="#7E5EFF"/><stop offset="1" stop-color="#D35CFF"/></linearGradient></defs>
+            </svg>
+              </div>
+              <h3>One Point of Contact</h3>
+              <p>One team, one strategy, one place<br />the buck stops</p>
+            </li>
+            <li class="wu-card">
+              <div class="wu-card-top">
+                <span class="wu-num">06</span>
+                <svg class="wu-icon i-card" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+              <path class="back" opacity="0.4" d="M43.9089 13.6796V27.3683C43.9089 32.6558 42.6751 34.3596 38.0339 34.6338V20.6317C38.0339 14.7958 36.5455 13.3271 30.6314 13.3271H12.1447C11.5964 13.3271 11.0872 13.3467 10.6172 13.3663C10.6759 7.785 12.2035 6.375 18.0197 6.375H36.5064C42.4205 6.375 43.9089 7.84375 43.9089 13.6796Z" stroke="url(#wu-g5)" stroke-width="2.9375" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4.74219 25.1953H38.0339" stroke="white" stroke-width="2.9375" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M38.0339 20.6317V34.6339C37.9751 40.2151 36.4476 41.6251 30.6314 41.6251H12.1447C6.23058 41.6251 4.74219 40.1563 4.74219 34.3205V20.6317C4.74219 15.3442 5.97594 13.6405 10.6172 13.3663C11.0872 13.3468 11.5964 13.3271 12.1447 13.3271H30.6314C36.5455 13.3271 38.0339 14.7959 38.0339 20.6317Z" stroke="white" stroke-width="2.9375" stroke-linecap="round" stroke-linejoin="round"/>
+              <path class="digits" opacity="0.4" d="M14.4775 33.9102C15.2887 33.9102 15.9463 34.5677 15.9463 35.3789C15.9463 36.1901 15.2887 36.8477 14.4775 36.8477H11.1094C10.2982 36.8477 9.64062 36.1901 9.64062 35.3789C9.64062 34.5677 10.2982 33.9102 11.1094 33.9102H14.4775ZM25.4004 33.9102C26.2116 33.9102 26.8691 34.5677 26.8691 35.3789C26.8691 36.1901 26.2116 36.8477 25.4004 36.8477H18.6641C17.8529 36.8477 17.1953 36.1901 17.1953 35.3789C17.1953 34.5677 17.8529 33.9102 18.6641 33.9102H25.4004Z" fill="url(#wu-g6)"/>
+              <defs>
+                <radialGradient id="wu-g5" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(27.263 36.6269) rotate(-90) scale(21.1051 17.7536)"><stop stop-color="#BBA5F4"/><stop offset="1" stop-color="#653AD8"/></radialGradient>
+                <linearGradient id="wu-g6" x1="18.2549" y1="33.9102" x2="18.2549" y2="36.8477" gradientUnits="userSpaceOnUse"><stop stop-color="#7E5EFF"/><stop offset="1" stop-color="#D35CFF"/></linearGradient>
+              </defs>
+            </svg>
+              </div>
+              <h3>Built to Scale</h3>
+              <p>From Dubai to GCC to global<br />markets</p>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Blog — "What we're thinking about." (Blog Section.pdf) ===== -->
+  <section class="blog" id="blog" aria-labelledby="blog-title" data-lens>
+    <div class="blog-head">
+      <span class="blog-badge">Our Blogs</span>
+      <h2 id="blog-title">What we're <em>thinking</em> about.</h2>
+      <p>Perspectives on AI, growth, and the platforms shaping how brands get discovered.</p>
+    </div>
+    <ul class="blog-list">
+      <li>
+        <a class="blog-card" href="https://squarezix.com/blogs/">
+          <div class="blog-media"><img src="assets/blog/ai-workplace.jpg" alt="Illustrated team of three posing in front of a pink city skyline" loading="lazy" /></div>
+          <div class="blog-body">
+            <div class="blog-meta">
+              <time datetime="2025-08-25">August 25, 2025</time>
+              <span class="blog-tag">Artificial Intelligence</span>
+            </div>
+            <h3>AI in the Modern Workplace: A Guide for Businesses</h3>
+            <p>Explore how artificial intelligence is transforming business operations</p>
+            <span class="blog-more">Read more <i class="blog-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i></span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a class="blog-card" href="https://squarezix.com/blogs/">
+          <div class="blog-media"><img src="assets/blog/ai-search.jpg" alt="Isometric 3D kiosk with a striped awning and shelves of products" loading="lazy" /></div>
+          <div class="blog-body">
+            <div class="blog-meta">
+              <time datetime="2025-08-25">August 25, 2025</time>
+              <span class="blog-tag">AI &amp; Search</span>
+            </div>
+            <h3>How AI Is Changing Search Visibility</h3>
+            <p>Why ranking on Google isn’t enough anymore, and what showing up in AI answers actually takes.</p>
+            <span class="blog-more">Read more <i class="blog-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i></span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a class="blog-card" href="https://squarezix.com/blogs/">
+          <div class="blog-media"><img src="assets/blog/gcc-growth.jpg" alt="Studio lounge with orange chairs beneath a “Define. Design. Build. Market.” wall" loading="lazy" /></div>
+          <div class="blog-body">
+            <div class="blog-meta">
+              <time datetime="2025-08-25">August 25, 2025</time>
+              <span class="blog-tag">Reports</span>
+            </div>
+            <h3>Digital Growth in the GCC</h3>
+            <p>What’s actually driving results for brands scaling across Dubai, the wider GCC, and beyond.</p>
+            <span class="blog-more">Read more <i class="blog-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i></span>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ===== Social media samples — endless reel of phone mockups ===== -->
+  <section class="reels" id="reels" data-lens>
+    <div class="reels-head">
+      <div class="reveal-scope">
+        <span class="svc-badge">CREATIVE CAMPAIGNS</span>
+        <h2 data-reveal>Social Media<br /><em>Marketing</em> samples</h2>
+      </div>
+      <div class="reels-aside">
+        <p>Real products, shipped not<br />just concepts.</p>
+        <a href="#contact" class="btn-contact btn-contact--xl">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.18 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.1 9.9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" /><path d="M15 2.5a6 6 0 0 1 6.5 6.5M15 6a2.5 2.5 0 0 1 3 3" /></svg>
+          Contact us
+        </a>
+      </div>
+    </div>
+
+    <!-- One group of 5 phones; sections.js clones it so the row loops without a seam
+         (same as the Figma "reels scroll" variants: after delay → smart animate, 10s) -->
+    <div class="reels-row" aria-label="Social media reel samples">
+      <div class="reels-track" id="reels-track">
+        <ul class="reels-group">
+          <li class="reel">
+            <div class="phone"><div class="phone-screen">
+              <video src="assets/reels/reel-3.mp4" poster="assets/reels/reel-3.jpg" muted loop playsinline preload="none"></video>
+            </div></div>
+            <span class="reel-tag">#brand_Reel</span>
+          </li>
+          <li class="reel">
+            <div class="phone"><div class="phone-screen">
+              <video src="assets/reels/reel-5.mp4" poster="assets/reels/reel-5.jpg" muted loop playsinline preload="none"></video>
+            </div></div>
+            <span class="reel-tag">#IQ_Reel</span>
+          </li>
+          <li class="reel">
+            <div class="phone"><div class="phone-screen">
+              <video src="assets/reels/reel-4.mp4" poster="assets/reels/reel-4.jpg" muted loop playsinline preload="none"></video>
+            </div></div>
+            <span class="reel-tag">#Product_Reel</span>
+          </li>
+          <li class="reel">
+            <div class="phone"><div class="phone-screen">
+              <video src="assets/reels/reel-1.mp4" poster="assets/reels/reel-1.jpg" muted loop playsinline preload="none"></video>
+            </div></div>
+            <span class="reel-tag">#Trending_Reel</span>
+          </li>
+          <li class="reel">
+            <div class="phone"><div class="phone-screen">
+              <video src="assets/reels/reel-2.mp4" poster="assets/reels/reel-2.jpg" muted loop playsinline preload="none"></video>
+            </div></div>
+            <span class="reel-tag">#branding_Reel</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Our work flow — HIDDEN FOR NOW =====
+       Wrapped in <template> so it isn't rendered, run or downloaded.
+       To bring it back, delete the <template> and </template> lines around it. -->
+  <template id="workflow-parked">
+  <section class="workflow" id="workflow">
+    <div class="wf-wrap">
+      <div class="wf-intro">
+        <span class="svc-badge">Our work flow</span>
+        <h2>From <em>opportunity</em><br />to outcome.</h2>
+        <p>A process built to survive contact with a real business — not a slide that only works in a pitch deck.</p>
+        <a href="#contact" class="btn-contact btn-contact--xl wf-cta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.18 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.1 9.9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" /><path d="M15 2.5a6 6 0 0 1 6.5 6.5M15 6a2.5 2.5 0 0 1 3 3" /></svg>
+          Contact us
+        </a>
+      </div>
+
+      <ol class="wf-steps" id="wf-steps">
+        <li class="wf-step is-active">
+          <button class="wf-head" aria-expanded="true" aria-controls="wf-p1">
+            <span class="wf-num">// 01</span><span class="wf-title">Discover</span><span class="wf-tag">AUDIT</span>
+          </button>
+          <div class="wf-panel" id="wf-p1"><div><p>A deep audit of where things stand today — technical foundation, existing content, and the gaps between what's live and what's working.</p></div></div>
+          <span class="wf-progress" aria-hidden="true"></span>
+        </li>
+        <li class="wf-step">
+          <button class="wf-head" aria-expanded="false" aria-controls="wf-p2">
+            <span class="wf-num">// 02</span><span class="wf-title">Design</span><span class="wf-tag">BLUEPRINT</span>
+          </button>
+          <div class="wf-panel" id="wf-p2"><div><p>Strategy turned into structure — sitemaps, wireframes and a visual system you sign off on before a single line of code is written.</p></div></div>
+          <span class="wf-progress" aria-hidden="true"></span>
+        </li>
+        <li class="wf-step">
+          <button class="wf-head" aria-expanded="false" aria-controls="wf-p3">
+            <span class="wf-num">// 03</span><span class="wf-title">Build</span><span class="wf-tag">ENGINEER</span>
+          </button>
+          <div class="wf-panel" id="wf-p3"><div><p>Fast, accessible builds on the right stack — tested across devices and wired for search, analytics and conversion from day one.</p></div></div>
+          <span class="wf-progress" aria-hidden="true"></span>
+        </li>
+        <li class="wf-step">
+          <button class="wf-head" aria-expanded="false" aria-controls="wf-p4">
+            <span class="wf-num">// 04</span><span class="wf-title">Grow</span><span class="wf-tag">SCALE</span>
+          </button>
+          <div class="wf-panel" id="wf-p4"><div><p>Launch is the starting line. SEO, AI search visibility and performance marketing that compound results month over month.</p></div></div>
+          <span class="wf-progress" aria-hidden="true"></span>
+        </li>
+      </ol>
+    </div>
+  </section>
+  </template>
+
+  <!-- ===== Where we show up — HIDDEN FOR NOW =====
+       Wrapped in <template> so it isn't rendered, run or downloaded.
+       To bring it back, delete the <template> and </template> lines around it. -->
+  <template id="wwsu-parked">
+  <section class="wwsu" id="social" aria-labelledby="wwsu-title">
+    <div class="wwsu-stage" id="wwsu-stage">
+      <div class="wwsu-3d">
+        <!-- Depth layers: bg (far) moves against the cursor, chips (near) move with it -->
+        <div class="wwsu-bg" aria-hidden="true"><img src="assets/social/stage-bg.jpg" alt="" /></div>
+        <div class="wwsu-light" aria-hidden="true"></div>
+
+        <div class="wwsu-head">
+          <span class="svc-badge wwsu-badge">WHERE WE SHOW UP</span>
+          <h2 id="wwsu-title">Across every <em>Creative</em> space.</h2>
+        </div>
+
+        <!-- TODO: replace "#" with the real Squarezix profile URLs -->
+        <!-- Desktop shows the designed glass cards (.chip-img), placed on the photo.
+             Phones show straight glass pills (.chip-pill) in a tidy grid.
+             Pill icons are the Figma exports, counter-rotated upright. -->
+        <ul class="wwsu-chips">
+          <li class="chip-fb" style="--x:222; --y:96;  --w:203"><a href="#" target="_blank" rel="noopener" aria-label="Squarezix on Facebook">
+            <img class="chip-img" src="assets/social/chip-facebook.png" alt="" />
+            <span class="chip-pill">Facebook<svg viewBox="0 0 32 32"><g transform="rotate(-26.5176 16 16)"><path d="M18.4158 9.80913C15.2462 8.22758 11.3617 9.52118 9.77154 12.7081C8.33378 15.5896 9.24969 19.0337 11.7887 20.8405L13.8016 16.8064L12.3378 16.076L13.1717 14.4047L14.6355 15.1351L15.271 13.8615C15.9928 12.4149 17.2483 12.0481 18.568 12.7066C19.1962 13.02 19.7985 13.4573 19.7985 13.4573L19.0883 14.8808L18.3621 14.5185C17.6475 14.1619 17.2014 14.4935 16.9742 14.9488L16.4336 16.0322L18.0357 16.8316L16.9425 18.3735L15.5997 17.7035L13.5868 21.7376C15.0518 22.2008 16.6342 22.1249 18.0482 21.5237C19.4622 20.9225 20.6146 19.8356 21.2976 18.4592C22.8877 15.2723 21.5855 11.3907 18.4158 9.80913Z"/></g></svg></span>
+          </a></li>
+          <li class="chip-dr" style="--x:72;  --y:344; --w:145"><a href="#" target="_blank" rel="noopener" aria-label="Squarezix on Dribbble">
+            <img class="chip-img" src="assets/social/chip-dribbble.png" alt="" />
+            <span class="chip-pill">Dribbble<svg viewBox="0 0 29 29"><g transform="rotate(5.3114 14.5 14.5)"><path d="M13.32 5.50787C8.56142 5.95027 5.06548 10.1629 5.50787 14.9215C5.95027 19.6801 10.1629 23.176 14.9215 22.7336C19.6801 22.2912 23.176 18.0786 22.7336 13.32C22.2912 8.56141 18.0786 5.06547 13.32 5.50787ZM21.0418 12.5651C19.797 12.413 18.3969 12.6156 16.9156 13.0356C16.625 12.4714 16.3034 11.9237 15.9523 11.395C18.0448 10.2303 19.26 8.97353 19.7072 8.41071C20.4189 9.52458 20.8783 10.8067 21.0418 12.5651ZM18.4402 7.63082C18.0256 8.15441 16.8748 9.32559 14.8859 10.4371C14.0215 9.31247 13.0375 8.28494 11.9514 7.37258C12.436 7.2117 12.9395 7.09972 13.4635 7.05101C15.3224 6.87819 17.068 7.43261 18.4402 7.63082ZM10.3354 7.97889C11.4176 8.86925 12.3934 9.88137 13.2438 10.9952C10.8717 12.0338 8.31502 12.4887 7.04663 12.6283C7.24505 11.6686 7.63959 10.7602 8.20553 9.96017C8.77147 9.1601 9.4966 8.48558 10.3354 7.97889ZM6.98429 14.0603C8.09545 13.9425 11.0971 13.4462 13.8918 12.2815C14.248 12.842 14.5833 13.4117 14.8971 13.9834C11.7158 15.3506 8.90059 18.0086 7.88352 19.1384C6.95589 17.619 6.63482 15.8058 6.98429 14.0603ZM9.24032 20.1054C10.129 19.0744 12.8185 16.544 15.8668 15.2253C16.6422 16.869 17.2462 18.6155 17.6124 20.2971C16.3752 21.1525 14.899 21.5946 13.3953 21.5601C11.8915 21.5257 10.4372 21.0165 9.24032 20.1054ZM19.119 20.4611C18.7412 18.8891 18.1674 17.2339 17.4359 15.6731C18.8115 15.2846 20.1059 15.1136 21.2835 15.243C21.2986 16.2145 21.1143 17.1788 20.742 18.0764C20.3697 18.9739 19.8173 19.7855 19.119 20.4611Z"/></g></svg></span>
+          </a></li>
+          <li class="chip-li" style="--x:296; --y:340; --w:203"><a href="https://www.linkedin.com/company/squarezix" target="_blank" rel="noopener" aria-label="Squarezix on LinkedIn">
+            <img class="chip-img" src="assets/social/chip-linkedin.png" alt="" />
+            <span class="chip-pill">LinkedIn<svg viewBox="0 0 28 28"><g transform="rotate(-11.4018 14 14)"><path d="M19.2242 8.86528C19.5591 8.93282 19.8534 9.13062 20.0425 9.41518C20.2315 9.69974 20.2998 10.0477 20.2323 10.3826L18.4498 19.2215C18.3822 19.5564 18.1844 19.8507 17.8999 20.0398C17.6153 20.2288 17.2673 20.2971 16.9324 20.2295L8.09356 18.447C7.75867 18.3795 7.46433 18.1817 7.27528 17.8971C7.08624 17.6126 7.01798 17.2646 7.08551 16.9297L8.86803 8.09082C8.93556 7.75593 9.13336 7.46159 9.41792 7.27254C9.70248 7.0835 10.0505 7.01523 10.3854 7.08277L19.2242 8.86528ZM16.935 18.5875L17.6099 15.2414C17.7199 14.6955 17.6087 14.1283 17.3005 13.6644C16.9924 13.2006 16.5126 12.8782 15.9667 12.7681C15.4301 12.6599 14.7389 12.8621 14.3617 13.2986L14.5031 12.5978L12.7416 12.2425L11.6759 17.5269L13.4374 17.8821L14.0651 14.7696C14.1631 14.2835 14.6348 13.9646 15.1209 14.0627C15.3553 14.11 15.5614 14.2484 15.6937 14.4476C15.826 14.6468 15.8738 14.8904 15.8265 15.1248L15.1988 18.2374L16.935 18.5875ZM10.8644 10.8324C11.1457 10.8892 11.438 10.8318 11.677 10.673C11.9161 10.5142 12.0822 10.267 12.1389 9.98566C12.2574 9.39851 11.8806 8.8232 11.2935 8.70479C11.0105 8.64772 10.7164 8.7054 10.476 8.86514C10.2355 9.02489 10.0684 9.27361 10.0113 9.55659C9.8929 10.1437 10.2772 10.714 10.8644 10.8324ZM10.4764 17.285L11.5421 12.0006L9.79323 11.6479L8.72754 16.9323L10.4764 17.285Z"/></g></svg></span>
+          </a></li>
+          <li class="chip-ig" style="--x:530; --y:352; --w:184"><a href="#" target="_blank" rel="noopener" aria-label="Squarezix on Instagram">
+            <img class="chip-img" src="assets/social/chip-instagram.png" alt="" />
+            <span class="chip-pill">Instagram<svg viewBox="0 0 27 27"><g transform="rotate(9.44766 13.5 13.5)"><path d="M12.3017 7.08823C14.3373 6.74951 14.58 6.71696 15.3905 6.61996C17.4722 6.37019 18.6003 7.1899 19.0356 9.22507C19.2062 10.0226 19.2534 10.2629 19.5921 12.2985C19.9309 14.3347 19.9634 14.5767 20.0609 15.3864C20.3072 17.4511 19.5081 18.5935 17.4558 19.0316C16.6576 19.2023 16.4187 19.2499 14.3819 19.5888C12.3463 19.9275 12.1036 19.9601 11.2938 20.057C9.20692 20.307 8.08308 19.482 7.64853 17.4512C7.47794 16.6537 7.43025 16.4142 7.09142 14.378C6.75269 12.3424 6.72089 12.1002 6.62326 11.2899C6.37676 9.22395 7.17604 8.08285 9.22837 7.64471C10.0267 7.47465 10.2662 7.42696 12.3017 7.08823ZM12.0731 5.71403C10.0026 6.05857 9.74483 6.1106 8.93775 6.28277C6.19017 6.87056 4.90705 8.66282 5.24113 11.4552C5.33908 12.2753 5.37332 12.536 5.71786 14.6065C6.0624 16.677 6.11453 16.9354 6.2867 17.7425C6.87449 20.4901 8.66675 21.7732 11.4592 21.4391C12.2791 21.3405 12.5398 21.3063 14.6103 20.9617C16.6809 20.6172 16.9392 20.5651 17.7463 20.3929C20.4914 19.8055 21.7783 18.0126 21.4423 15.2205C21.3445 14.4011 21.3101 14.1398 20.9656 12.0692C20.621 9.99874 20.569 9.74101 20.3968 8.93393C19.812 6.18846 18.0174 4.90312 15.225 5.2372C14.4049 5.33515 14.1436 5.36949 12.0731 5.71403ZM12.6903 9.42304C10.5283 9.7828 9.0671 11.8273 9.42686 13.9893C9.78663 16.1513 11.8313 17.6131 13.9933 17.2534C16.1553 16.8936 17.6164 14.8491 17.2566 12.6864C16.8968 10.5244 14.8523 9.06327 12.6903 9.42304ZM13.7646 15.8792C12.3612 16.1127 11.0341 15.1648 10.8004 13.7608C10.5669 12.3573 11.5154 11.0301 12.9188 10.7966C14.3223 10.5631 15.6495 11.5116 15.883 12.915C16.1166 14.3191 15.168 15.6456 13.7646 15.8792ZM16.5822 7.67655C16.0765 7.7607 15.7349 8.23868 15.8189 8.74376C15.903 9.24884 16.381 9.59043 16.8867 9.50628C17.3918 9.42223 17.7327 8.94436 17.6487 8.43928C17.5646 7.9342 17.0873 7.5925 16.5822 7.67655Z"/></g></svg></span>
+          </a></li>
+          <li class="chip-x"  style="--x:678; --y:287; --w:201"><a href="#" target="_blank" rel="noopener" aria-label="Squarezix on X">
+            <img class="chip-img" src="assets/social/chip-x.png" alt="" />
+            <span class="chip-pill">X platform<svg viewBox="0 0 27 27"><g transform="rotate(-9.03201 13.5 13.5)"><path d="M18.2241 7.69927L20.3282 8.03374L14.8962 12.557L19.1676 20.566L14.9333 19.893L12.306 15.0297L7.82199 18.7626L5.7166 18.4279L11.5267 13.5898L7.41724 5.98145L11.7591 6.67161L14.1269 11.1115L18.2241 7.69927ZM15.7142 18.7259L16.8801 18.9112L10.9359 7.76418L9.6847 7.5653L15.7142 18.7259Z"/></g></svg></span>
+          </a></li>
+          <li class="chip-yt" style="--x:796; --y:378; --w:184"><a href="#" target="_blank" rel="noopener" aria-label="Squarezix on YouTube">
+            <img class="chip-img" src="assets/social/chip-youtube.png" alt="" />
+            <span class="chip-pill">YouTube<svg viewBox="0 0 26 26"><g transform="rotate(6.38343 13 13)"><path d="M19.7545 8.26559C19.6311 7.94841 19.4266 7.66919 19.1614 7.45592C18.8962 7.24264 18.5796 7.10279 18.2433 7.05037C17.0096 6.86111 12.2059 7.39852 12.2059 7.39852C12.2059 7.39852 7.40223 7.93594 6.2402 8.39322C5.92399 8.5188 5.6463 8.7252 5.4349 8.99178C5.2235 9.25836 5.0858 9.57577 5.03557 9.91227C4.84917 11.1541 5.13059 13.6696 5.13059 13.6696C5.13059 13.6696 5.412 16.185 5.86822 17.3549C5.99158 17.6721 6.1961 17.9513 6.46132 18.1646C6.72653 18.3779 7.04312 18.5177 7.37939 18.5702C8.61311 18.7594 13.4168 18.222 13.4168 18.222C13.4168 18.222 18.2205 17.6846 19.3825 17.2273C19.6989 17.1019 19.9768 16.8956 20.1883 16.629C20.3999 16.3624 20.5376 16.0448 20.5878 15.7082C20.7735 14.4664 20.4921 11.951 20.4921 11.951C20.4921 11.951 20.2107 9.43553 19.7545 8.26559ZM11.4955 15.2698L10.9845 10.7023L15.2551 12.5369L11.4955 15.2698Z"/></g></svg></span>
+          </a></li>
+          <li class="chip-pi" style="--x:1005;--y:248; --w:184"><a href="#" target="_blank" rel="noopener" aria-label="Squarezix on Pinterest">
+            <img class="chip-img" src="assets/social/chip-pinterest.png" alt="" />
+            <span class="chip-pill">Pinterest<svg viewBox="0 0 26 26"><path d="M12.9871 4.3252C8.21442 4.3252 4.3457 8.19392 4.3457 12.9658C4.3457 16.627 6.6221 19.7539 9.83702 21.0118C9.76133 20.3277 9.69358 19.2796 9.86658 18.5328C10.0244 17.8574 10.8801 14.2388 10.8801 14.2388C10.8801 14.2388 10.6213 13.7198 10.6213 12.955C10.6213 11.7563 11.3183 10.8567 12.1841 10.8567C12.9222 10.8567 13.2783 11.411 13.2783 12.0734C13.2783 12.8152 12.8076 13.9238 12.5632 14.951C12.3578 15.811 12.9957 16.5116 13.8427 16.5116C15.3766 16.5116 16.5588 14.8934 16.5588 12.5564C16.5588 10.4941 15.0717 9.04666 12.9489 9.04666C10.4908 9.04666 9.04987 10.8934 9.04987 12.7943C9.04987 13.5389 9.33388 14.339 9.69069 14.7701C9.76205 14.8566 9.77143 14.9323 9.75196 15.0188C9.68709 15.2891 9.54076 15.8831 9.5112 16.0013C9.473 16.1635 9.38722 16.1966 9.22215 16.1202C8.1445 15.6228 7.46836 14.0457 7.46836 12.7712C7.46836 10.0493 9.44921 7.54372 13.1774 7.54372C16.1746 7.54372 18.5058 9.68244 18.5058 12.5341C18.5058 15.5147 16.6266 17.9129 14.0128 17.9129C13.1377 17.9129 12.316 17.4595 12.0248 16.9189L11.4848 18.9718C11.2909 19.7251 10.7611 20.6672 10.405 21.2396C11.2145 21.4883 12.0673 21.6252 12.964 21.6252C17.7266 21.6252 21.6032 17.758 21.6032 12.9846C21.6032 8.21049 17.7266 4.34394 12.964 4.34394L12.9871 4.3252Z"/></svg></span>
+          </a></li>
+          <li class="chip-be" style="--x:1031;--y:343; --w:184"><a href="#" target="_blank" rel="noopener" aria-label="Squarezix on Behance">
+            <img class="chip-img" src="assets/social/chip-behance.png" alt="" />
+            <span class="chip-pill">Behance<svg viewBox="0 0 26 26"><g transform="rotate(6.18961 13 13)"><path d="M18.8338 8.88017L14.3517 9.36626L14.4559 10.3267L18.938 9.84062L18.8338 8.88017ZM17.9591 11.5664C17.1267 11.6566 16.4709 12.1812 16.2272 12.9203L19.8769 12.5245C19.5444 11.8479 18.7915 11.4761 17.9591 11.5664ZM18.5038 15.3943C19.2081 15.3179 19.8137 14.9283 20.0713 14.3173L21.3519 14.1784C21.1066 15.5007 19.9873 16.5291 18.6427 16.6749C16.8498 16.8693 15.2884 15.6134 15.0939 13.8206C14.8995 12.0278 16.1554 10.4663 17.9482 10.2719C19.8051 10.0705 21.2385 11.3403 21.4468 13.2612C21.4676 13.4533 21.4885 13.6454 21.4383 13.7804L16.444 14.322C16.6554 15.0765 17.3512 15.5193 18.2476 15.4221L18.5038 15.3943ZM8.8397 9.31621L4.67773 9.76758L5.51103 17.4512L9.86509 16.979C11.5299 16.7985 12.7565 15.5641 12.5898 14.0274C12.4856 13.0669 11.8901 12.3541 11.08 12.0533C11.6787 11.5997 12.0505 10.8467 11.9672 10.0783C11.9672 10.0783 10.5045 9.13566 8.8397 9.31621ZM7.14101 11.5735L8.93385 11.3791C9.51013 11.3166 10 11.6521 10.0556 12.1644C10.1181 12.7407 9.70456 13.1094 9.12829 13.1719L7.33544 13.3663L7.14101 11.5735ZM9.58426 15.5842L7.59932 15.7995L7.38405 13.8146L9.36899 13.5993C10.0093 13.5298 10.5632 13.8585 10.6257 14.4348C10.6951 15.0751 10.2246 15.5148 9.58426 15.5842Z"/></g></svg></span>
+          </a></li>
+          <li class="chip-rd" style="--x:1297;--y:328; --w:184"><a href="#" target="_blank" rel="noopener" aria-label="Squarezix on Reddit">
+            <img class="chip-img" src="assets/social/chip-reddit.png" alt="" />
+            <span class="chip-pill">Reddit<svg viewBox="0 0 26 26"><g transform="rotate(7.17904 13 13)"><path d="M11.9845 5.2823C9.9508 5.53846 8.10215 6.59201 6.84523 8.21119C5.58832 9.83037 5.0261 11.8825 5.28226 13.9162C5.53842 15.95 6.59198 17.7986 8.21116 19.0555C9.83034 20.3124 11.8825 20.8747 13.9162 20.6185C15.9499 20.3623 17.7986 19.3088 19.0555 17.6896C20.3124 16.0704 20.8746 14.0182 20.6185 11.9845C20.3623 9.95083 19.3087 8.10218 17.6896 6.84527C16.0704 5.58835 14.0182 5.02614 11.9845 5.2823ZM15.5678 7.91051C16.0074 7.85513 16.4117 8.16838 16.4671 8.60802C16.4909 8.81555 16.4332 9.02424 16.3061 9.19C16.179 9.35576 15.9924 9.46562 15.7858 9.49636C15.5791 9.52711 15.3686 9.47633 15.1988 9.35476C15.0289 9.2332 14.9129 9.05035 14.8753 8.84486L13.1718 8.70435L12.9622 11.1631C14.1334 11.061 15.2368 11.2869 16.0687 11.7377C16.2406 11.5155 16.4956 11.3652 16.8004 11.3268C17.419 11.2489 17.9845 11.6879 18.0624 12.3065C18.1201 12.764 17.8917 13.1933 17.5469 13.4191C17.579 13.5267 17.602 13.6367 17.6156 13.748C17.8325 15.4695 16.0075 17.1119 13.532 17.4238C11.0565 17.7356 8.88123 16.597 8.6644 14.8755C8.64967 14.7586 8.64453 14.6404 8.6489 14.5308C8.44002 14.468 8.25391 14.3458 8.11318 14.1791C7.97245 14.0125 7.88317 13.8085 7.85619 13.592C7.77827 12.9735 8.21727 12.408 8.83583 12.33C9.13169 12.2928 9.42544 12.383 9.64655 12.546C10.3468 11.8846 11.3705 11.4006 12.5583 11.214L12.7872 8.47041C12.7943 8.41726 12.8204 8.36849 12.8608 8.33326C12.9034 8.30075 12.9561 8.28445 13.0096 8.28726L14.9162 8.44763C14.962 8.30512 15.0477 8.17875 15.1632 8.08354C15.2787 7.98833 15.4191 7.92827 15.5678 7.91051ZM11.1931 13.1717C10.7528 13.2272 10.4396 13.6315 10.4949 14.0711C10.5502 14.5101 10.9539 14.8234 11.3941 14.768C11.8331 14.7127 12.1465 14.309 12.0911 13.8694C12.0357 13.4298 11.6321 13.1164 11.1924 13.1718L11.1931 13.1717ZM14.7076 12.7291C14.2686 12.7843 13.9554 13.1886 14.0108 13.6283C14.0661 14.0673 14.4697 14.3806 14.9093 14.3252C15.349 14.2698 15.6623 13.8662 15.6069 13.4266C15.5515 12.9869 15.1473 12.6737 14.7076 12.7291ZM12.0974 15.5376C12.0399 15.5448 11.9877 15.5741 11.9518 15.6189C11.9343 15.6412 11.9213 15.6668 11.9137 15.6941C11.9061 15.7215 11.904 15.7501 11.9076 15.7783C11.9111 15.8065 11.9203 15.8337 11.9344 15.8583C11.9485 15.8829 11.9674 15.9045 11.99 15.9218C12.5297 16.3413 13.3681 16.2357 13.7869 15.6954C13.8044 15.6731 13.8174 15.6475 13.825 15.6202C13.8326 15.5928 13.8347 15.5642 13.8311 15.536C13.8276 15.5078 13.8184 15.4806 13.8043 15.456C13.7902 15.4314 13.7713 15.4098 13.7487 15.3925C13.7034 15.3577 13.6461 15.3422 13.5894 15.3494C13.5327 15.3565 13.4811 15.3857 13.4458 15.4307C13.1667 15.7911 12.6145 15.8606 12.2547 15.5807C12.2326 15.5635 12.2074 15.5509 12.1804 15.5434C12.1534 15.536 12.1252 15.534 12.0974 15.5376Z"/></g></svg></span>
+          </a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  </template>
+
+  <!-- ===== Outro — "That's What Inside." (animation flow 1–9)
+       The Amethyst Wash card shrinks to a square → the square slides left and types
+       "Now Let's Build Yours" like a cursor → the screen folds into a card, the footer
+       rises, the square hops to "Let's Talk" and tumbles down to become the newsletter
+       button. outro.js drives it; one clipped element (.outro-panel) is the card and the
+       square the whole way. ===== -->
+  <section class="outro" aria-label="That’s What Inside — now let’s build yours">
+    <div class="outro-stage" id="outro-stage">
+      <div class="outro-frame" aria-hidden="true"></div>
+
+      <h2 class="outro-build" id="outro-build"><span class="outro-typed">Now Let’s Build Yours</span><span class="outro-dot">.</span></h2>
+
+      <div class="szf-cta">
+        <img class="szf-logo" src="assets/footer/sz-mark.png" alt="Squarezix — Marketing Agency" width="241" height="241" loading="lazy" />
+        <div class="szf-cta-body">
+          <h2 class="szf-talk"><a href="mailto:info@squarezix.com">Got A Project? Let’s Talk</a><span class="szf-talk-dot">.</span><span class="szf-square" aria-hidden="true"></span></h2>
+          <a class="szf-wa" href="https://wa.me/971551318051" target="_blank" rel="noopener">Or WhatsApp Us <span aria-hidden="true">↗</span></a>
+          <form class="szf-news" data-newsletter novalidate>
+            <label class="szf-mono" for="news-home">Weekly AI insights for business leaders.</label>
+            <div class="szf-news-row">
+              <input id="news-home" type="email" name="email" placeholder="your@email.com" autocomplete="email" required />
+              <button type="submit" class="szf-send" aria-label="Subscribe"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+            </div>
+            <p class="szf-news-note" role="status"></p>
+          </form>
+        </div>
+      </div>
+
+      <div class="outro-panel" aria-hidden="true">
+        <canvas class="outro-wash"></canvas>
+        <p class="outro-inside">That’s What Inside.</p>
+      </div>
+      <p class="visually-hidden">That’s What Inside.</p>
+
+      <span class="outro-cue" aria-hidden="true"></span>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="szf szf--after-outro" id="contact">
+    <!-- Official partners, framed in the brand gradient (outro.js loops it) -->
+    <div class="szf-partners" aria-label="Official partners">
+      <div class="szf-partners-row">
+        <div class="szf-partners-track">
+          <ul class="szf-partners-group">
+            <li><strong>Google</strong><span>Partner</span></li>
+            <li><strong>Meta</strong><span>Business Partner</span></li>
+            <li><strong>ahrefs</strong><span>Agency Partner</span></li>
+            <li><strong>Shopify</strong><span>Development Partner</span></li>
+            <li><strong>HubSpot</strong><span>Development Partner</span></li>
+            <li><strong>TikTok</strong><span>Marketing Partner</span></li>
+            <li><strong>Snapchat</strong><span>Marketing Partner</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="szf-wrap">
+
+      <div class="szf-grid">
+        <div class="szf-reach">
+          <p class="szf-mono">[Visit]</p>
+          <address>801, The Burlington Tower,<br />Business Bay, Dubai, United Arab Emirates</address>
+          <p class="szf-mono">[Call]</p>
+          <p><a href="tel:+971551318051">+971 55 131 8051</a><br /><a href="tel:+97142414120">+971 4 241 4120</a></p>
+          <p class="szf-mono">[Write]</p>
+          <p><a href="mailto:info@squarezix.com">info@squarezix.com</a></p>
+          <p class="szf-mono szf-clock" aria-label="Local time in Dubai"><span>DXB</span> <span class="szf-hh">--</span><i class="szf-tick" aria-hidden="true"></i><span class="szf-mm">--</span> <span>GST</span></p>
+          <ul class="szf-social">
+            <li><a href="https://www.linkedin.com/company/squarezix-marketing-agency/" target="_blank" rel="noopener">LinkedIn.</a></li>
+            <li><a href="https://x.com/SquareZix" target="_blank" rel="noopener">X.</a></li>
+            <li><a href="https://www.instagram.com/squarezixofficial/" target="_blank" rel="noopener">Instagram.</a></li>
+            <li><a href="https://www.youtube.com/@squarezixofficial" target="_blank" rel="noopener">YouTube.</a></li>
+          </ul>
+        </div>
+
+        <nav class="szf-col" aria-label="Services">
+          <p class="szf-mono">[01] Services</p>
+          <ul>
+            <li><a href="https://squarezix.com/social-media-agency-dubai/">Social.</a></li>
+            <li><a href="https://squarezix.com/seo-agency-dubai/">SEO.</a></li>
+            <li><a href="https://squarezix.com/website-design-company-dubai/">Web.</a></li>
+            <li><a href="https://squarezix.com/contact-us/">Content.</a></li>
+            <li><a href="https://squarezix.com/contact-us/">Paid.</a></li>
+            <li><a href="https://squarezix.com/contact-us/">Branding.</a></li>
+            <li><a class="szf-all" href="#services">View all 20 <span aria-hidden="true">→</span></a></li>
+          </ul>
+        </nav>
+        <nav class="szf-col" aria-label="Industries">
+          <p class="szf-mono">[02] Industries</p>
+          <ul>
+            <li><a href="#">Real estate.</a></li>
+            <li><a href="#">Hospitality.</a></li>
+            <li><a href="#">Retail.</a></li>
+            <li><a href="#">Healthcare.</a></li>
+            <li><a href="#">Finance.</a></li>
+          </ul>
+        </nav>
+        <nav class="szf-col" aria-label="Company">
+          <p class="szf-mono">[03] Company</p>
+          <ul>
+            <li><a href="about-us.html">About.</a></li>
+            <li><a href="index.html#reels">Work.</a></li>
+            <li><a href="#">Careers.</a></li>
+            <li><a href="#contact">Contact.</a></li>
+          </ul>
+        </nav>
+
+        <!-- SQUAREZIX spelled on a 3×3 grid — tiles light up under the cursor -->
+        <div class="szf-tiles" aria-label="SquareZix">
+          <span>S</span><span>Q</span><span>U</span>
+          <span>A</span><span>R</span><span>E</span>
+          <span>Z</span><span>I</span><span>X</span>
+        </div>
+      </div>
+
+      <div class="szf-rule" aria-hidden="true"></div>
+      <div class="szf-bottom">
+        <p>© <span id="ft-year">2026</span> SquareZix. <a href="#">Privacy.</a> <a href="#">Terms.</a></p>
+        <p class="szf-think">Think inside the <i aria-hidden="true"></i><span class="visually-hidden">square</span></p>
+      </div>
+    </div>
+  </footer>
+
+
+  <script src="hero-zoom.js?v=20260930i"></script>
+  <script src="site.js?v=20260929m"></script>
+  <script src="menu.js?v=20260930h"></script>
+  <script src="services.js?v=20260930d"></script>
+  <script src="bento.js?v=20260929m"></script>
+  <script src="sections.js?v=20260930n"></script>
+  <script src="amethyst-wash.js?v=20260930a"></script>
+  <script src="outro.js?v=20260930i"></script>
+  <script src="whyus.js?v=20260930a"></script>
+  <!-- Curved-sphere scroll on the five content sections (after andagain.uk) -->
+  <script src="lens.js?v=20260930a"></script>
+</body>
+</html>

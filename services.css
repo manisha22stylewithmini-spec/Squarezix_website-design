@@ -1,0 +1,236 @@
+/* ===== Services section ===== */
+.services {
+  --svc-purple: #7c3aed;
+  --svc-pink: #d27bff;
+
+  position: relative;
+  background: var(--page);
+  color: #fff;
+  padding: clamp(64px, 8vw, 110px) 16px clamp(80px, 10vw, 140px);
+  overflow: hidden;
+}
+
+/* ---------- Intro ---------- */
+.svc-intro { text-align: center; max-width: 760px; margin: 0 auto; }
+.svc-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #120a24;
+  border: 1px solid #8b5cf6;
+  color: #e9e3ff;
+  font-size: 12px; font-weight: 500;
+}
+.svc-heading {
+  margin-top: 22px;
+  font-size: clamp(40px, 6vw, 68px);
+  font-weight: 500; letter-spacing: -0.04em; line-height: 1.05;
+}
+.svc-heading em {
+  font-family: "Instrument Serif", serif;
+  font-style: italic; font-weight: 400;
+  font-size: 1.18em; letter-spacing: -0.01em;
+  color: #9b5cff;
+}
+.svc-sub {
+  margin: 22px auto 0; max-width: 600px;
+  font-size: clamp(14px, 1.3vw, 17px); line-height: 1.55;
+  color: #b4b4c0;
+}
+/* Scroll reveal: each word fades from faint to full */
+[data-reveal] .word { opacity: var(--o, 0.1); transition: opacity .15s linear; }
+
+/* ---------- Chip marquee (two rows, opposite directions) ---------- */
+.chip-rows {
+  display: grid; gap: 12px;
+  max-width: 1080px; margin: clamp(40px, 5vw, 64px) auto 0;
+  /* Fade chips out at both edges */
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+}
+.chip-row { overflow: hidden; }
+/* Faint hairline under the chips, as in the design */
+.chip-rows::after {
+  content: ""; height: 1px; margin-top: 4px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);
+}
+.chip-track {
+  display: flex; width: max-content;
+  animation: chip-scroll var(--chip-duration, 28s) linear infinite;
+}
+.chip-row--reverse .chip-track { animation-direction: reverse; }
+.chip-rows:hover .chip-track { animation-play-state: paused; }
+.chip-group { display: flex; gap: 24px; padding-right: 24px; list-style: none; }
+.chip {
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 0 24px; height: 64px;
+  border-radius: 16px;
+  background: #16161b;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  color: #f2f2f5; white-space: nowrap;
+  font-size: clamp(18px, 1.8vw, 24px); font-weight: 500; letter-spacing: -0.01em;
+}
+.chip svg {
+  width: 24px; height: 24px;
+  fill: none; stroke: #8b5cf6; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+}
+@keyframes chip-scroll { to { transform: translateX(calc(-1 * var(--chip-group-width, 50%))); } }
+
+.svc-cta { display: flex; justify-content: center; margin-top: clamp(40px, 5vw, 64px); }
+
+/* ---------- Service cards: a real 3D fold ----------
+   Two panels share one horizontal crease. Closed, only the title panel shows, flat.
+   Open, the image panel hinges up behind the crease and the title panel tips back,
+   so both recede in true perspective from the crease (nearest edge) — no faked
+   trapezoids, so borders and corners stay clean at every angle.
+   services.js springs --open (0…1, may overshoot a touch) and --tx/--ty (twist, deg). */
+.svc-list {
+  list-style: none;
+  max-width: calc(1104px + 2 * 34px); margin: clamp(48px, 6vw, 72px) auto 0;
+  padding: 0 clamp(12px, 3vw, 34px);
+  display: grid; gap: clamp(16px, 2vw, 26px);
+}
+.svc-card {
+  --open: 0; --tx: 0; --ty: 0;
+  --h: clamp(76px, 10.5vw, 154px);          /* closed height */
+  --top: calc(var(--h) * 0.67);             /* image panel's on-screen height when open */
+  --fh: calc(var(--h) * 0.77);              /* title panel's on-screen height when open */
+  --a-top: 40deg;                           /* image panel lean (cos 40° ≈ .766) */
+  --a-front: 39.6deg;                       /* title panel lean (cos 39.6° ≈ .77) */
+  --top-len: calc(var(--top) * 1.305);      /* true length, so it projects to --top */
+  --crease: calc(var(--top) * var(--open));
+  --b: 3px;
+  --r: clamp(8px, 1vw, 14px);
+  --border: linear-gradient(90deg, var(--svc-pink), var(--svc-purple));
+
+  position: relative; display: block;
+  height: calc(var(--h) + (var(--top) + var(--fh) - var(--h)) * var(--open));
+  perspective: calc(var(--h) * 7);
+  perspective-origin: 50% var(--crease);
+  color: #0b0b0f; text-decoration: none;    /* cards stay white on the dark page */
+  -webkit-tap-highlight-color: transparent;
+}
+/* Soft violet contact glow under the lifted card */
+.svc-card::before {
+  content: ""; position: absolute; z-index: -1;
+  left: 8%; right: 8%; bottom: -14px; height: 40%;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(139, 92, 246, .55), transparent 70%);
+  filter: blur(20px);
+  opacity: calc(var(--open) * .9);
+  pointer-events: none;
+}
+
+.svc-fold {
+  position: absolute; inset: 0;
+  transform-style: preserve-3d;
+  transform-origin: 50% var(--crease);
+  /* Lift toward the viewer as it opens (the crease flares wider), plus the cursor twist */
+  transform:
+    translateZ(calc(clamp(12px, 3vw, 34px) * 1.8 * var(--open)))
+    rotateX(calc(var(--tx) * 1deg))
+    rotateY(calc(var(--ty) * 1deg));
+  will-change: transform;
+}
+
+/* Shared face: gradient border drawn with the padding-box / border-box trick,
+   so it follows the rounded corners exactly */
+.svc-top, .svc-front {
+  position: absolute; left: 0; right: 0;
+  border: var(--b) solid transparent;
+  background: linear-gradient(#fff, #fff) padding-box, var(--border) border-box;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Image panel: bottom edge sits on the crease and hinges up from edge-on (90°) */
+.svc-top {
+  top: calc(var(--crease) - var(--top-len));
+  height: var(--top-len);
+  border-bottom: 0;
+  border-radius: var(--r) var(--r) 0 0;
+  overflow: hidden;
+  transform-origin: 50% 100%;
+  transform: rotateX(calc(90deg - (90deg - var(--a-top)) * var(--open)));
+  opacity: min(1, calc(var(--open) * 5));
+}
+.svc-top img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: calc(var(--r) - var(--b)) calc(var(--r) - var(--b)) 0 0;
+}
+/* Light glancing off the image, drifting with the twist */
+.svc-sheen {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(70% 90% at calc(50% + var(--ty) * 7%) -10%, rgba(255, 255, 255, .32), transparent 60%),
+    linear-gradient(to bottom, transparent 55%, rgba(20, 6, 40, .28));
+  opacity: var(--open);
+  pointer-events: none;
+}
+
+/* Title panel: top edge on the crease, tips back as it opens */
+.svc-front {
+  top: var(--crease);
+  height: var(--h);
+  /* The two top corners meet the image panel, so they square off as it opens */
+  border-radius:
+    calc(var(--r) * (1 - min(1, var(--open)))) calc(var(--r) * (1 - min(1, var(--open))))
+    var(--r) var(--r);
+  transform-origin: 50% 0;
+  transform: rotateX(calc(var(--a-front) * -1 * var(--open)));
+  display: flex; align-items: center;
+  padding: 0 clamp(20px, 4.4vw, 50px);
+}
+/* Faces tipped away from the light read slightly darker */
+.svc-front::after {
+  content: ""; position: absolute; inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(to bottom, rgba(40, 12, 80, 0), rgba(40, 12, 80, .16));
+  opacity: var(--open);
+  pointer-events: none;
+}
+.svc-front h3 {
+  font-size: clamp(22px, 3.6vw, 48px);
+  font-weight: 600; letter-spacing: -0.035em; line-height: 1;
+}
+
+.svc-thumb {
+  position: absolute; right: clamp(20px, 4.4vw, 50px); top: 50%;
+  width: clamp(36px, 5.2vw, 62px); aspect-ratio: 61 / 57; object-fit: cover;
+  border-radius: 6px;
+  transform: translateY(-50%);
+  transition: opacity .35s ease, transform .6s cubic-bezier(.22, 1, .36, 1);
+}
+.svc-arrow {
+  position: absolute; right: clamp(20px, 4.4vw, 50px); top: 50%;
+  width: clamp(36px, 4.4vw, 56px); aspect-ratio: 1;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: #1c0b2e; color: #fff;
+  box-shadow: 0 0 36px 14px rgba(139, 92, 246, 0.28);
+  opacity: 0;
+  transform: translateY(-50%) scale(.4) rotate(90deg);
+  transition: opacity .35s ease, transform .7s cubic-bezier(.22, 1, .36, 1);
+}
+.svc-arrow svg { width: 45%; height: 45%; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Open state (services.js toggles .is-open on hover, focus, or scroll on touch) */
+.svc-card.is-open { --border: linear-gradient(90deg, #b36bff, #6d28d9); }
+.svc-card.is-open .svc-thumb { opacity: 0; transform: translateY(-160%) scale(.5); }
+.svc-card.is-open .svc-arrow { opacity: 1; transform: translateY(-50%) scale(1) rotate(0deg); }
+.svc-card:focus-visible { outline: none; }
+.svc-card:focus-visible h3 { text-decoration: underline; text-decoration-color: var(--svc-purple); text-underline-offset: 6px; }
+
+@media (max-width: 640px) {
+  .svc-card { --b: 2px; }
+  .chip { height: 48px; padding: 0 16px; border-radius: 12px; gap: 8px; }
+  .chip svg { width: 18px; height: 18px; }
+  .chip-group { gap: 12px; padding-right: 12px; }
+  .chip-rows { gap: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svc-thumb, .svc-arrow { transition-duration: 1ms; }
+  .chip-track { animation-duration: 120s; }
+}

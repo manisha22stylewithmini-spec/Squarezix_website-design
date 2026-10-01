@@ -1,0 +1,9 @@
+# macOS
+.DS_Store
+
+# Local tool settings (not part of the site)
+.claude/
+
+# Pre-extracted frames for the retired scroll-scrub hero (hero.js) — 75MB, not used by
+# the current site. Regenerate with scripts/extract-frames.swift if ever needed.
+frames/

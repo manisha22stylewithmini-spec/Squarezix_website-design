@@ -1,0 +1,403 @@
+/* ===== Why Squarezix — bento grid =====
+   All desktop measurements come from the 1440px Figma frame and are multiplied by --u,
+   so the whole composition scales proportionally (1px design = 1 --u). */
+
+/* Overview section.
+   The grid itself keeps the exact Figma proportions (see .bento-panel). */
+.why {
+  background: var(--page);
+  color: #fff;
+  /* Top matches the other sections (e.g. .services); bottom stays tight to the logo strip */
+  padding: clamp(56px, 7vw, 96px) 0 clamp(16px, 2vw, 28px);
+  overflow: hidden;
+  scroll-margin-top: var(--header-h);
+}
+.why .svc-intro { padding: 0 16px; }
+.why .svc-heading { font-weight: 600; margin-top: 14px; font-size: clamp(32px, 4vw, 54px); }
+.why .svc-heading em { color: #fff; }
+.why .svc-sub { color: #9a9aa6; margin-top: 12px; }
+
+.bento-panel {
+  /* One uniform scale from the screen width, so every card keeps its exact Figma shape */
+  --uw: min(1px, calc((100vw - 32px) / 1314));
+  --u: var(--uw);
+  --panel: #000;                                          /* matches the page, so no visible box around the cards */
+  --navy-1: #282650;
+  --navy-2: #1b1a34;
+  --radius: calc(26 * var(--u));
+
+  max-width: calc(1314 * var(--uw));
+  margin: clamp(14px, 2.4vh, 32px) auto 0;
+  padding: calc(35 * var(--u));
+  background: var(--panel);
+}
+
+.bento {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: calc(171 * var(--u)) calc(231 * var(--u)) calc(241 * var(--u)) calc(178 * var(--u));
+  gap: calc(31 * var(--u));
+  grid-template-areas:
+    "a b b c"
+    "a b b d"
+    "e g h h"
+    "f g h h";
+  font-family: "Plus Jakarta Sans", "Inter", sans-serif;
+}
+
+/* ---------- Card base ---------- */
+.bento-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: linear-gradient(165deg, var(--navy-1) 0%, var(--navy-2) 55%, #201e3d 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 20px 40px rgba(0, 0, 0, 0.35);
+  isolation: isolate;
+}
+/* Film-grain texture seen on every card in the design */
+.bento-card::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.09;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+.b-grad-title {
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  background: linear-gradient(180deg, #f3f0ff 0%, #b9adff 100%);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+}
+
+/* ---------- A: Strategy ---------- */
+.b-strategy { grid-area: a; padding: calc(34 * var(--u)) calc(35 * var(--u)); display: flex; flex-direction: column; }
+.b-logo { width: calc(58 * var(--u)); height: auto; }
+.b-strategy h3 {
+  margin-top: auto;
+  font-size: calc(40 * var(--u)); line-height: 1.1;
+}
+.b-strategy p {
+  margin-top: calc(16 * var(--u));
+  font-family: "Lato", sans-serif;
+  font-size: max(9px, calc(15 * var(--u))); line-height: 1.4;
+  color: #e3e0f3;
+}
+
+/* ---------- B: Headline ---------- */
+.b-hero {
+  grid-area: b;
+  text-align: center;
+  padding-top: calc(78 * var(--u));
+  background:
+    radial-gradient(ellipse 55% 45% at 50% 100%, rgba(240, 120, 255, 0.55), transparent 70%),
+    linear-gradient(180deg, #7b5cff 0%, #8a5bff 55%, #a65cf7 100%);
+}
+.b-hero h3 {
+  font-size: calc(50 * var(--u)); line-height: 1.2;
+  font-weight: 500; letter-spacing: -0.02em;
+  color: #fff;
+}
+
+/* ---------- C: Design tool ---------- */
+.b-tool {
+  grid-area: c;
+  background:
+    radial-gradient(ellipse 70% 60% at 30% 110%, rgba(170, 90, 255, 0.9), transparent 70%),
+    radial-gradient(ellipse 50% 50% at 100% 100%, rgba(236, 110, 255, 0.55), transparent 70%),
+    linear-gradient(180deg, #1f1d3a 0%, #3b2c79 100%);
+}
+.b-tool img {
+  position: absolute; left: 50%; bottom: 0;
+  width: calc(248 * var(--u)); height: auto;
+  transform: translateX(-50%);
+  transition: transform .6s cubic-bezier(.2, .8, .2, 1);
+}
+.b-tool:hover img { transform: translateX(-50%) translateY(calc(-6 * var(--u))) scale(1.03); }
+
+/* ---------- D: Projects ---------- */
+.b-projects {
+  grid-area: d;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: calc(22 * var(--u));
+  text-align: center;
+}
+.b-projects h3 {
+  font-size: calc(30 * var(--u)); line-height: 1.2;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #d6d0ff 0%, #9d90ff 100%);
+  -webkit-background-clip: text; background-clip: text;
+}
+/* Pill with the purple "I-beam" brackets on each side */
+.b-bracket {
+  position: relative;
+  padding: calc(11 * var(--u)) calc(26 * var(--u));
+  font-size: max(9px, calc(14 * var(--u)));
+  color: #bdb4f5;
+  background: rgba(255, 255, 255, 0.04);
+  white-space: nowrap;
+}
+.b-bracket::before, .b-bracket::after {
+  content: "";
+  position: absolute; top: calc(-3 * var(--u)); bottom: calc(-3 * var(--u));
+  width: calc(8 * var(--u));
+  border: 2px solid #8b6cff;
+  border-left: 0; border-right: 0;
+  background: linear-gradient(#8b6cff, #8b6cff) center / 2px 100% no-repeat;
+}
+.b-bracket::before { left: calc(-4 * var(--u)); }
+.b-bracket::after { right: calc(-4 * var(--u)); }
+
+/* ---------- E: Laptop ---------- */
+.b-laptop {
+  grid-area: e;
+  background:
+    linear-gradient(180deg, #b55cf1 0%, #8a4fe0 32%, #3a2b6e 70%, #211f3c 100%);
+}
+.b-laptop img {
+  position: absolute; right: 0; bottom: 0;
+  width: calc(287 * var(--u)); height: auto;
+  transition: transform .6s cubic-bezier(.2, .8, .2, 1);
+}
+.b-laptop:hover img { transform: translateY(calc(-6 * var(--u))); }
+
+/* ---------- F: Contact ---------- */
+.b-contact {
+  grid-area: f;
+  display: grid; place-items: center;
+  background: linear-gradient(165deg, #25234a 0%, #1a1932 100%);
+  box-shadow:
+    inset 0 0 0 calc(10 * var(--u)) rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 20px 40px rgba(0, 0, 0, 0.35);
+}
+/* Contact button — thick frosted ring + grainy gradient, from "btn design.pdf" */
+.btn-contact--xl {
+  justify-self: center;   /* the header button rule sets justify-self: end */
+  gap: calc(10 * var(--u));
+  padding: calc(16 * var(--u)) calc(30 * var(--u));
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: max(11px, calc(21 * var(--u))); font-weight: 500;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='1' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    linear-gradient(165deg, #c35cff 0%, #8f5cff 45%, #6b5cff 100%);
+  box-shadow:
+    0 0 0 calc(7 * var(--u)) rgba(190, 182, 206, 0.32),
+    0 calc(6 * var(--u)) calc(18 * var(--u)) rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -2px 8px rgba(40, 0, 110, 0.35);
+}
+.btn-contact--xl svg { width: 1.1em; height: 1.1em; }
+
+/* ---------- G: End-to-end ---------- */
+.b-expertise { grid-area: g; }
+.b-vline { position: absolute; left: calc(29 * var(--u)); top: calc(10 * var(--u)); width: calc(75 * var(--u)); height: calc(262 * var(--u)); }
+.b-vline-track { width: 100%; height: 100%; opacity: .35; }
+.b-vline-icon {
+  position: absolute; left: calc(6 * var(--u)); top: calc(21 * var(--u));
+  width: calc(62 * var(--u)); height: auto;
+  border-radius: 50%;
+  box-shadow: 0 0 0 calc(8 * var(--u)) rgba(20, 18, 40, 0.9), 0 0 30px rgba(139, 92, 246, 0.35);
+}
+/* Glowing packet that travels down the connector */
+.b-pulse--v {
+  position: absolute; left: calc(35 * var(--u)); top: calc(95 * var(--u));
+  width: calc(5 * var(--u)); height: calc(26 * var(--u));
+  border-radius: 4px;
+  background: linear-gradient(#e6c2ff, #a468ff);
+  box-shadow: 0 0 12px 3px rgba(164, 104, 255, .8);
+  animation: pulse-down 3.2s cubic-bezier(.6, 0, .4, 1) infinite;
+}
+@keyframes pulse-down {
+  0% { transform: translateY(0); opacity: 0; }
+  15%, 75% { opacity: 1; }
+  100% { transform: translateY(calc(110 * var(--u))); opacity: 0; }
+}
+.b-expertise-copy { position: absolute; left: calc(35 * var(--u)); right: calc(28 * var(--u)); bottom: calc(30 * var(--u)); }
+.b-expertise h3 {
+  font-size: calc(22 * var(--u)); line-height: 1.4; font-weight: 600;
+  letter-spacing: 0.01em;
+  color: #fff;
+}
+.b-expertise p {
+  margin-top: calc(14 * var(--u));
+  font-family: "Lato", sans-serif;
+  font-size: max(10px, calc(15.5 * var(--u))); line-height: 1.45;
+  color: #a792ff;
+}
+
+/* ---------- H: Everything your business needs ---------- */
+.b-grow { grid-area: h; }
+.b-hline {
+  position: absolute; left: calc(110 * var(--u)); top: calc(24 * var(--u));
+  width: calc(217 * var(--u)); height: auto;
+  overflow: visible;
+}
+.b-rail { fill: none; stroke: #3a3858; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.b-spark { fill: #ffb37a; }
+.b-grow-title {
+  position: absolute; right: calc(35 * var(--u)); top: calc(38 * var(--u));
+  text-align: right;
+}
+.b-grow-title h3 { font-size: calc(20 * var(--u)); font-weight: 600; color: #fff; letter-spacing: -0.01em; }
+.b-grow-title p { margin-top: calc(4 * var(--u)); font-size: calc(33 * var(--u)); font-weight: 400; color: #a99dff; letter-spacing: -0.01em; }
+
+.b-tags { list-style: none; }
+.b-tag, .b-float {
+  position: absolute;
+  /* x as a share of the card's design width (606.5px) so tags spread with the card */
+  left: calc(var(--x) / 606.5 * 100%); top: calc(var(--y) * var(--u));
+  transform: translate(-50%, -50%) rotate(var(--r, 0deg));
+  animation: float 5s ease-in-out infinite;
+  animation-delay: var(--d, 0s);
+}
+.b-tag {
+  display: inline-flex; align-items: center; gap: calc(8 * var(--u));
+  height: calc(50 * var(--u));
+  padding: 0 calc(22 * var(--u));
+  border-radius: 999px;
+  background: rgba(58, 55, 100, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .3), inset 0 1px 0 rgba(255, 255, 255, .06);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  font-size: max(8.5px, calc(16.5 * var(--u))); font-weight: 500;
+  color: #e6e2ff; white-space: nowrap;
+  transition: background .3s ease, box-shadow .3s ease;
+}
+.b-tag:hover { background: rgba(88, 80, 150, 0.7); box-shadow: 0 10px 30px rgba(139, 92, 246, .35); }
+.dot { width: calc(10 * var(--u)); height: calc(10 * var(--u)); border-radius: 50%; display: inline-block; flex: none; }
+.dot--purple { background: #b18cff; }
+.dot--orange { background: #ffa25c; }
+.dot--blue { background: #4db1ff; }
+.t-seo { gap: calc(6 * var(--u)); letter-spacing: .02em; }
+.t-seo .dot:not(:first-child) { margin-left: calc(14 * var(--u)); }
+
+.t-ecom   { --x: 264; --y: 224; }
+.t-brand  { --x: 444; --y: 239; --r: -30deg; --d: -1.2s;
+  height: calc(54 * var(--u));
+  background: linear-gradient(rgba(46, 40, 80, .92), rgba(46, 40, 80, .92)) padding-box,
+              linear-gradient(90deg, #ff8f5e, #ffc08a) border-box;
+  border: 2px solid transparent;
+  font-size: max(9px, calc(18 * var(--u)));
+  color: #fff;
+}
+.t-seo    { --x: 396; --y: 364; --r: 27deg; --d: -2.4s; }
+.t-web    { --x: 168; --y: 403; --r: -5deg; --d: -3.1s; }
+.t-gift   { --x: 217; --y: 316; --d: -0.6s; }
+.t-camera { --x: 446; --y: 317; --d: -1.8s; }
+.t-toggle { --x: 514; --y: 299; --d: -2.9s; }
+.b-float img { display: block; }
+.t-gift img   { width: calc(79 * var(--u)); }
+.t-camera img { width: calc(84 * var(--u)); }
+.t-toggle img { width: calc(109 * var(--u)); }
+
+@keyframes float {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 calc(-7 * var(--u)); }
+}
+
+/* ---------- Centre sticker ---------- */
+.b-disc {
+  position: absolute;
+  /* Centred on the column seam (design x 617 of 1244 ≈ 50%), so it stays put when columns widen */
+  left: calc(50% - 177 * var(--u)); top: calc((458 - 172) * var(--u));
+  width: calc(344 * var(--u)); aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--panel);
+  display: grid; place-items: center;
+  z-index: 2;
+  perspective: 800px;
+}
+.b-sticker {
+  width: calc(292 * var(--u)); height: auto;
+  filter: drop-shadow(0 18px 30px rgba(120, 60, 255, .35));
+  transform: rotateX(var(--ry, 0deg)) rotateY(var(--rx, 0deg));
+  transition: transform .4s ease-out;
+  animation: sticker-bob 6s ease-in-out infinite;
+}
+@keyframes sticker-bob {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 calc(-6 * var(--u)); }
+}
+
+/* ---------- Scroll-in reveal (bento.js adds .is-in) ---------- */
+.bento.reveal .bento-card {
+  opacity: 0;
+  translate: 0 24px;
+  transition: opacity .8s ease, translate .8s cubic-bezier(.2, .8, .2, 1);
+  transition-delay: var(--delay, 0s);
+}
+/* The disc itself never fades (it must always hide the card corners behind it) —
+   only the sticker pops in */
+.bento.reveal .b-sticker {
+  opacity: 0; scale: .8;
+  transition: opacity .8s ease, scale .9s cubic-bezier(.2, .8, .2, 1);
+  transition-delay: var(--delay, 0s);
+}
+.bento.reveal.is-in .bento-card { opacity: 1; translate: 0 0; }
+.bento.reveal.is-in .b-sticker { opacity: 1; scale: 1; }
+
+/* ---------- Tablet: 2-column stack ---------- */
+@media (max-width: 1100px) {
+  .bento-panel { --u: 1px; max-width: 760px; padding: 20px; }
+  .bento {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: none;
+    grid-auto-rows: auto;
+    gap: 16px;
+    grid-template-areas:
+      "b b"
+      "a c"
+      "a d"
+      "e f"
+      "g g"
+      "h h";
+  }
+  .b-strategy { min-height: 380px; }
+  .b-tool, .b-projects, .b-laptop, .b-contact { min-height: 180px; }
+  .b-hero { padding: 56px 20px 0; min-height: 480px; }
+  .b-hero h3 { font-size: clamp(30px, 5.5vw, 44px); }
+  /* The sticker sits inside the headline card instead of cutting into three cards */
+  .b-disc {
+    grid-area: b; position: relative; left: auto; top: auto;
+    align-self: end; justify-self: center;
+    width: 250px; margin-bottom: 24px;
+    background: none;
+  }
+  .b-sticker { width: 230px; }
+  .b-expertise { min-height: 400px; }
+  .b-grow {
+    --u: min(1px, calc((100vw - 72px) / 605));
+    height: calc(450 * var(--u));
+  }
+  .b-grow-title h3 { font-size: max(14px, calc(20 * var(--u))); }
+  .b-grow-title p { font-size: max(20px, calc(33 * var(--u))); }
+}
+
+/* ---------- Phone: single column ---------- */
+@media (max-width: 640px) {
+  .bento-panel { padding: 12px; margin-left: 16px; margin-right: 16px; }
+  .bento {
+    grid-template-columns: 1fr;
+    grid-template-areas: "b" "a" "c" "d" "e" "f" "g" "h";
+    gap: 12px;
+  }
+  .b-strategy { min-height: 340px; }
+  .b-tool, .b-laptop { min-height: 200px; }
+  .b-hero { min-height: 420px; }
+  .b-disc { width: 220px; }
+  .b-sticker { width: 200px; }
+  .b-grow { --u: calc((100vw - 56px) / 605); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .b-tag, .b-float, .b-sticker, .b-pulse--v { animation: none; }
+  .b-spark { display: none; }
+  .bento.reveal .bento-card, .bento.reveal .b-sticker { transition: none; }
+}

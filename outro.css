@@ -1,0 +1,263 @@
+/* ===== Outro sequence + footer (animation flow 1–11) =====
+   Amethyst Wash card → square → the square types "Now Let's Build Yours" → the screen
+   folds into an outlined card, the footer rises, the square hops to "Let's Talk" and
+   tumbles into the newsletter button. outro.js drives every moving part. */
+.visually-hidden {
+  position: absolute !important; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+:root {
+  --sz-ink: #f4f1fa;
+  --sz-night: #15141d;
+  --sz-void: #09080d;
+  --sz-violet: #b04dff;
+  --sz-magenta: #c95cf5;
+  --sz-mute: #6f6c7d;
+}
+
+/* ---------- Outro ---------- */
+.outro {
+  --outro-length: 460svh;
+  position: relative;
+  height: calc(100svh - var(--header-h) + var(--outro-length));
+  background: var(--sz-night);
+}
+.outro-stage {
+  position: sticky; top: var(--header-h);
+  height: calc(100svh - var(--header-h));
+  overflow: hidden;
+  background: var(--sz-night);
+  color: var(--sz-ink);
+}
+/* The dark screen; folds into an outlined card (frame 7) */
+.outro-frame {
+  position: absolute; left: 0; right: 0; top: 0; z-index: 0;
+  height: 100%;
+  background: var(--sz-void);
+  border: 1px solid transparent;
+}
+.outro-panel {
+  position: absolute; inset: 0; z-index: 3;
+  background: linear-gradient(180deg, #7340b6, #ab5fdc 50%, #dd7aff) no-repeat;
+  clip-path: inset(0 0 0 0);
+  pointer-events: none;
+  will-change: clip-path;
+}
+/* Amethyst Wash shader (amethyst-wash.js), sized to the live shape by outro.js */
+.outro-wash {
+  position: absolute; left: 0; top: 0;
+  display: block;
+  transform-origin: 0 0;
+  will-change: transform, opacity;
+}
+.outro-inside {
+  position: absolute; left: 0; top: 0;
+  margin: 0;
+  white-space: nowrap;
+  font-family: "Syne", sans-serif; font-weight: 600;
+  font-size: 6.2vw;                       /* outro.js sets the exact size from the card */
+  letter-spacing: 0; line-height: 1;
+  color: #fff;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+/* "Now Let's Build Yours." — revealed behind the square as it types */
+.outro-build {
+  position: absolute; left: 0; right: 0; top: 0; z-index: 2;
+  margin: 0;
+  text-align: center; white-space: nowrap;
+  font-family: "Syne", sans-serif; font-weight: 600;
+  font-size: clamp(28px, 5.6vw, 118px);
+  letter-spacing: -0.01em; line-height: 1.1;
+  color: var(--sz-magenta);
+  clip-path: inset(0 100% 0 0);
+  will-change: transform, clip-path;
+}
+.outro-dot { opacity: 0; }
+/* The footer's talk row rises into the stage below the card (frames 7–9) */
+.outro .szf-cta {
+  position: absolute; left: 0; right: 0; top: var(--cta-top, 70%); z-index: 1;
+  padding: 0 clamp(16px, 4vw, 64px);
+  opacity: 0; pointer-events: none;
+}
+.outro .szf-cta.is-live { pointer-events: auto; }
+/* Inside the pinned stage the logo also respects screen height, so the row always fits */
+.outro .szf-logo { --szf-logo: min(clamp(96px, 16vw, 326px), 25svh); }
+.outro .szf-talk-dot { opacity: 0; }
+.outro .szf-send { opacity: 0; }
+.outro-cue {
+  position: absolute; left: 50%; bottom: 18px; z-index: 4;
+  width: 12px; height: 12px; margin-left: -6px;
+  background: var(--sz-ink);
+  animation: sz-blink 1.1s steps(1) infinite;
+}
+@keyframes sz-blink { 0%, 55% { opacity: 1; } 56%, 100% { opacity: .15; } }
+
+/* ---------- Footer ---------- */
+.szf {
+  background: var(--sz-night);
+  color: var(--sz-ink);
+  font-family: "Inter", sans-serif;
+  padding: clamp(56px, 7vw, 110px) 0 clamp(24px, 3vw, 36px);
+}
+.szf--after-outro { padding-top: 0; }
+.szf-wrap { max-width: 1680px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 64px); }
+.szf a, .szf-cta a { color: inherit; text-decoration: none; }
+.szf-mono, .szf-cta .szf-mono {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--sz-mute);
+}
+
+/* Talk row: logo box + headline, WhatsApp, newsletter */
+.szf-cta {
+  display: flex; justify-content: center; align-items: flex-start;
+  gap: clamp(18px, 2.8vw, 54px);
+  color: var(--sz-ink);
+  font-family: "Inter", sans-serif;
+}
+.szf-logo {
+  flex: none; display: block;
+  width: var(--szf-logo, clamp(96px, 16vw, 326px)); height: auto; aspect-ratio: 1;
+}
+.szf-cta-body { min-width: 0; }
+.szf-talk {
+  margin: 0;
+  font-family: "Syne", sans-serif; font-weight: 600;
+  font-size: clamp(26px, 3.7vw, 76px);
+  letter-spacing: -0.01em; line-height: 1.12;
+}
+.szf-talk a { background: linear-gradient(currentColor, currentColor) 0 100% / 0 2px no-repeat; transition: background-size .5s cubic-bezier(.22, 1, .36, 1); }
+.szf-talk a:hover { background-size: 100% 2px; }
+/* Landing spot for the square (only the home outro uses it) */
+.szf-square {
+  display: inline-block; visibility: hidden;
+  width: .84em; height: .84em;
+  margin-left: .38em; vertical-align: -.02em;
+}
+.szf-wa {
+  display: inline-block; margin-top: clamp(12px, 1.4vw, 22px);
+  font-family: "Syne", sans-serif; font-weight: 500;
+  font-size: clamp(15px, 1.2vw, 21px);
+}
+.szf-wa:hover { color: #d8b4fe; }
+.szf-news { margin-top: clamp(24px, 3vw, 52px); width: min(600px, 100%); }
+.szf-news-row { display: flex; align-items: flex-end; gap: 22px; margin-top: 14px; }
+.szf-news input {
+  flex: 1; min-width: 0;
+  padding: 12px 0;
+  background: none; border: 0; border-bottom: 1px solid rgba(244, 241, 250, .3);
+  color: var(--sz-ink); font: inherit; font-size: clamp(16px, 1.3vw, 22px);
+}
+.szf-news input::placeholder { color: #6f6c7d; }
+.szf-news input:focus { outline: none; border-bottom-color: var(--sz-violet); }
+.szf-send {
+  flex: none; display: grid; place-items: center;
+  width: clamp(48px, 3.4vw, 66px); height: clamp(48px, 3.4vw, 66px);
+  border: 0; cursor: pointer;
+  background: var(--sz-violet); color: #fff;
+  transition: background .2s ease, transform .2s ease;
+}
+.szf-send:hover { background: #9333ea; transform: translateX(2px); }
+.szf-send svg { width: 42%; height: 42%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.szf-news-note { min-height: 1.2em; margin-top: 8px; font-size: 13px; color: #c9a8ff; }
+
+/* Partner strip: the looping names sit straight on the footer background */
+.szf-partners { margin-top: clamp(48px, 6vw, 100px); }
+.szf--after-outro .szf-partners { margin-top: 0; }
+.szf--after-outro .szf-partners + .szf-wrap { padding-top: clamp(48px, 6vw, 96px); }
+.szf-partners-row {
+  position: relative; overflow: hidden;
+  /* Hairlines top and bottom, same tone as the dividers between partners */
+  border-top: 1px solid rgba(255, 255, 255, .08);
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+}
+/* Edges fade into the footer colour */
+.szf-partners-row::before, .szf-partners-row::after {
+  content: ""; position: absolute; top: 0; bottom: 0; z-index: 1;
+  width: clamp(60px, 10%, 180px); pointer-events: none;
+}
+.szf-partners-row::before { left: 0; background: linear-gradient(90deg, var(--sz-night) 15%, rgba(21, 20, 29, 0)); }
+.szf-partners-row::after { right: 0; background: linear-gradient(270deg, var(--sz-night) 15%, rgba(21, 20, 29, 0)); }
+.szf-partners-track { display: flex; width: max-content; animation: ribbon var(--szf-partners-duration, 40s) linear infinite; }
+.szf-partners-row:hover .szf-partners-track { animation-play-state: paused; }
+.szf-partners-group { display: flex; list-style: none; }
+.szf-partners-group li {
+  display: grid; justify-items: center; gap: 4px;
+  padding: clamp(22px, 2.4vw, 40px) clamp(40px, 4.6vw, 86px);
+  border-right: 1px solid rgba(255, 255, 255, .08);
+}
+.szf-partners-group strong { font-family: "Lexend", sans-serif; font-weight: 600; font-size: clamp(22px, 2vw, 36px); letter-spacing: -0.02em; color: #f3f0f7; }
+.szf-partners-group span { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: #9a96a8; }
+
+.szf-rule { height: 1px; margin: clamp(40px, 5vw, 64px) 0; background: rgba(244, 241, 250, .1); }
+
+/* Columns */
+.szf-grid { display: grid; grid-template-columns: 2.1fr 1fr 1fr 1fr; gap: 40px 24px; }
+.szf-reach address, .szf-reach p:not(.szf-mono) {
+  margin: 10px 0 28px;
+  font-style: normal; font-size: clamp(16px, 1.25vw, 21px); line-height: 1.4;
+}
+.szf-reach a:hover, .szf-col a:hover, .szf-social a:hover { color: #c9a8ff; }
+.szf-clock { display: flex; align-items: center; gap: 8px; margin-top: 8px; color: var(--sz-ink); font-size: 14px; }
+.szf-tick { width: 7px; height: 7px; background: var(--sz-violet); animation: sz-blink 1s steps(1) infinite; }
+.szf-social { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 34px; font-size: 16px; }
+.szf-col ul { list-style: none; display: grid; gap: 14px; margin-top: 24px; font-size: clamp(16px, 1.25vw, 21px); }
+.szf-col a { transition: color .2s ease; }
+.szf-all span { display: inline-block; transition: transform .25s ease; }
+.szf-all:hover span { transform: translateX(4px); }
+
+/* SQUAREZIX tiles */
+.szf-tiles {
+  grid-column: 2 / -1; justify-self: end;
+  display: grid; grid-template-columns: repeat(3, var(--tile)); gap: 8px;
+  --tile: clamp(72px, 7vw, 118px);
+  margin-top: clamp(20px, 3vw, 40px);
+}
+.szf-tiles span {
+  position: relative;
+  display: grid; place-items: center;
+  width: var(--tile); height: var(--tile);
+  border: 1px solid rgba(244, 241, 250, .14);
+  font-weight: 800; font-size: calc(var(--tile) * .48); letter-spacing: -0.03em;
+  color: var(--sz-ink);
+  cursor: default; user-select: none;
+  transition: background .25s ease, color .25s ease, border-color .25s ease;
+}
+.szf-tiles span::before {
+  content: ""; position: absolute; left: 14%; top: 14%;
+  width: 11%; height: 11%; background: #fff;
+  opacity: 0; transform: scale(.4);
+  transition: opacity .2s ease, transform .3s cubic-bezier(.22, 1, .36, 1);
+}
+.szf-tiles span:hover, .szf-tiles span.is-ping { background: var(--sz-violet); border-color: var(--sz-violet); color: #1b0b33; }
+.szf-tiles span:hover::before, .szf-tiles span.is-ping::before { opacity: 1; transform: none; }
+
+/* Bottom bar */
+.szf-bottom {
+  display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+  font-size: 14px; color: var(--sz-mute);
+}
+.szf-bottom a { color: #cfccd8; margin-left: 4px; }
+.szf-bottom a:hover { color: var(--sz-ink); }
+.szf-think { display: inline-flex; align-items: center; gap: 8px; }
+.szf-think i { width: 14px; height: 14px; background: var(--sz-violet); }
+.szf-grid + .szf-rule { margin-bottom: 24px; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1080px) {
+  .szf-grid { grid-template-columns: 1fr 1fr 1fr; }
+  .szf-reach { grid-column: 1 / -1; }
+  .szf-tiles { grid-column: 1 / -1; justify-self: start; }
+}
+@media (max-width: 640px) {
+  .outro-build { font-size: 7.4vw; }
+  .szf-cta { flex-direction: column; align-items: flex-start; }
+  .szf-logo { --szf-logo: 84px; }
+  .outro .szf-logo { display: none; }                 /* keeps the landing row short */
+  .szf-grid { grid-template-columns: 1fr 1fr; }
+  .szf-tiles { --tile: min(26vw, 96px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .outro-cue, .szf-tick, .szf-partners-track { animation: none; }
+}

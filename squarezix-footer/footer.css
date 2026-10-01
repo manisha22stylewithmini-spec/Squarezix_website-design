@@ -1,0 +1,163 @@
+/* SquareZix footer — walking crowd + frosted bar.
+   Ported from the "minima" footer, rebuilt on the SquareZix identity system. */
+
+.sz-footer {
+  --sz-deep: #0a0714;
+  --sz-mid: #1b0f33;
+  --sz-elevated: #241542;
+  --sz-violet: #6d28d9;
+  --sz-slate: #6b5d91;
+  --sz-mist: #c9bfe0;
+  --sz-paper: #f5f3ff;
+  --sz-hairline: rgb(107 93 145 / 0.24);
+  --sz-font-head: "Familjen Grotesk", system-ui, sans-serif;
+  --sz-font-body: "IBM Plex Sans", system-ui, sans-serif;
+
+  position: relative;
+  background: var(--sz-deep);
+  color: var(--sz-mist);
+  font-family: var(--sz-font-body);
+  border-top: 1px solid var(--sz-hairline);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Connected-grid motif (brand §07): hairline squares behind content, low opacity. */
+.sz-footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image:
+    linear-gradient(var(--sz-hairline) 1px, transparent 1px),
+    linear-gradient(90deg, var(--sz-hairline) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(to bottom, #000 0%, transparent 70%);
+  opacity: 0.6;
+}
+
+.sz-footer__top {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 96px 64px 32px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.sz-footer__eyebrow {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sz-slate);
+  margin: 0 0 16px;
+}
+
+.sz-footer__headline {
+  font-family: var(--sz-font-head);
+  font-weight: 700;
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 1.08;
+  color: var(--sz-paper);
+  margin: 0;
+  max-width: 14ch;
+}
+
+.sz-footer__cta {
+  display: inline-block;
+  padding: 16px 32px;
+  background: var(--sz-violet);
+  color: var(--sz-paper);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.sz-footer__cta:hover {
+  transform: translateY(-3px);
+  filter: brightness(1.15);
+}
+
+.sz-footer__cta:focus-visible,
+.sz-footer__bar a:focus-visible {
+  outline: 2px solid var(--sz-paper);
+  outline-offset: 3px;
+}
+
+/* The crowd strip. Canvas is purely decorative. */
+.sz-footer__crowd {
+  display: block;
+  width: 100%;
+  height: clamp(208px, 24vw, 320px);
+  pointer-events: none;
+  position: relative;
+  z-index: -1;
+}
+
+/* Frosted bar that overlaps the crowd, as in minima. */
+.sz-footer__bar {
+  position: relative;
+  margin: -64px auto 16px;
+  width: fit-content;
+  max-width: calc(100% - 32px);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 24px;
+  padding: 12px 24px;
+  font-size: 14px;
+  color: var(--sz-mist);
+  background: color-mix(in srgb, var(--sz-mid) 72%, transparent);
+  border: 1px solid var(--sz-hairline);
+  border-radius: 4px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.sz-footer__bar p {
+  margin: 0;
+}
+
+.sz-footer__bar nav {
+  display: flex;
+  gap: 16px;
+}
+
+.sz-footer__bar a {
+  color: var(--sz-mist);
+  text-decoration: none;
+  border-bottom: 1px solid var(--sz-hairline);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.sz-footer__bar a:hover {
+  color: var(--sz-paper);
+  border-color: var(--sz-violet);
+}
+
+.sz-footer__sep {
+  width: 1px;
+  height: 16px;
+  background: var(--sz-hairline);
+}
+
+@media (max-width: 720px) {
+  .sz-footer__top {
+    padding: 48px 24px 24px;
+    align-items: flex-start;
+  }
+  .sz-footer__bar {
+    margin-top: -40px;
+  }
+  .sz-footer__sep {
+    display: none;
+  }
+}
