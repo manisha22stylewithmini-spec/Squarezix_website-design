@@ -198,3 +198,26 @@
     }, { threshold: 0.15 }).observe(section);
   }
 })();
+
+// Case studies — one row open at a time; the shared preview follows the open row
+(() => {
+  const section = document.querySelector('.cases');
+  if (!section) return;
+  const rows = [...section.querySelectorAll('.cs-row')];
+  const shots = [...section.querySelectorAll('.cs-shots img')];
+  const capNo = section.querySelector('.cs-cap-no b');
+  const capName = section.querySelector('.cs-cap-name');
+
+  const open = (row) => {
+    rows.forEach((r) => {
+      const on = r === row;
+      r.classList.toggle('is-open', on);
+      r.querySelector('.cs-toggle').setAttribute('aria-expanded', on);
+    });
+    shots.forEach((img) => img.classList.toggle('is-on', img.dataset.case === row.dataset.case));
+    capNo.textContent = row.querySelector('.cs-no').textContent;
+    capName.textContent = row.querySelector('.cs-client').textContent;
+  };
+
+  rows.forEach((row) => row.querySelector('.cs-toggle').addEventListener('click', () => open(row)));
+})();
