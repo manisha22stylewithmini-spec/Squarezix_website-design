@@ -9,6 +9,7 @@
   const CONTACT = `${LIVE}/contact-us/`;
   const MENUS = {
     web: {
+      page: { href: 'web-and-brand.html', label: 'Explore Web & Brand' },
       tabs: [
         { label: 'Branding', items: [
           { t: 'Brand Strategy & Positioning', d: 'Find the space only you can own', h: CONTACT },
@@ -38,6 +39,7 @@
       banner: { kicker: 'Free audit', title: 'Is your website holding you back?', cta: 'Get a free site & brand audit', href: CONTACT },
     },
     growth: {
+      page: { href: 'growth-marketing.html', label: 'Explore Growth Marketing' },
       tabs: [
         { label: 'Social Media Marketing', items: [
           { t: 'Community Management', d: 'Replies, DMs and daily presence', h: CONTACT },
@@ -54,6 +56,7 @@
       banner: { kicker: 'Playbook', title: 'The GCC social growth playbook', cta: 'Get the free playbook', href: CONTACT },
     },
     ai: {
+      page: { href: 'ai-and-intelligence.html', label: 'Explore AI & Intelligence' },
       tabs: [
         { label: 'Core SEO', items: [
           { t: 'Enterprise SEO', d: 'Scale across thousands of pages', h: CONTACT },
@@ -122,6 +125,7 @@
       <div class="mm-split-media"><img src="${tab.img}" alt="" loading="lazy" /></div>
     </div>`;
 
+  const ARROW_R = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
   // --- Build a panel for every [data-menu] trigger ---
   const header = document.querySelector('.site-header');
   const items = [...document.querySelectorAll('.nav-item[data-menu]')];
@@ -138,6 +142,7 @@
     panel.className = `mm-panel${data.layout === 'split' ? ' mm-panel--split' : ''}`;
     panel.id = panelId;
     panel.innerHTML = `
+      ${data.page ? `<a class="mm-overview" href="${data.page.href}"><span>${esc(data.page.label)}</span><i>Overview page ${ARROW_R}</i></a>` : ''}
       <div class="mm-tabs" role="tablist" aria-label="${esc(trigger.textContent.trim())}" style="--n:${data.tabs.length}">
         <span class="mm-tab-thumb" aria-hidden="true"></span>
         ${data.tabs.map((t, i) => `<button class="mm-tab" type="button" role="tab" id="${panelId}-t${i}"

@@ -58,6 +58,19 @@
 .mm-panel::before { content: ""; position: absolute; left: 0; right: 0; top: -22px; height: 22px; }
 .nav-item.is-open .mm-panel { opacity: 1; visibility: visible; transform: translate(-50%, 0) scale(1); }
 
+/* Link to the hub page for this menu, above the tabs */
+.mm-overview {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  margin-bottom: 10px; padding: 10px 14px 10px 16px;
+  border-radius: 14px; background: #fff; border: 1px solid rgba(98, 29, 208, .12);
+  color: var(--ink); text-decoration: none; font-size: 15px; font-weight: 600;
+  transition: border-color .2s ease;
+}
+.mm-overview i { display: inline-flex; align-items: center; gap: 6px; font-style: normal; font-size: 12.5px; font-weight: 500; color: var(--purple); }
+.mm-overview svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: transform .25s ease; }
+.mm-overview:hover, .mm-overview:focus-visible { border-color: rgba(171, 36, 242, .55); }
+.mm-overview:hover svg { transform: translateX(3px); }
+
 /* Segmented tabs with a sliding thumb */
 .mm-tabs {
   --i: 0;
