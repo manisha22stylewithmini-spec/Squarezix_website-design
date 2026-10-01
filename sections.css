@@ -736,8 +736,10 @@
 }
 .blog-card:hover { transform: translateY(-4px); border-color: rgba(181, 123, 255, .35); box-shadow: 0 24px 50px rgba(20, 10, 60, .5); }
 .blog-card:focus-visible { outline: 2px solid #b57bff; outline-offset: 3px; }
-.blog-media { overflow: hidden; border-radius: 4px; aspect-ratio: 162 / 192; }
-.blog-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .8s cubic-bezier(.22, 1, .36, 1); }
+/* Image fills the card's full height (the text column sets it) */
+.blog-media { position: relative; overflow: hidden; border-radius: 4px; align-self: stretch; min-height: clamp(180px, 15vw, 230px); }
+/* Absolutely placed so a tall photo never sets the card's height */
+.blog-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .8s cubic-bezier(.22, 1, .36, 1); }
 .blog-card:hover .blog-media img { transform: scale(1.05); }
 
 .blog-body { display: flex; flex-direction: column; min-width: 0; padding: 4px 4px 2px 0; }
@@ -760,8 +762,20 @@
   margin-top: clamp(10px, 1vw, 14px);
   font-size: clamp(12.5px, .95vw, 14px); line-height: 1.6; color: #b3afc6;
 }
+/* Author + reading time, pinned to the bottom of the card above "Read more" */
+.blog-foot {
+  margin-top: auto; padding-top: clamp(12px, 1.2vw, 16px);
+  display: flex; align-items: center; justify-content: space-between; gap: 6px 12px; flex-wrap: wrap;
+  border-top: 1px solid rgba(255, 255, 255, .08);
+  font-size: clamp(11.5px, .85vw, 12.5px); color: #a7a3bb;
+}
+.blog-card p + .blog-foot { margin-top: auto; }
+.blog-card p { margin-bottom: clamp(12px, 1.2vw, 16px); }
+.blog-author { color: #dcd6ff; white-space: nowrap; }
+.blog-read { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+.blog-read svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .blog-more {
-  margin-top: auto; padding-top: 16px;
+  margin-top: 0; padding-top: 12px;
   display: inline-flex; align-items: center; gap: 10px;
   font-size: clamp(13px, 1vw, 14.5px); color: #fff;
 }
@@ -780,5 +794,5 @@
 }
 @media (max-width: 520px) {
   .blog-card { grid-template-columns: 1fr; }
-  .blog-media { aspect-ratio: 16 / 10; }
+  .blog-media { aspect-ratio: 16 / 10; min-height: 0; }
 }
