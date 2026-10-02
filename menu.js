@@ -127,6 +127,7 @@
     </div>`;
 
   const ARROW_R = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+  const desktop = matchMedia('(min-width: 1081px)');
   // --- Build a panel for every [data-menu] trigger ---
   const header = document.querySelector('.site-header');
   const items = [...document.querySelectorAll('.nav-item[data-menu]')];
@@ -170,7 +171,14 @@
     };
     let hoverTimer;
     tabs.forEach((t, i) => {
-      t.addEventListener('click', () => select(i));
+      t.addEventListener('click', (e) => {
+        // Desktop mouse: hover already shows the tab's services, so a click opens its page.
+        // Touch and keyboard: the first press selects the tab, a press on the selected tab opens it.
+        const page = data.tabs[i].page;
+        const selected = t.getAttribute('aria-selected') === 'true';
+        if (page && (selected || (desktop.matches && e.pointerType === 'mouse'))) { location.href = page; return; }
+        select(i);
+      });
       t.addEventListener('pointerenter', (e) => {
         if (e.pointerType !== 'mouse') return;
         clearTimeout(hoverTimer);
@@ -186,7 +194,6 @@
   });
 
   // --- Open / close ---
-  const desktop = matchMedia('(min-width: 1081px)');
   let openItem = null;
   let closeTimer;
 
