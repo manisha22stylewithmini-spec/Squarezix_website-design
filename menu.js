@@ -208,7 +208,13 @@
 
   items.forEach((item) => {
     const trigger = item.querySelector('.nav-trigger');
-    trigger.addEventListener('click', () => (item.classList.contains('is-open') ? close(item) : open(item)));
+    const page = MENUS[item.dataset.menu].page;
+    trigger.addEventListener('click', (e) => {
+      // Desktop mouse: hover already shows the dropdown, so a click on the label opens its hub page.
+      // Touch and keyboard still toggle the menu (the hub link is the first row inside it).
+      if (page && desktop.matches && e.pointerType === 'mouse') { location.href = page.href; return; }
+      item.classList.contains('is-open') ? close(item) : open(item);
+    });
     // Desktop hover with a grace period so moving diagonally into the panel doesn't close it
     item.addEventListener('pointerenter', (e) => { if (desktop.matches && e.pointerType === 'mouse') open(item); });
     item.addEventListener('pointerleave', (e) => {
