@@ -67,6 +67,15 @@ PAGES = [
             ('Culturally Fluent, Arabic-First Thinking', 'Brands in Dubai must function in Arabic and English. We design identities and messaging with Arabic-first typography, RTL layouts and culturally sensitive storytelling.'),
             ('Accessibility & Inclusive UX', 'Accessibility isn’t a checkbox — it’s good design. We follow WCAG best practices: semantic HTML, ARIA roles, keyboard navigation and colour contrast.'),
         ]),
+        # Six stops round the clock face, clockwise from 12 (see clock_html / clock.js)
+        'clock': ('How we work', 'From brief to launch, <em>like clockwork</em>', [
+            ('Discover', 'Workshops on your brand, audience, competitors and KPIs, so every later decision has a reason behind it.'),
+            ('Position', 'We define who you are, who you serve and why you win, then turn it into a messaging framework.'),
+            ('Design', 'Identity first, then UX wireframes, high-fidelity UI and motion prototypes you sign off on.'),
+            ('Build', 'Engineered for speed, SEO and content-editor happiness on the platform that fits you.'),
+            ('Launch', 'Staged rollout, redirects, tracking and a brand reveal that makes the market take notice.'),
+            ('Grow', 'Launch is day one. Then we measure, test and improve in quarterly growth sprints.'),
+        ]),
         'steps': [('Discover', 'Deep-dive workshops on brand, audience, competitors and KPIs.'), ('Design', 'UX wireframes → high-fidelity UI → motion prototypes.'),
                   ('Build', 'Engineered for speed, SEO and content-editor happiness.'), ('Grow', 'Launch is day one. Then quarterly growth sprints, forever.')],
     },
@@ -168,6 +177,41 @@ PAGES = [
 e = html.escape
 
 
+def clock_html(p):
+    """Pinned scroll section: a clock whose hand sweeps round six process stops (clock.js)."""
+    badge, title, stops = p['clock']
+    n = len(stops)
+    labels = ''.join(f'<li class="svp-stop" style="--i:{i}" data-stop="{i}"><span class="svp-stop-no">({i + 1:02d})</span><span class="svp-stop-name">{e(t)}</span></li>'
+                     for i, (t, _) in enumerate(stops))
+    details = ''.join(f'<li class="svp-clock-detail" data-stop="{i}"><span class="svp-clock-no">{i + 1:02d}</span><h3>{e(t)}</h3><p>{e(d)}</p></li>'
+                      for i, (t, d) in enumerate(stops))
+    ticks = ''.join(f'<i style="--t:{i}"></i>' for i in range(12))
+    return f'''    <!-- ===== Process clock: pinned while the hand goes once round the dial ===== -->
+    <section class="svp-clock" id="process" aria-labelledby="svp-clock-title" style="--n:{n}">
+      <div class="svp-clock-pin">
+        <div class="svp-clock-copy">
+          <span class="svc-badge">{e(badge)}</span>
+          <h2 id="svp-clock-title" class="ab-h2">{title}</h2>
+          <ol class="svp-clock-details">{details}</ol>
+          <p class="svp-clock-count" aria-hidden="true"><b>01</b> / {n:02d}<span><i></i></span></p>
+        </div>
+        <div class="svp-dial-wrap">
+          <div class="svp-dial" aria-hidden="true">
+            <svg class="svp-ring" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48"/><circle class="svp-ring-fill" cx="50" cy="50" r="48" pathLength="100"/></svg>
+            <div class="svp-ticks">{ticks}</div>
+            <span class="svp-hand svp-hand--hour"></span>
+            <span class="svp-hand svp-hand--min"></span>
+            <span class="svp-hand svp-hand--sweep"></span>
+            <span class="svp-hub"></span>
+          </div>
+          <ol class="svp-stops" aria-hidden="true">{labels}</ol>
+        </div>
+      </div>
+    </section>
+
+'''
+
+
 def main_html(p):
     grad = ' class="ab-grad"'
     lines = ''.join(f'<span{grad if i == p["grad"] else ""}>{e(t)}</span>' for i, t in enumerate(p['h1']))
@@ -194,6 +238,17 @@ def main_html(p):
     steps = ''.join(f'<li class="ab-step" data-rise><span class="ab-step-num">{i:02d}</span><h3>{e(t)}</h3><p>{e(d)}</p></li>' for i, (t, d) in enumerate(p['steps'], 1))
     inds = ''.join(f'<li>{e(x)}</li>' for x in INDUSTRIES)
     ib, it, ip = p['intro']
+    process = clock_html(p) if 'clock' in p else f'''    <!-- ===== Process (same track as the About page) ===== -->
+    <section class="ab-process" aria-labelledby="svp-process-title">
+      <div class="ab-head ab-center">
+        <span class="svc-badge" data-rise>How We Work</span>
+        <h2 id="svp-process-title" class="ab-h2 ab-reveal" data-reveal>A process that’s <em>boringly reliable</em></h2>
+        <p class="ab-sub" data-rise>No surprises. No scope creep. Every engagement follows the same four-phase system.</p>
+      </div>
+      <ol class="ab-steps" id="ab-steps">{steps}</ol>
+    </section>
+
+'''
     return f'''  <main id="service" class="svp">
     <!-- ===== Hero — same universe as the About page ===== -->
     <section class="ab-hero" aria-labelledby="svp-hero-title">
@@ -261,17 +316,7 @@ def main_html(p):
       <ol class="svp-why-list">{why}</ol>
     </section>
 
-    <!-- ===== Process (same track as the About page) ===== -->
-    <section class="ab-process" aria-labelledby="svp-process-title">
-      <div class="ab-head ab-center">
-        <span class="svc-badge" data-rise>How We Work</span>
-        <h2 id="svp-process-title" class="ab-h2 ab-reveal" data-reveal>A process that’s <em>boringly reliable</em></h2>
-        <p class="ab-sub" data-rise>No surprises. No scope creep. Every engagement follows the same four-phase system.</p>
-      </div>
-      <ol class="ab-steps" id="ab-steps">{steps}</ol>
-    </section>
-
-'''
+{process}'''
 
 
 def build():
@@ -286,7 +331,10 @@ def build():
         h = re.sub(r'(<link rel="stylesheet" href="about\.css[^>]*>)', rf'\1\n  <link rel="stylesheet" href="service.css{ver}" />', h)
         h = h.replace('class="nav-link is-current" href="about-us.html" aria-current="page"', 'class="nav-link" href="about-us.html"')
         h = h.replace(f'<div class="nav-item" data-menu="{p["menu"]}">', f'<div class="nav-item is-current" data-menu="{p["menu"]}">')
-        (ROOT / p['file']).write_text(h + main_html(p) + '    ' + contact + '</main>' + tail)
+        t = tail
+        if 'clock' in p:
+            t = t.replace('<script src="about.js', f'<script src="clock.js{ver}"></script>\n  <script src="about.js', 1)
+        (ROOT / p['file']).write_text(h + main_html(p) + '    ' + contact + '</main>' + t)
         print('wrote', p['file'])
 
 

@@ -8,15 +8,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20261001v" />
-  <link rel="stylesheet" href="services.css?v=20261001v" />
-  <link rel="stylesheet" href="bento.css?v=20261001v" />
-  <link rel="stylesheet" href="sections.css?v=20261001v" />
-  <link rel="stylesheet" href="footer.css?v=20261001v" />
-  <link rel="stylesheet" href="menu.css?v=20261001v" />
-  <link rel="stylesheet" href="outro.css?v=20261001v" />
-  <link rel="stylesheet" href="about.css?v=20261001v" />
-  <link rel="stylesheet" href="service.css?v=20261001v" />
+  <link rel="stylesheet" href="styles.css?v=20261001w" />
+  <link rel="stylesheet" href="services.css?v=20261001w" />
+  <link rel="stylesheet" href="bento.css?v=20261001w" />
+  <link rel="stylesheet" href="sections.css?v=20261001w" />
+  <link rel="stylesheet" href="footer.css?v=20261001w" />
+  <link rel="stylesheet" href="menu.css?v=20261001w" />
+  <link rel="stylesheet" href="outro.css?v=20261001w" />
+  <link rel="stylesheet" href="about.css?v=20261001w" />
+  <link rel="stylesheet" href="service.css?v=20261001w" />
 </head>
 <body class="page-about">
   <header class="site-header">
@@ -143,14 +143,27 @@
       <ol class="svp-why-list"><li class="svp-why-row" data-rise><span>01</span><h3>Research-Led Design (Not Guesswork)</h3><p>We start every project with real research: stakeholder interviews, user surveys, persona creation, competitor audits and user journey mapping.</p></li><li class="svp-why-row" data-rise><span>02</span><h3>Strategy First — Design Second</h3><p>Design serves a strategy. We align every page and interaction to business goals: lead gen, sign-ups, product sales, brand lift.</p></li><li class="svp-why-row" data-rise><span>03</span><h3>Conversion &amp; CRO Built-In</h3><p>Conversion Rate Optimization is part of the design process, not an afterthought. We wireframe and A/B test variants, and use heatmaps and analytics insights.</p></li><li class="svp-why-row" data-rise><span>04</span><h3>Performance &amp; Core Web Vitals Focus</h3><p>Fast sites convert better. We design with performance in mind — lightweight layouts, optimized imagery, sensible animations.</p></li><li class="svp-why-row" data-rise><span>05</span><h3>Culturally Fluent, Arabic-First Thinking</h3><p>Brands in Dubai must function in Arabic and English. We design identities and messaging with Arabic-first typography, RTL layouts and culturally sensitive storytelling.</p></li><li class="svp-why-row" data-rise><span>06</span><h3>Accessibility &amp; Inclusive UX</h3><p>Accessibility isn’t a checkbox — it’s good design. We follow WCAG best practices: semantic HTML, ARIA roles, keyboard navigation and colour contrast.</p></li></ol>
     </section>
 
-    <!-- ===== Process (same track as the About page) ===== -->
-    <section class="ab-process" aria-labelledby="svp-process-title">
-      <div class="ab-head ab-center">
-        <span class="svc-badge" data-rise>How We Work</span>
-        <h2 id="svp-process-title" class="ab-h2 ab-reveal" data-reveal>A process that’s <em>boringly reliable</em></h2>
-        <p class="ab-sub" data-rise>No surprises. No scope creep. Every engagement follows the same four-phase system.</p>
+    <!-- ===== Process clock: pinned while the hand goes once round the dial ===== -->
+    <section class="svp-clock" id="process" aria-labelledby="svp-clock-title" style="--n:6">
+      <div class="svp-clock-pin">
+        <div class="svp-clock-copy">
+          <span class="svc-badge">How we work</span>
+          <h2 id="svp-clock-title" class="ab-h2">From brief to launch, <em>like clockwork</em></h2>
+          <ol class="svp-clock-details"><li class="svp-clock-detail" data-stop="0"><span class="svp-clock-no">01</span><h3>Discover</h3><p>Workshops on your brand, audience, competitors and KPIs, so every later decision has a reason behind it.</p></li><li class="svp-clock-detail" data-stop="1"><span class="svp-clock-no">02</span><h3>Position</h3><p>We define who you are, who you serve and why you win, then turn it into a messaging framework.</p></li><li class="svp-clock-detail" data-stop="2"><span class="svp-clock-no">03</span><h3>Design</h3><p>Identity first, then UX wireframes, high-fidelity UI and motion prototypes you sign off on.</p></li><li class="svp-clock-detail" data-stop="3"><span class="svp-clock-no">04</span><h3>Build</h3><p>Engineered for speed, SEO and content-editor happiness on the platform that fits you.</p></li><li class="svp-clock-detail" data-stop="4"><span class="svp-clock-no">05</span><h3>Launch</h3><p>Staged rollout, redirects, tracking and a brand reveal that makes the market take notice.</p></li><li class="svp-clock-detail" data-stop="5"><span class="svp-clock-no">06</span><h3>Grow</h3><p>Launch is day one. Then we measure, test and improve in quarterly growth sprints.</p></li></ol>
+          <p class="svp-clock-count" aria-hidden="true"><b>01</b> / 06<span><i></i></span></p>
+        </div>
+        <div class="svp-dial-wrap">
+          <div class="svp-dial" aria-hidden="true">
+            <svg class="svp-ring" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48"/><circle class="svp-ring-fill" cx="50" cy="50" r="48" pathLength="100"/></svg>
+            <div class="svp-ticks"><i style="--t:0"></i><i style="--t:1"></i><i style="--t:2"></i><i style="--t:3"></i><i style="--t:4"></i><i style="--t:5"></i><i style="--t:6"></i><i style="--t:7"></i><i style="--t:8"></i><i style="--t:9"></i><i style="--t:10"></i><i style="--t:11"></i></div>
+            <span class="svp-hand svp-hand--hour"></span>
+            <span class="svp-hand svp-hand--min"></span>
+            <span class="svp-hand svp-hand--sweep"></span>
+            <span class="svp-hub"></span>
+          </div>
+          <ol class="svp-stops" aria-hidden="true"><li class="svp-stop" style="--i:0" data-stop="0"><span class="svp-stop-no">(01)</span><span class="svp-stop-name">Discover</span></li><li class="svp-stop" style="--i:1" data-stop="1"><span class="svp-stop-no">(02)</span><span class="svp-stop-name">Position</span></li><li class="svp-stop" style="--i:2" data-stop="2"><span class="svp-stop-no">(03)</span><span class="svp-stop-name">Design</span></li><li class="svp-stop" style="--i:3" data-stop="3"><span class="svp-stop-no">(04)</span><span class="svp-stop-name">Build</span></li><li class="svp-stop" style="--i:4" data-stop="4"><span class="svp-stop-no">(05)</span><span class="svp-stop-name">Launch</span></li><li class="svp-stop" style="--i:5" data-stop="5"><span class="svp-stop-no">(06)</span><span class="svp-stop-name">Grow</span></li></ol>
+        </div>
       </div>
-      <ol class="ab-steps" id="ab-steps"><li class="ab-step" data-rise><span class="ab-step-num">01</span><h3>Discover</h3><p>Deep-dive workshops on brand, audience, competitors and KPIs.</p></li><li class="ab-step" data-rise><span class="ab-step-num">02</span><h3>Design</h3><p>UX wireframes → high-fidelity UI → motion prototypes.</p></li><li class="ab-step" data-rise><span class="ab-step-num">03</span><h3>Build</h3><p>Engineered for speed, SEO and content-editor happiness.</p></li><li class="ab-step" data-rise><span class="ab-step-num">04</span><h3>Grow</h3><p>Launch is day one. Then quarterly growth sprints, forever.</p></li></ol>
     </section>
 
     <section class="ab-contact" id="ab-contact" aria-labelledby="ab-contact-title">
@@ -300,10 +313,11 @@
   </footer>
 
 
-  <script src="site.js?v=20261001v"></script>
-  <script src="menu.js?v=20261001v"></script>
-  <script src="sections.js?v=20261001v"></script>
-  <script src="about.js?v=20261001v"></script>
-  <script src="outro.js?v=20261001v"></script>
+  <script src="site.js?v=20261001w"></script>
+  <script src="menu.js?v=20261001w"></script>
+  <script src="sections.js?v=20261001w"></script>
+  <script src="clock.js?v=20261001w"></script>
+  <script src="about.js?v=20261001w"></script>
+  <script src="outro.js?v=20261001w"></script>
 </body>
 </html>
