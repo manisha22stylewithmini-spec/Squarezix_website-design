@@ -367,29 +367,14 @@ def main_html(p):
 
 '''
     return f'''  <main id="service" class="svp">
-    <!-- ===== Hero — same universe as the About page ===== -->
-    <section class="ab-hero" aria-labelledby="svp-hero-title">
-      <canvas class="ab-stars" aria-hidden="true"></canvas>
-      <div class="ab-hero-grid" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
-      <div class="ab-hero-inner">
-        <div class="ab-hero-copy">
-          <span class="svc-badge ab-badge" data-rise>{e(p['badge'])}</span>
-          <h1 id="svp-hero-title" class="ab-hero-title svp-hero-title" data-rise>{lines}</h1>
-          <p class="svp-lead" data-rise>{e(p['lead'])}</p>
-          <div class="ab-hero-cta" data-rise>
-            <a href="#ab-contact" class="btn-contact btn-contact--xl">Speak to an Expert {ARROW}</a>
-            <a href="#services" class="ab-btn-ghost">See services {ARROW}</a>
-          </div>
-        </div>
-        <figure class="ab-hero-media" data-rise>
-          <div class="ab-screen">
-            <video src="assets/hero/hero-video.mp4" poster="assets/hero/hero-poster.jpg" autoplay muted loop playsinline preload="metadata"></video>
-            <div class="ab-screen-fx" aria-hidden="true"></div>
-            <div class="ab-screen-ui" aria-hidden="true"><span><i class="crt-rec"></i>{e(p['screen'])}</span><span>{e(p['region'])}</span></div>
-          </div>
-          <figcaption class="ab-stat ab-stat--a"><strong data-count="1000" data-suffix="+">1,000+</strong><span>Successful websites</span></figcaption>
-          <div class="ab-stat ab-stat--b" aria-hidden="true"><strong data-count="120" data-suffix="+">120+</strong><span>Projects on one process</span></div>
-        </figure>
+    <!-- ===== Hero: animated wave gradient (waves-bg.js) behind eyebrow, headline, lead and one button ===== -->
+    <section class="svh" aria-labelledby="svp-hero-title">
+      <canvas class="svh-waves" aria-hidden="true"></canvas>
+      <div class="svh-inner">
+        <span class="svc-badge ab-badge" data-rise>{e(p['badge'])}</span>
+        <h1 id="svp-hero-title" class="ab-hero-title svh-title" data-rise>{lines}</h1>
+        <p class="svh-lead" data-rise>{e(p['lead'])}</p>
+        <a href="#ab-contact" class="btn-contact btn-contact--xl svh-cta" data-rise>Speak to an Expert {ARROW}</a>
       </div>
     </section>
 
@@ -425,7 +410,7 @@ def build():
         h = re.sub(r'(<link rel="stylesheet" href="about\.css[^>]*>)', rf'\1\n  <link rel="stylesheet" href="service.css{ver}" />', h)
         h = h.replace('class="nav-link is-current" href="about-us.html" aria-current="page"', 'class="nav-link" href="about-us.html"')
         h = h.replace(f'<div class="nav-item" data-menu="{p["menu"]}">', f'<div class="nav-item is-current" data-menu="{p["menu"]}">')
-        t = tail.replace('<script src="about.js', f'<script src="showcase.js{ver}"></script>\n  <script src="about.js', 1)
+        t = tail.replace('<script src="about.js', f'<script src="waves-bg.js{ver}"></script>\n  <script src="showcase.js{ver}"></script>\n  <script src="about.js', 1)
         if SHOW_WHY:
             t = t.replace('<script src="about.js', f'<script src="whyus.js{ver}"></script>\n  <script src="about.js', 1)
         if 'clock' in p:
