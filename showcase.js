@@ -28,12 +28,13 @@
     p = p < 0 ? target : p + (target - p) * 0.16;
     if (Math.abs(target - p) < 0.0005) p = target;
 
-    // 0 → .25 the dock rises; .2 → .9 the tiles travel, each a beat after the last
+    // 0 → .25 the dock rises; .18 → .84 the tiles travel, each a beat after the last; then the paragraph
     sec.style.setProperty('--dock', ease(clamp01(p / 0.25)).toFixed(3));
+    sec.style.setProperty('--after', ease(clamp01((p - 0.84) / 0.12)).toFixed(3));   // paragraph, after the last tile lands
     const pr = pin.getBoundingClientRect();
     const stagger = n > 1 ? 0.22 / (n - 1) : 0;
     tiles.forEach((tile, i) => {
-      const t = ease(clamp01((p - 0.2 - i * stagger) / 0.48));
+      const t = ease(clamp01((p - 0.18 - i * stagger) / 0.44));
       const a = from[i].getBoundingClientRect(), b = to[i].getBoundingClientRect();
       const size = a.width + (b.width - a.width) * t;
       const x = a.left + (b.left - a.left) * t - pr.left;

@@ -145,7 +145,7 @@
   font-size: 12.5px; letter-spacing: .04em; color: #e9d5ff;
   background: rgba(98, 29, 208, .3); border: 1px solid rgba(171, 36, 242, .55);
 }
-.svp-clock-detail h3 { margin-top: 14px; font-weight: 400; font-size: clamp(28px, 2.7vw, 44px); letter-spacing: -0.02em; line-height: 1.1; }
+.svp-clock-detail h3 { margin-top: clamp(22px, 2.2vw, 32px); font-weight: 400; font-size: clamp(28px, 2.7vw, 44px); letter-spacing: -0.02em; line-height: 1.1; }
 .svp-cd-lead { margin-top: 12px; max-width: 480px; font-size: clamp(15px, 1.2vw, 18px); line-height: 1.6; color: #d0d0d8; }
 /* One quiet ruled list, then the deliverables as a single line — no competing columns */
 .svp-cd-cols { margin-top: clamp(22px, 2.4vw, 34px); max-width: 480px; }
@@ -268,7 +268,7 @@
   .svp-clock-details { margin-top: 14px; }
   .svp-clock.is-live .svp-clock-details { min-height: 11.6em; }
   .svp-clock-no { font-size: 40px; }
-  .svp-clock-detail h3 { margin-top: 6px; font-size: 22px; }
+  .svp-clock-detail h3 { margin-top: 16px; font-size: 22px; }
   .svp-cd-lead { margin-top: 6px; font-size: 14.5px; line-height: 1.5; }
   /* Room is tight on a pinned phone screen: keep the deliverables, drop the activity list */
   .svp-clock.is-live .svp-cd-does { display: none; }
@@ -296,17 +296,19 @@
    A statement with one image tile per sub-category set into the sentence. While the stage
    is pinned the tiles leave the text and land in the dock below. --n = number of tiles. */
 .svb { margin-top: clamp(40px, 5vw, 80px); }
-.svb.is-live { height: calc(100svh + 130vh); }
+.svb.is-live { height: calc(100svh + 150vh); }
 .svb-pin {
   position: relative;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(48px, 10svh, 130px);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0;
   max-width: 1676px; margin: 0 auto; padding: clamp(24px, 4svh, 48px) clamp(16px, 5vw, 96px);
 }
 .svb.is-live .svb-pin { position: sticky; top: var(--header-h); height: calc(100svh - var(--header-h)); }
 .svb-statement {
   max-width: 21em; text-align: center; text-wrap: balance;
   font-family: "Sora", sans-serif; font-weight: 400;
-  font-size: clamp(26px, 4.1vw, 66px); line-height: 1.22; letter-spacing: -0.03em;
+  /* also capped by viewport height so eyebrow, sentence, dock and paragraph all fit the pinned stage */
+  font-size: min(clamp(26px, 4.1vw, 66px), 7.2svh); line-height: 1.22; letter-spacing: -0.03em;
+  margin: clamp(14px, 2svh, 22px) 0 clamp(40px, 9svh, 110px);
 }
 .svb-statement em {
   font-family: "Instrument Serif", serif; font-style: italic; font-size: 1.12em; letter-spacing: -0.01em;
@@ -327,10 +329,16 @@
 }
 .svb-tile img, .svb-dock-slot img, .svf-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .svb:not(.is-live) .svb-tiles { display: none; }
+/* Supporting paragraph: arrives once every tile is in the dock (--after, 0…1) */
+.svb-after {
+  max-width: 640px; margin-top: clamp(20px, 3.4svh, 40px); text-align: center; text-wrap: balance;
+  font-size: clamp(15px, 1.25vw, 18px); line-height: 1.6; color: var(--text-muted);
+}
+.svb.is-live .svb-after { opacity: var(--after, 0); translate: 0 calc((1 - var(--after, 0)) * 18px); }
 
 /* Dock: a tray styled like an editor timeline */
 .svb-dock {
-  --slot: clamp(92px, 13.5vw, 210px);
+  --slot: min(clamp(92px, 13.5vw, 210px), 23svh);
   padding: clamp(12px, 1.4vw, 20px); border-radius: clamp(20px, 2.2vw, 32px);
   background: linear-gradient(180deg, #14142b, #0a0a15); border: 1px solid rgba(255, 255, 255, .08);
   box-shadow: 0 30px 70px rgba(0, 0, 0, .6);

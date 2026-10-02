@@ -253,6 +253,7 @@ def showcase_html(p):
     Works for any number of groups."""
     groups = p['groups']
     n = len(groups)
+    ib, _it, ip = p['intro']          # eyebrow above the sentence, paragraph once the tiles have landed
     text = p['statement']
     for i, (gid, name, _b, _c) in enumerate(groups):
         text = text.replace('{' + gid + '}', f'<span class="svb-slot" data-i="{i}" aria-hidden="true"></span>')
@@ -280,11 +281,13 @@ def showcase_html(p):
     return f'''    <!-- ===== Showcase: the sentence's image tiles drop into a dock as you scroll ===== -->
     <section class="svb" aria-labelledby="svb-title" style="--n:{n}">
       <div class="svb-pin">
+        <span class="svc-badge svb-badge">{e(ib)}</span>
         <h2 id="svb-title" class="svb-statement">{text}</h2>
         <div class="svb-dock">
           <div class="svb-dock-bar" aria-hidden="true"><span class="svb-play"></span><span class="svb-time">00:0{n} / 00:0{n}</span><span class="svb-ticks">{ticks}</span></div>
           <ol class="svb-dock-slots">{dock}</ol>
         </div>
+        <p class="svb-after">{e(ip)}</p>
         <div class="svb-tiles" aria-hidden="true">{tiles}</div>
       </div>
     </section>
@@ -394,10 +397,9 @@ def main_html(p):
     <section class="svp-services" id="services" aria-labelledby="svp-services-title">
       <div class="svp-head">
         <div>
-          <span class="svc-badge" data-rise>{e(ib)}</span>
+          <span class="svc-badge" data-rise>Our services</span>
           <h2 id="svp-services-title" class="ab-h2 ab-reveal" data-reveal>{it}</h2>
         </div>
-        <p class="svp-aside" data-rise>{e(ip)}</p>
       </div>
       <nav class="svp-jump" aria-label="Service groups" data-rise>{jump}</nav>{groups}
       <div class="svp-ind-row" data-rise>
