@@ -15,8 +15,9 @@ ROOT = Path(__file__).resolve().parent.parent
 ARROW = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" '
          'stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>')
 
-INDUSTRIES = ['Marketing & Advertising Agencies', 'Real Estate & Property Management', 'Logistics & Supply Chain Companies',
-              'Healthcare & Wellness Enterprises', 'SMEs and Growing Startups', 'Retail & E-commerce Businesses']
+# (name, descriptor) — shown as a looping strip, same build as the footer's partner strip
+INDUSTRIES = [('Marketing', 'Advertising agencies'), ('Real Estate', 'Property management'), ('Logistics', 'Supply chain companies'),
+              ('Healthcare', 'Wellness enterprises'), ('Startups', 'SMEs and growing teams'), ('Retail', 'E-commerce businesses')]
 
 # One image per sub-category (group id → file). Used as the tile in the statement, the
 # dock and the feature row. Swap these for purpose-made visuals when they exist.
@@ -253,7 +254,7 @@ def showcase_html(p):
     Works for any number of groups."""
     groups = p['groups']
     n = len(groups)
-    inds = ''.join(f'<li>{e(x)}</li>' for x in INDUSTRIES)
+    inds = ''.join(f'<li><strong>{e(a)}</strong><span>{e(b)}</span></li>' for a, b in INDUSTRIES)
     ib, _it, ip = p['intro']          # eyebrow above the sentence, paragraph once the tiles have landed
     text = p['statement']
     for i, (gid, name, _b, _c) in enumerate(groups):
@@ -297,7 +298,10 @@ def showcase_html(p):
     <section class="svf" id="services" aria-label="{e(p['badge'])} sub-categories">{rows}
       <div class="svp-ind-row" data-rise>
         <p class="svp-ind-label">Industries we work with</p>
-        <ul class="svp-ind">{inds}</ul>
+        <!-- Same strip as the footer partners; outro.js clones the group and loops it -->
+        <div class="szf-partners-row svp-ind-loop">
+          <div class="szf-partners-track"><ul class="szf-partners-group">{inds}</ul></div>
+        </div>
       </div>
     </section>
 
@@ -350,7 +354,6 @@ def main_html(p):
     why = why_html(p) if SHOW_WHY else ''
     showcase = showcase_html(p)
     steps = ''.join(f'<li class="ab-step" data-rise><span class="ab-step-num">{i:02d}</span><h3>{e(t)}</h3><p>{e(d)}</p></li>' for i, (t, d) in enumerate(p['steps'], 1))
-    inds = ''.join(f'<li>{e(x)}</li>' for x in INDUSTRIES)
     ib, it, ip = p['intro']
     process = clock_html(p) if 'clock' in p else f'''    <!-- ===== Process (same track as the About page) ===== -->
     <section class="ab-process" aria-labelledby="svp-process-title">

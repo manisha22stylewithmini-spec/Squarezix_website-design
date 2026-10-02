@@ -80,11 +80,15 @@
 .svp-pillar li li, .svp-pillar ul li { position: relative; padding-left: 20px; font-size: 15px; line-height: 1.5; color: var(--text-muted); }
 .svp-pillar ul li::before { content: ""; position: absolute; left: 0; top: .62em; width: 9px; height: 1.5px; background: var(--brand-pink); }
 
-/* ---------- Industries row (closes the services section) ---------- */
-.svp-ind-row { margin-top: 0; padding-top: clamp(24px, 2.6vw, 36px); border-top: 1px solid rgba(255, 255, 255, .14); display: flex; align-items: baseline; gap: 14px 28px; flex-wrap: wrap; }
-.svp-ind-label { flex: none; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #8f8aa6; }
-.svp-ind { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
-.svp-ind li { padding: 6px 11px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .16); font-size: 12.5px; color: #d0d0d8; }
+/* ---------- Industries: a looping strip, built like the footer's partner strip ---------- */
+.svp-ind-row { display: grid; gap: clamp(16px, 1.8vw, 24px); }
+.svp-ind-label { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #8f8aa6; }
+.svp-ind-loop.szf-partners-row { border-color: rgba(255, 255, 255, .14); }
+/* Edges fade into the page colour here, not the footer's */
+.svp-ind-loop.szf-partners-row::before { background: linear-gradient(90deg, var(--page) 15%, transparent); }
+.svp-ind-loop.szf-partners-row::after { background: linear-gradient(270deg, var(--page) 15%, transparent); }
+.svp-ind-loop .szf-partners-group li { justify-items: start; border-right-color: rgba(255, 255, 255, .14); }
+.svp-ind-loop .szf-partners-group span { color: var(--text-muted); text-transform: none; letter-spacing: .02em; font-size: 14px; }
 
 /* ---------- Why Squarezix ----------
    The home page's pinned horizontal section (sections.css + whyus.js), reused as is.
