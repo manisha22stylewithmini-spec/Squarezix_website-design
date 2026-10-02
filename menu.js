@@ -172,11 +172,11 @@
     let hoverTimer;
     tabs.forEach((t, i) => {
       t.addEventListener('click', (e) => {
-        // Desktop mouse: hover already shows the tab's services, so a click opens its page.
+        // Mouse (any width): hover already shows the tab's services, so a click opens its page.
         // Touch and keyboard: the first press selects the tab, a press on the selected tab opens it.
         const page = data.tabs[i].page;
         const selected = t.getAttribute('aria-selected') === 'true';
-        if (page && (selected || (desktop.matches && e.pointerType === 'mouse'))) { location.href = page; return; }
+        if (page && (selected || e.pointerType === 'mouse')) { location.href = page; return; }
         select(i);
       });
       t.addEventListener('pointerenter', (e) => {
