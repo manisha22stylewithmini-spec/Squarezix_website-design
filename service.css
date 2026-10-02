@@ -363,6 +363,10 @@
 .svf { max-width: 1676px; margin: 0 auto; padding: clamp(80px, 10vw, 150px) clamp(16px, 5vw, 96px) 0; display: grid; gap: clamp(56px, 8vw, 130px); }
 .svf-row { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: center; gap: clamp(28px, 5vw, 96px); scroll-margin-top: calc(var(--header-h) + 24px); }
 .svf-row:nth-child(even) .svf-panel { order: 2; }
+/* Mirrored rows: the copy hugs the panel side, so its right edge lines up with the right
+   edge of the panel in the row above */
+.svf-row:nth-child(even) .svf-copy { justify-self: end; text-align: right; }
+.svf-row:nth-child(even) .svf-blurb { margin-left: auto; }
 .svf-panel {
   display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .82fr); align-items: center; gap: clamp(14px, 1.6vw, 24px);
   padding: clamp(14px, 1.6vw, 24px); border-radius: clamp(22px, 2.4vw, 36px);
@@ -389,6 +393,8 @@
 @media (max-width: 900px) {
   .svf-row { grid-template-columns: 1fr; }
   .svf-row:nth-child(even) .svf-panel { order: 0; }
+  .svf-row:nth-child(even) .svf-copy { justify-self: start; text-align: left; }
+  .svf-row:nth-child(even) .svf-blurb { margin-left: 0; }
 }
 @media (max-width: 600px) {
   .svb-dock { --slot: calc((100vw - 32px - 34px - (var(--n) - 1) * 14px) / var(--n)); max-width: 100%; padding: 16px; }
