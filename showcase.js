@@ -30,7 +30,6 @@
 
     // 0 → .25 the dock rises; .18 → .84 the tiles travel, each a beat after the last; then the paragraph
     sec.style.setProperty('--dock', ease(clamp01(p / 0.25)).toFixed(3));
-    sec.style.setProperty('--after', ease(clamp01((p - 0.84) / 0.12)).toFixed(3));   // paragraph, after the last tile lands
     const pr = pin.getBoundingClientRect();
     const stagger = n > 1 ? 0.22 / (n - 1) : 0;
     tiles.forEach((tile, i) => {

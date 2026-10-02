@@ -253,6 +253,7 @@ def showcase_html(p):
     Works for any number of groups."""
     groups = p['groups']
     n = len(groups)
+    inds = ''.join(f'<li>{e(x)}</li>' for x in INDUSTRIES)
     ib, _it, ip = p['intro']          # eyebrow above the sentence, paragraph once the tiles have landed
     text = p['statement']
     for i, (gid, name, _b, _c) in enumerate(groups):
@@ -264,7 +265,7 @@ def showcase_html(p):
     ticks = ''.join('<i></i>' for _ in range(24))
     rows = ''
     for i, (gid, name, blurb, cards) in enumerate(groups):
-        specs = ''.join(f'<li><a href="#{gid}-{k}">{e(t)}</a></li>' for k, (t, _d) in enumerate(cards, 1))
+        specs = ''.join(f'<li>{e(t)}</li>' for t, _d in cards)
         rows += f'''
       <article class="svf-row" id="svf-{gid}">
         <div class="svf-panel" data-rise>
@@ -275,7 +276,7 @@ def showcase_html(p):
           <p class="svf-kicker" data-rise><b>{i + 1:02d}</b> / {n:02d}</p>
           <h3 data-rise>{e(name)}</h3>
           <p class="svf-blurb" data-rise>{e(blurb)}</p>
-          <a class="svp-link" href="#{gid}" data-rise>See {e(name.lower())} services {ARROW}</a>
+          <a class="svp-link" href="#ab-contact" data-rise>Talk to us about {e(name.lower())} {ARROW}</a>
         </div>
       </article>'''
     return f'''    <!-- ===== Showcase: the sentence's image tiles drop into a dock as you scroll ===== -->
@@ -287,13 +288,17 @@ def showcase_html(p):
           <div class="svb-dock-bar" aria-hidden="true"><span class="svb-play"></span><span class="svb-time">00:0{n} / 00:0{n}</span><span class="svb-ticks">{ticks}</span></div>
           <ol class="svb-dock-slots">{dock}</ol>
         </div>
-        <p class="svb-after">{e(ip)}</p>
         <div class="svb-tiles" aria-hidden="true">{tiles}</div>
       </div>
     </section>
+    <p class="svb-after" data-rise>{e(ip)}</p>
 
     <!-- ===== One row per sub-category, alternating sides ===== -->
-    <section class="svf" aria-label="{e(p['badge'])} sub-categories">{rows}
+    <section class="svf" id="services" aria-label="{e(p['badge'])} sub-categories">{rows}
+      <div class="svp-ind-row" data-rise>
+        <p class="svp-ind-label">Industries we work with</p>
+        <ul class="svp-ind">{inds}</ul>
+      </div>
     </section>
 
 '''
@@ -393,22 +398,7 @@ def main_html(p):
       </div>
     </div>
 
-{showcase}    <!-- ===== Services, grouped the same way as this item's dropdown ===== -->
-    <section class="svp-services" id="services" aria-labelledby="svp-services-title">
-      <div class="svp-head">
-        <div>
-          <span class="svc-badge" data-rise>Our services</span>
-          <h2 id="svp-services-title" class="ab-h2 ab-reveal" data-reveal>{it}</h2>
-        </div>
-      </div>
-      <nav class="svp-jump" aria-label="Service groups" data-rise>{jump}</nav>{groups}
-      <div class="svp-ind-row" data-rise>
-        <p class="svp-ind-label">Industries we work with</p>
-        <ul class="svp-ind">{inds}</ul>
-      </div>
-    </section>
-
-    <!-- ===== Approach ===== -->
+{showcase}    <!-- ===== Approach ===== -->
     <section class="svp-pillars" aria-labelledby="svp-pillars-title">
       <div class="ab-head ab-center">
         <span class="svc-badge" data-rise>{e(pb)}</span>
