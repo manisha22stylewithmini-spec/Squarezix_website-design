@@ -135,31 +135,31 @@
 .svp-clock.is-live .svp-clock-detail.is-active > :nth-child(3) { transition-delay: .12s; }
 .svp-clock.is-live .svp-clock-detail.is-active > :nth-child(4) { transition-delay: .2s; }
 
-.svp-cd-top { display: flex; align-items: flex-end; gap: 16px; }
+.svp-cd-top { display: flex; align-items: center; gap: 14px; }
 .svp-clock-no {
-  font-family: "Instrument Serif", serif; font-style: italic; font-size: clamp(56px, 5.2vw, 88px); line-height: .82;
+  font-family: "Instrument Serif", serif; font-style: italic; font-size: clamp(44px, 4vw, 68px); line-height: .9;
   background: linear-gradient(180deg, #d9b8ff, #621dd0); -webkit-background-clip: text; background-clip: text; color: transparent;
   padding-right: .06em;
 }
 .svp-cd-when {
-  margin-bottom: .5em; padding: 5px 11px; border-radius: 999px;
+  padding: 5px 11px; border-radius: 999px;
   font-size: 12.5px; letter-spacing: .04em; color: #e9d5ff;
   background: rgba(98, 29, 208, .3); border: 1px solid rgba(171, 36, 242, .55);
 }
-.svp-clock-detail h3 { margin-top: 12px; font-weight: 400; font-size: clamp(26px, 2.5vw, 40px); letter-spacing: -0.02em; line-height: 1.1; }
-.svp-cd-lead { margin-top: 10px; max-width: 520px; font-size: clamp(15px, 1.2vw, 18px); line-height: 1.6; color: #d0d0d8; }
-.svp-cd-cols {
-  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(16px, 2vw, 32px);
-  margin-top: clamp(18px, 2vw, 28px); padding-top: clamp(16px, 1.6vw, 22px); max-width: 600px;
-  border-top: 1px dashed rgba(255, 255, 255, .14);
-}
+.svp-clock-detail h3 { margin-top: 14px; font-weight: 400; font-size: clamp(28px, 2.7vw, 44px); letter-spacing: -0.02em; line-height: 1.1; }
+.svp-cd-lead { margin-top: 12px; max-width: 480px; font-size: clamp(15px, 1.2vw, 18px); line-height: 1.6; color: #d0d0d8; }
+/* One quiet ruled list, then the deliverables as a single line — no competing columns */
+.svp-cd-cols { margin-top: clamp(22px, 2.4vw, 34px); max-width: 480px; }
 .svp-cd-cols h4 { font-family: "DM Sans", sans-serif; font-weight: 400; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #8f8aa6; }
-.svp-cd-cols ul { list-style: none; margin-top: 12px; }
-.svp-cd-does ul { display: grid; gap: 8px; }
-.svp-cd-does li { position: relative; padding-left: 20px; font-size: 15px; line-height: 1.45; color: var(--text-muted); }
-.svp-cd-does li::before { content: ""; position: absolute; left: 0; top: .62em; width: 9px; height: 1.5px; background: var(--brand-pink); }
-.svp-cd-gets ul { display: flex; flex-wrap: wrap; gap: 6px; }
-.svp-cd-gets li { padding: 6px 11px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .16); font-size: 12.5px; color: #d0d0d8; }
+.svp-cd-cols ul { list-style: none; }
+.svp-cd-does h4 { display: none; }
+.svp-cd-does li { padding: 12px 0; border-top: 1px solid rgba(255, 255, 255, .1); font-size: 15.5px; line-height: 1.4; color: #fff; }
+.svp-cd-does li:last-child { border-bottom: 1px solid rgba(255, 255, 255, .1); }
+.svp-cd-gets { display: flex; align-items: baseline; gap: 14px; margin-top: 18px; }
+.svp-cd-gets h4 { flex: none; }
+.svp-cd-gets ul { display: flex; flex-wrap: wrap; }
+.svp-cd-gets li { font-size: 14.5px; line-height: 1.6; color: var(--text-muted); }
+.svp-cd-gets li:not(:last-child)::after { content: "·"; margin: 0 .6em; color: #6f6c7d; }   /* after, so a wrapped line never starts with a dot */
 
 .svp-clock-count { display: none; align-items: center; gap: 10px; margin-top: clamp(20px, 2.4vw, 34px); font-size: 13px; letter-spacing: .12em; color: #6f6c7d; }
 .svp-clock.is-live .svp-clock-count { display: flex; }
@@ -170,7 +170,7 @@
 /* ---- Dial: a stack of layers at different depths, tilting toward the pointer ---- */
 .svp-dial-wrap { position: relative; justify-self: center; width: min(660px, 45vw, 80svh); aspect-ratio: 1; perspective: 1100px; }
 .svp-dial {
-  position: absolute; inset: 26.5%;
+  position: absolute; inset: 27.5%;
   transform-style: preserve-3d;
   transform: rotateX(calc(var(--ty) * 1deg)) rotateY(calc(var(--tx) * 1deg));
 }
@@ -230,7 +230,7 @@
 .svp-hub { left: 50%; top: 50%; width: 27%; height: auto; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%; transform: translateZ(40px); filter: drop-shadow(0 10px 14px rgba(0, 0, 0, .6)); }
 
 /* Orbit the stops sit on, with a satellite that keeps pace with the sweep hand */
-.svp-orbit { position: absolute; inset: 8% 13%; border-radius: 50%; border: 1px dashed rgba(255, 255, 255, .13); }
+.svp-orbit { position: absolute; inset: 18%; border-radius: 50%; border: 1px dashed rgba(255, 255, 255, .13); }
 .svp-sat {
   position: absolute; left: calc(50% + 50% * sin(var(--sweep))); top: calc(50% - 50% * cos(var(--sweep)));
   width: 10px; height: 10px; translate: -50% -50%; border-radius: 50%;
@@ -240,7 +240,7 @@
 .svp-stops { list-style: none; position: absolute; inset: 0; pointer-events: none; }
 .svp-stop {
   --a: calc(var(--i) * 360deg / var(--n));
-  position: absolute; left: calc(50% + 37% * sin(var(--a))); top: calc(50% - 42% * cos(var(--a)));
+  position: absolute; left: calc(50% + 41% * sin(var(--a))); top: calc(50% - 41% * cos(var(--a)));
   translate: -50% -50%;
 }
 .svp-stop button {
@@ -256,41 +256,34 @@
   transition: color .3s ease, border-color .3s ease, background .3s ease, box-shadow .4s ease, scale .55s cubic-bezier(.22, 1, .36, 1);
 }
 .svp-stop button:hover .svp-stop-name { border-color: rgba(171, 36, 242, .7); color: #fff; }
-/* Duration unfolds under the current stop */
-.svp-stop-when {
-  max-height: 0; opacity: 0; overflow: hidden;
-  font-size: 12px; letter-spacing: .04em; color: #e9d5ff;
-  transition: max-height .5s cubic-bezier(.22, 1, .36, 1), opacity .35s ease;
-}
+.svp-stop-when { display: none; }      /* the timeframe is shown once, in the pill beside the step number */
 /* Reached: tinted. Current: filled with the brand gradient. Without JS all read as reached. */
 .svp-clock:not(.is-live) .svp-stop-name, .svp-stop.is-done .svp-stop-name { color: #e9d5ff; background: #1c0f45; border-color: rgba(171, 36, 242, .55); }
 .svp-stop.is-done .svp-stop-no, .svp-stop.is-active .svp-stop-no { color: #fff; }
 .svp-stop.is-active .svp-stop-name { color: #fff; background: var(--brand-gradient); border-color: transparent; box-shadow: 0 16px 34px rgba(0, 0, 0, .6); scale: 1.1; }
-.svp-stop.is-active .svp-stop-when { max-height: 2em; opacity: 1; margin-top: 4px; }
 
 @media (max-width: 900px) {
   .svp-clock-pin { grid-template-columns: 1fr; align-content: center; gap: 8px; }
   .svp-clock.is-live .svp-clock-pin { align-content: space-evenly; }
   .svp-clock-copy .ab-h2 { margin-top: 12px; font-size: clamp(26px, 6.6vw, 38px); }
   .svp-clock-details { margin-top: 14px; }
-  .svp-clock.is-live .svp-clock-details { min-height: 13.2em; }
-  .svp-clock-no { font-size: 44px; }
-  .svp-cd-when { margin-bottom: .3em; }
+  .svp-clock.is-live .svp-clock-details { min-height: 11.6em; }
+  .svp-clock-no { font-size: 40px; }
   .svp-clock-detail h3 { margin-top: 6px; font-size: 22px; }
   .svp-cd-lead { margin-top: 6px; font-size: 14.5px; line-height: 1.5; }
   /* Room is tight on a pinned phone screen: keep the deliverables, drop the activity list */
   .svp-clock.is-live .svp-cd-does { display: none; }
-  .svp-cd-cols { grid-template-columns: 1fr; margin-top: 12px; padding-top: 10px; }
-  .svp-cd-cols ul { margin-top: 8px; }
-  .svp-clock.is-live .svp-cd-gets h4 { display: none; }
+  .svp-cd-cols { margin-top: 12px; }
+  .svp-cd-gets { margin-top: 0; gap: 10px; }
+  .svp-cd-gets li { font-size: 13.5px; }
   .svp-clock-count { margin-top: 10px; }
   .svp-dial-wrap { width: min(100%, 420px, 42svh); }
   /* Single column: a smaller dial so the stop labels clear its rim */
   .svp-dial { inset: 30%; }
-  .svp-orbit { inset: 7% 14%; }
-  .svp-stop { left: calc(50% + 36% * sin(var(--a))); top: calc(50% - 43% * cos(var(--a))); }
+  .svp-orbit { inset: 23%; }
+  .svp-stop { left: calc(50% + 40% * sin(var(--a))); top: calc(50% - 40% * cos(var(--a))); }
   .svp-stop button { gap: 2px; }
   .svp-stop-name { font-size: 13.5px; }
-  .svp-stop-no, .svp-stop-when { font-size: 10.5px; }
+  .svp-stop-no { font-size: 10.5px; }
 }
-@media (prefers-reduced-motion: reduce) { .svp-clock-detail > *, .svp-stop-name, .svp-stop-when, .svp-marks i::before { transition: none !important; } }
+@media (prefers-reduced-motion: reduce) { .svp-clock-detail > *, .svp-stop-name, .svp-marks i::before { transition: none !important; } }
