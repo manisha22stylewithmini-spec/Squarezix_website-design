@@ -59,13 +59,14 @@ PAGES = [
             ('Create', ['Brand Identity', 'Brand Guidelines', 'Brand Logo', 'Brand Marketing Assets', 'Brand Creatives']),
             ('Launch', ['Brand Management', 'Social Media Management', 'Launch Event Management', 'Public Relations', 'Media Relations']),
         ]),
-        'why': ('Why Squarezix', 'What sets Squarezix <em>apart</em>', [
-            ('Research-Led Design (Not Guesswork)', 'We start every project with real research: stakeholder interviews, user surveys, persona creation, competitor audits and user journey mapping.'),
-            ('Strategy First — Design Second', 'Design serves a strategy. We align every page and interaction to business goals: lead gen, sign-ups, product sales, brand lift.'),
-            ('Conversion & CRO Built-In', 'Conversion Rate Optimization is part of the design process, not an afterthought. We wireframe and A/B test variants, and use heatmaps and analytics insights.'),
-            ('Performance & Core Web Vitals Focus', 'Fast sites convert better. We design with performance in mind — lightweight layouts, optimized imagery, sensible animations.'),
-            ('Culturally Fluent, Arabic-First Thinking', 'Brands in Dubai must function in Arabic and English. We design identities and messaging with Arabic-first typography, RTL layouts and culturally sensitive storytelling.'),
-            ('Accessibility & Inclusive UX', 'Accessibility isn’t a checkbox — it’s good design. We follow WCAG best practices: semantic HTML, ARIA roles, keyboard navigation and colour contrast.'),
+        # Same component as the home page's Why SquareZix (heading lines, intro, six cards)
+        'why': ('More than a <em>pretty site.</em>', 'Design and build that earn their keep.', 'Research, strategy, design and engineering under one roof, so the brand and the website are built to perform together.', [
+            ('Research-Led Design', 'Stakeholder interviews, user surveys and competitor audits before a single layout.'),
+            ('Strategy First', 'Every page and interaction is aligned to a business goal: leads, sign-ups, sales.'),
+            ('Conversion Built In', 'CRO is part of the design process: wireframe tests, heatmaps and analytics.'),
+            ('Fast by Design', 'Lightweight layouts and optimised imagery, built for Core Web Vitals.'),
+            ('Arabic-First Thinking', 'Identities and layouts that work in Arabic and English, RTL included.'),
+            ('Accessible UX', 'WCAG best practices: semantic HTML, keyboard navigation and colour contrast.'),
         ]),
         # Six stops round the clock face, clockwise from 12 (see clock_html / clock.js).
         # Each stop: name, when, lead, what happens, what you get.
@@ -130,13 +131,14 @@ PAGES = [
             ('Media Management', ['Scheduling posts', 'Engaging with your followers', 'A consistent, authentic presence']),
             ('Analytics & Reporting', ['Detailed analytics', 'Clear campaign reporting', 'Insights into performance']),
         ]),
-        'why': ('Why Squarezix', 'A social media agency that <em>delivers</em>', [
-            ('Culturally Tuned Content That Resonates', 'We create content in Arabic and English, adapt messaging for local customs, and design visuals that appeal to the region.'),
-            ('Data-First Strategy & Audience Segmentation', 'We don’t guess who your audience is. We use analytics, audience insights and social listening tools to define who your customers are, what platforms they use, and when they engage.'),
-            ('Integrated Paid + Organic Approach', 'We deliver both — blending organic content that builds trust with paid campaigns that drive action.'),
-            ('Platform-Specific Expertise & Format Mastery', 'Every social platform has its rules, strengths and audience expectations. We know how to unlock growth on Instagram, TikTok, LinkedIn, Facebook, YouTube and Snapchat.'),
-            ('Local Trends, Events & Seasonal Awareness', 'Dubai is a city of events, seasons and festivals. We integrate relevant local events into content calendars and campaigns.'),
-            ('Transparent Insights & Consistent Reporting', 'Regular reports with clear metrics: reach, engagement, follower growth, conversion paths, ad spend ROI. We explain not just what happened but why, and what we’ll do next.'),
+        # Same component as the home page's Why SquareZix (heading lines, intro, six cards)
+        'why': ('More than <em>posting.</em>', 'Social and content that move the numbers.', 'Organic, paid, community and reporting run as one system, tuned for Dubai and the GCC.', [
+            ('Culturally Tuned', 'Content in Arabic and English, adapted for local customs and audiences.'),
+            ('Data-First Strategy', 'Analytics and social listening define who your customers are and when they engage.'),
+            ('Paid + Organic', 'Organic content that builds trust, blended with paid campaigns that drive action.'),
+            ('Platform Mastery', 'Formats that work on Instagram, TikTok, LinkedIn, Facebook, YouTube and Snapchat.'),
+            ('Local Moments', 'Dubai events, seasons and festivals built into every content calendar.'),
+            ('Transparent Reporting', 'Clear metrics, what happened, why, and what we’ll do next.'),
         ]),
         'steps': [('Listen', 'Audience research, competitor analysis and social listening.'), ('Plan', 'Content calendars built around your goals and local moments.'),
                   ('Create', 'Posts, reels, stories and ad creative, in Arabic and English.'), ('Optimise', 'Real-time monitoring and regular reports that say what’s next.')],
@@ -174,13 +176,14 @@ PAGES = [
             ('AI authority', ['Targeting LLM-cited sources', 'Quality backlinks', 'Authoritative, relevant domains', 'Stronger AI trust signals']),
             ('Multiple formats', ['Blogs and long-form guides', 'Infographics and short-form visuals', 'Videos optimised for AI search', 'Featured in AI Overviews']),
         ]),
-        'why': ('Why Squarezix', 'How Squarezix <em>stands out</em>', [
-            ('AI-Driven Strategy Tailored for Dubai Markets', 'Real-time AI insights build custom AI SEO strategies aligned with Dubai’s fast-moving digital landscape.'),
-            ('Predictive AI SEO for Faster Results', 'Our AI systems forecast ranking shifts, competitor movements and search trend changes, so we optimise ahead of time.'),
-            ('Hyper-Personalized Keyword Targeting', 'Instead of generic keyword lists, we use AI to identify intent-based, commercial, high-value keywords tailored to your industry.'),
-            ('Real-Time Competitor Monitoring', 'We track your competitors’ AI SEO strategies using AI-powered tools, allowing us to counter new movements and maintain your ranking advantage.'),
-            ('Multilingual SEO & Arabic-First Content', 'We build content strategies and implementations that are inherently bilingual (Arabic + English), or multilingual when needed.'),
-            ('Transparent, Data-Rich Reporting', 'Dashboards that deliver clear insights — keyword improvements, traffic trends, competitor gaps and opportunities that drive real business growth.'),
+        # Same component as the home page's Why SquareZix (heading lines, intro, six cards)
+        'why': ('More than <em>rankings.</em>', 'Found on Google, cited by AI.', 'Technical SEO, content and authority working together, so search engines and AI answers both recommend you.', [
+            ('Built for Dubai', 'AI SEO strategies aligned with Dubai’s fast-moving digital landscape.'),
+            ('Predictive SEO', 'We forecast ranking shifts and search trends, then optimise ahead of time.'),
+            ('Intent Targeting', 'Intent-based, high-value keywords tailored to your industry, not generic lists.'),
+            ('Competitor Watch', 'Real-time monitoring so we can counter new moves and hold your advantage.'),
+            ('Arabic + English', 'Content strategies that are bilingual from the start, multilingual when needed.'),
+            ('Data-Rich Reporting', 'Dashboards for rankings, traffic, AI visibility and competitor gaps.'),
         ]),
         'steps': [('Audit', 'Technical gaps, ranking opportunities and LLM citation potential.'), ('Structure', 'Architecture, schema and Core Web Vitals for crawlers and AI bots.'),
                   ('Publish', 'Citable, conversational content in the formats AI engines quote.'), ('Monitor', 'Rankings, AI visibility and citation frequency, tracked continuously.')],
@@ -238,6 +241,24 @@ def clock_html(p):
 '''
 
 
+def why_html(p):
+    """The home page's Why SquareZix section (markup, icons, whyus.js) with this page's copy."""
+    home = (ROOT / 'index.html').read_text()
+    start = home.index('<section class="why-us wu-h"')
+    sec = home[start:home.index('</section>', start) + len('</section>')]
+    l1, l2, sub, cards = p['why']
+    sec = re.sub(r'(<span class="wu-line1">).*?(</span>\s*<span class="wu-line2">)', lambda m: m.group(1) + l1 + m.group(2), sec, count=1, flags=re.S)
+    sec = re.sub(r'(<span class="wu-line2">).*?(</span>)', lambda m: m.group(1) + e(l2) + m.group(2), sec, count=1, flags=re.S)
+    sec = re.sub(r'(<p class="wu-sub">).*?(</p>)', lambda m: m.group(1) + e(sub) + m.group(2), sec, count=1, flags=re.S)
+    it = iter(cards)
+    def card(m):
+        t, d = next(it)
+        return f'<h3>{e(t)}</h3>\n              <p>{e(d)}</p>'
+    sec, n = re.subn(r'<h3>.*?</h3>\s*<p>.*?</p>', card, sec, flags=re.S)
+    assert n == len(cards), f'home section has {n} cards, page defines {len(cards)}'
+    return '    ' + sec.replace('href="#contact"', 'href="#ab-contact"') + '\n\n'
+
+
 def main_html(p):
     grad = ' class="ab-grad"'
     lines = ''.join(f'<span{grad if i == p["grad"] else ""}>{e(t)}</span>' for i, t in enumerate(p['h1']))
@@ -259,8 +280,7 @@ def main_html(p):
     pb, pt, pl = p['pillars']
     pillars = ''.join(f'<li class="svp-pillar" data-rise><span class="svp-pillar-no">{i:02d}</span><h3>{e(t)}</h3><ul>{"".join(f"<li>{e(x)}</li>" for x in xs)}</ul></li>'
                       for i, (t, xs) in enumerate(pl, 1))
-    wb, wt, wl = p['why']
-    why = ''.join(f'<li class="svp-why-row" data-rise><span>{i:02d}</span><h3>{e(t)}</h3><p>{e(d)}</p></li>' for i, (t, d) in enumerate(wl, 1))
+    why = why_html(p)
     steps = ''.join(f'<li class="ab-step" data-rise><span class="ab-step-num">{i:02d}</span><h3>{e(t)}</h3><p>{e(d)}</p></li>' for i, (t, d) in enumerate(p['steps'], 1))
     inds = ''.join(f'<li>{e(x)}</li>' for x in INDUSTRIES)
     ib, it, ip = p['intro']
@@ -320,6 +340,10 @@ def main_html(p):
         <p class="svp-aside" data-rise>{e(ip)}</p>
       </div>
       <nav class="svp-jump" aria-label="Service groups" data-rise>{jump}</nav>{groups}
+      <div class="svp-ind-row" data-rise>
+        <p class="svp-ind-label">Industries we work with</p>
+        <ul class="svp-ind">{inds}</ul>
+      </div>
     </section>
 
     <!-- ===== Approach ===== -->
@@ -331,18 +355,7 @@ def main_html(p):
       <ol class="svp-pillar-list" style="--n:{len(pl)}">{pillars}</ol>
     </section>
 
-    <!-- ===== Why Squarezix ===== -->
-    <section class="svp-why" aria-labelledby="svp-why-title">
-      <div class="svp-why-head">
-        <span class="svc-badge" data-rise>{e(wb)}</span>
-        <h2 id="svp-why-title" class="ab-h2 ab-reveal" data-reveal>{wt}</h2>
-        <p class="svp-ind-label" data-rise>Industries we work with</p>
-        <ul class="svp-ind" data-rise>{inds}</ul>
-      </div>
-      <ol class="svp-why-list">{why}</ol>
-    </section>
-
-{process}'''
+{why}{process}'''
 
 
 def build():
@@ -357,7 +370,7 @@ def build():
         h = re.sub(r'(<link rel="stylesheet" href="about\.css[^>]*>)', rf'\1\n  <link rel="stylesheet" href="service.css{ver}" />', h)
         h = h.replace('class="nav-link is-current" href="about-us.html" aria-current="page"', 'class="nav-link" href="about-us.html"')
         h = h.replace(f'<div class="nav-item" data-menu="{p["menu"]}">', f'<div class="nav-item is-current" data-menu="{p["menu"]}">')
-        t = tail
+        t = tail.replace('<script src="about.js', f'<script src="whyus.js{ver}"></script>\n  <script src="about.js', 1)
         if 'clock' in p:
             t = t.replace('<script src="about.js', f'<script src="clock.js{ver}"></script>\n  <script src="about.js', 1)
         (ROOT / p['file']).write_text(h + main_html(p) + '    ' + contact + '</main>' + t)
