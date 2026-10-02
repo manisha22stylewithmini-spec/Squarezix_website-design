@@ -299,8 +299,9 @@
 .svb.is-live { height: calc(100svh + 150vh); }
 .svb-pin {
   position: relative;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0;
-  max-width: 1676px; margin: 0 auto; padding: clamp(32px, 7svh, 80px) clamp(16px, 5vw, 96px);
+  /* content sits toward the bottom of the stage so the paragraph below follows the dock closely */
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 0;
+  max-width: 1676px; margin: 0 auto; padding: clamp(32px, 7svh, 80px) clamp(16px, 5vw, 96px) clamp(14px, 2.6svh, 28px);
 }
 .svb.is-live .svb-pin { position: sticky; top: var(--header-h); height: calc(100svh - var(--header-h)); }
 .svb-statement {
@@ -332,7 +333,7 @@
 /* Supporting paragraph: sits under the stage, so it is read once the tiles have landed */
 .svb-after {
   /* wide enough for the paragraph to sit on three lines from tablet up */
-  box-sizing: content-box; max-width: 40em; margin: 0 auto; padding: clamp(8px, 2vw, 24px) clamp(16px, 5vw, 96px) 0; text-align: center; text-wrap: balance;
+  box-sizing: content-box; max-width: 40em; margin: 0 auto; padding: 6px clamp(16px, 5vw, 96px) 0; text-align: center; text-wrap: balance;
   font-size: clamp(16px, 1.35vw, 20px); line-height: 1.6; color: var(--text-muted);
 }
 
