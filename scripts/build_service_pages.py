@@ -241,6 +241,9 @@ def clock_html(p):
 '''
 
 
+SHOW_WHY = False
+
+
 def why_html(p):
     """The home page's Why SquareZix section (markup, icons, whyus.js) with this page's copy."""
     home = (ROOT / 'index.html').read_text()
@@ -280,7 +283,8 @@ def main_html(p):
     pb, pt, pl = p['pillars']
     pillars = ''.join(f'<li class="svp-pillar" data-rise><span class="svp-pillar-no">{i:02d}</span><h3>{e(t)}</h3><ul>{"".join(f"<li>{e(x)}</li>" for x in xs)}</ul></li>'
                       for i, (t, xs) in enumerate(pl, 1))
-    why = why_html(p)
+    # Why SquareZix lives on the home page only. Set SHOW_WHY = True to put it back on these pages.
+    why = why_html(p) if SHOW_WHY else ''
     steps = ''.join(f'<li class="ab-step" data-rise><span class="ab-step-num">{i:02d}</span><h3>{e(t)}</h3><p>{e(d)}</p></li>' for i, (t, d) in enumerate(p['steps'], 1))
     inds = ''.join(f'<li>{e(x)}</li>' for x in INDUSTRIES)
     ib, it, ip = p['intro']
@@ -370,7 +374,9 @@ def build():
         h = re.sub(r'(<link rel="stylesheet" href="about\.css[^>]*>)', rf'\1\n  <link rel="stylesheet" href="service.css{ver}" />', h)
         h = h.replace('class="nav-link is-current" href="about-us.html" aria-current="page"', 'class="nav-link" href="about-us.html"')
         h = h.replace(f'<div class="nav-item" data-menu="{p["menu"]}">', f'<div class="nav-item is-current" data-menu="{p["menu"]}">')
-        t = tail.replace('<script src="about.js', f'<script src="whyus.js{ver}"></script>\n  <script src="about.js', 1)
+        t = tail
+        if SHOW_WHY:
+            t = t.replace('<script src="about.js', f'<script src="whyus.js{ver}"></script>\n  <script src="about.js', 1)
         if 'clock' in p:
             t = t.replace('<script src="about.js', f'<script src="clock.js{ver}"></script>\n  <script src="about.js', 1)
         (ROOT / p['file']).write_text(h + main_html(p) + '    ' + contact + '</main>' + t)
