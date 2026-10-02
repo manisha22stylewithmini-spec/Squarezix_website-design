@@ -11,7 +11,7 @@
     web: {
       page: { href: 'web-and-brand.html', label: 'Explore Web & Brand' },
       tabs: [
-        { label: 'Branding', items: [
+        { label: 'Branding', page: 'branding.html', items: [
           { t: 'Brand Strategy & Positioning', d: 'Find the space only you can own', h: CONTACT },
           { t: 'Visual Identity Design', d: 'Logos, type and colour systems', h: CONTACT },
           { t: 'Brand Audit & Rebranding', d: 'Refresh without losing equity', h: CONTACT },
@@ -19,7 +19,7 @@
           { t: 'Brand Collateral & Print Design', d: 'Stationery, packaging, signage', h: CONTACT },
           { t: 'Content Creation Services', d: 'Photo, video and brand copy', h: CONTACT },
         ] },
-        { label: 'Designing', items: [
+        { label: 'Designing', page: 'designing.html', items: [
           { t: 'Website Design', d: 'Conversion-first, pixel-perfect', h: `${LIVE}/website-design-company-dubai/` },
           { t: 'E-commerce Website Design', d: 'Storefronts that sell', h: CONTACT },
           { t: 'Email Marketing Testing & Design', d: 'Templates tested across clients', h: CONTACT },
@@ -27,7 +27,7 @@
           { t: 'Rapid Web Design', d: 'Launch-ready in two weeks', h: CONTACT },
           { t: 'Social Media Design', d: 'Posts, reels and ad creative', h: CONTACT },
         ] },
-        { label: 'Development', items: [
+        { label: 'Development', page: 'development.html', items: [
           { t: 'Website Management', d: 'Updates, hosting and care plans', h: `${LIVE}/website-management-services/` },
           { t: 'Website Development', d: 'Fast, accessible, SEO-ready', h: `${LIVE}/website-development-company-in-dubai/` },
           { t: 'Headless CMS Development', d: 'Sanity, Strapi, Contentful', h: `${LIVE}/headless-cms-development/` },
@@ -41,13 +41,13 @@
     growth: {
       page: { href: 'growth-marketing.html', label: 'Explore Growth Marketing' },
       tabs: [
-        { label: 'Social Media Marketing', items: [
+        { label: 'Social Media Marketing', page: 'social-media-marketing.html', items: [
           { t: 'Community Management', d: 'Replies, DMs and daily presence', h: CONTACT },
           { t: 'Content Creation Services', d: 'Reels, carousels and stories', h: CONTACT },
           { t: 'Advertising & Media Services', d: 'Paid social that pays back', h: CONTACT },
           { t: 'Social Media Event Management', d: 'Launches, live and activations', h: CONTACT },
         ] },
-        { label: 'Content Marketing', items: [
+        { label: 'Content Marketing', page: 'content-marketing.html', items: [
           { t: 'Website Copywriting', d: 'Words that convert and rank', h: CONTACT },
           { t: 'Digital PR', d: 'Coverage and authority links', h: CONTACT },
           { t: 'Multimedia Content Assets', d: 'Video, graphics and guides built to be shared', h: CONTACT, wide: true },
@@ -58,14 +58,14 @@
     ai: {
       page: { href: 'ai-and-intelligence.html', label: 'Explore AI & Intelligence' },
       tabs: [
-        { label: 'Core SEO', items: [
+        { label: 'Core SEO', page: 'core-seo.html', items: [
           { t: 'Enterprise SEO', d: 'Scale across thousands of pages', h: CONTACT },
           { t: 'E-commerce SEO', d: 'Rank products and categories', h: `${LIVE}/ecommerce-seo-services/` },
           { t: 'Local SEO', d: 'Own the map pack in your city', h: `${LIVE}/local-seo-services/` },
           { t: 'AI & LLM SEO', d: 'Get cited by ChatGPT & Gemini', h: `${LIVE}/ai-seo-services/` },
           { t: 'Search Engine Optimization', d: 'Technical, on-page and off-page — the full foundation', h: `${LIVE}/seo-agency-dubai/`, wide: true },
         ] },
-        { label: 'Generative Search', items: [
+        { label: 'Generative Search', page: 'generative-search.html', items: [
           { t: 'Generative AI Research and Analysis', d: 'How AI answers talk about you', h: CONTACT },
           { t: 'Semantic Keywords Research', d: 'Topics, entities and intent', h: CONTACT },
           { t: 'AI-Optimised Content', d: 'Written to be quoted by AI', h: CONTACT },
@@ -106,6 +106,7 @@
     </a>`;
 
   const gridPane = (tab) => `
+    ${tab.page ? `<a class="mm-tab-page" href="${tab.page}">${esc(tab.label)} overview ${ARROW}</a>` : ''}
     <ul class="mm-grid">
       ${tab.items.map((it) => `
         <li${it.wide ? ' class="is-wide"' : ''}><a class="mm-card" href="${it.h || '#'}">

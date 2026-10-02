@@ -446,3 +446,22 @@
   .svf-art { width: 62%; margin: 14px auto 6px; }
   .svf-specs { grid-template-columns: 1fr 1fr; }
 }
+
+/* ---------- Sub-category pages ----------
+   Same sections as a main service page. More tiles (one per service), so the dock packs
+   them tighter, and the row titles are full service names, so they are set smaller. */
+.svb--many .svb-statement { font-size: min(clamp(24px, 3.5vw, 56px), 5.6svh); max-width: 24em; }
+.svb--many .svb-dock { --slot: min(clamp(84px, 9.4vw, 150px), 16svh); }
+.svb--many .svb-dock-slots { gap: clamp(12px, 1.8vw, 28px); }
+.svb--many .svb-dock-label { font-size: clamp(11.5px, .9vw, 14px); }
+.svf--sub .svf-copy h3 { font-size: clamp(28px, 3.2vw, 50px); line-height: 1.1; }
+@media (max-width: 600px) {
+  /* five or six tiles: rows of three, small enough that the whole stage still fits a phone screen */
+  .svb--many .svb-statement { font-size: min(24px, 3.4svh); }
+  .svb--many .svb-dock { --slot: min(calc((100vw - 104px) / 3), 84px); }
+  .svb--many .svb-dock-slots { flex-wrap: wrap; justify-content: center; gap: 10px 12px; }
+  .svb--many .svb-dock-slots li { width: var(--slot); }
+  .svb--many .svb-dock-slot { max-width: none; max-height: none; }
+  .svb--many .svb-dock-slots a { gap: 6px; }
+  .svb--many .svb-dock-label { font-size: 10.5px; }
+}

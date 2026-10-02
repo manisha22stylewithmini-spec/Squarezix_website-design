@@ -9,7 +9,11 @@ service pages on squarezix.com. Edit PAGES below and re-run to change a page.
 """
 import html
 import re
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from subpages_data import SUB  # noqa: E402  (copy for the sub-category pages)
 
 ROOT = Path(__file__).resolve().parent.parent
 PHONE = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
@@ -301,32 +305,38 @@ def showcase_html(p):
     n = len(groups)
     inds = ''.join(f'<li><strong>{e(a)}</strong><span>{e(b)}</span></li>' for a, b in INDUSTRIES)
     ib, _it, ip = p['intro']          # eyebrow above the sentence, paragraph once the tiles have landed
+    imgs = p.get('imgs', GROUP_IMG)      # sub-category pages bring their own image per service
+    short = p.get('short', {})           # …and a short dock label per service
+    is_sub = p.get('sub', False)
     text = p['statement']
     for i, (gid, name, _b, _c) in enumerate(groups):
         text = text.replace('{' + gid + '}', f'<span class="svb-slot" data-i="{i}" aria-hidden="true"></span>')
-    tiles = ''.join(f'<div class="svb-tile" data-i="{i}"><img src="{GROUP_IMG[gid]}" alt="" loading="lazy" /></div>' for i, (gid, *_r) in enumerate(groups))
+    tiles = ''.join(f'<div class="svb-tile" data-i="{i}"><img src="{imgs[gid]}" alt="" loading="lazy" /></div>' for i, (gid, *_r) in enumerate(groups))
     dock = ''.join(
-        f'<li><a href="#svf-{gid}"><span class="svb-dock-slot" data-i="{i}"><img src="{GROUP_IMG[gid]}" alt="" loading="lazy" /></span>'
-        f'<span class="svb-dock-label"><b>{i + 1:02d}</b>{e(name)}</span></a></li>' for i, (gid, name, _b, _c) in enumerate(groups))
+        f'<li><a href="#svf-{gid}"><span class="svb-dock-slot" data-i="{i}"><img src="{imgs[gid]}" alt="" loading="lazy" /></span>'
+        f'<span class="svb-dock-label"><b>{i + 1:02d}</b>{e(short.get(gid, name))}</span></a></li>' for i, (gid, name, _b, _c) in enumerate(groups))
     ticks = ''.join('<i></i>' for _ in range(24))
     rows = ''
     for i, (gid, name, blurb, cards) in enumerate(groups):
         specs = ''.join(f'<li>{e(t)}</li>' for t, _d in cards)
+        # A main page's row leads to that sub-category's own page; a sub-category page's row leads to contact
+        link = (f'<a class="svp-link" href="#ab-contact" data-rise>Talk to us about {e(name.lower())} {ARROW}</a>' if is_sub else
+                f'<a class="svp-link" href="{SUB[p["menu"]][gid]["file"]}" data-rise>Explore {e(name.lower())} {ARROW}</a>')
         rows += f'''
       <article class="svf-row" id="svf-{gid}">
         <div class="svf-panel" data-rise>
-          <div class="svf-art"><img src="{GROUP_IMG[gid]}" alt="" loading="lazy" /></div>
+          <div class="svf-art"><img src="{imgs[gid]}" alt="" loading="lazy" /></div>
           <ul class="svf-specs" aria-label="{e(name)} services">{specs}</ul>
         </div>
         <div class="svf-copy">
           <p class="svf-kicker" data-rise><b>{i + 1:02d}</b> / {n:02d}</p>
           <h3 data-rise>{e(name)}</h3>
           <p class="svf-blurb" data-rise>{e(blurb)}</p>
-          <a class="svp-link" href="#ab-contact" data-rise>Talk to us about {e(name.lower())} {ARROW}</a>
+          {link}
         </div>
       </article>'''
     return f'''    <!-- ===== Showcase: the sentence's image tiles drop into a dock as you scroll ===== -->
-    <section class="svb" aria-labelledby="svb-title" style="--n:{n}">
+    <section class="svb{' svb--many' if n > 4 else ''}" aria-labelledby="svb-title" style="--n:{n}">
       <div class="svb-pin">
         <span class="svc-badge svb-badge">{e(ib)}</span>
         <h2 id="svb-title" class="svb-statement">{text}</h2>
@@ -340,7 +350,7 @@ def showcase_html(p):
     <p class="svb-after" data-rise>{e(ip)}</p>
 
     <!-- ===== One row per sub-category, alternating sides ===== -->
-    <section class="svf" id="services" aria-label="{e(p['badge'])} sub-categories">{rows}
+    <section class="svf{' svf--sub' if is_sub else ''}" id="services" aria-label="{e(p['badge'])} services">{rows}
       <div class="svp-ind-row" data-rise>
         <p class="svp-ind-label">Industries we work with</p>
         <!-- Same strip as the footer partners; outro.js clones the group and loops it -->
@@ -445,12 +455,42 @@ def main_html(p):
 {why}{process}'''
 
 
+# Images for the service tiles on sub-category pages, handed out in turn (placeholders)
+POOL = ['assets/blog/ai-workplace.jpg', 'assets/work/project-2.png', 'assets/work/project-3.png', 'assets/reels/reel-1.jpg',
+        'assets/blog/ai-search.jpg', 'assets/work/project-1.png', 'assets/reels/reel-3.jpg', 'assets/blog/gcc-growth.jpg',
+        'assets/reels/reel-2.jpg', 'assets/reels/reel-4.jpg', 'assets/reels/reel-5.jpg']
+
+
+def sub_pages():
+    """One page per sub-category (dropdown tab): same sections as its parent page, with the
+    parent group's services as the tiles and rows. Approach and process come from the parent."""
+    out, k = [], 0
+    for parent in PAGES:
+        for gid, name, _blurb, cards in parent['groups']:
+            d = SUB[parent['menu']][gid]
+            assert len(d['services']) == len(cards), f'{d["file"]}: services do not match the parent group'
+            ids = [f's{i}' for i in range(len(cards))]
+            out.append({
+                'file': d['file'], 'menu': parent['menu'], 'badge': name, 'sub': True,
+                'title': f'{name} — {parent["badge"]} | Squarezix', 'desc': d['lead'],
+                'h1': d['h1'], 'grad': d['grad'], 'lead': d['lead'], 'statement': d['statement'],
+                'intro': (parent['intro'][0], '', d['intro']),
+                'groups': [(sid, title, desc, [(b, '') for b in bullets])
+                           for sid, (title, desc), (_s, bullets) in zip(ids, cards, d['services'])],
+                'short': {sid: s for sid, (s, _b) in zip(ids, d['services'])},
+                'imgs': {sid: POOL[(k + i) % len(POOL)] for i, sid in enumerate(ids)},
+                'pillars': parent['pillars'], 'clock': parent['clock'], 'steps': parent['steps'], 'why': parent['why'],
+            })
+            k += len(cards)
+    return out
+
+
 def build():
     src = (ROOT / 'about-us.html').read_text()
     head, rest = src.split('<main', 1)
     main, tail = rest.split('</main>', 1)
     contact = main[main.index('<section class="ab-contact"'):]          # reuse the About contact block as is
-    for p in PAGES:
+    for p in PAGES + sub_pages():
         h = re.sub(r'<title>.*?</title>', f'<title>{e(p["title"])}</title>', head, flags=re.S)
         h = re.sub(r'<meta name="description" content="[^"]*"', f'<meta name="description" content="{e(p["desc"])}"', h)
         ver = re.search(r'about\.css(\?v=\w+)', h).group(1)             # same cache-buster as the other assets
