@@ -12,6 +12,9 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+PHONE = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+         '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.18 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.1 9.9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />'
+         '<path d="M15 2.5a6 6 0 0 1 6.5 6.5M15 6a2.5 2.5 0 0 1 3 3" /></svg>')
 ARROW = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" '
          'stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>')
 
@@ -152,7 +155,7 @@ PAGES = [
         'file': 'ai-and-intelligence.html', 'menu': 'ai', 'badge': 'AI & Intelligence',
         'title': 'AI & Intelligence — SEO, AI SEO & Generative Search | Squarezix',
         'desc': 'SEO and AI search optimisation from Dubai: get found on Google and cited by ChatGPT, Gemini, Perplexity and AI Overviews.',
-        'h1': ['Your Customers Search', 'Smarter. We Make Sure', 'They Find You.'], 'grad': 1,
+        'h1': ['Your Customers Search Smarter.', 'We Make Sure', 'They Find You.'], 'grad': 1,
         'lead': 'If your business isn’t showing up on ChatGPT, Gemini, Perplexity, Google and AI Overviews, you’re already losing customers to competitors who are. We build the visibility, trust and authority that gets you recommended.',
         'screen': 'Rec · CH 05', 'region': 'SEO · AEO · GEO',
         # Statement after the hero: {group id} marks where that group's image tile sits in the sentence
@@ -330,6 +333,8 @@ def why_html(p):
 
 
 def main_html(p):
+    # One flowing sentence; the 'grad' part is the serif-italic accent phrase
+    headline = ' '.join(f'<em>{e(t)}</em>' if i == p['grad'] else e(t) for i, t in enumerate(p['h1']))
     grad = ' class="ab-grad"'
     lines = ''.join(f'<span{grad if i == p["grad"] else ""}>{e(t)}</span>' for i, t in enumerate(p['h1']))
     groups = ''
@@ -372,9 +377,9 @@ def main_html(p):
       <canvas class="svh-waves" aria-hidden="true"></canvas>
       <div class="svh-inner">
         <span class="svc-badge ab-badge" data-rise>{e(p['badge'])}</span>
-        <h1 id="svp-hero-title" class="ab-hero-title svh-title" data-rise>{lines}</h1>
+        <h1 id="svp-hero-title" class="svh-title" data-rise>{headline}</h1>
         <p class="svh-lead" data-rise>{e(p['lead'])}</p>
-        <a href="#ab-contact" class="btn-contact btn-contact--xl svh-cta" data-rise>Speak to an Expert {ARROW}</a>
+        <a href="#ab-contact" class="btn-contact btn-contact--xl svh-cta" data-rise>{PHONE} Contact us</a>
       </div>
     </section>
 

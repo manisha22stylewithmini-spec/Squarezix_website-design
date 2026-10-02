@@ -5,27 +5,39 @@
 /* ---------- Hero: wave gradient, eyebrow, headline, lead, one button ---------- */
 .svh {
   position: relative; isolation: isolate; overflow: hidden;
-  min-height: min(88svh, 860px);
+  min-height: min(100svh, 900px);
   display: grid; place-items: center;
   padding: calc(var(--header-h) + clamp(40px, 7svh, 90px)) clamp(16px, 5vw, 96px) clamp(64px, 10svh, 120px);
   /* shown until the shader draws, and if WebGL isn't available */
   background: linear-gradient(180deg, #000 0%, #601cce 38%, #ab26f2 62%, #000 100%);
 }
 .svh-waves { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; display: block; }
-/* Calms the brightest band behind the text and blends the bottom edge into the page */
-.svh::before {
-  content: ""; position: absolute; inset: 0; z-index: -1;
-  background:
-    radial-gradient(70% 60% at 50% 50%, rgba(7, 5, 17, .5), transparent 75%),
-    linear-gradient(180deg, transparent 72%, var(--page) 100%);
-}
+/* Blends the bottom edge into the page */
+.svh::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, transparent 78%, var(--page) 100%); }
 .svh-inner { display: grid; justify-items: center; text-align: center; max-width: 1100px; }
-.svh-title { margin-top: clamp(18px, 2.4vw, 28px); font-size: clamp(36px, 5.2vw, 84px); }
-.svh .ab-grad { background: none; -webkit-background-clip: border-box; background-clip: border-box; color: #f1e4ff; }
-.svh-lead { margin-top: clamp(18px, 2vw, 28px); max-width: 640px; font-size: clamp(16px, 1.35vw, 20px); line-height: 1.6; color: #ece6ff; text-wrap: balance; }
-.svh-cta { margin-top: clamp(28px, 3vw, 44px); }
-.svh-cta svg { width: 1em; height: 1em; transition: transform .3s ease; }
-.svh-cta:hover svg { transform: translateX(3px); }
+/* One sentence set in Sora, with the accent phrase in translucent serif italic */
+.svh-title {
+  margin-top: clamp(40px, 8svh, 96px); max-width: 13.2em;
+  font-family: "Sora", sans-serif; font-weight: 500;
+  font-size: clamp(36px, 4.9vw, 78px); line-height: 1.16; letter-spacing: -0.045em; text-wrap: balance;
+}
+.svh-title em {
+  font-family: "Instrument Serif", serif; font-style: italic; font-weight: 400;
+  font-size: 1.1em; letter-spacing: -0.01em; padding-right: .06em;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .92) 10%, rgba(233, 213, 255, .5) 95%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.svh-lead {
+  margin-top: clamp(26px, 4.4svh, 52px); max-width: 620px; text-wrap: balance;
+  font-size: clamp(15px, 1.25vw, 18px); line-height: 1.6; color: rgba(236, 230, 255, .68);
+}
+/* Lighter pill than the standard button, so it reads against the purple waves */
+.svh-cta.btn-contact--xl {
+  margin-top: clamp(34px, 6.4svh, 76px);
+  background: linear-gradient(135deg, #c79bff 0%, #8b4dff 100%);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .28), 0 14px 34px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .45);
+}
+.svh-cta.btn-contact--xl:hover { background: linear-gradient(135deg, #8b4dff 0%, #c79bff 100%); }
 
 /* ---------- Services ---------- */
 .svp-services { max-width: 1676px; margin: 0 auto; padding: clamp(80px, 9vw, 130px) clamp(16px, 5vw, 96px) 0; }
