@@ -22,7 +22,7 @@ INDUSTRIES = ['Marketing & Advertising Agencies', 'Real Estate & Property Manage
 # dock and the feature row. Swap these for purpose-made visuals when they exist.
 GROUP_IMG = {
     'branding': 'assets/blog/ai-workplace.jpg', 'designing': 'assets/work/project-2.png', 'development': 'assets/work/project-3.png',
-    'social': 'assets/reels/reel-1.jpg', 'paid': 'assets/reels/reel-3.jpg', 'content': 'assets/blog/gcc-growth.jpg',
+    'social': 'assets/reels/reel-1.jpg', 'content': 'assets/blog/gcc-growth.jpg',
     'seo': 'assets/blog/ai-search.jpg', 'generative': 'assets/work/project-1.png',
 }
 
@@ -38,30 +38,31 @@ PAGES = [
         'statement': 'One team for the {branding} brand you stand for, the {designing} experience people use and the {development} site that <em>performs.</em>',
         'intro': ('What we do', 'Strategic brand building, <em>designed and built</em> to perform',
                   'Your brand is more than a logo — it’s the reason customers choose you over competitors. From brand strategy and visual identity to the site that carries it, one team does the whole job.'),
+        # Groups and items mirror this menu's tabs and services in menu.js — keep the two in step
         'groups': [
             ('branding', 'Branding', 'Identities that connect, convert and create lasting impressions.', [
                 ('Brand Strategy & Positioning', 'We define who you are, who you serve, and why you win. Market research, competitor audits and positioning frameworks that carve out your irreplaceable space.'),
                 ('Visual Identity Design', 'Logo systems, colour palettes, typography, iconography and brand guidelines — every visual touchpoint crafted to be instantly recognisable. No templates. No generic outputs.'),
-                ('Brand Naming & Messaging', 'Names that stick. Taglines that sell. Messaging frameworks that align every piece of communication — from your homepage headline to your sales deck.'),
                 ('Brand Audit & Rebranding', 'We forensically audit every brand asset, identify gaps and lead full or partial rebrands that modernise without losing the equity you’ve spent years building.'),
                 ('Brand Experience & Touchpoints', 'Every interaction your customer has with your brand is a chance to build trust or lose it. We map, design and optimise every physical and digital touchpoint.'),
                 ('Brand Collateral & Print Design', 'Business cards, brochures, pitch decks, packaging and signage — tangible brand assets designed to the same uncompromising standard as your digital presence.'),
+                ('Content Creation Services', 'Photo, video and brand copy that carry the identity into every channel.'),
             ]),
             ('designing', 'Designing', 'Custom, user-friendly, responsive websites tailored to your business goals.', [
-                ('UI/UX Design', 'User-centric design that enhances usability and engagement: intuitive navigation, visually appealing layouts and interactive elements.'),
-                ('Wireframing & Prototyping', 'Low- and high-fidelity prototypes that visualise layouts, page hierarchy and user interactions before a line of code is written.'),
-                ('Responsive Web Design', 'Websites that adapt fluidly to desktops, tablets and mobile screens, with usability, fast loading and consistency on every device.'),
-                ('E-Commerce Design', 'Online stores that are visually appealing and conversion-driven: user-friendly navigation, product-centric layouts and seamless checkout.'),
-                ('Landing Page Design', 'High-impact landing pages for marketing campaigns, product launches and lead generation, with strategic CTAs and clean layouts.'),
-                ('SaaS & Dashboard UI Design', 'Clean, organised dashboards with user-friendly layouts, visual data representation and easy navigation.'),
+                ('Website Design', 'Custom, user-friendly, responsive websites: conversion-first and pixel-perfect.'),
+                ('E-commerce Website Design', 'Online stores that are visually appealing and conversion-driven: user-friendly navigation, product-centric layouts and seamless checkout.'),
+                ('Email Marketing Testing & Design', 'Email templates designed on brand and tested across clients before they go out.'),
+                ('Mobile App Design', 'iOS and Android UX/UI, from flows to finished screens.'),
+                ('Rapid Web Design', 'A launch-ready site in two weeks, for when the deadline will not move.'),
+                ('Social Media Design', 'Posts, reels and ad creative in one visual system.'),
             ]),
             ('development', 'Development', 'Fast, accessible, SEO-ready builds on the platform that fits you.', [
+                ('Website Management', 'Updates, hosting and care plans that keep the site healthy after launch.'),
                 ('Website Development', 'Fast, accessible, SEO-ready websites engineered around your content and your editors.'),
                 ('Headless CMS Development', 'Sanity, Strapi and Contentful builds that separate content from presentation, so your site stays fast and flexible.'),
                 ('E-commerce Website Development', 'Shopify, WooCommerce and custom storefronts built to sell.'),
                 ('Headless E-commerce Development', 'Shopify Hydrogen and Next.js storefronts for fast browsing and frictionless checkout.'),
                 ('Website Migration Services', 'Move platforms and keep your rankings: redirect planning, URL preservation and content mapping.'),
-                ('Website Management', 'Updates, hosting and care plans that keep the site healthy after launch.'),
             ]),
         ],
         'pillars': ('Our approach', 'Our comprehensive branding <em>strategy pillars</em>', [
@@ -111,25 +112,16 @@ PAGES = [
         'lead': 'Squarezix helps brands grow online with creative social media posts, data-driven strategies, and results that truly make an impact across all social platforms.',
         'screen': 'Rec · CH 04', 'region': 'Social · Content · Paid',
         # Statement after the hero: {group id} marks where that group's image tile sits in the sentence
-        'statement': 'Growth that compounds: {social} social people follow, {paid} ads that pay back and {content} content worth <em>sharing.</em>',
+        'statement': 'Growth that compounds: {social} social people follow and {content} content worth <em>sharing.</em>',
         'intro': ('What we do', 'Campaigns that build <em>brand loyalty</em> and generate leads',
                   'We specialise in creating impactful campaigns that drive engagement, build brand loyalty and generate leads across all major platforms.'),
+        # Groups and items mirror this menu's tabs and services in menu.js — keep the two in step
         'groups': [
             ('social', 'Social Media Marketing', 'A consistent, authentic presence on every platform your audience uses.', [
-                ('Social Media Strategy & Planning', 'Competitor analysis, audience research and content planning to design campaigns that maximise reach, engagement and ROI.'),
-                ('Social Media Content Creation', 'Posts, graphics, videos, stories and reels that reflect your brand identity and resonate with your audience.'),
-                ('Social Media Account Management', 'Posting schedules, content updates, engagement with followers and performance monitoring, handled for you.'),
                 ('Community Management', 'We start conversations, respond to feedback, manage reputation and monitor what people say about your brand.'),
-                ('Multi-Platform Campaign Management', 'Cohesive strategy, optimised targeting and synchronised creative across Facebook, Instagram, TikTok, LinkedIn and YouTube.'),
-                ('Influencer Marketing', 'We connect you with the right influencers in your industry to promote your brand and drive meaningful engagement.'),
-            ]),
-            ('paid', 'Advertising & Media', 'Paid campaigns with precise targeting and performance tracking.', [
-                ('Facebook Ads', 'Highly targeted campaigns using advanced audience segmentation, retargeting strategies and carousel, video and lead formats.'),
-                ('Instagram Ads', 'Visually compelling ads for Instagram Stories, Reels and Feed posts, with precise targeting and performance tracking.'),
-                ('TikTok Ads', 'Engaging, trend-driven short-form video campaigns that capture attention and drive conversions.'),
-                ('Snapchat Ads', 'Snap Ads, story ads and AR filter campaigns that reach younger demographics through creative storytelling.'),
-                ('LinkedIn Ads', 'Sponsored content, InMail and text ads targeting decision-makers and industry professionals for B2B leads.'),
-                ('X Ads (Twitter)', 'Promoted posts, video ads and follower campaigns targeting users by interest, keywords and location.'),
+                ('Content Creation Services', 'Posts, graphics, videos, stories and reels that reflect your brand identity and resonate with your audience.'),
+                ('Advertising & Media Services', 'Paid social that pays back: targeted campaigns on Facebook, Instagram, TikTok, Snapchat, LinkedIn and X.'),
+                ('Social Media Event Management', 'Launches, live coverage and activations, planned and run on your channels.'),
             ]),
             ('content', 'Content Marketing', 'Words, coverage and assets built to be found and shared.', [
                 ('Website Copywriting', 'Words that convert and rank.'),
@@ -166,22 +158,22 @@ PAGES = [
         'statement': 'Be the answer everywhere: {seo} ranked on Google and {generative} cited by <em>AI.</em>',
         'intro': ('What we do', 'Be everywhere your audience <em>is searching</em>',
                   'We don’t just optimise for Google — we optimise your brand for ChatGPT, Gemini, Perplexity and the AI answers your customers now read first.'),
+        # Groups and items mirror this menu's tabs and services in menu.js — keep the two in step
         'groups': [
             ('seo', 'Core SEO', 'The technical, on-page and off-page foundation everything else stands on.', [
-                ('SEO Audits', 'A comprehensive audit of on-page, off-page and technical factors, with detailed recommendations to improve visibility, performance and ROI.'),
-                ('Technical SEO', 'Site architecture, XML sitemaps, robots.txt, site speed, mobile-friendliness, structured data and indexing issues.'),
-                ('On-Page SEO', 'Meta tags, headings, keyword placement, image optimisation, internal linking and content structuring.'),
+                ('Enterprise SEO', 'SEO that scales across thousands of pages.'),
+                ('E-commerce SEO', 'If you’re running an online store in the UAE, your website needs more than attractive products — it needs visibility.'),
                 ('Local SEO', 'Google Business Profile optimisation, citations across trusted UAE directories, reviews and geo-targeted content.'),
-                ('E-Commerce SEO', 'If you’re running an online store in the UAE, your website needs more than attractive products — it needs visibility.'),
-                ('Link Building', 'A robust and diverse backlink profile built on relevance, authority and compliance.'),
+                ('AI & LLM SEO', 'Get cited by ChatGPT and Gemini as well as ranked on Google.'),
+                ('Search Engine Optimization', 'Technical, on-page and off-page — the full foundation.'),
             ]),
             ('generative', 'Generative Search', 'Structured, citable, conversational content that AI engines quote.', [
-                ('AI SEO Audit & Strategy', 'A comprehensive AI-powered audit to identify ranking opportunities, technical gaps and LLM citation potential.'),
-                ('Generative Content Optimization (GEO/AEO)', 'Structured, citable and conversational content optimised for AI search engines, chatbots and voice assistants.'),
-                ('Technical SEO for AI Crawlers', 'Website architecture, Core Web Vitals, schema markup and site speed, so AI bots and search engines can crawl, index and understand your content.'),
-                ('AI-Backed Keyword Research & Targeting', 'High-intent, revenue-driving keywords based on real-time search patterns, LLM citation opportunities and competitor analysis.'),
-                ('Link Building & Authority Development', 'High-quality backlinks from authoritative domains, including sources recognised by AI engines.'),
-                ('AI Performance Reporting & Analytics', 'Real-time dashboards tracking AI visibility, keyword rankings, citation frequency and ROI.'),
+                ('Generative AI Research and Analysis', 'How AI answers talk about you today, and where the gaps are.'),
+                ('Semantic Keywords Research', 'Topics, entities and intent, not just keywords.'),
+                ('AI-Optimised Content', 'Structured, citable, conversational content written to be quoted by AI.'),
+                ('Community Engagement Optimization', 'Presence on Reddit, Quora and the forums AI models read.'),
+                ('Brand Visibility and Authority', 'Mentions and backlinks from sources that models trust.'),
+                ('AI-Friendly Structured Data', 'Schema markup that machines can read.'),
             ]),
         ],
         'pillars': ('Our approach', 'Our comprehensive AI SEO <em>strategy pillars</em>', [
@@ -271,7 +263,7 @@ def showcase_html(p):
     ticks = ''.join('<i></i>' for _ in range(24))
     rows = ''
     for i, (gid, name, blurb, cards) in enumerate(groups):
-        specs = ''.join(f'<li><span>{i + 1:02d}.{k:02d}</span>{e(t)}</li>' for k, (t, _d) in enumerate(cards, 1))
+        specs = ''.join(f'<li><a href="#{gid}-{k}">{e(t)}</a></li>' for k, (t, _d) in enumerate(cards, 1))
         rows += f'''
       <article class="svf-row" id="svf-{gid}">
         <div class="svf-panel" data-rise>
@@ -330,7 +322,7 @@ def main_html(p):
     lines = ''.join(f'<span{grad if i == p["grad"] else ""}>{e(t)}</span>' for i, t in enumerate(p['h1']))
     groups = ''
     for n, (gid, name, blurb, cards) in enumerate(p['groups'], 1):
-        items = ''.join(f'<li class="svp-card" data-rise><span class="svp-card-no">{n:02d}.{i:02d}</span><h4>{e(t)}</h4><p>{e(d)}</p></li>'
+        items = ''.join(f'<li class="svp-card" id="{gid}-{i}" data-rise><span class="svp-card-no">{n:02d}.{i:02d}</span><h4>{e(t)}</h4><p>{e(d)}</p></li>'
                         for i, (t, d) in enumerate(cards, 1))
         groups += f'''
       <div class="svp-group" id="{gid}">
