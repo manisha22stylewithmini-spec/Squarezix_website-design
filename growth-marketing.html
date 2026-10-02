@@ -8,15 +8,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20261002e" />
-  <link rel="stylesheet" href="services.css?v=20261002e" />
-  <link rel="stylesheet" href="bento.css?v=20261002e" />
-  <link rel="stylesheet" href="sections.css?v=20261002e" />
-  <link rel="stylesheet" href="footer.css?v=20261002e" />
-  <link rel="stylesheet" href="menu.css?v=20261002e" />
-  <link rel="stylesheet" href="outro.css?v=20261002e" />
-  <link rel="stylesheet" href="about.css?v=20261002e" />
-  <link rel="stylesheet" href="service.css?v=20261002e" />
+  <link rel="stylesheet" href="styles.css?v=20261002f" />
+  <link rel="stylesheet" href="services.css?v=20261002f" />
+  <link rel="stylesheet" href="bento.css?v=20261002f" />
+  <link rel="stylesheet" href="sections.css?v=20261002f" />
+  <link rel="stylesheet" href="footer.css?v=20261002f" />
+  <link rel="stylesheet" href="menu.css?v=20261002f" />
+  <link rel="stylesheet" href="outro.css?v=20261002f" />
+  <link rel="stylesheet" href="about.css?v=20261002f" />
+  <link rel="stylesheet" href="service.css?v=20261002f" />
 </head>
 <body class="page-about">
   <header class="site-header">
@@ -83,6 +83,58 @@
         </ul>
       </div>
     </div>
+
+    <!-- ===== Showcase: the sentence's image tiles drop into a dock as you scroll ===== -->
+    <section class="svb" aria-labelledby="svb-title" style="--n:3">
+      <div class="svb-pin">
+        <h2 id="svb-title" class="svb-statement">Growth that compounds: <span class="svb-slot" data-i="0" aria-hidden="true"></span> social people follow, <span class="svb-slot" data-i="1" aria-hidden="true"></span> ads that pay back and <span class="svb-slot" data-i="2" aria-hidden="true"></span> content worth <em>sharing.</em></h2>
+        <div class="svb-dock">
+          <div class="svb-dock-bar" aria-hidden="true"><span class="svb-play"></span><span class="svb-time">00:03 / 00:03</span><span class="svb-ticks"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+          <ol class="svb-dock-slots"><li><a href="#svf-social"><span class="svb-dock-slot" data-i="0"><img src="assets/reels/reel-1.jpg" alt="" loading="lazy" /></span><span class="svb-dock-label"><b>01</b>Social Media Marketing</span></a></li><li><a href="#svf-paid"><span class="svb-dock-slot" data-i="1"><img src="assets/reels/reel-3.jpg" alt="" loading="lazy" /></span><span class="svb-dock-label"><b>02</b>Advertising &amp; Media</span></a></li><li><a href="#svf-content"><span class="svb-dock-slot" data-i="2"><img src="assets/blog/gcc-growth.jpg" alt="" loading="lazy" /></span><span class="svb-dock-label"><b>03</b>Content Marketing</span></a></li></ol>
+        </div>
+        <div class="svb-tiles" aria-hidden="true"><div class="svb-tile" data-i="0"><img src="assets/reels/reel-1.jpg" alt="" loading="lazy" /></div><div class="svb-tile" data-i="1"><img src="assets/reels/reel-3.jpg" alt="" loading="lazy" /></div><div class="svb-tile" data-i="2"><img src="assets/blog/gcc-growth.jpg" alt="" loading="lazy" /></div></div>
+      </div>
+    </section>
+
+    <!-- ===== One row per sub-category, alternating sides ===== -->
+    <section class="svf" aria-label="Growth Marketing sub-categories">
+      <article class="svf-row" id="svf-social">
+        <div class="svf-panel" data-rise>
+          <div class="svf-art"><img src="assets/reels/reel-1.jpg" alt="" loading="lazy" /></div>
+          <ul class="svf-specs" aria-label="Social Media Marketing services"><li><span>01.01</span>Social Media Strategy &amp; Planning</li><li><span>01.02</span>Social Media Content Creation</li><li><span>01.03</span>Social Media Account Management</li><li><span>01.04</span>Community Management</li><li><span>01.05</span>Multi-Platform Campaign Management</li><li><span>01.06</span>Influencer Marketing</li></ul>
+        </div>
+        <div class="svf-copy">
+          <p class="svf-kicker" data-rise><b>01</b> / 03</p>
+          <h3 data-rise>Social Media Marketing</h3>
+          <p class="svf-blurb" data-rise>A consistent, authentic presence on every platform your audience uses.</p>
+          <a class="svp-link" href="#social" data-rise>See social media marketing services <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </article>
+      <article class="svf-row" id="svf-paid">
+        <div class="svf-panel" data-rise>
+          <div class="svf-art"><img src="assets/reels/reel-3.jpg" alt="" loading="lazy" /></div>
+          <ul class="svf-specs" aria-label="Advertising &amp; Media services"><li><span>02.01</span>Facebook Ads</li><li><span>02.02</span>Instagram Ads</li><li><span>02.03</span>TikTok Ads</li><li><span>02.04</span>Snapchat Ads</li><li><span>02.05</span>LinkedIn Ads</li><li><span>02.06</span>X Ads (Twitter)</li></ul>
+        </div>
+        <div class="svf-copy">
+          <p class="svf-kicker" data-rise><b>02</b> / 03</p>
+          <h3 data-rise>Advertising &amp; Media</h3>
+          <p class="svf-blurb" data-rise>Paid campaigns with precise targeting and performance tracking.</p>
+          <a class="svp-link" href="#paid" data-rise>See advertising &amp; media services <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </article>
+      <article class="svf-row" id="svf-content">
+        <div class="svf-panel" data-rise>
+          <div class="svf-art"><img src="assets/blog/gcc-growth.jpg" alt="" loading="lazy" /></div>
+          <ul class="svf-specs" aria-label="Content Marketing services"><li><span>03.01</span>Website Copywriting</li><li><span>03.02</span>Digital PR</li><li><span>03.03</span>Multimedia Content Assets</li></ul>
+        </div>
+        <div class="svf-copy">
+          <p class="svf-kicker" data-rise><b>03</b> / 03</p>
+          <h3 data-rise>Content Marketing</h3>
+          <p class="svf-blurb" data-rise>Words, coverage and assets built to be found and shared.</p>
+          <a class="svp-link" href="#content" data-rise>See content marketing services <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </article>
+    </section>
 
     <!-- ===== Services, grouped the same way as this item's dropdown ===== -->
     <section class="svp-services" id="services" aria-labelledby="svp-services-title">
@@ -293,10 +345,11 @@
   </footer>
 
 
-  <script src="site.js?v=20261002e"></script>
-  <script src="menu.js?v=20261002e"></script>
-  <script src="sections.js?v=20261002e"></script>
-  <script src="about.js?v=20261002e"></script>
-  <script src="outro.js?v=20261002e"></script>
+  <script src="site.js?v=20261002f"></script>
+  <script src="menu.js?v=20261002f"></script>
+  <script src="sections.js?v=20261002f"></script>
+  <script src="showcase.js?v=20261002f"></script>
+  <script src="about.js?v=20261002f"></script>
+  <script src="outro.js?v=20261002f"></script>
 </body>
 </html>

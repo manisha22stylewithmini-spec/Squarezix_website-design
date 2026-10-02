@@ -18,6 +18,14 @@ ARROW = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-widt
 INDUSTRIES = ['Marketing & Advertising Agencies', 'Real Estate & Property Management', 'Logistics & Supply Chain Companies',
               'Healthcare & Wellness Enterprises', 'SMEs and Growing Startups', 'Retail & E-commerce Businesses']
 
+# One image per sub-category (group id → file). Used as the tile in the statement, the
+# dock and the feature row. Swap these for purpose-made visuals when they exist.
+GROUP_IMG = {
+    'branding': 'assets/blog/ai-workplace.jpg', 'designing': 'assets/work/project-2.png', 'development': 'assets/work/project-3.png',
+    'social': 'assets/reels/reel-1.jpg', 'paid': 'assets/reels/reel-3.jpg', 'content': 'assets/blog/gcc-growth.jpg',
+    'seo': 'assets/blog/ai-search.jpg', 'generative': 'assets/work/project-1.png',
+}
+
 PAGES = [
     {
         'file': 'web-and-brand.html', 'menu': 'web', 'badge': 'Web & Brand',
@@ -26,6 +34,8 @@ PAGES = [
         'h1': ['Professional Web Design', 'That Turns Clicks', 'into Customers.'], 'grad': 1,
         'lead': 'Your website shouldn’t just look good, it should drive measurable growth. We craft brand identities that connect and build websites designed to convert, scale and rank.',
         'screen': 'Rec · CH 03', 'region': 'Brand · Design · Build',
+        # Statement after the hero: {group id} marks where that group's image tile sits in the sentence
+        'statement': 'One team for the {branding} brand you stand for, the {designing} experience people use and the {development} site that <em>performs.</em>',
         'intro': ('What we do', 'Strategic brand building, <em>designed and built</em> to perform',
                   'Your brand is more than a logo — it’s the reason customers choose you over competitors. From brand strategy and visual identity to the site that carries it, one team does the whole job.'),
         'groups': [
@@ -100,6 +110,8 @@ PAGES = [
         'h1': ['Social Media Marketing', 'That Drives Engagement', 'and Generates Leads.'], 'grad': 1,
         'lead': 'Squarezix helps brands grow online with creative social media posts, data-driven strategies, and results that truly make an impact across all social platforms.',
         'screen': 'Rec · CH 04', 'region': 'Social · Content · Paid',
+        # Statement after the hero: {group id} marks where that group's image tile sits in the sentence
+        'statement': 'Growth that compounds: {social} social people follow, {paid} ads that pay back and {content} content worth <em>sharing.</em>',
         'intro': ('What we do', 'Campaigns that build <em>brand loyalty</em> and generate leads',
                   'We specialise in creating impactful campaigns that drive engagement, build brand loyalty and generate leads across all major platforms.'),
         'groups': [
@@ -150,6 +162,8 @@ PAGES = [
         'h1': ['Your Customers Search', 'Smarter. We Make Sure', 'They Find You.'], 'grad': 1,
         'lead': 'If your business isn’t showing up on ChatGPT, Gemini, Perplexity, Google and AI Overviews, you’re already losing customers to competitors who are. We build the visibility, trust and authority that gets you recommended.',
         'screen': 'Rec · CH 05', 'region': 'SEO · AEO · GEO',
+        # Statement after the hero: {group id} marks where that group's image tile sits in the sentence
+        'statement': 'Be the answer everywhere: {seo} ranked on Google and {generative} cited by <em>AI.</em>',
         'intro': ('What we do', 'Be everywhere your audience <em>is searching</em>',
                   'We don’t just optimise for Google — we optimise your brand for ChatGPT, Gemini, Perplexity and the AI answers your customers now read first.'),
         'groups': [
@@ -241,6 +255,55 @@ def clock_html(p):
 '''
 
 
+def showcase_html(p):
+    """Statement with one image tile per sub-category; on scroll the tiles drop out of the
+    sentence into a dock (showcase.js), then each sub-category gets its own alternating row.
+    Works for any number of groups."""
+    groups = p['groups']
+    n = len(groups)
+    text = p['statement']
+    for i, (gid, name, _b, _c) in enumerate(groups):
+        text = text.replace('{' + gid + '}', f'<span class="svb-slot" data-i="{i}" aria-hidden="true"></span>')
+    tiles = ''.join(f'<div class="svb-tile" data-i="{i}"><img src="{GROUP_IMG[gid]}" alt="" loading="lazy" /></div>' for i, (gid, *_r) in enumerate(groups))
+    dock = ''.join(
+        f'<li><a href="#svf-{gid}"><span class="svb-dock-slot" data-i="{i}"><img src="{GROUP_IMG[gid]}" alt="" loading="lazy" /></span>'
+        f'<span class="svb-dock-label"><b>{i + 1:02d}</b>{e(name)}</span></a></li>' for i, (gid, name, _b, _c) in enumerate(groups))
+    ticks = ''.join('<i></i>' for _ in range(24))
+    rows = ''
+    for i, (gid, name, blurb, cards) in enumerate(groups):
+        specs = ''.join(f'<li><span>{i + 1:02d}.{k:02d}</span>{e(t)}</li>' for k, (t, _d) in enumerate(cards, 1))
+        rows += f'''
+      <article class="svf-row" id="svf-{gid}">
+        <div class="svf-panel" data-rise>
+          <div class="svf-art"><img src="{GROUP_IMG[gid]}" alt="" loading="lazy" /></div>
+          <ul class="svf-specs" aria-label="{e(name)} services">{specs}</ul>
+        </div>
+        <div class="svf-copy">
+          <p class="svf-kicker" data-rise><b>{i + 1:02d}</b> / {n:02d}</p>
+          <h3 data-rise>{e(name)}</h3>
+          <p class="svf-blurb" data-rise>{e(blurb)}</p>
+          <a class="svp-link" href="#{gid}" data-rise>See {e(name.lower())} services {ARROW}</a>
+        </div>
+      </article>'''
+    return f'''    <!-- ===== Showcase: the sentence's image tiles drop into a dock as you scroll ===== -->
+    <section class="svb" aria-labelledby="svb-title" style="--n:{n}">
+      <div class="svb-pin">
+        <h2 id="svb-title" class="svb-statement">{text}</h2>
+        <div class="svb-dock">
+          <div class="svb-dock-bar" aria-hidden="true"><span class="svb-play"></span><span class="svb-time">00:0{n} / 00:0{n}</span><span class="svb-ticks">{ticks}</span></div>
+          <ol class="svb-dock-slots">{dock}</ol>
+        </div>
+        <div class="svb-tiles" aria-hidden="true">{tiles}</div>
+      </div>
+    </section>
+
+    <!-- ===== One row per sub-category, alternating sides ===== -->
+    <section class="svf" aria-label="{e(p['badge'])} sub-categories">{rows}
+    </section>
+
+'''
+
+
 SHOW_WHY = False
 
 
@@ -285,6 +348,7 @@ def main_html(p):
                       for i, (t, xs) in enumerate(pl, 1))
     # Why SquareZix lives on the home page only. Set SHOW_WHY = True to put it back on these pages.
     why = why_html(p) if SHOW_WHY else ''
+    showcase = showcase_html(p)
     steps = ''.join(f'<li class="ab-step" data-rise><span class="ab-step-num">{i:02d}</span><h3>{e(t)}</h3><p>{e(d)}</p></li>' for i, (t, d) in enumerate(p['steps'], 1))
     inds = ''.join(f'<li>{e(x)}</li>' for x in INDUSTRIES)
     ib, it, ip = p['intro']
@@ -334,7 +398,7 @@ def main_html(p):
       </div>
     </div>
 
-    <!-- ===== Services, grouped the same way as this item's dropdown ===== -->
+{showcase}    <!-- ===== Services, grouped the same way as this item's dropdown ===== -->
     <section class="svp-services" id="services" aria-labelledby="svp-services-title">
       <div class="svp-head">
         <div>
@@ -374,7 +438,7 @@ def build():
         h = re.sub(r'(<link rel="stylesheet" href="about\.css[^>]*>)', rf'\1\n  <link rel="stylesheet" href="service.css{ver}" />', h)
         h = h.replace('class="nav-link is-current" href="about-us.html" aria-current="page"', 'class="nav-link" href="about-us.html"')
         h = h.replace(f'<div class="nav-item" data-menu="{p["menu"]}">', f'<div class="nav-item is-current" data-menu="{p["menu"]}">')
-        t = tail
+        t = tail.replace('<script src="about.js', f'<script src="showcase.js{ver}"></script>\n  <script src="about.js', 1)
         if SHOW_WHY:
             t = t.replace('<script src="about.js', f'<script src="whyus.js{ver}"></script>\n  <script src="about.js', 1)
         if 'clock' in p:
