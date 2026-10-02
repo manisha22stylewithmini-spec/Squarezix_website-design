@@ -111,86 +111,186 @@
 @media (prefers-reduced-motion: reduce) { .svp-card, .svp-link svg { transition: none; } }
 
 /* ---------- Process clock (clock.js) ----------
-   Pinned stage: copy on the left, dial on the right. --p (0…1), --sweep, --min and --hour
-   are set by clock.js as the page scrolls; six stops sit round the dial like hour marks. */
-.svp-clock { --p: 0; --sweep: 0deg; --min: 0deg; --hour: 300deg; margin-top: clamp(100px, 11vw, 160px); }
-.svp-clock.is-live { height: calc(100svh + var(--n) * 60vh); }
+   Pinned stage: step content on the left, a layered dial on the right. clock.js sets
+   --p (0…1), --sweep, --min, --hour as the page scrolls and --tx/--ty (tilt, deg) from
+   the pointer, the same way the service cards twist. */
+.svp-clock { --p: 0; --sweep: 0deg; --min: 0deg; --hour: 300deg; --tx: 0; --ty: 0; margin-top: clamp(100px, 11vw, 160px); }
+.svp-clock.is-live { height: calc(100svh + var(--n) * 70vh); }
 .svp-clock-pin {
-  display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: center; gap: clamp(24px, 4vw, 72px);
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); align-items: center; gap: clamp(24px, 4vw, 72px);
   max-width: 1676px; margin: 0 auto; padding: 0 clamp(16px, 5vw, 96px);
 }
 .svp-clock.is-live .svp-clock-pin { position: sticky; top: var(--header-h); height: calc(100svh - var(--header-h)); }
-.svp-clock-copy .ab-h2 { margin-top: 22px; }
+.svp-clock-copy .ab-h2 { margin-top: 20px; font-size: clamp(30px, 3.4vw, 54px); }
 
-/* Step text: one at a time once live, all listed without JS */
-.svp-clock-details { list-style: none; display: grid; margin-top: clamp(24px, 3vw, 44px); }
-.svp-clock-detail { padding: 16px 0; border-top: 1px solid rgba(255, 255, 255, .14); }
-.svp-clock.is-live .svp-clock-detail {
-  grid-area: 1 / 1; padding: 0; border: 0;
-  opacity: 0; translate: 0 14px; visibility: hidden;
-  transition: opacity .45s ease, translate .6s cubic-bezier(.22, 1, .36, 1), visibility 0s .45s;
-}
-.svp-clock.is-live .svp-clock-detail.is-active { opacity: 1; translate: 0 0; visibility: visible; transition-delay: 0s; }
+/* Step content: one at a time once live, all listed without JS */
+.svp-clock-details { list-style: none; display: grid; margin-top: clamp(20px, 2.4vw, 36px); }
+.svp-clock-detail { padding: 20px 0; border-top: 1px solid rgba(255, 255, 255, .14); }
+.svp-clock.is-live .svp-clock-detail { grid-area: 1 / 1; padding: 0; border: 0; visibility: hidden; transition: visibility 0s .5s; }
+.svp-clock.is-live .svp-clock-detail.is-active { visibility: visible; transition-delay: 0s; }
+/* Each block of the active step rises in turn */
+.svp-clock.is-live .svp-clock-detail > * { opacity: 0; translate: 0 16px; transition: opacity .45s ease, translate .7s cubic-bezier(.22, 1, .36, 1); }
+.svp-clock.is-live .svp-clock-detail.is-active > * { opacity: 1; translate: 0 0; }
+.svp-clock.is-live .svp-clock-detail.is-active > :nth-child(2) { transition-delay: .06s; }
+.svp-clock.is-live .svp-clock-detail.is-active > :nth-child(3) { transition-delay: .12s; }
+.svp-clock.is-live .svp-clock-detail.is-active > :nth-child(4) { transition-delay: .2s; }
+
+.svp-cd-top { display: flex; align-items: flex-end; gap: 16px; }
 .svp-clock-no {
-  display: block;
-  font-family: "Instrument Serif", serif; font-style: italic; font-size: clamp(56px, 5.4vw, 92px); line-height: .9;
+  font-family: "Instrument Serif", serif; font-style: italic; font-size: clamp(56px, 5.2vw, 88px); line-height: .82;
   background: linear-gradient(180deg, #d9b8ff, #621dd0); -webkit-background-clip: text; background-clip: text; color: transparent;
+  padding-right: .06em;
 }
-.svp-clock-detail h3 { margin-top: 14px; font-weight: 400; font-size: clamp(26px, 2.6vw, 42px); letter-spacing: -0.02em; line-height: 1.1; }
-.svp-clock-detail p { margin-top: 12px; max-width: 460px; font-size: clamp(15px, 1.2vw, 18px); line-height: 1.6; color: var(--text-muted); }
-.svp-clock-count { display: none; align-items: center; gap: 10px; margin-top: clamp(24px, 3vw, 40px); font-size: 13px; letter-spacing: .12em; color: #6f6c7d; }
+.svp-cd-when {
+  margin-bottom: .5em; padding: 5px 11px; border-radius: 999px;
+  font-size: 12.5px; letter-spacing: .04em; color: #e9d5ff;
+  background: rgba(98, 29, 208, .3); border: 1px solid rgba(171, 36, 242, .55);
+}
+.svp-clock-detail h3 { margin-top: 12px; font-weight: 400; font-size: clamp(26px, 2.5vw, 40px); letter-spacing: -0.02em; line-height: 1.1; }
+.svp-cd-lead { margin-top: 10px; max-width: 520px; font-size: clamp(15px, 1.2vw, 18px); line-height: 1.6; color: #d0d0d8; }
+.svp-cd-cols {
+  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(16px, 2vw, 32px);
+  margin-top: clamp(18px, 2vw, 28px); padding-top: clamp(16px, 1.6vw, 22px); max-width: 600px;
+  border-top: 1px dashed rgba(255, 255, 255, .14);
+}
+.svp-cd-cols h4 { font-family: "DM Sans", sans-serif; font-weight: 400; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #8f8aa6; }
+.svp-cd-cols ul { list-style: none; margin-top: 12px; }
+.svp-cd-does ul { display: grid; gap: 8px; }
+.svp-cd-does li { position: relative; padding-left: 20px; font-size: 15px; line-height: 1.45; color: var(--text-muted); }
+.svp-cd-does li::before { content: ""; position: absolute; left: 0; top: .62em; width: 9px; height: 1.5px; background: var(--brand-pink); }
+.svp-cd-gets ul { display: flex; flex-wrap: wrap; gap: 6px; }
+.svp-cd-gets li { padding: 6px 11px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .16); font-size: 12.5px; color: #d0d0d8; }
+
+.svp-clock-count { display: none; align-items: center; gap: 10px; margin-top: clamp(20px, 2.4vw, 34px); font-size: 13px; letter-spacing: .12em; color: #6f6c7d; }
 .svp-clock.is-live .svp-clock-count { display: flex; }
 .svp-clock-count b { font-weight: 400; color: #fff; }
 .svp-clock-count span { width: 120px; height: 1px; background: rgba(255, 255, 255, .14); }
 .svp-clock-count i { display: block; height: 100%; background: var(--brand-gradient); transform-origin: left; transform: scaleX(var(--p)); }
 
-/* Dial + stops */
-.svp-dial-wrap { position: relative; justify-self: center; width: min(640px, 44vw, 78svh); aspect-ratio: 1; }
-.svp-dial { position: absolute; inset: 27%; }
-.svp-ring { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; transform: rotate(-90deg); }
-.svp-ring circle { fill: none; stroke: rgba(255, 255, 255, .1); stroke-width: .6; }
-.svp-ring .svp-ring-fill { stroke: var(--brand-pink); stroke-width: 1.4; stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: calc(100 - var(--p) * 100); }
-.svp-ticks i { position: absolute; inset: 9%; transform: rotate(calc(var(--t) * 30deg)); }
-.svp-ticks i::before { content: ""; position: absolute; left: 50%; top: 0; width: 1.5px; height: 9%; margin-left: -.75px; background: rgba(255, 255, 255, .38); }
-.svp-hand { position: absolute; left: 50%; bottom: 50%; border-radius: 2px; transform-origin: 50% 100%; }
-.svp-hand--hour { width: 7px; height: 25%; margin-left: -3.5px; background: #fff; transform: rotate(var(--hour)); }
-.svp-hand--min { width: 5px; height: 38%; margin-left: -2.5px; background: #fff; transform: rotate(var(--min)); }
-/* Sweep hand: runs past the dial edge and has a short tail behind the hub */
-.svp-hand--sweep { width: 2.5px; height: 76%; margin-left: -1.25px; bottom: 36%; transform-origin: 50% 81.6%; background: var(--brand-pink); transform: rotate(var(--sweep)); }
-.svp-hub { position: absolute; left: 50%; top: 50%; width: 11%; aspect-ratio: 1; translate: -50% -50%; border-radius: 3px; background: var(--brand-gradient); box-shadow: 0 6px 18px rgba(0, 0, 0, .5); }
+/* ---- Dial: a stack of layers at different depths, tilting toward the pointer ---- */
+.svp-dial-wrap { position: relative; justify-self: center; width: min(660px, 45vw, 80svh); aspect-ratio: 1; perspective: 1100px; }
+.svp-dial {
+  position: absolute; inset: 26.5%;
+  transform-style: preserve-3d;
+  transform: rotateX(calc(var(--ty) * 1deg)) rotateY(calc(var(--tx) * 1deg));
+}
+.svp-dial > * { position: absolute; }
+/* Bezel: brand ring that reads as the rim of a watch case */
+.svp-bezel {
+  inset: -5%; border-radius: 50%;
+  background: conic-gradient(from 210deg, #621dd0, #ab24f2 22%, #2a1260 46%, #621dd0 70%, #d9b8ff 86%, #621dd0);
+  box-shadow: 0 40px 70px rgba(0, 0, 0, .6), inset 0 1px 0 rgba(255, 255, 255, .35);
+  transform: translateZ(-14px);
+}
+.svp-face {
+  inset: 0; border-radius: 50%;
+  background: radial-gradient(circle at 34% 26%, #262652 0%, #14142b 42%, #07050f 100%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .08), inset 0 18px 40px rgba(0, 0, 0, .55);
+}
+/* Elapsed time: a wedge that fills behind the sweep hand, brightest at its leading edge */
+.svp-sector {
+  inset: 5%; border-radius: 50%;
+  background: conic-gradient(from 0deg, rgba(98, 29, 208, .08), rgba(171, 36, 242, .5) calc(var(--p) * 360deg), transparent calc(var(--p) * 360deg));
+  transform: translateZ(4px);
+}
+.svp-ticks { inset: 0; transform: translateZ(8px); }
+.svp-ticks i { position: absolute; inset: 4%; transform: rotate(calc(var(--t) * 6deg)); }
+.svp-ticks i::before { content: ""; position: absolute; left: 50%; top: 0; width: 1px; height: 3.2%; margin-left: -.5px; background: rgba(255, 255, 255, .22); }
+.svp-ticks i.is-hour::before { width: 2px; height: 7.5%; margin-left: -1px; background: rgba(255, 255, 255, .7); border-radius: 1px; }
+/* One marker per stop on the rim; it lights when the hand has passed it */
+.svp-marks { inset: 0; transform: translateZ(10px); }
+.svp-marks i { position: absolute; inset: -5%; transform: rotate(calc(var(--i) * 360deg / var(--n))); }
+.svp-marks i::before {
+  content: ""; position: absolute; left: 50%; top: 0; width: 4.6%; aspect-ratio: 1; translate: -50% -12%;
+  border-radius: 50%; background: #07050f; border: 2px solid rgba(255, 255, 255, .5);
+  transition: background .35s ease, border-color .35s ease, scale .5s cubic-bezier(.22, 1, .36, 1);
+}
+.svp-marks i.is-done::before { background: #e9d5ff; border-color: #fff; }
+.svp-marks i.is-active::before { background: #fff; border-color: #fff; scale: 1.5; }
 
-.svp-stops { list-style: none; position: absolute; inset: 0; --a: calc(var(--i) * 360deg / var(--n)); }
+.svp-hand { left: 50%; bottom: 50%; transform-origin: 50% 100%; border-radius: 99px; }
+.svp-hand--hour {
+  width: 4.4%; height: 24%; margin-left: -2.2%;
+  background: linear-gradient(180deg, #fff, #c9a8ff); box-shadow: 0 6px 10px rgba(0, 0, 0, .5);
+  transform: translateZ(18px) rotate(var(--hour));
+}
+.svp-hand--min {
+  width: 3%; height: 37%; margin-left: -1.5%;
+  background: linear-gradient(180deg, #fff, #e9d5ff); box-shadow: 0 8px 12px rgba(0, 0, 0, .5);
+  transform: translateZ(24px) rotate(var(--min));
+}
+/* Sweep hand: runs past the rim, with a counterweight behind the hub */
+.svp-hand--sweep {
+  width: 1.1%; height: 78%; margin-left: -.55%; bottom: 32%; transform-origin: 50% 76.9%;
+  background: linear-gradient(180deg, #f1e4ff, #ab24f2 30%); box-shadow: 0 10px 14px rgba(0, 0, 0, .45);
+  transform: translateZ(30px) rotate(var(--sweep));
+}
+.svp-hand--sweep::after { content: ""; position: absolute; left: 50%; bottom: 3%; width: 520%; aspect-ratio: 1; translate: -50% 0; border-radius: 50%; background: #ab24f2; }
+/* Hub cap: the same glass SZ badge as the home page bento */
+.svp-hub { left: 50%; top: 50%; width: 27%; height: auto; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%; transform: translateZ(40px); filter: drop-shadow(0 10px 14px rgba(0, 0, 0, .6)); }
+
+/* Orbit the stops sit on, with a satellite that keeps pace with the sweep hand */
+.svp-orbit { position: absolute; inset: 8% 13%; border-radius: 50%; border: 1px dashed rgba(255, 255, 255, .13); }
+.svp-sat {
+  position: absolute; left: calc(50% + 50% * sin(var(--sweep))); top: calc(50% - 50% * cos(var(--sweep)));
+  width: 10px; height: 10px; translate: -50% -50%; border-radius: 50%;
+  background: #fff; box-shadow: 0 0 0 4px rgba(171, 36, 242, .45);
+}
+
+.svp-stops { list-style: none; position: absolute; inset: 0; pointer-events: none; }
 .svp-stop {
   --a: calc(var(--i) * 360deg / var(--n));
   position: absolute; left: calc(50% + 37% * sin(var(--a))); top: calc(50% - 42% * cos(var(--a)));
   translate: -50% -50%;
-  display: grid; justify-items: center; gap: 6px;
 }
-.svp-stop-no { font-size: clamp(12px, 1vw, 15px); letter-spacing: .06em; color: #8f8aa6; transition: color .3s ease; }
+.svp-stop button {
+  display: grid; justify-items: center; gap: 5px; padding: 0;
+  background: none; border: 0; color: inherit; font: inherit; cursor: pointer; pointer-events: auto;
+}
+.svp-stop button:focus-visible { outline: 2px solid #b57bff; outline-offset: 6px; border-radius: 10px; }
+.svp-stop-no { font-size: clamp(12px, 1vw, 14px); letter-spacing: .06em; color: #8f8aa6; transition: color .3s ease; }
 .svp-stop-name {
-  padding: .4em .8em; border-radius: 8px; white-space: nowrap;
-  font-family: "Sora", sans-serif; font-size: clamp(15px, 1.5vw, 24px); letter-spacing: -0.01em; line-height: 1.15;
-  color: var(--text-muted); background: #0a0a15; border: 1px solid rgba(255, 255, 255, .14);
-  transition: color .3s ease, border-color .3s ease, background .3s ease, box-shadow .4s ease, scale .5s cubic-bezier(.22, 1, .36, 1);
+  padding: .42em .85em; border-radius: 10px; white-space: nowrap;
+  font-family: "Sora", sans-serif; font-size: clamp(15px, 1.35vw, 21px); letter-spacing: -0.01em; line-height: 1.15;
+  color: var(--text-muted); background: var(--bg-dark); border: 1px solid rgba(255, 255, 255, .16);
+  transition: color .3s ease, border-color .3s ease, background .3s ease, box-shadow .4s ease, scale .55s cubic-bezier(.22, 1, .36, 1);
+}
+.svp-stop button:hover .svp-stop-name { border-color: rgba(171, 36, 242, .7); color: #fff; }
+/* Duration unfolds under the current stop */
+.svp-stop-when {
+  max-height: 0; opacity: 0; overflow: hidden;
+  font-size: 12px; letter-spacing: .04em; color: #e9d5ff;
+  transition: max-height .5s cubic-bezier(.22, 1, .36, 1), opacity .35s ease;
 }
 /* Reached: tinted. Current: filled with the brand gradient. Without JS all read as reached. */
-.svp-clock:not(.is-live) .svp-stop-name, .svp-stop.is-done .svp-stop-name { color: #e9d5ff; background: rgba(98, 29, 208, .3); border-color: rgba(171, 36, 242, .55); }
+.svp-clock:not(.is-live) .svp-stop-name, .svp-stop.is-done .svp-stop-name { color: #e9d5ff; background: #1c0f45; border-color: rgba(171, 36, 242, .55); }
 .svp-stop.is-done .svp-stop-no, .svp-stop.is-active .svp-stop-no { color: #fff; }
-.svp-stop.is-active .svp-stop-name { color: #fff; background: var(--brand-gradient); border-color: transparent; box-shadow: 0 14px 30px rgba(0, 0, 0, .55); scale: 1.08; }
+.svp-stop.is-active .svp-stop-name { color: #fff; background: var(--brand-gradient); border-color: transparent; box-shadow: 0 16px 34px rgba(0, 0, 0, .6); scale: 1.1; }
+.svp-stop.is-active .svp-stop-when { max-height: 2em; opacity: 1; margin-top: 4px; }
 
 @media (max-width: 900px) {
-  .svp-clock-pin { grid-template-columns: 1fr; align-content: center; gap: 12px; }
+  .svp-clock-pin { grid-template-columns: 1fr; align-content: center; gap: 8px; }
   .svp-clock.is-live .svp-clock-pin { align-content: space-evenly; }
-  .svp-clock-copy .ab-h2 { margin-top: 14px; font-size: clamp(28px, 7vw, 40px); }
-  .svp-clock-details { margin-top: 16px; }
-  .svp-clock.is-live .svp-clock-details { min-height: 8.6em; }
-  .svp-clock-no { display: none; }
-  .svp-clock-detail h3 { margin-top: 0; font-size: 22px; }
-  .svp-clock-detail p { margin-top: 6px; font-size: 14.5px; }
+  .svp-clock-copy .ab-h2 { margin-top: 12px; font-size: clamp(26px, 6.6vw, 38px); }
+  .svp-clock-details { margin-top: 14px; }
+  .svp-clock.is-live .svp-clock-details { min-height: 13.2em; }
+  .svp-clock-no { font-size: 44px; }
+  .svp-cd-when { margin-bottom: .3em; }
+  .svp-clock-detail h3 { margin-top: 6px; font-size: 22px; }
+  .svp-cd-lead { margin-top: 6px; font-size: 14.5px; line-height: 1.5; }
+  /* Room is tight on a pinned phone screen: keep the deliverables, drop the activity list */
+  .svp-clock.is-live .svp-cd-does { display: none; }
+  .svp-cd-cols { grid-template-columns: 1fr; margin-top: 12px; padding-top: 10px; }
+  .svp-cd-cols ul { margin-top: 8px; }
+  .svp-clock.is-live .svp-cd-gets h4 { display: none; }
   .svp-clock-count { margin-top: 10px; }
-  .svp-dial-wrap { width: min(100%, 440px, 46svh); }
-  .svp-stop { left: calc(50% + 33% * sin(var(--a))); top: calc(50% - 43% * cos(var(--a))); gap: 3px; }
-  .svp-stop-name { font-size: 14px; }
-  .svp-stop-no { font-size: 11px; }
+  .svp-dial-wrap { width: min(100%, 420px, 42svh); }
+  /* Single column: a smaller dial so the stop labels clear its rim */
+  .svp-dial { inset: 30%; }
+  .svp-orbit { inset: 7% 14%; }
+  .svp-stop { left: calc(50% + 36% * sin(var(--a))); top: calc(50% - 43% * cos(var(--a))); }
+  .svp-stop button { gap: 2px; }
+  .svp-stop-name { font-size: 13.5px; }
+  .svp-stop-no, .svp-stop-when { font-size: 10.5px; }
 }
-@media (prefers-reduced-motion: reduce) { .svp-clock-detail, .svp-stop-name { transition: none !important; } }
+@media (prefers-reduced-motion: reduce) { .svp-clock-detail > *, .svp-stop-name, .svp-stop-when, .svp-marks i::before { transition: none !important; } }

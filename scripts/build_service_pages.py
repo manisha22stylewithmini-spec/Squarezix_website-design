@@ -67,14 +67,27 @@ PAGES = [
             ('Culturally Fluent, Arabic-First Thinking', 'Brands in Dubai must function in Arabic and English. We design identities and messaging with Arabic-first typography, RTL layouts and culturally sensitive storytelling.'),
             ('Accessibility & Inclusive UX', 'Accessibility isn’t a checkbox — it’s good design. We follow WCAG best practices: semantic HTML, ARIA roles, keyboard navigation and colour contrast.'),
         ]),
-        # Six stops round the clock face, clockwise from 12 (see clock_html / clock.js)
+        # Six stops round the clock face, clockwise from 12 (see clock_html / clock.js).
+        # Each stop: name, when, lead, what happens, what you get.
         'clock': ('How we work', 'From brief to launch, <em>like clockwork</em>', [
-            ('Discover', 'Workshops on your brand, audience, competitors and KPIs, so every later decision has a reason behind it.'),
-            ('Position', 'We define who you are, who you serve and why you win, then turn it into a messaging framework.'),
-            ('Design', 'Identity first, then UX wireframes, high-fidelity UI and motion prototypes you sign off on.'),
-            ('Build', 'Engineered for speed, SEO and content-editor happiness on the platform that fits you.'),
-            ('Launch', 'Staged rollout, redirects, tracking and a brand reveal that makes the market take notice.'),
-            ('Grow', 'Launch is day one. Then we measure, test and improve in quarterly growth sprints.'),
+            ('Discover', 'Week 1', 'We learn the business before we touch a pixel, so every later decision has a reason behind it.',
+             ['Stakeholder workshops', 'Audience and competitor research', 'Site, SEO and analytics audit'],
+             ['Discovery report', 'KPI map', 'Project roadmap']),
+            ('Position', 'Week 2', 'We define who you are, who you serve and why you win, then put it into words.',
+             ['Positioning framework', 'Naming and messaging', 'Tone of voice'],
+             ['Brand strategy deck', 'Messaging framework']),
+            ('Design', 'Weeks 3–5', 'Identity first, then the experience: every screen designed and signed off before build.',
+             ['Visual identity system', 'UX wireframes', 'High-fidelity UI and motion prototype'],
+             ['Brand guidelines', 'UI kit', 'Clickable prototype']),
+            ('Build', 'Weeks 6–8', 'Engineered for speed, SEO and content-editor happiness on the platform that fits you.',
+             ['Front-end and CMS build', 'Performance and SEO setup', 'QA across devices'],
+             ['Staging site', 'Editor training', 'Launch checklist']),
+            ('Launch', 'Week 9', 'A staged rollout and a brand reveal that makes the market take notice from day one.',
+             ['Staged rollout and redirects', 'Tracking and analytics', 'Brand reveal campaign'],
+             ['Live site', 'Analytics dashboard', 'Launch assets']),
+            ('Grow', 'Ongoing', 'Launch is day one. Then we measure, test and improve in quarterly growth sprints.',
+             ['Quarterly growth sprints', 'A/B tests and CRO', 'Content and SEO iteration'],
+             ['Monthly reports', 'Test backlog', 'Roadmap updates']),
         ]),
         'steps': [('Discover', 'Deep-dive workshops on brand, audience, competitors and KPIs.'), ('Design', 'UX wireframes → high-fidelity UI → motion prototypes.'),
                   ('Build', 'Engineered for speed, SEO and content-editor happiness.'), ('Grow', 'Launch is day one. Then quarterly growth sprints, forever.')],
@@ -181,11 +194,20 @@ def clock_html(p):
     """Pinned scroll section: a clock whose hand sweeps round six process stops (clock.js)."""
     badge, title, stops = p['clock']
     n = len(stops)
-    labels = ''.join(f'<li class="svp-stop" style="--i:{i}" data-stop="{i}"><span class="svp-stop-no">({i + 1:02d})</span><span class="svp-stop-name">{e(t)}</span></li>'
-                     for i, (t, _) in enumerate(stops))
-    details = ''.join(f'<li class="svp-clock-detail" data-stop="{i}"><span class="svp-clock-no">{i + 1:02d}</span><h3>{e(t)}</h3><p>{e(d)}</p></li>'
-                      for i, (t, d) in enumerate(stops))
-    ticks = ''.join(f'<i style="--t:{i}"></i>' for i in range(12))
+    labels = ''.join(
+        f'<li class="svp-stop" style="--i:{i}"><button type="button" data-stop="{i}" aria-label="Step {i + 1}: {e(t)}">'
+        f'<span class="svp-stop-no">({i + 1:02d})</span><span class="svp-stop-name">{e(t)}</span><span class="svp-stop-when">{e(w)}</span></button></li>'
+        for i, (t, w, *_r) in enumerate(stops))
+    details = ''.join(
+        f'<li class="svp-clock-detail" data-stop="{i}">'
+        f'<div class="svp-cd-top"><span class="svp-clock-no">{i + 1:02d}</span><span class="svp-cd-when">{e(w)}</span></div>'
+        f'<h3>{e(t)}</h3><p class="svp-cd-lead">{e(lead)}</p>'
+        f'<div class="svp-cd-cols"><div class="svp-cd-does"><h4>What happens</h4><ul>{"".join(f"<li>{e(x)}</li>" for x in does)}</ul></div>'
+        f'<div class="svp-cd-gets"><h4>You get</h4><ul>{"".join(f"<li>{e(x)}</li>" for x in gets)}</ul></div></div></li>'
+        for i, (t, w, lead, does, gets) in enumerate(stops))
+    hour = ' class="is-hour"'
+    ticks = ''.join(f'<i style="--t:{i}"{hour if i % 5 == 0 else ""}></i>' for i in range(60))
+    marks = ''.join(f'<i style="--i:{i}"></i>' for i in range(n))
     return f'''    <!-- ===== Process clock: pinned while the hand goes once round the dial ===== -->
     <section class="svp-clock" id="process" aria-labelledby="svp-clock-title" style="--n:{n}">
       <div class="svp-clock-pin">
@@ -196,15 +218,19 @@ def clock_html(p):
           <p class="svp-clock-count" aria-hidden="true"><b>01</b> / {n:02d}<span><i></i></span></p>
         </div>
         <div class="svp-dial-wrap">
+          <div class="svp-orbit" aria-hidden="true"><i class="svp-sat"></i></div>
           <div class="svp-dial" aria-hidden="true">
-            <svg class="svp-ring" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48"/><circle class="svp-ring-fill" cx="50" cy="50" r="48" pathLength="100"/></svg>
+            <div class="svp-bezel"></div>
+            <div class="svp-face"></div>
+            <div class="svp-sector"></div>
             <div class="svp-ticks">{ticks}</div>
+            <div class="svp-marks">{marks}</div>
             <span class="svp-hand svp-hand--hour"></span>
             <span class="svp-hand svp-hand--min"></span>
             <span class="svp-hand svp-hand--sweep"></span>
-            <span class="svp-hub"></span>
+            <img class="svp-hub" src="assets/bento/sz-badge.webp" alt="" width="1119" height="1112" loading="lazy" />
           </div>
-          <ol class="svp-stops" aria-hidden="true">{labels}</ol>
+          <ol class="svp-stops" aria-label="Process steps">{labels}</ol>
         </div>
       </div>
     </section>
