@@ -1,430 +1,395 @@
 #!/usr/bin/env python3
-"""Builds the three service hub pages from one template.
+"""Builds the service pages and the Services / Development & Maintenance menus.
 
     python3 scripts/build_service_pages.py
 
-Header, footer, contact form and script tags are lifted from about-us.html so the
-pages can never drift from it; only <main> differs. Copy is taken from the matching
-service pages on squarezix.com. Edit PAGES below and re-run to change a page.
+Pages: branding, design, social-media-marketing, content-marketing, paid-marketing,
+seo-ai-visibility, geo, website-development, its sub-inner page
+ecommerce-website-development, and website-maintenance. Copy comes from the live squarezix.com
+service pages (scripts/live_content.py); PAGES below picks which live sections each page
+shows. Only the hero moves (wave shader + rise-in); the content below is static.
+
+Header, footer and contact form are lifted from about-us.html so the pages never drift
+from it. The menu's Services and Development & Maintenance lists are written into
+menu.js between the `<services:auto>` / `<dev:auto>` markers, so the dropdowns and the
+pages always list the same services.
 """
 import html
+import json
 import re
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from subpages_data import SUB  # noqa: E402  (copy for the sub-category pages)
+from live_content import LIVE  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
+e = html.escape
 PHONE = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
          '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.18 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.1 9.9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" />'
          '<path d="M15 2.5a6 6 0 0 1 6.5 6.5M15 6a2.5 2.5 0 0 1 3 3" /></svg>')
 ARROW = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" '
          'stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>')
 
-# (name, descriptor) — shown as a looping strip, same build as the footer's partner strip
-INDUSTRIES = [('Marketing', 'Advertising agencies'), ('Real Estate', 'Property management'), ('Logistics', 'Supply chain companies'),
-              ('Healthcare', 'Wellness enterprises'), ('Startups', 'SMEs and growing teams'), ('Retail', 'E-commerce businesses')]
 
-# One image per sub-category (group id → file). Used as the tile in the statement, the
-# dock and the feature row. Swap these for purpose-made visuals when they exist.
-GROUP_IMG = {
-    'branding': 'assets/blog/ai-workplace.jpg', 'designing': 'assets/work/project-2.png', 'development': 'assets/work/project-3.png',
-    'social': 'assets/reels/reel-1.jpg', 'content': 'assets/blog/gcc-growth.jpg',
-    'seo': 'assets/blog/ai-search.jpg', 'generative': 'assets/work/project-1.png',
+def slug(t):
+    return re.sub(r'[^a-z0-9]+', '-', t.lower().replace('&', 'and')).strip('-')
+
+
+L = LIVE
+
+# Content Marketing has no page on the live site yet, so its copy below is written for the
+# redesign — placeholders to replace when the real copy exists.
+CONTENT = {
+    'intro': 'Words, coverage and assets that get your brand found, quoted and shared — written for your audience in Dubai and across the GCC, in English and Arabic.',
+    'items': [
+        ('Website Copywriting', 'Homepages, service pages and landing pages written to rank and to convert: clear structure, search intent built in and a tone of voice that sounds like you.', []),
+        ('Multimedia Content Assets', 'Video, graphics, guides and reports built to be shared — reusable assets that feed your website, social channels and sales conversations.', []),
+        ('Digital PR', 'Stories and expert commentary placed in the publications your customers read, earning coverage and authority links that lift both reputation and search visibility.', []),
+    ],
+}
+CONTENT_WHY = {'items': [
+    ('Search-Led Topics', 'Every piece starts from what your customers actually search for, in English and Arabic.', []),
+    ('Built to Convert', 'Clear structure, strong calls to action and copy aligned to each stage of your funnel.', []),
+    ('Authority That Compounds', 'Digital PR and quality links that lift both your reputation and your rankings over time.', []),
+    ('One Voice Everywhere', 'A tone of voice that stays consistent across your website, social channels and email.', []),
+    ('Formats That Travel', 'Video, graphics and guides planned so one idea can be reused across every channel.', []),
+    ('Measured, Not Guessed', 'Monthly reporting on traffic, rankings, engagement and leads, with next steps.', []),
+]}
+CONTENT_FAQ = [
+    ('What is content marketing?', 'Planning, creating and distributing useful content — website copy, articles, video, graphics and PR — that attracts the right audience and turns them into customers.'),
+    ('How does content marketing help SEO?', 'Search engines and AI assistants rank and quote pages that answer real questions well. Search-led content, clear structure and earned links all improve visibility.'),
+    ('Do you write in Arabic and English?', 'Yes. We plan and write content in both languages, adapted for local audiences rather than translated word for word.'),
+    ('How long before content shows results?', 'Most brands see engagement early, while organic traffic and leads build over three to six months as content and authority compound.'),
+    ('Can you work alongside our in-house team?', 'Yes. We can own the full content plan or support your team with strategy, writing, design or PR where you need it.'),
+]
+
+
+def live(sec, title):
+    """A service's description as written on the live page."""
+    return next(d for t, d, _b in sec['items'] if t == title)
+
+
+def services(intro, *rows):
+    """A page's service list — the same services, in the same order, as its header menu column."""
+    return {'intro': intro, 'items': [(t, d, []) for t, d in rows]}
+
+
+S, DS, SO, SE, GE, WB = L['branding']['services'], L['design']['services'], L['social'], L['seo']['services'], L['geo']['services'], L['web']
+SVC = {
+    'branding': services(S['intro'], *[(t, live(S, t)) for t in (
+        'Brand Strategy & Positioning', 'Visual Identity Design', 'Brand Audit & Rebranding', 'Brand Experience & Touchpoints', 'Brand Collateral & Print Design')]),
+    'design': services(DS['intro'],
+        ('Web & App Design', 'Websites and mobile apps designed around your users. Our designers focus on intuitive navigation, visually appealing layouts and interactive elements, so every screen looks great and is effortless to use.'),
+        ('Revamp Website', live(DS, 'Website Redesign & Revamp')),
+        ('Ecommerce Website Design', live(DS, 'E-Commerce Design')),
+        ('Social Media Design', live(SO['why'], 'Visual Excellence & Design Local Flavor')),
+        ('Email Marketing Testing & Design', 'On-brand email templates designed to be read and clicked, then tested across inboxes, devices and dark mode before they go out.')),
+    'social': services(SO['services']['intro'],
+        ('Community Management', live(SO['why'], 'Engaged Community Building & Social Listening')),
+        ('Content Creation Services', live(SO['services'], 'Social Media Content Creation')),
+        ('Advertising & Media Services', 'Paid campaigns on Facebook, Instagram, TikTok, Snapchat, X and LinkedIn: targeting, creatives, budgets and reporting managed end to end, so every ad reinforces your brand and drives action.'),
+        ('Social Media Event Management', live(SO['why'], 'Local Trends, Events & Seasonal Awareness'))),
+    'paid': services(L['paid']['core']['intro'],   # keywords per row come from PAID_SUB
+        ('Search & Display Advertising', 'Reach people the moment they search on Google and Bing, and stay visible across the Display Network.'),
+        ('Shopping & Marketplace Advertising', 'Put your products in front of ready-to-buy shoppers on Google Shopping and Amazon.'),
+        ('Social & App Advertising', 'Reach your audience where they scroll, and bring high-intent users to your app.'),
+        ('Retargeting & Remarketing', live(L['paid']['services'], 'Remarketing & Retargeting Ads'))),
+    'seo': services(SE['intro'],
+        ('Search Engine Optimization', 'Our expert team drives organic traffic, improves search rankings and boosts online visibility, with technical, on-page and off-page SEO tailored to the competitive Dubai market.'),
+        ('Local SEO', live(SE, 'Local SEO')),
+        ('Enterprise SEO', 'SEO at scale for large and multi-location websites: site architecture, technical health and content programmes across thousands of pages, with reporting your stakeholders can act on.'),
+        ('Ecommerce SEO', live(SE, 'E-Commerce SEO')),
+        ('AI & LLM SEO', live(SE, 'AI SEO'))),
+    'geo': services(GE['intro'],
+        ('Generative AI Research and Analysis', live(GE, 'AI SEO Audit & Strategy')),
+        ('Semantic Keywords Research', live(GE, 'AI-Backed Keyword Research & Targeting')),
+        ('AI-Optimized Content', live(GE, 'Generative Content Optimization (GEO/AEO)')),
+        ('Community Engagement Optimization', 'A helpful, genuine presence in the communities AI models learn from — Reddit, Quora and industry forums — so your brand is part of the conversations behind AI answers.'),
+        ('Brand Visibility and Authority', live(GE, 'Link Building & Authority Development')),
+        ('AI-Friendly Structured Data', live(GE, 'Technical SEO for AI Crawlers'))),
+    'web': services(WB['services']['intro'], *[(t, d) for t, d, _b in WB['services']['items'][:9]]),
+    'maintain': services(WB['maintain']['intro'], *[(t, d) for t, d, _b in WB['maintain']['items']]),
+}
+SVC['content'] = CONTENT
+# Paid Marketing's menu entries also say what each kind of advertising covers
+PAID_SUB = {
+    'Search & Display Advertising': 'Google Search · Google Display · Bing Ads',
+    'Shopping & Marketplace Advertising': 'Google Shopping · Shopping Feed Optimization · Amazon PPC',
+    'Social & App Advertising': 'Social Ads · App Install Ads',
+    'Retargeting & Remarketing': 'Retargeting · Remarketing Campaigns',
 }
 
+
+def panels(data, first, second):
+    """Attach the two panel captions (bold lead, muted rest) to a service list."""
+    return {**data, 'panels': [first, second]}
+
+
+def pillars_of(*cols):
+    """Approach pillars: (name, [points]) → the item shape the cards use."""
+    return {'items': [(t, '', pts) for t, pts in cols]}
+
+
+def items_only(data):
+    """A live section without its intro paragraph (when the hero already says it)."""
+    return {'items': data['items']}
+
+
+# Every service page has the Branding page's structure: wave hero → services list (two
+# panels) → approach pillars → why Squarezix → industries strip → FAQs → contact form.
+# Copy comes from the matching live page; approach pillars on pages that have none live
+# are grouped from that page's own services.
 PAGES = [
     {
-        'file': 'web-and-brand.html', 'menu': 'web', 'badge': 'Web & Brand',
-        'title': 'Web & Brand — Branding, Web Design & Development | Squarezix',
-        'desc': 'Brand strategy, identity, website design and development from one Dubai team. Websites designed to convert, scale and rank.',
-        'h1': ['Professional Web Design', 'That Turns Clicks', 'into Customers.'], 'grad': 1,
-        'lead': 'Your website shouldn’t just look good, it should drive measurable growth. We craft brand identities that connect and build websites designed to convert, scale and rank.',
-        'screen': 'Rec · CH 03', 'region': 'Brand · Design · Build',
-        # Statement after the hero: {group id} marks where that group's image tile sits in the sentence
-        'statement': 'One team for the {branding} brand you stand for, the {designing} experience people use and the {development} site that <em>performs.</em>',
-        'intro': ('What we do', 'Strategic brand building, <em>designed and built</em> to perform',
-                  'Your brand is more than a logo — it’s the reason customers choose you over competitors. From brand strategy and visual identity to the site that carries it, one team does the whole job.'),
-        # Groups and items mirror this menu's tabs and services in menu.js — keep the two in step
-        'groups': [
-            ('branding', 'Branding', 'Identities that connect, convert and create lasting impressions.', [
-                ('Brand Strategy & Positioning', 'We define who you are, who you serve, and why you win. Market research, competitor audits and positioning frameworks that carve out your irreplaceable space.'),
-                ('Visual Identity Design', 'Logo systems, colour palettes, typography, iconography and brand guidelines — every visual touchpoint crafted to be instantly recognisable. No templates. No generic outputs.'),
-                ('Brand Audit & Rebranding', 'We forensically audit every brand asset, identify gaps and lead full or partial rebrands that modernise without losing the equity you’ve spent years building.'),
-                ('Brand Experience & Touchpoints', 'Every interaction your customer has with your brand is a chance to build trust or lose it. We map, design and optimise every physical and digital touchpoint.'),
-                ('Brand Collateral & Print Design', 'Business cards, brochures, pitch decks, packaging and signage — tangible brand assets designed to the same uncompromising standard as your digital presence.'),
-                ('Content Creation Services', 'Photo, video and brand copy that carry the identity into every channel.'),
-            ]),
-            ('designing', 'Designing', 'Custom, user-friendly, responsive websites tailored to your business goals.', [
-                ('Website Design', 'Custom, user-friendly, responsive websites: conversion-first and pixel-perfect.'),
-                ('E-commerce Website Design', 'Online stores that are visually appealing and conversion-driven: user-friendly navigation, product-centric layouts and seamless checkout.'),
-                ('Email Marketing Testing & Design', 'Email templates designed on brand and tested across clients before they go out.'),
-                ('Mobile App Design', 'iOS and Android UX/UI, from flows to finished screens.'),
-                ('Rapid Web Design', 'A launch-ready site in two weeks, for when the deadline will not move.'),
-                ('Social Media Design', 'Posts, reels and ad creative in one visual system.'),
-            ]),
-            ('development', 'Development', 'Fast, accessible, SEO-ready builds on the platform that fits you.', [
-                ('Website Management', 'Updates, hosting and care plans that keep the site healthy after launch.'),
-                ('Website Development', 'Fast, accessible, SEO-ready websites engineered around your content and your editors.'),
-                ('Headless CMS Development', 'Sanity, Strapi and Contentful builds that separate content from presentation, so your site stays fast and flexible.'),
-                ('E-commerce Website Development', 'Shopify, WooCommerce and custom storefronts built to sell.'),
-                ('Headless E-commerce Development', 'Shopify Hydrogen and Next.js storefronts for fast browsing and frictionless checkout.'),
-                ('Website Migration Services', 'Move platforms and keep your rankings: redirect planning, URL preservation and content mapping.'),
-            ]),
+        'file': 'branding.html', 'badge': 'Branding',
+        'title': 'Branding Agency in Dubai — Brand Strategy & Identity | Squarezix',
+        'h1': ['A Brand People', 'Recognise, Remember', 'and Choose.'], 'grad': 1,
+        'lead': 'Your brand is more than a logo — it’s the reason customers choose you over competitors. We craft identities that connect, convert and create lasting impressions.',
+        'list': ('Branding services', 'Strategic brand building that drives <em>revenue &amp; recognition</em>', panels(SVC['branding'],
+                 ('Strategy & identity.', 'Positioning, visual identity and audits that sharpen your brand.'),
+                 ('Experience & collateral.', 'Every touchpoint and printed piece, designed to the same standard.'))),
+        'sections': [
+            ('pillars', 'Our approach', 'Our comprehensive branding <em>strategy pillars</em>', L['branding']['pillars']),
+            ('why', 'Why Squarezix', 'How we stand out as the best <em>branding company</em> in Dubai', L['branding']['why']),
+            ('industries', 'Industries', 'Brands we build <em>across industries</em>', L['branding']['industries']),
+            ('faq', 'FAQs', 'Got questions about <em>branding services?</em>', L['branding']['faq'], 'We know branding services comes with a lot of questions. So we’ve unpacked them here, with answers straight from the experts at Squarezix.'),
         ],
-        'pillars': ('Our approach', 'Our comprehensive branding <em>strategy pillars</em>', [
-            ('Plan', ['Brand Launch Strategy', 'Social Media Strategy', 'Brand Messaging Framework', 'Campaign Strategy', 'Launch Event Planning']),
-            ('Create', ['Brand Identity', 'Brand Guidelines', 'Brand Logo', 'Brand Marketing Assets', 'Brand Creatives']),
-            ('Launch', ['Brand Management', 'Social Media Management', 'Launch Event Management', 'Public Relations', 'Media Relations']),
-        ]),
-        # Same component as the home page's Why SquareZix (heading lines, intro, six cards)
-        'why': ('More than a <em>pretty site.</em>', 'Design and build that earn their keep.', 'Research, strategy, design and engineering under one roof, so the brand and the website are built to perform together.', [
-            ('Research-Led Design', 'Stakeholder interviews, user surveys and competitor audits before a single layout.'),
-            ('Strategy First', 'Every page and interaction is aligned to a business goal: leads, sign-ups, sales.'),
-            ('Conversion Built In', 'CRO is part of the design process: wireframe tests, heatmaps and analytics.'),
-            ('Fast by Design', 'Lightweight layouts and optimised imagery, built for Core Web Vitals.'),
-            ('Arabic-First Thinking', 'Identities and layouts that work in Arabic and English, RTL included.'),
-            ('Accessible UX', 'WCAG best practices: semantic HTML, keyboard navigation and colour contrast.'),
-        ]),
-        # Six stops round the clock face, clockwise from 12 (see clock_html / clock.js).
-        # Each stop: name, when, lead, what happens, what you get.
-        'clock': ('How we work', 'From brief to launch, <em>like clockwork</em>', [
-            ('Discover', 'Week 1', 'We learn the business before we touch a pixel, so every later decision has a reason behind it.',
-             ['Stakeholder workshops', 'Audience and competitor research', 'Site, SEO and analytics audit'],
-             ['Discovery report', 'KPI map', 'Project roadmap']),
-            ('Position', 'Week 2', 'We define who you are, who you serve and why you win, then put it into words.',
-             ['Positioning framework', 'Naming and messaging', 'Tone of voice'],
-             ['Brand strategy deck', 'Messaging framework']),
-            ('Design', 'Weeks 3–5', 'Identity first, then the experience: every screen designed and signed off before build.',
-             ['Visual identity system', 'UX wireframes', 'High-fidelity UI and motion prototype'],
-             ['Brand guidelines', 'UI kit', 'Clickable prototype']),
-            ('Build', 'Weeks 6–8', 'Engineered for speed, SEO and content-editor happiness on the platform that fits you.',
-             ['Front-end and CMS build', 'Performance and SEO setup', 'QA across devices'],
-             ['Staging site', 'Editor training', 'Launch checklist']),
-            ('Launch', 'Week 9', 'A staged rollout and a brand reveal that makes the market take notice from day one.',
-             ['Staged rollout and redirects', 'Tracking and analytics', 'Brand reveal campaign'],
-             ['Live site', 'Analytics dashboard', 'Launch assets']),
-            ('Grow', 'Ongoing', 'Launch is day one. Then we measure, test and improve in quarterly growth sprints.',
-             ['Quarterly growth sprints', 'A/B tests and CRO', 'Content and SEO iteration'],
-             ['Monthly reports', 'Test backlog', 'Roadmap updates']),
-        ]),
-        'steps': [('Discover', 'Deep-dive workshops on brand, audience, competitors and KPIs.'), ('Design', 'UX wireframes → high-fidelity UI → motion prototypes.'),
-                  ('Build', 'Engineered for speed, SEO and content-editor happiness.'), ('Grow', 'Launch is day one. Then quarterly growth sprints, forever.')],
     },
     {
-        'file': 'growth-marketing.html', 'menu': 'growth', 'badge': 'Growth Marketing',
-        'title': 'Growth Marketing — Social Media & Content Marketing | Squarezix',
-        'desc': 'Social media and content marketing from a Dubai team: strategy, content, community, paid campaigns and reporting that explains what happened and why.',
-        'h1': ['Social Media Marketing', 'That Drives Engagement', 'and Generates Leads.'], 'grad': 1,
-        'lead': 'Squarezix helps brands grow online with creative social media posts, data-driven strategies, and results that truly make an impact across all social platforms.',
-        'screen': 'Rec · CH 04', 'region': 'Social · Content · Paid',
-        # Statement after the hero: {group id} marks where that group's image tile sits in the sentence
-        'statement': 'Growth that compounds: {social} social people follow and {content} content worth <em>sharing.</em>',
-        'intro': ('What we do', 'Campaigns that build <em>brand loyalty</em> and generate leads',
-                  'We specialise in creating impactful campaigns that drive engagement, build brand loyalty and generate leads across all major platforms.'),
-        # Groups and items mirror this menu's tabs and services in menu.js — keep the two in step
-        'groups': [
-            ('social', 'Social Media Marketing', 'A consistent, authentic presence on every platform your audience uses.', [
-                ('Community Management', 'We start conversations, respond to feedback, manage reputation and monitor what people say about your brand.'),
-                ('Content Creation Services', 'Posts, graphics, videos, stories and reels that reflect your brand identity and resonate with your audience.'),
-                ('Advertising & Media Services', 'Paid social that pays back: targeted campaigns on Facebook, Instagram, TikTok, Snapchat, LinkedIn and X.'),
-                ('Social Media Event Management', 'Launches, live coverage and activations, planned and run on your channels.'),
-            ]),
-            ('content', 'Content Marketing', 'Words, coverage and assets built to be found and shared.', [
-                ('Website Copywriting', 'Words that convert and rank.'),
-                ('Digital PR', 'Coverage and authority links.'),
-                ('Multimedia Content Assets', 'Video, graphics and guides built to be shared.'),
-            ]),
+        'file': 'design.html', 'badge': 'Design',
+        'title': 'Website Design Company in Dubai — UI/UX & Web Design | Squarezix',
+        'h1': ['Design That Looks Right', 'and Works', 'Even Better.'], 'grad': 1,
+        'lead': 'Custom, user-friendly, responsive design tailored to your business goals: conversion-first and pixel-perfect on every screen.',
+        'list': ('Design services', 'Web design company <em>in Dubai</em>', panels(SVC['design'],
+                 ('Websites & apps.', 'Web, app, redesign and e-commerce design that converts.'),
+                 ('Campaign design.', 'Social media creatives and tested email templates.'))),
+        'sections': [
+            ('pillars', 'Our approach', 'From research to <em>pixel-perfect launch</em>', pillars_of(
+                ('Discover', ['Stakeholder interviews', 'User surveys & personas', 'Competitor audits', 'User journey mapping', 'Content strategy']),
+                ('Design', ['Wireframing & prototyping', 'UI/UX design', 'Responsive web design', 'Interactive & animation design', 'Style guides & UI kits']),
+                ('Deliver', ['Usability testing', 'Accessibility (WCAG)', 'Core Web Vitals focus', 'Conversion & CRO', 'Developer handover']))),
+            ('why', 'Why Squarezix', 'What sets Squarezix apart in <em>website design</em>', items_only(L['design']['why'])),
+            ('industries', 'Industries', 'Websites we design <em>across industries</em>', L['design']['industries']),
+            ('faq', 'FAQs', 'Got questions about our <em>website design services?</em>', L['design']['faq'][:10], 'Everything you need to know before you start a website design project, answered by the designers who build them.'),
         ],
-        'pillars': ('Our approach', 'Social media marketing <em>services</em>', [
-            ('Strategy Development', ['A tailored social media strategy', 'Aligned with your objectives', 'Built to maximise your ROI']),
-            ('Content Creation', ['Eye-catching graphics', 'Compelling copy', 'Delivered across all platforms']),
-            ('Media Management', ['Scheduling posts', 'Engaging with your followers', 'A consistent, authentic presence']),
-            ('Analytics & Reporting', ['Detailed analytics', 'Clear campaign reporting', 'Insights into performance']),
-        ]),
-        # Same component as the home page's Why SquareZix (heading lines, intro, six cards)
-        'why': ('More than <em>posting.</em>', 'Social and content that move the numbers.', 'Organic, paid, community and reporting run as one system, tuned for Dubai and the GCC.', [
-            ('Culturally Tuned', 'Content in Arabic and English, adapted for local customs and audiences.'),
-            ('Data-First Strategy', 'Analytics and social listening define who your customers are and when they engage.'),
-            ('Paid + Organic', 'Organic content that builds trust, blended with paid campaigns that drive action.'),
-            ('Platform Mastery', 'Formats that work on Instagram, TikTok, LinkedIn, Facebook, YouTube and Snapchat.'),
-            ('Local Moments', 'Dubai events, seasons and festivals built into every content calendar.'),
-            ('Transparent Reporting', 'Clear metrics, what happened, why, and what we’ll do next.'),
-        ]),
-        # Six stops round the clock face, clockwise from 12: name, when, lead, what happens, what you get
-        'clock': ('How we work', 'From first post to <em>steady growth</em>', [
-            ('Listen', 'Week 1', 'We find out who your audience is, where they spend time and what your competitors are doing.',
-             ['Audience research', 'Competitor analysis', 'Social listening'],
-             ['Audience profile', 'Channel audit']),
-            ('Strategy', 'Week 2', 'A plan that ties every channel to a business goal and a budget.',
-             ['Channel and content strategy', 'Paid media plan', 'KPI framework'],
-             ['Strategy deck', 'Content calendar']),
-            ('Create', 'Weeks 3–4', 'Posts, reels, stories and ad creative, in Arabic and English.',
-             ['Content production', 'Ad creative', 'Copywriting'],
-             ['Content library', 'Ad sets']),
-            ('Publish', 'Ongoing', 'Scheduled, on brand and tuned to each platform.',
-             ['Scheduling and posting', 'Paid campaign launch', 'Local moments and events'],
-             ['Live campaigns', 'Posting schedule']),
-            ('Engage', 'Ongoing', 'We answer, moderate and keep the conversation going.',
-             ['Community management', 'Influencer partnerships', 'Reputation monitoring'],
-             ['Response log', 'Community report']),
-            ('Optimise', 'Monthly', 'Clear reports that say what happened, why, and what we do next.',
-             ['Performance reporting', 'Creative and audience testing', 'Budget reallocation'],
-             ['Monthly report', 'Next-month plan']),
-        ]),
-        'steps': [('Listen', 'Audience research, competitor analysis and social listening.'), ('Plan', 'Content calendars built around your goals and local moments.'),
-                  ('Create', 'Posts, reels, stories and ad creative, in Arabic and English.'), ('Optimise', 'Real-time monitoring and regular reports that say what’s next.')],
     },
     {
-        'file': 'ai-and-intelligence.html', 'menu': 'ai', 'badge': 'AI & Intelligence',
-        'title': 'AI & Intelligence — SEO, AI SEO & Generative Search | Squarezix',
-        'desc': 'SEO and AI search optimisation from Dubai: get found on Google and cited by ChatGPT, Gemini, Perplexity and AI Overviews.',
-        'h1': ['Your Customers Search Smarter.', 'We Make Sure', 'They Find You.'], 'grad': 1,
-        'lead': 'If your business isn’t showing up on ChatGPT, Gemini, Perplexity, Google and AI Overviews, you’re already losing customers to competitors who are. We build the visibility, trust and authority that gets you recommended.',
-        'screen': 'Rec · CH 05', 'region': 'SEO · AEO · GEO',
-        # Statement after the hero: {group id} marks where that group's image tile sits in the sentence
-        'statement': 'Be the answer everywhere: {seo} ranked on Google and {generative} cited by <em>AI.</em>',
-        'intro': ('What we do', 'Be everywhere your audience <em>is searching</em>',
-                  'We don’t just optimise for Google — we optimise your brand for ChatGPT, Gemini, Perplexity and the AI answers your customers now read first.'),
-        # Groups and items mirror this menu's tabs and services in menu.js — keep the two in step
-        'groups': [
-            ('seo', 'Core SEO', 'The technical, on-page and off-page foundation everything else stands on.', [
-                ('Enterprise SEO', 'SEO that scales across thousands of pages.'),
-                ('E-commerce SEO', 'If you’re running an online store in the UAE, your website needs more than attractive products — it needs visibility.'),
-                ('Local SEO', 'Google Business Profile optimisation, citations across trusted UAE directories, reviews and geo-targeted content.'),
-                ('AI & LLM SEO', 'Get cited by ChatGPT and Gemini as well as ranked on Google.'),
-                ('Search Engine Optimization', 'Technical, on-page and off-page — the full foundation.'),
-            ]),
-            ('generative', 'Generative Search', 'Structured, citable, conversational content that AI engines quote.', [
-                ('Generative AI Research and Analysis', 'How AI answers talk about you today, and where the gaps are.'),
-                ('Semantic Keywords Research', 'Topics, entities and intent, not just keywords.'),
-                ('AI-Optimised Content', 'Structured, citable, conversational content written to be quoted by AI.'),
-                ('Community Engagement Optimization', 'Presence on Reddit, Quora and the forums AI models read.'),
-                ('Brand Visibility and Authority', 'Mentions and backlinks from sources that models trust.'),
-                ('AI-Friendly Structured Data', 'Schema markup that machines can read.'),
-            ]),
+        'file': 'social-media-marketing.html', 'badge': 'Social Media Marketing',
+        'title': 'Social Media Agency in Dubai — Social Media Marketing | Squarezix',
+        'h1': ['Social Media', 'People Actually', 'Follow.'], 'grad': 1,
+        'lead': 'Creative social media posts, data-driven strategies and results that make an impact across every platform your audience uses.',
+        'list': ('Social media services', 'Social media marketing agency <em>in Dubai</em>', panels(SVC['social'],
+                 ('Community & content.', 'A daily presence and content your audience wants to share.'),
+                 ('Ads & events.', 'Paid media and event campaigns that drive action.'))),
+        'sections': [
+            ('pillars', 'Our approach', 'How we grow your <em>social presence</em>', pillars_of(
+                ('Plan', ['Strategy development', 'Audience research & segmentation', 'Competitor analysis', 'Content calendars', 'Local events & seasons']),
+                ('Create', ['Posts, reels & stories', 'Ad creatives', 'Influencer marketing', 'Arabic & English content', 'Platform-specific formats']),
+                ('Grow', ['Account management', 'Community building', 'Paid + organic campaigns', 'Real-time monitoring', 'Analytics & reporting']))),
+            ('why', 'Why Squarezix', 'Looking for a social media agency <em>that delivers?</em>', items_only(L['social']['why'])),
+            ('industries', 'Industries', 'Brands we grow <em>across industries</em>', L['branding']['industries']),
+            ('faq', 'FAQs', 'Have questions about our <em>social media services?</em>', L['social']['faq'], 'Platforms, timelines, costs and results — the questions brands ask us most about social media marketing in Dubai.'),
         ],
-        'pillars': ('Our approach', 'Our comprehensive AI SEO <em>strategy pillars</em>', [
-            ('Technical foundation', ['Website architecture optimisation', 'Core Web Vitals', 'Structured data & schema markup', 'Crawlable by GPTBot and search engines']),
-            ('Content for generative search', ['Simple, conversational content', 'Q&A sections and TL;DR summaries', 'Logically structured headings', 'English and Arabic']),
-            ('AI authority', ['Targeting LLM-cited sources', 'Quality backlinks', 'Authoritative, relevant domains', 'Stronger AI trust signals']),
-            ('Multiple formats', ['Blogs and long-form guides', 'Infographics and short-form visuals', 'Videos optimised for AI search', 'Featured in AI Overviews']),
-        ]),
-        # Same component as the home page's Why SquareZix (heading lines, intro, six cards)
-        'why': ('More than <em>rankings.</em>', 'Found on Google, cited by AI.', 'Technical SEO, content and authority working together, so search engines and AI answers both recommend you.', [
-            ('Built for Dubai', 'AI SEO strategies aligned with Dubai’s fast-moving digital landscape.'),
-            ('Predictive SEO', 'We forecast ranking shifts and search trends, then optimise ahead of time.'),
-            ('Intent Targeting', 'Intent-based, high-value keywords tailored to your industry, not generic lists.'),
-            ('Competitor Watch', 'Real-time monitoring so we can counter new moves and hold your advantage.'),
-            ('Arabic + English', 'Content strategies that are bilingual from the start, multilingual when needed.'),
-            ('Data-Rich Reporting', 'Dashboards for rankings, traffic, AI visibility and competitor gaps.'),
-        ]),
-        # Six stops round the clock face, clockwise from 12: name, when, lead, what happens, what you get
-        'clock': ('How we work', 'From audit to <em>AI citations</em>', [
-            ('Audit', 'Week 1', 'We find the technical gaps, the ranking opportunities and where AI answers already mention you.',
-             ['Technical SEO audit', 'AI visibility check', 'Competitor gap analysis'],
-             ['Audit report', 'Priority list']),
-            ('Research', 'Week 2', 'Topics, entities and intent, mapped to what your customers actually ask.',
-             ['Semantic keyword research', 'Intent mapping', 'LLM citation sources'],
-             ['Keyword map', 'Content plan']),
-            ('Structure', 'Weeks 3–4', 'A site that search engines and AI crawlers can read without friction.',
-             ['Site architecture', 'Schema and structured data', 'Core Web Vitals fixes'],
-             ['Technical fixes', 'Schema markup']),
-            ('Publish', 'Weeks 5–8', 'Citable, conversational content in the formats AI engines quote.',
-             ['On-page optimisation', 'AI-optimised content', 'Arabic and English versions'],
-             ['Optimised pages', 'New content']),
-            ('Authority', 'Ongoing', 'Mentions and links from sources that search engines and models trust.',
-             ['Link building', 'Digital PR', 'Community engagement'],
-             ['Backlink report', 'Brand mentions']),
-            ('Monitor', 'Monthly', 'Rankings, AI visibility and citation frequency, tracked continuously.',
-             ['Rank and traffic tracking', 'AI citation tracking', 'Competitor monitoring'],
-             ['Live dashboard', 'Monthly review']),
-        ]),
-        'steps': [('Audit', 'Technical gaps, ranking opportunities and LLM citation potential.'), ('Structure', 'Architecture, schema and Core Web Vitals for crawlers and AI bots.'),
-                  ('Publish', 'Citable, conversational content in the formats AI engines quote.'), ('Monitor', 'Rankings, AI visibility and citation frequency, tracked continuously.')],
+    },
+    {
+        'file': 'content-marketing.html', 'badge': 'Content Marketing',
+        'title': 'Content Marketing in Dubai — Copywriting, Digital PR & Content | Squarezix',
+        'h1': ['Content Built', 'to Be Found', 'and Shared.'], 'grad': 1,
+        'lead': 'Words, coverage and assets that educate, persuade and convert, written to rank and built to be passed on.',
+        'list': ('Content marketing services', 'Content built to be <em>found and shared</em>', panels(SVC['content'],
+                 ('Content that converts.', 'Website copy and multimedia assets built to rank and be shared.'),
+                 ('Coverage that builds authority.', 'Digital PR that earns mentions and links.'))),
+        'sections': [
+            ('pillars', 'Our approach', 'How we plan, create and <em>amplify content</em>', pillars_of(
+                ('Plan', ['Audience & keyword research', 'Content strategy', 'Topic clusters', 'Editorial calendar', 'Tone of voice']),
+                ('Create', ['Website copywriting', 'Blogs & long-form guides', 'Video & graphics', 'Reports & downloadables', 'Arabic & English copy']),
+                ('Amplify', ['Digital PR', 'Media outreach', 'Authority links', 'Social distribution', 'Performance reporting']))),
+            ('why', 'Why Squarezix', 'Why brands choose us for <em>content</em>', CONTENT_WHY),
+            ('industries', 'Industries', 'Content for brands <em>across industries</em>', L['branding']['industries']),
+            ('faq', 'FAQs', 'Questions about <em>content marketing?</em>', CONTENT_FAQ, 'How content marketing works, what it does for search and how we fit alongside your team — answered in one place.'),
+        ],
+    },
+    {
+        'file': 'paid-marketing.html', 'badge': 'Paid Marketing',
+        'title': 'PPC Agency in Dubai — Google Ads & Paid Marketing | Squarezix',
+        'h1': ['Paid Ads That', 'Pay for', 'Themselves.'], 'grad': 1,
+        'lead': 'Google, Bing, Amazon and social campaigns planned around ROI: the right audience, the right message and every dirham tracked.',
+        'list': ('Paid marketing services', 'Google Ads and paid search <em>that pays back</em>', panels(SVC['paid'],
+                 ('Search & shopping.', 'Be there when people search, and when they are ready to buy.'),
+                 ('Social & retargeting.', 'Reach new audiences on social and win back your visitors.'))),
+        'sections': [
+            ('pillars', 'Our approach', 'How we run <em>paid campaigns</em>', pillars_of(
+                ('Plan', ['Keyword research & optimization', 'Audience targeting', 'Budget & bid strategy', 'Competitor ad analysis', 'Tracking & analytics setup']),
+                ('Launch', ['Ad creation', 'Landing page optimization', 'Search & display campaigns', 'Shopping & Amazon ads', 'Remarketing campaigns']),
+                ('Optimise', ['Quality Score', 'Bid management', 'A/B testing', 'Continuous optimization', 'Transparent ROI reporting']))),
+            ('why', 'Why Squarezix', 'What makes Squarezix the best <em>pay-per-click agency</em> in Dubai', L['paid']['why']),
+            ('industries', 'Industries', 'Campaigns for brands <em>across industries</em>', L['branding']['industries']),
+            ('faq', 'FAQs', 'Have questions about <em>PPC campaigns?</em>', L['paid']['faq'][:10], 'Budgets, platforms and results — clear answers to the questions businesses ask us most about pay-per-click advertising.'),
+        ],
+    },
+    {
+        'file': 'seo-ai-visibility.html', 'badge': 'SEO & AI Visibility',
+        'title': 'SEO Agency in Dubai — SEO & AI Search Visibility | Squarezix',
+        'h1': ['The SEO Foundation', 'Everything Else', 'Stands On.'], 'grad': 1,
+        'lead': 'Technical, on-page and off-page SEO that drives organic traffic, improves rankings and keeps them, in Dubai, the GCC and beyond.',
+        'list': ('SEO services', 'SEO company <em>in Dubai</em>', panels(SVC['seo'],
+                 ('Rank everywhere.', 'Core, local and enterprise SEO on solid technical foundations.'),
+                 ('Sell & get cited.', 'E-commerce SEO and visibility in AI and LLM answers.'))),
+        'sections': [
+            ('pillars', 'Our approach', 'How we build <em>search visibility</em>', pillars_of(
+                ('Audit', ['SEO audits', 'Competitor analysis', 'Technical SEO review', 'Keyword research', 'Local search review']),
+                ('Optimise', ['On-page SEO', 'SEO content & blogging', 'E-commerce SEO', 'International SEO', 'Voice search SEO']),
+                ('Grow', ['Off-page SEO', 'Ethical link building', 'AI SEO', 'Ongoing monitoring', 'Transparent reporting']))),
+            ('why', 'Why Squarezix', 'Why businesses trust Squarezix as the best <em>SEO company</em> in Dubai', L['seo']['why']),
+            ('industries', 'Industries', 'SEO for businesses <em>across industries</em>', L['seo']['industries']),
+            ('faq', 'FAQs', 'Have questions about getting your site to <em>rank higher?</em>', L['seo']['faq'], 'Rankings, timelines and what SEO involves — straight answers from the team that does it every day.'),
+        ],
+    },
+    {
+        'file': 'geo.html', 'badge': 'GEO',
+        'title': 'Generative Engine Optimization (GEO) & AI SEO in Dubai | Squarezix',
+        'h1': ['Be the Answer', 'AI Engines', 'Quote.'], 'grad': 1,
+        'lead': 'Structured, citable, conversational content, so ChatGPT, Gemini, Perplexity and AI Overviews recommend your brand.',
+        'list': ('GEO services', 'Leading AI SEO <em>agency in Dubai</em>', panels(SVC['geo'],
+                 ('Research & content.', 'How AI answers see you, the topics they need and content they quote.'),
+                 ('Authority & structure.', 'Community presence, trusted mentions and machine-readable data.'))),
+        'sections': [
+            ('pillars', 'Our approach', 'Our comprehensive AI SEO <em>strategy pillars</em>', pillars_of(
+                ('Technical', ['Website architecture optimization', 'Core Web Vitals', 'Structured data & schema markup', 'Crawlable by AI agents like GPTBot']),
+                ('Content', ['Simple, conversational answers', 'Q&As, TL;DRs and bullet points', 'Logical heading structure', 'Arabic & English content']),
+                ('Authority', ['Targeting LLM-cited sources', 'Quality backlinks', 'Domain authority', 'AI trust signals']),
+                ('Formats', ['Blogs & long-form guides', 'Infographics & short visuals', 'Videos for AI search', 'YouTube, Instagram & TikTok']))),
+            ('why', 'Why Squarezix', 'How Squarezix <em>stands out</em>', L['geo']['why']),
+            ('industries', 'Industries', 'AI visibility <em>across industries</em>', L['geo']['industries']),
+            ('faq', 'FAQs', 'Questions about <em>AI SEO in Dubai?</em>', L['geo']['faq'], 'Find the top questions and clear answers about our AI SEO services in Dubai, all in one place. If something’s missing, our team is just a message away.'),
+        ],
+    },
+    {
+        'file': 'website-development.html', 'menu': 'dev', 'badge': 'Website Development',
+        'title': 'Web Development Company in Dubai | Squarezix',
+        'h1': ['Websites Engineered', 'for Speed, Search', 'and Scale.'], 'grad': 1,
+        'lead': 'Fast, accessible, SEO-ready builds on the platform that fits you, from first launch to migration.',
+        'list': ('Development services', 'Best website development <em>agency in Dubai</em>', panels(SVC['web'],
+                 ('Platforms & frameworks.', 'WordPress, e-commerce, React, Next.js and full-stack builds.'),
+                 ('CMS & front-end.', 'Custom, headless and Concrete CMS, plus Vue.js interfaces.'))),
+        'sections': [
+            ('pillars', 'Our approach', 'From brief to <em>launch-ready build</em>', pillars_of(
+                ('Plan', ['Requirements & discovery', 'Platform & stack selection', 'Information architecture', 'SEO-ready structure', 'Project roadmap']),
+                ('Build', ['Front-end & CMS development', 'API development & integration', 'Payment gateway integration', 'Multi-language & localization', 'Security & pentesting']),
+                ('Launch', ['Quality assurance & testing', 'Performance optimization', 'Website migration', 'Cloud & hosting setup', 'Maintenance & support']))),
+            ('why', 'Why Squarezix', 'Why businesses trust us for <em>web development</em>', items_only(L['web']['why'])),
+            ('industries', 'Industries', 'Websites for businesses <em>across industries</em>', L['web']['industries']),
+            ('faq', 'FAQs', 'Ask. Click. <em>Done.</em>', L['web']['faq'][:10], 'Find the top questions and clear answers, all in one place. If something’s missing, our team is just a message away.'),
+        ],
+    },
+    # Sub-inner page under Website Development. Its own design, section by section from the live
+    # page; only the sections the inner pages also have (hero, strip, industries, FAQ, contact)
+    # reuse their components. 'custom' = the sections below are the whole page.
+    {
+        'file': 'ecommerce-website-development.html', 'menu': 'dev', 'badge': 'Ecommerce Website Development', 'custom': True,
+        'title': 'Ecommerce Website Development Company in Dubai | Squarezix',
+        'h1': ['Online Stores', 'Built to Sell', 'and Scale.'], 'grad': 1,
+        'lead': 'Shopify, WooCommerce, Magento and custom stores built for the UAE: Arabic and English, local payments and a fast, frictionless checkout.',
+        'sections': [
+            ('statement', 'AI search', 'Your customers search smarter. <em>We make sure they find you.</em>', L['ecom']['geo']),
+            # Same layout as the inner pages' Why Squarezix: heading left, every platform with its live copy right
+            ('nodes', 'Ecommerce platforms', 'Best ecommerce web development <em>company in Dubai</em>', L['ecom']['services'], 'services'),
+            ('bento', 'Why Squarezix', 'How Squarezix <em>stands out</em>', L['ecom']['why']),
+            ('timeline', 'Development methodology', 'Our proven ecommerce <em>development workflow</em>', L['ecom']['workflow']),
+            ('industries', 'Industries', 'Online stores <em>across industries</em>', L['ecom']['industries']),
+            ('cta', 'Be everywhere your audience is <em>searching</em> with Squarezix', 'Connect with our AI experts to drive more leads from SEO in the AI era.'),
+            ('faq', 'FAQs', 'Have questions about getting your ecommerce website to <em>rank higher?</em>', L['ecom']['faq'], 'Platforms, timelines, costs and payments — everything businesses ask us before building an ecommerce website in Dubai.'),
+        ],
+    },
+    {
+        'file': 'website-maintenance.html', 'menu': 'dev', 'badge': 'Website Maintenance',
+        'title': 'Website Maintenance & Management Company in Dubai | Squarezix',
+        'h1': ['A Website That', 'Stays Fast, Safe', 'and Up to Date.'], 'grad': 1,
+        'lead': 'Monitoring, hosting, backups, security and on-demand edits, so your website keeps working while you run the business.',
+        'list': ('Maintenance services', 'How we <em>maintain</em> your website', panels(SVC['maintain'],
+                 ('Watched & backed up.', 'Uptime, hosting, backups and analytics, handled for you.'),
+                 ('Secure & up to date.', 'SSL, content edits and speed tuning on demand.'))),
+        'sections': [
+            ('pillars', 'Our approach', 'How we keep your website <em>healthy</em>', pillars_of(
+                ('Monitor', ['24/7 uptime monitoring', 'Website & traffic analytics', 'Broken links & forms checks', 'Backup monitoring', 'Transparent reporting']),
+                ('Protect', ['Site security & SSL', 'Malware & vulnerability scans', 'CMS, plugin & theme updates', 'Weekly & monthly backups', 'Firewall setup']),
+                ('Improve', ['Speed & performance optimization', 'Content updates & edits', 'Browser compatibility fixes', 'Payment & e-commerce fixes', 'Premium hosting performance']))),
+            ('why', 'Why Squarezix', 'What sets Squarezix apart in <em>website maintenance</em>', items_only(L['web']['mwhy'])),
+            ('industries', 'Industries', 'Websites we look after <em>across industries</em>', L['web']['industries']),
+            ('faq', 'FAQs', 'Have questions about managing your <em>website effectively?</em>', L['web']['mfaq'], 'Care plans, security, backups and support — clear answers on keeping your website fast, safe and up to date.'),
+        ],
     },
 ]
 
-e = html.escape
+# Services with a sub-inner page of their own: their rows and menu entries open that page
+SUBPAGES = {'Ecommerce Website Development': 'ecommerce-website-development.html'}
+
+# Every other menu service gets a sub-inner page in the locked structure (subpages_content.py)
+from subpages_content import SUBS, FAMILIES, WRITTEN  # noqa: E402
 
 
-def clock_html(p):
-    """Pinned scroll section: a clock whose hand sweeps round six process stops (clock.js)."""
-    badge, title, stops = p['clock']
-    n = len(stops)
-    labels = ''.join(
-        f'<li class="svp-stop" style="--i:{i}"><button type="button" data-stop="{i}" aria-label="Step {i + 1}: {e(t)}">'
-        f'<span class="svp-stop-no">({i + 1:02d})</span><span class="svp-stop-name">{e(t)}</span><span class="svp-stop-when">{e(w)}</span></button></li>'
-        for i, (t, w, *_r) in enumerate(stops))
-    details = ''.join(
-        f'<li class="svp-clock-detail" data-stop="{i}">'
-        f'<div class="svp-cd-top"><span class="svp-clock-no">{i + 1:02d}</span><span class="svp-cd-when">{e(w)}</span></div>'
-        f'<h3>{e(t)}</h3><p class="svp-cd-lead">{e(lead)}</p>'
-        f'<div class="svp-cd-cols"><div class="svp-cd-does"><h4>What happens</h4><ul>{"".join(f"<li>{e(x)}</li>" for x in does)}</ul></div>'
-        f'<div class="svp-cd-gets"><h4>You get</h4><ul>{"".join(f"<li>{e(x)}</li>" for x in gets)}</ul></div></div></li>'
-        for i, (t, w, lead, does, gets) in enumerate(stops))
-    hour = ' class="is-hour"'
-    ticks = ''.join(f'<i style="--t:{i}"{hour if i % 5 == 0 else ""}></i>' for i in range(60))
-    marks = ''.join(f'<i style="--i:{i}"></i>' for i in range(n))
-    return f'''    <!-- ===== Process clock: pinned while the hand goes once round the dial ===== -->
-    <section class="svp-clock" id="process" aria-labelledby="svp-clock-title" style="--n:{n}">
-      <div class="svp-clock-pin">
-        <div class="svp-clock-copy">
-          <span class="svc-badge">{e(badge)}</span>
-          <h2 id="svp-clock-title" class="ab-h2">{title}</h2>
-          <ol class="svp-clock-details">{details}</ol>
-          <p class="svp-clock-count" aria-hidden="true"><b>01</b> / {n:02d}<span><i></i></span></p>
-        </div>
-        <div class="svp-dial-wrap">
-          <div class="svp-orbit" aria-hidden="true"><i class="svp-sat"></i></div>
-          <div class="svp-dial" aria-hidden="true">
-            <div class="svp-bezel"></div>
-            <div class="svp-face"></div>
-            <div class="svp-sector"></div>
-            <div class="svp-ticks">{ticks}</div>
-            <div class="svp-marks">{marks}</div>
-            <span class="svp-hand svp-hand--hour"></span>
-            <span class="svp-hand svp-hand--min"></span>
-            <span class="svp-hand svp-hand--sweep"></span>
-            <img class="svp-hub" src="assets/bento/sz-badge.webp" alt="" width="1119" height="1112" loading="lazy" />
-          </div>
-          <ol class="svp-stops" aria-label="Process steps">{labels}</ol>
-        </div>
-      </div>
-    </section>
-
-'''
+def sub_page(sp):
+    name, fam = sp['name'], FAMILIES[sp['parent']]
+    file = slug(name) + '.html'
+    nodes_data = {'intro': sp['intro'], 'items': [(t, d, {'tag': tag, 'kw': kw}) for t, tag, d, kw in sp['nodes']]}
+    bento_data = {'feats': [(t, lead, chips, False) for t, lead, chips in sp['feats']], 'points': sp.get('points') or fam['why']}
+    flow = {'items': [(t, d, []) for t, d in (sp.get('flow') or fam['flow'])]}
+    return {
+        'file': file, 'menu': fam['menu'], 'badge': name, 'custom': True,
+        'title': f'{name} in Dubai | Squarezix', 'h1': sp['h1'], 'grad': 1, 'lead': sp['lead'],
+        'sections': [
+            ('statement', 'AI search', 'Your customers search smarter. <em>We make sure they find you.</em>', L['ecom']['geo']),
+            ('nodes', 'What we deliver', f'What’s included in <em>{e(name)}</em>', nodes_data, 'services'),
+            ('bento', 'Why Squarezix', f'Why choose Squarezix for <em>{e(name)}</em>', bento_data),
+            ('timeline', fam['flow_badge'], fam['flow_title'], flow),
+            ('industries', 'Industries', 'Brands we work with <em>across industries</em>', sp.get('industries') or L['branding']['industries']),
+            ('cta', 'Be everywhere your audience is <em>searching</em> with Squarezix', 'Connect with our AI experts to drive more leads from SEO in the AI era.'),
+            ('faq', 'FAQs', f'Questions about <em>{e(name)}?</em>', sp['faq'],
+             f'Clear answers to the questions businesses ask us most about {name}.'),
+        ],
+    }
 
 
-def showcase_html(p):
-    """Statement with one image tile per sub-category; on scroll the tiles drop out of the
-    sentence into a dock (showcase.js), then each sub-category gets its own alternating row.
-    Works for any number of groups."""
-    groups = p['groups']
-    n = len(groups)
-    inds = ''.join(f'<li><strong>{e(a)}</strong><span>{e(b)}</span></li>' for a, b in INDUSTRIES)
-    ib, _it, ip = p['intro']          # eyebrow above the sentence, paragraph once the tiles have landed
-    imgs = p.get('imgs', GROUP_IMG)      # sub-category pages bring their own image per service
-    short = p.get('short', {})           # …and a short dock label per service
-    is_sub = p.get('sub', False)
-    text = p['statement']
-    for i, (gid, name, _b, _c) in enumerate(groups):
-        text = text.replace('{' + gid + '}', f'<span class="svb-slot" data-i="{i}" aria-hidden="true"></span>')
-    tiles = ''.join(f'<div class="svb-tile" data-i="{i}"><img src="{imgs[gid]}" alt="" loading="lazy" /></div>' for i, (gid, *_r) in enumerate(groups))
-    dock = ''.join(
-        f'<li><a href="#svf-{gid}"><span class="svb-dock-slot" data-i="{i}"><img src="{imgs[gid]}" alt="" loading="lazy" /></span>'
-        f'<span class="svb-dock-label"><b>{i + 1:02d}</b>{e(short.get(gid, name))}</span></a></li>' for i, (gid, name, _b, _c) in enumerate(groups))
-    ticks = ''.join('<i></i>' for _ in range(24))
-    rows = ''
-    for i, (gid, name, blurb, cards) in enumerate(groups):
-        specs = ''.join(f'<li>{e(t)}</li>' for t, _d in cards)
-        # A main page's row leads to that sub-category's own page; a sub-category page's row leads to contact
-        link = (f'<a class="svp-link" href="#ab-contact" data-rise>Talk to us about {e(name.lower())} {ARROW}</a>' if is_sub else
-                f'<a class="svp-link" href="{SUB[p["menu"]][gid]["file"]}" data-rise>Explore {e(name.lower())} {ARROW}</a>')
-        rows += f'''
-      <article class="svf-row" id="svf-{gid}">
-        <div class="svf-panel" data-rise>
-          <div class="svf-art"><img src="{imgs[gid]}" alt="" loading="lazy" /></div>
-          <ul class="svf-specs" aria-label="{e(name)} services">{specs}</ul>
-        </div>
-        <div class="svf-copy">
-          <p class="svf-kicker" data-rise><b>{i + 1:02d}</b> / {n:02d}</p>
-          <h3 data-rise>{e(name)}</h3>
-          <p class="svf-blurb" data-rise>{e(blurb)}</p>
-          {link}
-        </div>
-      </article>'''
-    return f'''    <!-- ===== Showcase: the sentence's image tiles drop into a dock as you scroll ===== -->
-    <section class="svb{' svb--many' if n > 4 else ''}" aria-labelledby="svb-title" style="--n:{n}">
-      <div class="svb-pin">
-        <span class="svc-badge svb-badge">{e(ib)}</span>
-        <h2 id="svb-title" class="svb-statement">{text}</h2>
-        <div class="svb-dock">
-          <div class="svb-dock-bar" aria-hidden="true"><span class="svb-play"></span><span class="svb-time">00:0{n} / 00:0{n}</span><span class="svb-ticks">{ticks}</span></div>
-          <ol class="svb-dock-slots">{dock}</ol>
-        </div>
-        <div class="svb-tiles" aria-hidden="true">{tiles}</div>
-      </div>
-    </section>
-    <p class="svb-after" data-rise>{e(ip)}</p>
-
-    <!-- ===== One row per sub-category, alternating sides ===== -->
-    <section class="svf{' svf--sub' if is_sub else ''}" id="services" aria-label="{e(p['badge'])} services">{rows}
-      <div class="svp-ind-row" data-rise>
-        <p class="svp-ind-label">Industries we work with</p>
-        <!-- Same strip as the footer partners; outro.js clones the group and loops it -->
-        <div class="szf-partners-row svp-ind-loop">
-          <div class="szf-partners-track"><ul class="szf-partners-group">{inds}</ul></div>
-        </div>
-      </div>
-    </section>
-
-'''
+for _sp in SUBS:
+    _pg = sub_page(_sp)
+    PAGES.append(_pg)
+    SUBPAGES[_sp['name']] = _pg['file']
 
 
-SHOW_WHY = False
+# Header menus: each column lists exactly its page's services (SVC), linking to each one.
+def menu_items(page, key, subs=None):
+    return [(t, SUBPAGES.get(t, f'{page}#{slug(t)}'), *([subs[t]] if subs else [])) for t, _d, _b in SVC[key]['items']]
 
 
-def why_html(p):
-    """The home page's Why SquareZix section (markup, icons, whyus.js) with this page's copy."""
-    home = (ROOT / 'index.html').read_text()
-    start = home.index('<section class="why-us wu-h"')
-    sec = home[start:home.index('</section>', start) + len('</section>')]
-    l1, l2, sub, cards = p['why']
-    sec = re.sub(r'(<span class="wu-line1">).*?(</span>\s*<span class="wu-line2">)', lambda m: m.group(1) + l1 + m.group(2), sec, count=1, flags=re.S)
-    sec = re.sub(r'(<span class="wu-line2">).*?(</span>)', lambda m: m.group(1) + e(l2) + m.group(2), sec, count=1, flags=re.S)
-    sec = re.sub(r'(<p class="wu-sub">).*?(</p>)', lambda m: m.group(1) + e(sub) + m.group(2), sec, count=1, flags=re.S)
-    it = iter(cards)
-    def card(m):
-        t, d = next(it)
-        return f'<h3>{e(t)}</h3>\n              <p>{e(d)}</p>'
-    sec, n = re.subn(r'<h3>.*?</h3>\s*<p>.*?</p>', card, sec, flags=re.S)
-    assert n == len(cards), f'home section has {n} cards, page defines {len(cards)}'
-    return '    ' + sec.replace('href="#contact"', 'href="#ab-contact"') + '\n\n'
+MENU_TABS = [
+    ('Branding & Design', 'branding.html', [
+        ('Branding', 'branding.html', menu_items('branding.html', 'branding')),
+        ('Design', 'design.html', menu_items('design.html', 'design')),
+    ]),
+    ('Digital Marketing', None, [
+        ('Social Media', 'social-media-marketing.html', menu_items('social-media-marketing.html', 'social')),
+        ('Content Marketing', 'content-marketing.html', menu_items('content-marketing.html', 'content')),
+        ('Paid Marketing', 'paid-marketing.html', menu_items('paid-marketing.html', 'paid', PAID_SUB)),
+    ]),
+    # One column: the SEO and GEO services together; each item still opens its own page
+    ('AI Search & SEO', None, [
+        ('AI & Search Visibility', 'seo-ai-visibility.html',
+         menu_items('seo-ai-visibility.html', 'seo') + menu_items('geo.html', 'geo')),
+    ]),
+]
+# Its own header item after Services: one tab each for development and maintenance
+DEV_TABS = [
+    ('Website Development', 'website-development.html', [('Website Development', 'website-development.html', menu_items('website-development.html', 'web'))]),
+    ('Website Maintenance', 'website-maintenance.html', [('Website Maintenance', 'website-maintenance.html', menu_items('website-maintenance.html', 'maintain'))]),
+]
 
 
-def main_html(p):
-    # One flowing sentence; the 'grad' part is the serif-italic accent phrase
+def hero(p):
+    """The wave hero from the earlier service pages: badge, one-sentence headline with a
+    serif-italic accent phrase, lead and one button, over the animated waves (waves-bg.js)."""
     headline = ' '.join(f'<em>{e(t)}</em>' if i == p['grad'] else e(t) for i, t in enumerate(p['h1']))
-    grad = ' class="ab-grad"'
-    lines = ''.join(f'<span{grad if i == p["grad"] else ""}>{e(t)}</span>' for i, t in enumerate(p['h1']))
-    groups = ''
-    for n, (gid, name, blurb, cards) in enumerate(p['groups'], 1):
-        items = ''.join(f'<li class="svp-card" id="{gid}-{i}" data-rise><span class="svp-card-no">{n:02d}.{i:02d}</span><h4>{e(t)}</h4><p>{e(d)}</p></li>'
-                        for i, (t, d) in enumerate(cards, 1))
-        groups += f'''
-      <div class="svp-group" id="{gid}">
-        <div class="svp-group-head">
-          <span class="svp-group-no">{n:02d}</span>
-          <h3 data-rise>{e(name)}</h3>
-          <p data-rise>{e(blurb)}</p>
-          <a class="svp-link" href="#ab-contact" data-rise>Talk to us about {e(name.lower())} {ARROW}</a>
-        </div>
-        <ul class="svp-cards">{items}</ul>
-      </div>'''
-    jump = ''.join(f'<a href="#{gid}">{e(name)}<sup>{len(cards):02d}</sup></a>' for gid, name, _, cards in p['groups'])
-    pb, pt, pl = p['pillars']
-    pillars = ''.join(f'<li class="svp-pillar" data-rise><span class="svp-pillar-no">{i:02d}</span><h3>{e(t)}</h3><ul>{"".join(f"<li>{e(x)}</li>" for x in xs)}</ul></li>'
-                      for i, (t, xs) in enumerate(pl, 1))
-    # Why SquareZix lives on the home page only. Set SHOW_WHY = True to put it back on these pages.
-    why = why_html(p) if SHOW_WHY else ''
-    showcase = showcase_html(p)
-    steps = ''.join(f'<li class="ab-step" data-rise><span class="ab-step-num">{i:02d}</span><h3>{e(t)}</h3><p>{e(d)}</p></li>' for i, (t, d) in enumerate(p['steps'], 1))
-    ib, it, ip = p['intro']
-    process = clock_html(p) if 'clock' in p else f'''    <!-- ===== Process (same track as the About page) ===== -->
-    <section class="ab-process" aria-labelledby="svp-process-title">
-      <div class="ab-head ab-center">
-        <span class="svc-badge" data-rise>How We Work</span>
-        <h2 id="svp-process-title" class="ab-h2 ab-reveal" data-reveal>A process that’s <em>boringly reliable</em></h2>
-        <p class="ab-sub" data-rise>No surprises. No scope creep. Every engagement follows the same four-phase system.</p>
-      </div>
-      <ol class="ab-steps" id="ab-steps">{steps}</ol>
-    </section>
-
-'''
-    return f'''  <main id="service" class="svp">
-    <!-- ===== Hero: animated wave gradient (waves-bg.js) behind eyebrow, headline, lead and one button ===== -->
+    return f'''    <!-- ===== Hero: animated wave gradient (waves-bg.js) behind badge, headline, lead and one button ===== -->
     <section class="svh" aria-labelledby="svp-hero-title">
       <canvas class="svh-waves" aria-hidden="true"></canvas>
       <div class="svh-inner">
@@ -435,6 +400,7 @@ def main_html(p):
       </div>
     </section>
 
+    <!-- Looping services strip, same as the home page (site.js clones the group and loops it) -->
     <div class="marquee" aria-label="Our services">
       <div class="marquee-track" id="marquee-track">
         <ul class="marquee-group">
@@ -443,67 +409,378 @@ def main_html(p):
       </div>
     </div>
 
-{showcase}    <!-- ===== Approach ===== -->
-    <section class="svp-pillars" aria-labelledby="svp-pillars-title">
-      <div class="ab-head ab-center">
-        <span class="svc-badge" data-rise>{e(pb)}</span>
-        <h2 id="svp-pillars-title" class="ab-h2 ab-reveal" data-reveal>{pt}</h2>
-      </div>
-      <ol class="svp-pillar-list" style="--n:{len(pl)}">{pillars}</ol>
+'''
+
+
+def head(badge, title, intro='', center=False):
+    sub = f'<p class="ss-sub">{e(intro)}</p>' if intro else ''
+    cls = 'ss-head ss-head--center' if center else 'ss-head'
+    return f'<div class="{cls}"><span class="svc-badge">{e(badge)}</span><h2 class="ab-h2">{title}</h2>{sub}</div>'
+
+
+def short(d, limit=110):
+    """One line under a service's title: the first sentence of its live description."""
+    first = re.split(r'(?<=[.!?])\s|(?<=[a-z][.])(?=[A-Z])', d, maxsplit=1)[0]
+    if len(first) > limit:
+        cut = first.split(' — ')[0].split('—')[0]
+        first = cut if len(cut) <= limit else first[:limit].rsplit(' ', 1)[0].rstrip(',;:') + '…'
+    return first
+
+
+NE = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>'
+
+
+def tags(t):
+    """Keywords under a service (Paid Marketing's groups), the same ones its menu entry shows."""
+    kw = PAID_SUB.get(t)
+    return f'<span class="ss-row-tags">{"".join(f"<i>{e(k)}</i>" for k in kw.split(" · "))}</span>' if kw else ''
+
+
+def listing(badge, title, data, sid='services'):
+    """The long service list as two panels of rows (number, title, one line, arrow), each
+    panel closed by a short caption — the structure of the reference design."""
+    items = list(enumerate(data['items'], 1))
+    half = (len(items) + 1) // 2
+    caps = data.get('panels') or [('', ''), ('', '')]
+    panels = ''
+    for (bold, rest), chunk in zip(caps, (items[:half], items[half:])):
+        rows = ''.join(
+            f'<li id="{slug(t)}"><a class="ss-row" href="{SUBPAGES.get(t, "#ab-contact")}"><span class="ss-row-no">{i:02d}</span>'
+            f'<span class="ss-row-txt"><b>{e(t)}</b>{f"<span>{e(short(d))}</span>" if d else ""}{tags(t)}</span>'
+            f'<span class="ss-row-go">{NE}</span></a></li>'
+            for i, (t, d, _b) in chunk)
+        cap = f'<p class="ss-panel-cap"><b>{e(bold)}</b> {e(rest)}</p>' if bold else ''
+        panels += f'<div class="ss-panel"><ol class="ss-rows">{rows}</ol>{cap}</div>'
+    sub = f'<p class="ss-sub">{e(data["intro"])}</p>' if data.get('intro') else ''
+    return f'''    <section class="ss-sec ss-list" id="{sid}">
+      <div class="ss-list-head"><span class="svc-badge">{e(badge)}</span><h2 class="ab-h2">{title}</h2>{sub}</div>
+      <div class="ss-panels">{panels}</div>
     </section>
 
-{why}{process}'''
+'''
 
 
-# Images for the service tiles on sub-category pages, handed out in turn (placeholders)
-POOL = ['assets/blog/ai-workplace.jpg', 'assets/work/project-2.png', 'assets/work/project-3.png', 'assets/reels/reel-1.jpg',
-        'assets/blog/ai-search.jpg', 'assets/work/project-1.png', 'assets/reels/reel-3.jpg', 'assets/blog/gcc-growth.jpg',
-        'assets/reels/reel-2.jpg', 'assets/reels/reel-4.jpg', 'assets/reels/reel-5.jpg']
+# Line icons for the approach cards (24px grid, stroked in CSS)
+PILLAR_ICONS = {
+    'Plan': '<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2.2 5-4.8 2.2 2.2-5z"/>',
+    'Create': '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13 7 4 4"/>',
+    'Launch': '<path d="M9 15 6 12c1-4.5 4.5-8.5 12-9-.5 7.5-4.5 11-9 12z"/><path d="M6 15c-1.5 1.5-2 3.5-2 5 1.5 0 3.5-.5 5-2"/><circle cx="14.5" cy="9.5" r="1.5"/>',
+    'Discover': '<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.4-4.4"/>',
+    'Design': '<path d="M12 3a9 9 0 1 0 0 18c1.2 0 1.8-.9 1.4-1.9-.5-1.2.3-2.1 1.5-2.1H17a4 4 0 0 0 4-4c0-5.5-4-10-9-10z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/>',
+    'Deliver': '<path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z"/><path d="m3 7.5 9 4.5 9-4.5M12 12v9"/>',
+    'Grow': '<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>',
+    'Amplify': '<path d="M4 10v4h3l6 4V6L7 10z"/><path d="M17 9a4 4 0 0 1 0 6M19.5 6.5a7.5 7.5 0 0 1 0 11"/>',
+    'Optimise': '<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>',
+    'Audit': '<path d="M9 4h6v3H9z"/><path d="M15 5h3v16H6V5h3"/><path d="m9 13 2 2 4-4"/>',
+    'Build': '<path d="m8 8-5 4 5 4M16 8l5 4-5 4M14 5l-4 14"/>',
+    'Technical': '<path d="m8 8-5 4 5 4M16 8l5 4-5 4M14 5l-4 14"/>',
+    'Content': '<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 12h7M9 16h7"/>',
+    'Authority': '<circle cx="12" cy="9" r="5.5"/><path d="m8.5 13.5-1.5 7.5 5-3 5 3-1.5-7.5"/>',
+    'Formats': '<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/>',
+    'Monitor': '<path d="M3 12h4l3-7 4 14 3-7h4"/>',
+    'Protect': '<path d="M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6z"/><path d="m9 12 2 2 4-4"/>',
+    'Improve': '<path d="M12 21a9 9 0 1 1 9-9"/><path d="m12 12 5-5M17 7h-4M17 7v4"/>',
+}
 
 
-def sub_pages():
-    """One page per sub-category (dropdown tab): same sections as its parent page, with the
-    parent group's services as the tiles and rows. Approach and process come from the parent."""
-    out, k = [], 0
-    for parent in PAGES:
-        for gid, name, _blurb, cards in parent['groups']:
-            d = SUB[parent['menu']][gid]
-            assert len(d['services']) == len(cards), f'{d["file"]}: services do not match the parent group'
-            ids = [f's{i}' for i in range(len(cards))]
-            out.append({
-                'file': d['file'], 'menu': parent['menu'], 'badge': name, 'sub': True,
-                'title': f'{name} — {parent["badge"]} | Squarezix', 'desc': d['lead'],
-                'h1': d['h1'], 'grad': d['grad'], 'lead': d['lead'], 'statement': d['statement'],
-                'intro': (parent['intro'][0], '', d['intro']),
-                'groups': [(sid, title, desc, [(b, '') for b in bullets])
-                           for sid, (title, desc), (_s, bullets) in zip(ids, cards, d['services'])],
-                'short': {sid: s for sid, (s, _b) in zip(ids, d['services'])},
-                'imgs': {sid: POOL[(k + i) % len(POOL)] for i, sid in enumerate(ids)},
-                'pillars': parent['pillars'], 'clock': parent['clock'], 'steps': parent['steps'], 'why': parent['why'],
-            })
-            k += len(cards)
-    return out
+def pillars(badge, title, data):
+    """Approach as infographic cards: a gradient tab with a pointer on top, then the card —
+    icon on the left, a hairline, and the pillar's points on the right."""
+    def card(t, b):
+        ic = PILLAR_ICONS.get(t, '<circle cx="12" cy="12" r="9"/>')
+        return (f'<li class="ss-pillar"><h3 class="ss-pillar-tab">{e(t)}</h3>'
+                f'<div class="ss-pillar-body"><span class="ss-pillar-ic"><svg viewBox="0 0 24 24" aria-hidden="true">{ic}</svg></span>'
+                f'<ul>{"".join(f"<li>{e(x)}</li>" for x in b)}</ul></div></li>')
+    ps = ''.join(card(t, b) for t, _d, b in data['items'])
+    return f'''    <section class="ss-sec">
+      {head(badge, title, center=True)}
+      <ol class="ss-pillars" style="--cols:{2 if len(data['items']) == 4 else 3}">{ps}</ol>
+    </section>
+
+'''
+
+
+def why(badge, title, data, sid=None):
+    rows = ''.join(f'<li><h3>{e(t)}</h3>{f"<p>{e(d)}</p>" if d else ""}</li>' for t, d, _b in data['items'])
+    return f'''    <section class="ss-sec ss-why"{f' id="{sid}"' if sid else ''}>
+      <div class="ss-why-side">{head(badge, title, data.get('intro', ''))}
+        <a href="#ab-contact" class="btn-contact">{PHONE} Talk to our team</a>
+      </div>
+      <ul class="ss-why-list">{rows}</ul>
+    </section>
+
+'''
+
+
+# Short name + descriptor for each live industry, shown in the looping strip
+IND_SHORT = {
+    'Marketing & Advertising Agencies': ('Marketing', 'Advertising agencies'),
+    'Real Estate & Property Management': ('Real Estate', 'Property management'),
+    'Logistics & Supply Chain Companies': ('Logistics', 'Supply chain companies'),
+    'Healthcare & Wellness Enterprises': ('Healthcare', 'Wellness enterprises'),
+    'SMEs and Growing Startups': ('Startups', 'SMEs and growing teams'),
+    'Retail & E-commerce Businesses': ('Retail', 'E-commerce businesses'),
+    'Fashion & Lifestyle Brands': ('Fashion', 'Lifestyle brands'),
+    'Electronics & Technology Retailers': ('Electronics', 'Technology retailers'),
+    'Luxury & Jewellery Brands': ('Luxury', 'Jewellery brands'),
+    'Health, Beauty & Wellness': ('Beauty', 'Health & wellness'),
+    'Automotive & Spare Parts': ('Automotive', 'Spare parts'),
+    'Home Décor & Furniture': ('Home Décor', 'Furniture'),
+}
+
+
+def industries(badge, title, data):
+    """Looping strip of industries, the same build as the footer's partner strip and the
+    earlier service pages (outro.js clones the group and loops it)."""
+    cells = ''.join(f'<li><strong>{e(IND_SHORT.get(t, (t, ""))[0])}</strong><span>{e(IND_SHORT.get(t, (t, ""))[1])}</span></li>'
+                    for t, *_r in data['items'])
+    return f'''    <section class="ss-sec">
+      {head(badge, title, center=True)}
+      <div class="szf-partners-row ss-ind-loop">
+        <div class="szf-partners-track"><ul class="szf-partners-group">{cells}</ul></div>
+      </div>
+    </section>
+
+'''
+
+
+def faq(badge, title, qa, intro='', sid=None):
+    def answer(a):
+        out, bullets = [], []
+        for line in a.split('\n'):
+            if line.startswith('- '):
+                bullets.append(f'<li>{e(line[2:])}</li>')
+            elif line:
+                out.append(f'<p>{e(line)}</p>')
+        return ''.join(out) + (f'<ul>{"".join(bullets)}</ul>' if bullets else '')
+    chev = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>'
+    items = ''.join(f'<details class="ss-q"{" open" if i == 0 else ""}><summary><span>{e(q)}</span><i class="ss-q-icon">{chev}</i></summary>'
+                    f'<div class="ss-a"><div class="ss-a-in">{answer(a)}</div></div></details>'
+                    for i, (q, a) in enumerate(qa))
+    # A full-width band in its own colour; one compact column of questions (faq.js animates them)
+    return f'''    <div class="ss-faq-band"{f' id="{sid}"' if sid else ''}>
+    <section class="ss-sec ss-faq">
+      <div class="ss-faq-head"><span class="svc-badge">{e(badge)}</span><h2 class="ab-h2">{title}</h2>{f'<p class="ss-sub">{e(intro)}</p>' if intro else ''}</div>
+      <div class="ss-faq-frame">
+        <div class="ss-faq-list">{items}</div>
+      </div>
+      <a href="#ab-contact" class="btn-contact ss-faq-more">{PHONE} Still have questions? Ask us</a>
+    </section>
+    </div>
+
+'''
+
+
+def statement(badge, title, text):
+    """One centred statement (the live page's AI-search intro)."""
+    return f'''    <section class="ss-sec ec-statement">
+      {head(badge, title, text, center=True)}
+    </section>
+
+'''
+
+
+# Platform node cards: (mark, tag, keywords). Keywords are phrases from each platform's live copy.
+PLATFORM_NODES = {
+    'Shopify Development': ('Sh', 'Platform', ['Custom themes', 'Secure payments', 'Mobile-optimized']),
+    'WooCommerce Development': ('Wc', 'Platform', ['WordPress', 'SEO-friendly', 'Plugin integrations']),
+    'Custom Ecommerce Development': ('Cu', 'Custom build', ['UI/UX design', 'Backend architecture', 'Scalability']),
+    'Magento Development': ('Mg', 'Enterprise', ['Multi-store', 'Advanced customization', 'Global growth']),
+    'Laravel E-commerce Development (Custom-Built Solutions)': ('Lv', 'Custom build', ['Bespoke platform', 'Complex integrations', 'Long-term scalability']),
+    'BigCommerce Development': ('Bc', 'Platform', ['Custom design', 'API integrations', 'High-volume sales']),
+    'OpenCart Development': ('Oc', 'Platform', ['Multi-store', 'Payment integrations', 'Admin panels']),
+    'Sitecore E-commerce Development': ('Sc', 'Enterprise', ['Personalization', 'Customer data insights', 'Targeted marketing']),
+    'Ecommerce App Development': ('Ap', 'Mobile', ['Native iOS', 'Android', 'Hybrid', 'PWA']),
+    'Headless E-Commerce Development': ('Hl', 'Headless', ['Next.js', 'Vue.js', 'Shopify Hydrogen']),
+}
+
+
+def auto_mark(t):
+    """Two-letter mark for a card: initials of the first two main words, or a word's first two letters."""
+    words = [w for w in re.findall(r'[A-Za-z0-9]+', t) if w.lower() not in {'and', 'of', 'for', 'the', 'to', 'in', 'a'}]
+    if len(words) >= 2:
+        return (words[0][0] + words[1][0]).upper() if not words[0].isdigit() else words[0][:2]
+    return (words[0][:2] if words else t[:2]).capitalize()
+
+
+def nodes(badge, title, data, sid=None):
+    """Why Squarezix layout (heading pinned left, one column scrolling right) with each item as a
+    node card: tag on top, mark + title + menu, first sentence, the rest in a field box, keywords."""
+    def card(t, d, meta):
+        if isinstance(meta, dict):
+            mark, tag, kws = auto_mark(t), meta.get('tag', 'Service'), meta.get('kw', [])
+        else:
+            mark, tag, kws = PLATFORM_NODES.get(t, (auto_mark(t), 'Service', []))
+        lead, _, rest = d.partition('. ')
+        lead = lead + ('.' if rest else '')
+        box = f'<p class="ec-card-field">{e(rest)}</p>' if rest else ''
+        chips = f'<ul class="ec-card-meta">{"".join(f"<li>{e(k)}</li>" for k in kws)}</ul>' if kws else ''
+        return (f'<li class="ec-card" id="{slug(t)}"><span class="ec-card-tag"><i></i>{e(tag)}</span>'
+                f'<div class="ec-card-body"><div class="ec-card-head"><span class="ec-card-mark">{e(mark)}</span><h3>{e(t)}</h3>'
+                f'<i class="ec-card-menu" aria-hidden="true"></i></div><p class="ec-card-lead">{e(lead)}</p>{box}'
+                f'{chips}</div></li>')
+    cards = ''.join(card(t, d, b) for t, d, b in data['items'])
+    return f'''    <section class="ss-sec ss-why"{f' id="{sid}"' if sid else ''}>
+      <div class="ss-why-side">{head(badge, title, data.get('intro', ''))}
+        <a href="#ab-contact" class="btn-contact">{PHONE} Talk to our team</a>
+      </div>
+      <ul class="ec-cards">{cards}</ul>
+    </section>
+
+'''
+
+
+# Stand-out points that are really lists on the live page: shown as chips in larger cards
+BENTO_FEATURES = [
+    ('Secure Payment Gateway Integration in Dubai', 'Frictionless checkout with the payment options UAE shoppers use.',
+     ['Apple Pay', 'Google Pay', 'Network International', 'CC Avenue', 'Tabby', 'Tamara'], 'wide'),
+    ('Third-Party Integrations', 'A centralized, automated ecommerce ecosystem.',
+     ['ERP systems', 'CRM platforms', 'POS systems', 'Shipping APIs', 'Inventory automation'], 'wide'),
+    ('Multilingual & Multi-Currency Support', 'Fully localized for the region.', ['Arabic interface', 'English interface', 'Multi-currency'], ''),
+    ('AI-Driven Search & Personalization', 'Help shoppers find the right product faster.',
+     ['Smart filtering', 'Predictive search', 'Product recommendations', 'Behavior tracking'], ''),
+    ('Mobile-First Architecture', 'Optimized layouts on every screen.', ['Smartphones', 'Tablets', 'Desktop'], ''),
+]
+
+
+def bento(badge, title, data):
+    """Stand-outs as a bento: feature cards with chips, then compact cards. Pages pass
+    {'feats': [(title, lead, chips, wide)], 'points': [(title, text)]}; the ecommerce page builds
+    them from its live stand-out list (BENTO_FEATURES + the remaining points)."""
+    if 'feats' in data:
+        feats_src, points = data['feats'], data['points']
+    else:
+        feats_src = BENTO_FEATURES
+        taken = {t for t, *_r in BENTO_FEATURES}
+        points = [(t, d) for t, d, _b in data['items'] if t not in taken]
+    even = len(feats_src) % 2 == 0 and not any(w for *_r, w in feats_src)
+    feats = ''.join(
+        f'<li class="ec-feat{" ec-feat--wide" if (w or even) else ""}"><h3>{e(t)}</h3><p>{e(lead)}</p>'
+        + (f'<ul class="ec-chips">{"".join(f"<li>{e(c)}</li>" for c in chips)}</ul>' if chips else '') + '</li>'
+        for t, lead, chips, w in feats_src)
+    rest = ''.join(f'<li class="ec-point"><h3>{e(t)}</h3>{f"<p>{e(short(d, 150))}</p>" if d else ""}</li>' for t, d in points)
+    return f'''    <section class="ss-sec">
+      {head(badge, title, data.get('intro', ''), center=True)}
+      <ul class="ec-bento">{feats}</ul>
+      <ul class="ec-points">{rest}</ul>
+    </section>
+
+'''
+
+
+FLOW_ICONS = [   # one line icon per workflow node, in step order
+    '<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.4-4.4"/>',
+    '<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/>',
+    '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 9v11"/>',
+    '<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13 7 4 4"/>',
+    '<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>',
+    '<path d="M9 15 6 12c1-4.5 4.5-8.5 12-9-.5 7.5-4.5 11-9 12z"/><path d="M6 15c-1.5 1.5-2 3.5-2 5 1.5 0 3.5-.5 5-2"/><circle cx="14.5" cy="9.5" r="1.5"/>',
+]
+# Wires between nodes (120 x 40 px boxes): right/left = direction of travel, down/up = to a lower/higher node
+WIRES = {
+    'rd': 'M0 0C60 0 60 40 120 40', 'ru': 'M0 40C60 40 60 0 120 0',
+    'ld': 'M120 0C60 0 60 40 0 40', 'lu': 'M120 40C60 40 60 0 0 0',
+}
+FLOW_PATH = ['rd', 'ru', 'turn', 'ld', 'lu', None]   # 1→2→3 left to right, down to 4, then 4→5→6 back
+
+
+def timeline(badge, title, data):
+    """The workflow as a node graph on a dotted canvas: six step nodes in a snake (three across,
+    then back), joined by wires with ports at both ends. Static; hover lights a node and its wire."""
+    items = data['items']
+    n = len(items)
+    nodes = ''
+    for i, (t, d, _b) in enumerate(items):
+        w = FLOW_PATH[i] if i < len(FLOW_PATH) else None
+        if w == 'turn':
+            wire = '<svg class="ec-wire ec-wire--turn" viewBox="0 0 12 96" aria-hidden="true"><path d="M6 0V96"/><circle cx="6" cy="0" r="4"/><circle cx="6" cy="96" r="4"/></svg>'
+        elif w:
+            d_ = WIRES[w]
+            nums = [float(x) for x in re.findall(r'[\d.]+', d_)]
+            wire = (f'<svg class="ec-wire ec-wire--{w}" viewBox="0 0 120 40" aria-hidden="true"><path d="{d_}"/>'
+                    f'<circle cx="{nums[0]:g}" cy="{nums[1]:g}" r="4"/><circle cx="{nums[-2]:g}" cy="{nums[-1]:g}" r="4"/></svg>')
+        else:
+            wire = ''
+        nxt = (f'<span>Next</span><b>{e(items[i + 1][0])}</b>' if i + 1 < n else '<span>Output</span><b>Live store</b>')
+        tag = '<span class="ec-node-tag">Start</span>' if i == 0 else ('<span class="ec-node-tag ec-node-tag--end">Launch</span>' if i == n - 1 else '')
+        nodes += (f'<li class="ec-node">{tag}<div class="ec-node-head"><span class="ec-node-ic"><svg viewBox="0 0 24 24" aria-hidden="true">{FLOW_ICONS[i % len(FLOW_ICONS)]}</svg></span>'
+                  f'<h3>{e(t)}</h3><i class="ec-node-dots" aria-hidden="true"></i></div>'
+                  f'<div class="ec-node-box"><p class="ec-node-row"><span>Step</span><b>{i + 1:02d} / {n:02d}</b></p><p class="ec-node-desc">{e(d)}</p></div>'
+                  f'<p class="ec-node-row ec-node-box ec-node-next">{nxt}</p>{wire}</li>')
+    return f'''    <section class="ss-sec">
+      {head(badge, title, center=True)}
+      <div class="ec-canvas"><ol class="ec-flow">{nodes}</ol></div>
+    </section>
+
+'''
+
+
+def cta(title, text):
+    return f'''    <section class="ss-sec">
+      <div class="ec-cta">
+        <div><h2 class="ab-h2">{title}</h2><p>{e(text)}</p></div>
+        <a href="#ab-contact" class="btn-contact btn-contact--xl">{PHONE} Speak to an expert</a>
+      </div>
+    </section>
+
+'''
+
+
+DIVIDER = '    <div class="ss-divider" aria-hidden="true"><i></i></div>\n\n'
+
+
+KINDS = {'nodes': nodes, 'statement': statement, 'bento': bento, 'timeline': timeline, 'cta': cta, 'pillars': pillars, 'why': why, 'industries': industries, 'faq': faq}
+
+
+def main_html(p):
+    secs = [] if p.get('custom') else [('main', listing(*p['list']))]
+    for kind, *args in p['sections']:
+        secs.append((kind, KINDS[kind](*args)))
+    # The gradient divider between content sections
+    out = hero(p)
+    for i, (kind, html_) in enumerate(secs):
+        if i and not {'faq', 'cta'} & {kind, secs[i - 1][0]}:   # FAQ band and CTA card separate themselves
+            out += DIVIDER
+        out += html_
+    return f'  <main id="service" class="ss">\n{out}'
+
+
+def menu_js(tabs_src):
+    """Menu data for menu.js: tabs → columns → [{t, h}]."""
+    tabs = [{'label': lab, 'page': page,
+             'cols': [{'title': ct, 'page': cp, 'items': [{'t': it[0], 'h': it[1], **({'d': it[2]} if len(it) > 2 else {})} for it in items]}
+                      for ct, cp, items in cols]}
+            for lab, page, cols in tabs_src]
+    return json.dumps(tabs, ensure_ascii=False, indent=2)
 
 
 def build():
     src = (ROOT / 'about-us.html').read_text()
-    head, rest = src.split('<main', 1)
+    head_html, rest = src.split('<main', 1)
     main, tail = rest.split('</main>', 1)
-    contact = main[main.index('<section class="ab-contact"'):]          # reuse the About contact block as is
-    for p in PAGES + sub_pages():
-        h = re.sub(r'<title>.*?</title>', f'<title>{e(p["title"])}</title>', head, flags=re.S)
-        h = re.sub(r'<meta name="description" content="[^"]*"', f'<meta name="description" content="{e(p["desc"])}"', h)
-        ver = re.search(r'about\.css(\?v=\w+)', h).group(1)             # same cache-buster as the other assets
-        h = re.sub(r'(<link rel="stylesheet" href="about\.css[^>]*>)', rf'\1\n  <link rel="stylesheet" href="service.css{ver}" />', h)
-        h = h.replace('class="nav-link is-current" href="about-us.html" aria-current="page"', 'class="nav-link" href="about-us.html"')
-        h = h.replace(f'<div class="nav-item" data-menu="{p["menu"]}">', f'<div class="nav-item is-current" data-menu="{p["menu"]}">')
-        t = tail.replace('<script src="about.js', f'<script src="waves-bg.js{ver}"></script>\n  <script src="showcase.js{ver}"></script>\n  <script src="about.js', 1)
-        if SHOW_WHY:
-            t = t.replace('<script src="about.js', f'<script src="whyus.js{ver}"></script>\n  <script src="about.js', 1)
-        if 'clock' in p:
-            t = t.replace('<script src="about.js', f'<script src="clock.js{ver}"></script>\n  <script src="about.js', 1)
+    # Reuse the About contact block, without its scroll-in effects (these pages are static)
+    contact = main[main.index('<section class="ab-contact"'):]
+    contact = re.sub(r' data-(rise|reveal)(="[^"]*")?', '', contact)
+    ver = re.search(r'about\.css(\?v=\w+)', head_html).group(1)
+    for p in PAGES:
+        h = re.sub(r'<title>.*?</title>', f'<title>{e(p["title"])}</title>', head_html, flags=re.S)
+        h = re.sub(r'<meta name="description" content="[^"]*"', f'<meta name="description" content="{e(p["lead"])}"', h)
+        h = re.sub(r'(<link rel="stylesheet" href="about\.css[^>]*>)', rf'\1\n  <link rel="stylesheet" href="service-static.css{ver}" />', h)
+        h = h.replace('<div class="nav-item is-current" data-menu="insights">', '<div class="nav-item" data-menu="insights">')
+        cur = p.get('menu', 'services')
+        h = h.replace(f'<div class="nav-item" data-menu="{cur}">', f'<div class="nav-item is-current" data-menu="{cur}">')
+        t = tail.replace('<script src="about.js', f'<script src="waves-bg.js{ver}"></script>\n  <script src="faq.js{ver}"></script>\n  <script src="about.js', 1)
         (ROOT / p['file']).write_text(h + main_html(p) + '    ' + contact + '</main>' + t)
         print('wrote', p['file'])
+    # Menus: replace the generated blocks in menu.js
+    mp = ROOT / 'menu.js'
+    js = mp.read_text()
+    for key, src in (('services', MENU_TABS), ('dev', DEV_TABS)):
+        js, n = re.subn(rf'(// <{key}:auto>\n).*?(\n\s*// </{key}:auto>)', lambda m: m.group(1) + '      tabs: ' + menu_js(src).replace('\n', '\n      ') + ',' + m.group(2), js, flags=re.S)
+        assert n == 1, f'menu.js is missing the <{key}:auto> markers'
+    mp.write_text(js)
+    print('updated menu.js menus')
+    print(f'sub-inner pages: {len(SUBS) + 1}; Claude-written copy (no live page) on {len(WRITTEN)}:', ', '.join(WRITTEN))
 
 
 if __name__ == '__main__':
