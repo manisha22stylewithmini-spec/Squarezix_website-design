@@ -436,7 +436,184 @@ def portfolio():
           'A selection of brands, experiences and digital systems built by SquareZix — websites, products and campaigns designed, built and grown by one Dubai team.', 'work', body)
 
 
+# ================================================================ BLOGS
+BLOG_LIVE = 'https://squarezix.com/blogs/'
+
+# Titles and categories are the live squarezix.com/blogs listing. The live listing shows no dates,
+# descriptions or read times, so only the three posts already on the home page carry them.
+# topic: brand | growth | digital | intelligence   (our new architecture over the live categories)
+# ind:   industry-perspective picks (our classification, not a live category)
+POSTS = [
+    dict(t='AI in the Modern Workplace: A Guide for Businesses', c='Artificial Intelligence', topic='intelligence', img='assets/blog/ai-workplace.jpg',
+         alt='Illustrated team of three posing in front of a pink city skyline', date='August 25, 2025', iso='2025-08-25', read='6 min read',
+         d='Explore how artificial intelligence is transforming business operations'),
+    dict(t='Digital Growth in the GCC', c='Reports', topic='growth', date='August 25, 2025', iso='2025-08-25', read='7 min read',
+         d='What’s actually driving results for brands scaling across Dubai, the wider GCC, and beyond.'),
+    dict(t='WhatsApp Business API Pricing Changes in UAE: What Will Businesses Pay From October 2026?', c='Blog', topic='growth'),
+    dict(t='Is DataLife Engine Still a Good CMS for Modern Websites?', c='Website Development', topic='digital'),
+    dict(t='Shopify Storefronts Now Support UCP: Is Your Ecommerce Website Ready for AI Shopping Agents?', c='Website Development', topic='digital', ind='tech'),
+    dict(t='How to Design Product Filters for Jewellery Ecommerce Stores Without Losing Sales', c='Website Management', topic='digital'),
+    dict(t='Can SEO Work for a New Website? A 6-Month Growth Roadmap', c='Search Engine Optimization', topic='growth'),
+    dict(t='Why Payload CMS Is Becoming a Powerful Choice for Next.js Websites', c='Website Development', topic='digital', ind='tech'),
+    dict(t='WordPress 7.1.1 Fixes 11 Security Vulnerabilities: Is Your Website Updated?', c='Website Management', topic='digital'),
+    dict(t='Can GPT-6 Astra Build Websites? What Businesses Need to Know', c='Website Development', topic='intelligence', ind='tech'),
+    dict(t='Is Your Website Ready for iPhone 18 Pro? Mobile SEO & UX Checklist', c='Emerging Tech', topic='intelligence'),
+    dict(t='Can You Post Images on TikTok? Here’s Everything You Need to Know', c='Social Media Marketing', topic='growth'),
+    dict(t='Google Goto URL Redirects: Everything You Need to Know', c='Emerging Tech', topic='intelligence'),
+    dict(t='Should My Business Website Be in Both Arabic and English in UAE?', c='Website Development', topic='digital'),
+    dict(t='WhatsApp Web Calling Is Here: What the Latest Update Means for Businesses', c='Emerging Tech', topic='intelligence'),
+    dict(t='Why Luxury Hotels Need Better Websites Than Booking Platforms', c='Website Development', topic='digital', ind='luxury'),
+    dict(t='How AI Is Changing the Jewellery Buying Journey', c='Artificial Intelligence', topic='intelligence', ind='luxury'),
+    dict(t='When Is the Right Time to Rebrand Your Business?', c='Branding', topic='brand'),
+    dict(t='Is Your Brand Ready for Bigger Clients? Here’s How to Tell', c='Branding', topic='brand'),
+    dict(t='Why Brands Are Replacing Hashtags with Bracketed Keywords on Social Media', c='Social Media Marketing', topic='growth'),
+    dict(t='AI-First Content Architecture: How to Structure Your Website for Machine Understanding', c='Artificial Intelligence', topic='intelligence'),
+    dict(t='The Real Reason Your Website Isn’t Appearing in AI Overviews (And the Fix Is Faster Than You Think)', c='Artificial Intelligence', topic='intelligence'),
+    dict(t='Your Brand’s First Impression Happens in 0.3 Seconds, Before Anyone Reads Your Ad Copy', c='Branding', topic='brand'),
+    dict(t='What Is a Brand Audit in Dubai and Why It’s So Important', c='Branding', topic='brand'),
+    dict(t='Guide to Effective SEO Strategy in 2026', c='Search Engine Optimization', topic='growth'),
+    dict(t='10 Mistakes You Need to Avoid in Paid Ads in 2026 (And How to Fix Them)', c='Search Engine Marketing', topic='growth'),
+    dict(t='How Google AI Overviews Choose Which Brands to Trust', c='Search Engine Optimization', topic='intelligence'),
+    dict(t='Micro-Moments That Build Macro-Brands', c='Branding', topic='brand'),
+    dict(t='Zero-Click Marketing: How Brands Can Win Without the Click', c='Artificial Intelligence', topic='intelligence'),
+    dict(t='Why Luxury Brands Need Premium Ecommerce Websites', c='Website Development', topic='digital', ind='luxury'),
+    dict(t='How SEO Helps Luxury Wellness Clinics Increase Qualified Leads', c='Search Engine Optimization', topic='growth', ind='luxury'),
+    dict(t='Dubai’s High-Competition Industries That MUST Use PPC in 2026', c='Search Engine Marketing', topic='growth'),
+    dict(t='How Headless Architecture Improves Checkout Speed & Reduces Cart Abandonment', c='Website Development', topic='digital', ind='tech'),
+    dict(t='ERP for E-Commerce in Dubai: Customization Tips to Boost Online Sales', c='ERP', topic='digital', ind='b2b'),
+    dict(t='The Hidden Costs of Ignoring ERP Customization in Your Business Strategy', c='ERP', topic='digital', ind='b2b'),
+    dict(t='How to Build a Scalable Website Architecture for Multi-Location Businesses in the UAE', c='Website Development', topic='digital', ind='b2b'),
+    dict(t='Planning for 1000+ Pages Website? Choose Your CMS Carefully', c='Website Development', topic='digital', ind='b2b'),
+    dict(t='Why Aesthetic Clinics in Dubai Need Beautifully Designed Websites to Attract Patients', c='Website Development', topic='digital', ind='pro'),
+    dict(t='Preparing to Sell Your Business? Start with Your Website', c='Website Development', topic='digital', ind='pro'),
+    dict(t='Your Trade License Is Approved—Now What? A Digital Setup Checklist for Dubai Startups', c='Website Development', topic='digital', ind='pro'),
+    dict(t='Freelancer vs SEO Agency: Which Is Right for Your Business?', c='Search Engine Optimization', topic='growth', ind='pro'),
+]
+FEATURED = dict(t='How AI Is Changing Search Visibility', c='AI & Search', img='assets/blog/ai-search.jpg',
+                alt='Isometric 3D kiosk with a striped awning and shelves of products', date='August 25, 2025', iso='2025-08-25', read='5 min read',
+                d='Why ranking on Google isn’t enough anymore, and what showing up in AI answers actually takes.')
+TOPICS = [('brand', 'Brand', 'Branding · Strategy · Identity', 'spark'),
+          ('growth', 'Growth', 'SEO · Paid Media · Social · Content', 'signal'),
+          ('digital', 'Digital', 'UX · Web · Development · Management', 'layers'),
+          ('intelligence', 'Intelligence', 'AI · Emerging Technology · Search', 'bulb')]
+INDUSTRIES = [('luxury', 'Luxury & Lifestyle'), ('pro', 'Professional Services'), ('tech', 'Technology & Innovation'), ('b2b', 'Industrial & B2B')]
+TOPIC_ICON = {t[0]: t[3] for t in TOPICS}
+CLOCK = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'
+
+
+def blog_card(p, i):
+    if p.get('img'):
+        vis = f'<img src="{p["img"]}" alt="{e(p.get("alt", ""))}" loading="lazy" />'
+    else:
+        vis = f'<span class="bl-art bl-art--{p["topic"]}" aria-hidden="true">{ic(TOPIC_ICON[p["topic"]], "bl-art-ic")}</span>'
+    meta = ''
+    if p.get('date'):
+        meta = f'<span class="bl-when"><time datetime="{p["iso"]}">{p["date"]}</time><i></i>{CLOCK}{p["read"]}</span>'
+    desc = f'<p class="bl-desc">{e(p["d"])}</p>' if p.get('d') else ''
+    return (f'<article class="bl-card" data-topic="{p["topic"]}" data-n="{i}"><a class="bl-card-link" href="{BLOG_LIVE}">'
+            f'<div class="bl-visual">{vis}<span class="bl-cat">{e(p["c"])}</span></div>'
+            f'<div class="bl-card-body"><h3>{e(p["t"])}</h3>{desc}{meta}'
+            f'<span class="bl-more">Read article <i>{ARROW_R}</i></span></div></a></article>')
+
+
+def blogs():
+    topic_counts = {k: sum(1 for p in POSTS if p['topic'] == k) for k, *_ in TOPICS}
+    topics_html = ''.join(
+        f'<li data-rise><button type="button" class="bl-topic" data-topic="{k}" aria-pressed="false">'
+        f'<span class="bl-topic-ic">{ic(icn)}</span><span class="bl-topic-name">{name}</span>'
+        f'<span class="bl-topic-sub">{sub}</span><span class="bl-topic-count">{topic_counts[k]:02d} articles</span></button></li>'
+        for k, name, sub, icn in TOPICS)
+
+    cards = '\n          '.join(blog_card(p, i) for i, p in enumerate(POSTS))
+
+    tabs, panels = '', ''
+    for j, (k, name) in enumerate(INDUSTRIES):
+        sel = j == 0
+        on = ' is-on' if sel else ''
+        tabidx = '' if sel else ' tabindex="-1"'
+        tabs += f'<button type="button" class="co-chip{on}" role="tab" id="bl-ind-tab-{k}" aria-controls="bl-ind-{k}" aria-selected="{str(sel).lower()}"{tabidx}>{name}</button>'
+        links = ''.join(
+            f'<li><a href="{BLOG_LIVE}"><span class="bl-ind-cat">{e(p["c"])}</span><span class="bl-ind-title">{e(p["t"])}</span>{ARROW_R}</a></li>'
+            for p in POSTS if p.get('ind') == k)
+        panels += (f'<div class="bl-ind-panel" role="tabpanel" id="bl-ind-{k}" aria-labelledby="bl-ind-tab-{k}"{"" if sel else " hidden"}>'
+                   f'<h3 class="bl-ind-q">What’s changing in <em>{name}?</em></h3><ul class="bl-ind-list">{links}</ul></div>')
+
+    faq = [
+        ('Who writes the articles?', 'Our team of strategists, designers, developers and marketers — the same people who do the work. Articles are published under the Squarezix Team.'),
+        ('Can I suggest a topic?', 'Please do. Send us the question you would like answered through the contact form below and we will consider it for a future article.'),
+        ('Do you offer SEO and content services too?', 'Yes. SEO and AI visibility, content, social, paid media, branding and web development are all part of what we do — one team, one process.'),
+        ('How do I stay updated?', 'Subscribe to the newsletter above for new insights on AI, growth and the platforms shaping how brands get discovered.'),
+    ]
+
+    f = FEATURED
+    feature = f'''<article class="bl-feature" data-rise>
+        <a class="bl-feature-media" href="{BLOG_LIVE}" tabindex="-1" aria-hidden="true"><img src="{f['img']}" alt="" loading="lazy" /></a>
+        <div class="bl-feature-body">
+          <span class="bl-cat bl-cat--solid">{e(f['c'])}</span>
+          <h3><a href="{BLOG_LIVE}">{e(f['t'])}</a></h3>
+          <p>{e(f['d'])}</p>
+          <div class="bl-byline"><span>By Squarezix Team</span><i></i><time datetime="{f['iso']}">{f['date']}</time><i></i><span class="bl-read">{CLOCK}{f['read']}</span></div>
+          <a href="{BLOG_LIVE}" class="btn-contact btn-contact--xl">Read Article {ARROW_R}</a>
+        </div>
+      </article>'''
+
+    body = hero('Insights', 'Ideas shaping the future of <em>digital growth.</em>',
+                'Perspectives, strategies and practical thinking across branding, technology, search, marketing and digital experiences.',
+                'Explore the latest', '#latest')
+    body += f'''
+    <section class="co-sec" aria-labelledby="bl-feat-title">
+      {head_block('Featured Insight', 'Start <em>here</em>', '', sid='bl-feat-title')}
+      <div class="bl-feature-wrap">{feature}</div>
+    </section>
+
+    <section class="co-sec" aria-labelledby="bl-topics-title">
+      {head_block('Explore by Topic', 'Four ways into <em>what we think</em>', 'Choose a topic to filter the latest insights below.', sid='bl-topics-title')}
+      <ul class="bl-topics">{topics_html}</ul>
+    </section>
+
+    <section class="co-sec" id="latest" aria-labelledby="bl-latest-title">
+      <div class="bl-latest-head">
+        {head_block('Latest Insights', 'The latest <em>thinking</em>', '', center=False, sid='bl-latest-title')}
+        <p class="bl-filter-note" id="bl-filter-note" aria-live="polite"></p>
+      </div>
+      <div class="bl-grid" id="bl-grid">
+          {cards}
+      </div>
+      <div class="co-more"><button type="button" class="btn-contact btn-contact--xl bl-loadmore" id="bl-loadmore">Load more insights {ARROW_R}</button></div>
+    </section>
+
+    <section class="co-sec" aria-labelledby="bl-ind-title">
+      {head_block('Industry Perspectives', 'What’s changing in <em>your industry?</em>', 'Pick your sector for the articles most relevant to it.', sid='bl-ind-title')}
+      <div class="bl-ind">
+        <div class="co-chips bl-ind-tabs" role="tablist" aria-label="Industry" data-rise>{tabs}</div>
+        <div class="bl-ind-panels" data-rise>{panels}</div>
+      </div>
+    </section>
+
+    <section class="co-sec" aria-labelledby="bl-news-title">
+      <div class="bl-news" data-rise>
+        <div class="bl-news-copy">
+          <span class="svc-badge">Stay Informed</span>
+          <h2 id="bl-news-title" class="ab-h2">Stay ahead of <em>what’s next.</em></h2>
+          <p>Insights on AI, growth and the platforms shaping how brands get discovered — straight to your inbox.</p>
+        </div>
+        <form class="bl-news-form" id="bl-news" novalidate>
+          <label class="visually-hidden" for="bl-news-email">Email address</label>
+          <input id="bl-news-email" type="email" name="email" placeholder="you@company.com" autocomplete="email" required />
+          <button type="submit" class="btn-contact">Subscribe {ARROW_R}</button>
+          <p class="bl-news-note" id="bl-news-note" role="status"></p>
+        </form>
+      </div>
+    </section>
+'''
+    body += cta_panel('Have a challenge <em>worth solving?</em>', 'Tell us what you are trying to grow, fix or launch. We will come back with a plan.', 'Start a Project', '#ab-contact')
+    body += faq_band('Questions about <em>our insights?</em>', 'Quick answers about where the articles come from.', faq)
+    write('blogs', 'Insights — Ideas Shaping the Future of Digital Growth | SquareZix',
+          'Perspectives, strategies and practical thinking across branding, technology, search, marketing and digital experiences from the SquareZix team in Dubai.', 'insights', body)
+
+
 if __name__ == '__main__':
     culture()
     careers()
     portfolio()
+    blogs()

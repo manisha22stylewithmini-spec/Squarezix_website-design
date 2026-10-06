@@ -66,4 +66,52 @@
       t.addEventListener('focus', play); t.addEventListener('blur', stop);
     });
   }
+
+  // ---- Blogs: topic filter + load more, industry tabs, newsletter ----
+  const bg = $('#bl-grid');
+  if (bg) {
+    const cards = $$('.bl-card', bg), more = $('#bl-loadmore'), note = $('#bl-filter-note'), topicBtns = $$('.bl-topic');
+    const NAMES = { brand: 'Brand', growth: 'Growth', digital: 'Digital', intelligence: 'Intelligence' };
+    const STEP = 9;
+    let topic = 'all', limit = STEP;
+    const render = () => {
+      const list = cards.filter((c) => topic === 'all' || c.dataset.topic === topic);
+      cards.forEach((c) => { c.hidden = true; c.classList.remove('is-lead'); });
+      list.slice(0, limit).forEach((c, i) => { c.hidden = false; c.classList.toggle('is-lead', i === 0 && !!$('img', c)); });
+      more.hidden = limit >= list.length;
+      note.textContent = topic === 'all' ? '' : `Showing ${NAMES[topic]} — ${list.length} article${list.length === 1 ? '' : 's'}`;
+      topicBtns.forEach((b) => b.setAttribute('aria-pressed', b.dataset.topic === topic));
+    };
+    topicBtns.forEach((b) => b.addEventListener('click', () => {
+      topic = topic === b.dataset.topic ? 'all' : b.dataset.topic; limit = STEP; render();
+      $('#latest').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    }));
+    more.addEventListener('click', () => { limit += STEP; render(); });
+    render();
+
+    const tabs = $$('.bl-ind-tabs [role="tab"]'), panels = tabs.map((t) => document.getElementById(t.getAttribute('aria-controls')));
+    const pick = (i, focus) => {
+      tabs.forEach((t, j) => { const on = i === j; t.classList.toggle('is-on', on); t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; panels[j].hidden = !on; });
+      if (focus) tabs[i].focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => pick(i));
+      t.addEventListener('keydown', (e) => {
+        const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+        if (k) { e.preventDefault(); pick((i + k + tabs.length) % tabs.length, true); }
+      });
+    });
+
+    // No newsletter backend yet: validate, then hand off to the visitor's mail app (same as the contact form)
+    const form = $('#bl-news'), nNote = $('#bl-news-note');
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = form.email.value.trim();
+      const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      nNote.classList.toggle('is-error', !ok);
+      if (!ok) { nNote.textContent = 'Please enter a valid email address.'; form.email.focus(); return; }
+      nNote.textContent = 'Opening your email app to confirm your subscription…';
+      location.href = `mailto:info@squarezix.com?subject=${encodeURIComponent('Subscribe me to SquareZix insights')}&body=${encodeURIComponent('Please add this email to the newsletter: ' + email)}`;
+    });
+  }
 })();
