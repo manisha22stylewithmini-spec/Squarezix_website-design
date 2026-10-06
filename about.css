@@ -215,7 +215,7 @@
 /* ---------- Who we are — Vision / Mission / Values tabs ---------- */
 .ab-who {
   max-width: 1440px; margin: 0 auto;
-  padding: clamp(32px, 3vw, 48px) clamp(16px, 5vw, 84px) 0;
+  padding: clamp(72px, 8vw, 120px) clamp(16px, 5vw, 84px) 0;
 }
 .ab-who-head { max-width: 900px; margin: 0 auto; text-align: center; }
 .ab-who-head .ab-h2 { margin-top: 20px; }
