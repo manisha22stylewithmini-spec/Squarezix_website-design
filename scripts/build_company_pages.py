@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261023a'
+VER = '20261024a'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -97,6 +97,15 @@ def hero(badge, h1, lead, cta_label, cta_href, aside=''):
         <a href="{cta_href}" class="btn-contact btn-contact--xl svh-cta" data-rise>{cta_label} {ARROW_R}</a>{aside}
       </div>
     </section>
+
+    <!-- Looping services strip, same as the home page (site.js clones the group and loops it) -->
+    <div class="marquee" aria-label="Our services">
+      <div class="marquee-track" id="marquee-track">
+        <ul class="marquee-group">
+          <li>AI Search Visibility</li><li>Web Design &amp; Development</li><li>SEO &amp; Growth</li><li>Branding &amp; Strategy</li><li>Social Media Marketing</li>
+        </ul>
+      </div>
+    </div>
 '''
 
 
@@ -487,9 +496,6 @@ BLOG_LIVE = 'https://squarezix.com/blogs/'
 # topic: brand | growth | digital | intelligence   (our new architecture over the live categories)
 # ind:   industry-perspective picks (our classification, not a live category)
 POSTS = [
-    dict(t='AI in the Modern Workplace: A Guide for Businesses', c='Artificial Intelligence', topic='intelligence', img='assets/blog/ai-workplace.jpg',
-         alt='Illustrated team of three posing in front of a pink city skyline', date='August 25, 2025', iso='2025-08-25', read='6 min read',
-         d='Explore how artificial intelligence is transforming business operations'),
     dict(t='Digital Growth in the GCC', c='Reports', topic='growth', date='August 25, 2025', iso='2025-08-25', read='7 min read',
          d='What’s actually driving results for brands scaling across Dubai, the wider GCC, and beyond.'),
     dict(t='WhatsApp Business API Pricing Changes in UAE: What Will Businesses Pay From October 2026?', c='Blog', topic='growth'),
@@ -542,6 +548,32 @@ TOPICS = [('brand', 'Brand', 'Branding · Strategy · Identity', 'spark'),
 INDUSTRIES = [('luxury', 'Luxury & Lifestyle'), ('pro', 'Professional Services'), ('tech', 'Technology & Innovation'), ('b2b', 'Industrial & B2B')]
 TOPIC_ICON = {t[0]: t[3] for t in TOPICS}
 CLOCK = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'
+
+
+FEATURED_LIST = [
+    dict(t='AI in the Modern Workplace: A Guide for Businesses', c='Artificial Intelligence', img='assets/blog/ai-workplace.jpg',
+         alt='Illustrated team of three posing in front of a pink city skyline', date='August 25, 2025', iso='2025-08-25', read='6 min read',
+         d='Explore how artificial intelligence is transforming business operations'),
+    dict(t='How AI Is Changing Search Visibility', c='AI & Search', img='assets/blog/ai-search.jpg',
+         alt='Isometric 3D kiosk with a striped awning and shelves of products', date='August 25, 2025', iso='2025-08-25', read='5 min read',
+         d='Why ranking on Google isn’t enough anymore, and what showing up in AI answers actually takes.'),
+]
+
+
+def home_blog_card(p):
+    """Same markup as the home page blog cards (sections.css .blog-card)."""
+    return f'''<li>
+        <a class="blog-card" href="{BLOG_LIVE}">
+          <div class="blog-media"><img src="{p['img']}" alt="{e(p['alt'])}" loading="lazy" /></div>
+          <div class="blog-body">
+            <div class="blog-meta"><time datetime="{p['iso']}">{p['date']}</time><span class="blog-tag">{e(p['c'])}</span></div>
+            <h3>{e(p['t'])}</h3>
+            <p>{e(p['d'])}</p>
+            <div class="blog-foot"><span class="blog-author">By Squarezix Team</span><span class="blog-read">{CLOCK}{p['read']}</span></div>
+            <span class="blog-more">Read more <i class="blog-arrow">{ARROW_R}</i></span>
+          </div>
+        </a>
+      </li>'''
 
 
 def slug(t):
@@ -599,6 +631,7 @@ def blogs():
         ('cat', 'Category', 'All Categories', [(slug(c), c) for c in cats]),
     ], 'bl-bar')
 
+    featured_cards = '\n      '.join(home_blog_card(x) for x in FEATURED_LIST)
     f = FEATURED
     feature = f'''<article class="bl-feature" data-rise>
         <a class="bl-feature-media" href="{BLOG_LIVE}" tabindex="-1" aria-hidden="true"><img src="{f['img']}" alt="" loading="lazy" /></a>
@@ -615,9 +648,15 @@ def blogs():
                 'Perspectives, strategies and practical thinking across branding, technology, search, marketing and digital experiences.',
                 'Explore the latest', '#latest')
     body += f'''
-    <section class="co-sec" aria-labelledby="bl-feat-title">
-      {head_block('Featured Insight', 'Start <em>here</em>', '', sid='bl-feat-title')}
-      <div class="bl-feature-wrap">{feature}</div>
+    <section class="blog bl-featured" id="featured" aria-labelledby="blog-title">
+      <div class="blog-head">
+        <span class="blog-badge">Featured Insights</span>
+        <h2 id="blog-title">Start with our <em>featured</em> insights.</h2>
+        <p>Perspectives on AI, growth, and the platforms shaping how brands get discovered.</p>
+      </div>
+      <ul class="blog-list">
+      {featured_cards}
+      </ul>
     </section>
 
     <section class="co-sec" aria-labelledby="bl-topics-title">

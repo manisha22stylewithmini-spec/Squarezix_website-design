@@ -562,3 +562,9 @@
   .pf-cards, .bl-grid { grid-template-columns: 1fr; }
 }
 .bl-visual .bl-cat { max-width: calc(100% - 20px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Featured insights reuse the home page blog component; two cards fill the row on desktop */
+@media (min-width: 1081px) {
+  .bl-featured .blog-list { max-width: 1280px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.bl-featured { padding-bottom: 0; }
