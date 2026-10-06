@@ -233,5 +233,99 @@ def culture():
           'Good work starts with good people. See what it feels like to work at SquareZix, how we work together and how we help people grow.', 'insights', body)
 
 
+# ================================================================ CAREERS
+def careers():
+    why = [('Work', 'Work across B2B, ecommerce and regional brands, on campaigns that move real numbers.'),
+           ('Growth', 'Build skills on meaningful projects, with a team that treats performance data as a craft, not a checkbox.'),
+           ('Ownership', 'Own campaigns end to end instead of waiting for permission.'),
+           ('Progression', 'Move up on contribution and capability — we back talent, not titles.')]
+    why_html = ''.join(
+        f'<li class="ca-why-card" data-rise><span class="ca-why-no">0{i+1}</span><h3><em>Real</em> {w}</h3><p>{d}</p><i class="ca-why-glow" aria-hidden="true"></i></li>'
+        for i, (w, d) in enumerate(why))
+
+    tiles_html = ''.join(
+        f'<figure class="cu-tile is-art" data-rise><span class="cu-art" aria-hidden="true">{ic(icn, "cu-art-ic")}</span><figcaption><span>{lab}</span></figcaption></figure>'
+        for lab, icn in (('Team sessions', 'people'), ('Workshops', 'layers'), ('Celebrations', 'star')))
+
+    benefits = [('compass', 'Creative & strategic freedom', 'Own campaigns end to end.'),
+                ('rocket', 'Fast-track career growth', 'Move up based on results.'),
+                ('cert', 'Learning & certification support', 'Google, Meta and HubSpot certifications.'),
+                ('star', 'Peer recognition', 'Be celebrated for your wins.'),
+                ('cal', 'Flexible time off', 'Paid time off that respects your time.'),
+                ('cash', 'Performance incentives', 'Uncapped bonuses tied to results.'),
+                ('gift', 'Bonus programme', 'Bring talent in and get rewarded.'),
+                ('shield', 'Healthcare coverage', 'Comprehensive medical insurance in line with UAE law.')]
+    ben_html = ''.join(
+        f'<li class="ca-ben" data-rise><span class="ca-ben-ic">{ic(i)}</span><div><h3>{e(t)}</h3><p>{d}</p></div></li>' for i, t, d in benefits)
+
+    steps = [('Apply', 'Send your CV and, where you can, work you’re proud of. We read every application.'),
+             ('Meet', 'A relaxed first conversation about you, your work and what you want to do next.'),
+             ('Discuss', 'Go deeper with the people you’d work with — craft, ownership and how we run projects.'),
+             ('Build together', 'An offer, an onboarding plan and a first real project to get your hands on.')]
+    steps_html = ''.join(
+        f'<li class="ca-step" data-rise><span class="ca-step-no">0{i+1}</span><h3>{t}</h3><p>{d}</p></li>' for i, (t, d) in enumerate(steps))
+
+    mail = 'mailto:info@squarezix.com?subject=Application%20%E2%80%94%20SquareZix'
+    faq = [
+        ('Which teams are you hiring for?', 'We hire across performance marketing, creative and strategy. Open roles are listed above whenever they are available.'),
+        ('Do you only hire people based in the UAE?', 'No. We hire UAE-based talent and people open to relocating. We back people who show up with real results, not just a polished résumé.'),
+        ('What does the hiring process look like?', 'Four simple steps: apply, meet, discuss and build together. We read every application and move quickly on the ones that show real performance thinking.'),
+        ('Can I apply if there is no open position for me?', 'Yes. Send us an application with your CV and a few lines on what you would bring. We are always interested in meeting people who can add something meaningful.'),
+        ('What benefits do you offer?', 'Creative and strategic freedom, fast-track career growth, certification support, peer recognition, flexible paid time off, performance-based incentives, a bonus programme and healthcare coverage in line with UAE law.'),
+        ('Do you support certifications and learning?', 'Yes — we support Google, Meta and HubSpot certifications and give you real campaigns to practise on.'),
+    ]
+
+    body = hero('Careers', 'Build what’s next. <em>With us.</em>',
+                'Join a team where strategy, creativity, technology and growth come together.',
+                'View open roles', '#open-roles')
+    body += f'''
+    <section class="co-sec" aria-labelledby="ca-why-title">
+      {head_block('Why SquareZix?', 'Four reasons people <em>stay and grow</em>', 'We hire on talent, not titles — and give people the room to prove it.', sid='ca-why-title')}
+      <ul class="ca-why">{why_html}</ul>
+    </section>
+
+    <section class="co-sec ca-life" aria-labelledby="ca-life-title">
+      <div class="ca-life-copy">
+        {head_block('Life at SquareZix', 'Culture is <em>who we are.</em> Careers is why you should join.', 'Strategy huddles, team dinners and the kind of camaraderie that makes Monday mornings less painful.', center=False, sid='ca-life-title')}
+        <div class="ca-life-link" data-rise><a href="culture.html" class="co-link">Explore our culture {ARROW_R}</a></div>
+      </div>
+      <div class="ca-tiles">{tiles_html}</div>
+    </section>
+
+    <section class="co-sec" aria-labelledby="ca-ben-title">
+      {head_block('Perks &amp; Benefits', 'Looked after, <em>properly</em>', '', sid='ca-ben-title')}
+      <ul class="ca-bens">{ben_html}</ul>
+    </section>
+
+    <section class="co-sec" id="open-roles" aria-labelledby="ca-pos-title">
+      {head_block('Open Positions', 'Open <em>positions</em>', '<span id="ca-pos-sub">We’re not hiring for a specific role right now.</span>', sid='ca-pos-title')}
+      <div class="ca-pos" id="ca-pos" data-state="empty">
+        <div class="ca-pos-list" hidden>
+          <div class="ca-pos-filters" role="group" aria-label="Filter roles by team"></div>
+          <ul class="ca-pos-items"></ul>
+        </div>
+        <div class="ca-pos-empty" data-rise>
+          <span class="ca-pos-ic">{ic('mail')}</span>
+          <h3>No current openings.</h3>
+          <p>Don’t see your role? We’re always interested in meeting people who can add something meaningful.</p>
+          <a href="{mail}" class="btn-contact btn-contact--xl">Send an Application {ARROW_R}</a>
+        </div>
+      </div>
+      <!-- Add roles as JSON and the list replaces the empty state: [{{"title":"","team":"","location":"","type":"","href":""}}] -->
+      <script type="application/json" id="ca-positions">[]</script>
+    </section>
+
+    <section class="co-sec" aria-labelledby="ca-proc-title">
+      {head_block('Hiring Process', 'Simple on <em>purpose</em>', 'Four steps, no maze.', sid='ca-proc-title')}
+      <ol class="ca-steps">{steps_html}</ol>
+    </section>
+'''
+    body += cta_panel('Your next chapter <em>could start here.</em>', 'See which roles are open, or send us an application and tell us what you would build.', 'View Open Roles', '#open-roles')
+    body += faq_band('Questions before you <em>apply?</em>', 'What people ask us about working at SquareZix.', faq)
+    write('careers', 'Careers at SquareZix — Build What’s Next | Dubai Digital Agency',
+          'Join a team where strategy, creativity, technology and growth come together. Real work, real growth, real ownership and real progression at SquareZix in Dubai.', 'insights', body)
+
+
 if __name__ == '__main__':
     culture()
+    careers()
