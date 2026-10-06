@@ -456,7 +456,7 @@ def portfolio():
 
     sel_cards = ''.join([sel_site(0), sel_reel(0), sel_site(1), sel_reel(1), sel_site(2), sel_reel(2), sel_reel(3), sel_reel(4)])
 
-    body = hero('Our Work', 'A selection of brands, experiences and <em>digital systems</em> we’ve built.',
+    body = hero('Portfolio', 'A selection of brands, experiences and <em>digital systems</em> we’ve built.',
                 'Websites, products and campaigns — designed, built and grown by one team.',
                 'Start a project', '#ab-contact')
     body += f'''
