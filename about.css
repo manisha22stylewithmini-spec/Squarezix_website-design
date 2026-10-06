@@ -284,6 +284,64 @@
 .ab-values h4 { font-family: "Sora", sans-serif; font-weight: 600; font-size: 18px; color: #fff; margin: 0; }
 .ab-values p { padding: 0; margin: 6px 0 0 0; font-size: 15px; line-height: 1.6; color: #c9a8ff; }
 
+/* ---------- Brand Story Timeline ---------- */
+.ab-timeline { padding: clamp(96px, 10vw, 150px) clamp(16px, 5vw, 84px) 0; }
+.timeline-container {
+  position: relative;
+  max-width: 900px; margin: clamp(56px, 6vw, 80px) auto 0;
+  display: flex; flex-direction: column; gap: clamp(48px, 6vw, 80px);
+  padding: 0 clamp(16px, 3vw, 40px);
+}
+.timeline-line {
+  position: absolute; left: 50%; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, #621dd0, rgba(98, 29, 208, .1));
+  transform: translateX(-50%);
+}
+.timeline-frame {
+  position: relative; width: 100%; max-width: 380px;
+  margin-left: auto; margin-right: auto; padding: 0;
+  display: flex; align-items: center;
+}
+.timeline-frame:nth-child(odd) { justify-content: flex-start; }
+.timeline-frame:nth-child(even) { justify-content: flex-end; }
+.timeline-frame::before {
+  content: "";
+  position: absolute; left: 50%; top: 50%;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: #621dd0;
+  border: 3px solid #140a26;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 20px rgba(171, 36, 242, .8);
+  z-index: 2;
+}
+.frame-content {
+  width: calc(50% - 40px); padding: clamp(24px, 2.4vw, 32px);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(171, 36, 242, .15), rgba(171, 36, 242, .05));
+  border: 1px solid rgba(181, 123, 255, .4);
+  transition: all .35s ease;
+}
+.timeline-frame:hover .frame-content {
+  background: linear-gradient(135deg, rgba(171, 36, 242, .22), rgba(171, 36, 242, .1));
+  border-color: rgba(181, 123, 255, .6);
+  translate: 0 -4px;
+}
+.frame-content h3 {
+  font-family: "Sora", sans-serif; font-weight: 600;
+  font-size: clamp(18px, 2vw, 24px); line-height: 1.1; letter-spacing: -0.02em;
+  color: #fff; margin: 0;
+}
+.frame-year {
+  font-family: "Instrument Serif", serif; font-style: italic;
+  font-size: clamp(14px, 1.2vw, 16px); color: #ab24f2; font-weight: 500;
+  margin: 8px 0 12px; letter-spacing: 0.05em;
+}
+.frame-desc {
+  font-size: clamp(14px, 1.1vw, 15px); line-height: 1.6; color: #c9a8ff;
+  margin: 0;
+}
+
 /* ---------- Technology ---------- */
 .ab-tech { padding: clamp(100px, 11vw, 160px) 0 0; overflow: hidden; }
 .ab-chip-rows { margin-top: clamp(40px, 5vw, 64px); }
@@ -562,6 +620,11 @@
   .ab-form { grid-template-columns: 1fr; }
   .ab-svc-grid { grid-template-columns: 1fr; }
   .ab-screen-ui span:last-child { display: none; }
+  .timeline-frame { max-width: 100%; margin-left: 0; margin-right: 0; }
+  .timeline-frame:nth-child(odd), .timeline-frame:nth-child(even) { justify-content: center; }
+  .frame-content { width: calc(100% - 48px); }
+  .timeline-line { left: 20px; }
+  .timeline-frame::before { left: 20px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .ab-partners-track, .ab-screen-fx, .crt-rec { animation: none; }
