@@ -566,8 +566,12 @@
 /* ---------- Work (reuses home cards) ---------- */
 .ab-work { padding-top: clamp(100px, 11vw, 160px); }
 .ab-work .work-head h2 { font-family: "Sora", sans-serif; }
-.ab-work-sub { margin-top: 18px; max-width: 520px; font-size: 16px; line-height: 1.6; color: #b8b8d1; }
-.ab-work .work-aside { align-self: end; }
+/* Title on two lines; the short description sits above the button on the right */
+.ab-work .work-head h2 em { display: block; }
+.ab-work .work-aside { align-self: end; display: flex; flex-direction: column; align-items: flex-start; max-width: 360px; }
+.ab-work-sub { margin: 0; font-size: clamp(15px, 1.2vw, 17px); line-height: 1.6; color: #b8b8d1; }
+.ab-work .work-aside .btn-contact { margin: clamp(20px, 2vw, 28px) 0 0; }
+@media (max-width: 760px) { .ab-work .work-aside { max-width: none; } }
 .ab-work-stage { margin-top: clamp(40px, 5vw, 70px); padding-bottom: 0; }
 
 /* ---------- Contact ---------- */
