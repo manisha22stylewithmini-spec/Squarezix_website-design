@@ -17,6 +17,7 @@
   // --- Marquee: clone the group until it overfills the screen twice,
   // so translating by exactly one group width loops with no visible seam ---
   const track = document.getElementById('marquee-track');
+  if (!track) return;                    // pages without the marquee strip
   const group = track.querySelector('.marquee-group');
 
   function build() {

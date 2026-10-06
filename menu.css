@@ -19,7 +19,7 @@
 }
 .nav-link:hover::after, .nav-item.is-open .nav-trigger::after,
 .nav-trigger:hover::after { transform: scaleX(1); transform-origin: left; }
-.nav-item.is-open .nav-trigger { color: var(--purple); }
+.nav-item.is-open .nav-trigger, .nav-item.is-current > .nav-trigger { color: var(--purple); }
 .nav-chev {
   width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2;
   stroke-linecap: round; stroke-linejoin: round;
@@ -52,32 +52,11 @@
   transition: opacity .22s ease, transform .28s cubic-bezier(.2, .8, .2, 1), visibility .28s;
   z-index: 30;
 }
-.nav-item[data-menu="ai"] .mm-panel { --pw: 660px; }
+.mm-panel--cols { --pw: 1000px; }
 .mm-panel--split { --pw: 700px; }
 /* Invisible bridge over the gap so the pointer can travel from trigger to panel */
 .mm-panel::before { content: ""; position: absolute; left: 0; right: 0; top: -22px; height: 22px; }
 .nav-item.is-open .mm-panel { opacity: 1; visibility: visible; transform: translate(-50%, 0) scale(1); }
-
-/* Link to the hub page for this menu, above the tabs */
-.mm-overview {
-  display: flex; justify-content: space-between; align-items: center; gap: 12px;
-  margin-bottom: 10px; padding: 10px 14px 10px 16px;
-  border-radius: 14px; background: #fff; border: 1px solid rgba(98, 29, 208, .12);
-  color: var(--ink); text-decoration: none; font-size: 15px; font-weight: 600;
-  transition: border-color .2s ease;
-}
-.mm-overview i { display: inline-flex; align-items: center; gap: 6px; font-style: normal; font-size: 12.5px; font-weight: 500; color: var(--purple); }
-.mm-overview svg { width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: transform .25s ease; }
-.mm-overview:hover, .mm-overview:focus-visible { border-color: rgba(171, 36, 242, .55); }
-.mm-overview:hover svg { transform: translateX(3px); }
-
-/* Link to the open tab's own page, above its service cards */
-.mm-tab-page {
-  display: inline-flex; align-items: center; gap: 6px; margin: 0 4px 8px;
-  font-size: 12.5px; font-weight: 500; color: var(--purple); text-decoration: none;
-}
-.mm-tab-page svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; transition: transform .25s ease; }
-.mm-tab-page:hover svg, .mm-tab-page:focus-visible svg { transform: translate(2px, -2px); }
 
 /* Segmented tabs with a sliding thumb */
 .mm-tabs {
@@ -111,36 +90,41 @@
 .mm-pane { margin-top: 10px; animation: mm-in .3s ease both; }
 @keyframes mm-in { from { opacity: 0; transform: translateY(4px); } }
 
-/* Service cards */
-.mm-grid { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.mm-grid .is-wide { grid-column: 1 / -1; }
-.mm-card {
-  position: relative; display: flex; flex-direction: column; justify-content: center; gap: 3px;
-  min-height: 74px; height: 100%;
-  padding: 14px 44px 14px 16px;
-  border-radius: 14px;
-  border: 1px solid rgba(98, 29, 208, .10);
-  background: rgba(255, 255, 255, .72);
-  color: var(--ink); text-decoration: none;
-  transition: background .2s ease, border-color .2s ease, transform .2s ease;
+/* Services columns: heading link per sub-category, then its services as plain links.
+   One column (Branding) flows its links into two columns instead. */
+.mm-cols { display: grid; grid-template-columns: repeat(var(--c), minmax(0, 1fr)); gap: 8px; }
+.mm-col { padding: 14px 8px 10px; border-radius: 14px; background: rgba(255, 255, 255, .72); border: 1px solid rgba(98, 29, 208, .10); }
+.mm-col-head {
+  display: inline-flex; align-items: center; gap: 6px; margin: 0 8px 8px;
+  font-size: 13px; font-weight: 600; letter-spacing: .02em; color: var(--purple); text-decoration: none;
 }
-.mm-card-title { font-size: 14.5px; font-weight: 600; letter-spacing: -0.01em; line-height: 1.3; }
-.mm-card-desc { font-size: 12.5px; color: #5c5670; line-height: 1.35; }
-.mm-card-arrow {
-  position: absolute; right: 12px; top: 50%;
-  width: 24px; height: 24px; border-radius: 50%;
-  display: grid; place-items: center;
-  background: #efe7ff;
-  opacity: 0; transform: translate(-4px, -50%);
-  transition: opacity .2s ease, transform .25s ease;
+.mm-col-head:hover svg, .mm-col-head:focus-visible svg { translate: 2px 0; }
+.mm-links { list-style: none; }
+.mm-cols--one .mm-links { columns: 2; column-gap: 8px; }
+/* Digital Marketing: the Paid column carries a keyword line per item, so it gets more of the width */
+.mm-cols:has(.mm-link-rich) { grid-template-columns: 1fr .8fr 1.3fr; }
+.mm-links li { break-inside: avoid; }
+.mm-links a {
+  position: relative; display: block; padding: 7px 8px 7px 12px; border-radius: 8px;
+  font-size: 13.5px; line-height: 1.3; color: var(--ink); text-decoration: none;
 }
-.mm-card-arrow svg, .mm-banner-cta svg {
+/* Hover: purple text and a short bar on the left, as in the reference list */
+.mm-links a::before { content: ""; position: absolute; left: 2px; top: 8px; bottom: 8px; width: 2px; border-radius: 2px; background: var(--brand-gradient); opacity: 0; }
+.mm-links a:hover, .mm-links a:focus-visible { background: #fff; color: var(--purple); }
+.mm-links a:hover::before, .mm-links a:focus-visible::before { opacity: 1; }
+.mm-links a:focus-visible { outline: 2px solid var(--purple); outline-offset: -2px; }
+/* Grouped item (Paid Marketing): the title reads like any other link, with what it covers
+   in a small line underneath — kept tight so the column ends close to its neighbours */
+.mm-links .mm-link-rich { display: grid; gap: 1px; padding-top: 5px; padding-bottom: 5px; }
+.mm-link-rich b { font-weight: 400; font-size: 13.5px; }
+.mm-link-rich span { font-size: 11px; line-height: 1.35; color: #7a7690; white-space: nowrap; }
+.mm-link-rich:hover span, .mm-link-rich:focus-visible span { color: #5c4a85; }
+
+/* Arrow icons in the column heads and the banner button */
+.mm-banner-cta svg, .mm-col-head svg {
   width: 12px; height: 12px; fill: none; stroke: var(--purple); stroke-width: 2.4;
   stroke-linecap: round; stroke-linejoin: round;
 }
-.mm-card:hover, .mm-card:focus-visible { background: #fff; border-color: rgba(171, 36, 242, .45); }
-.mm-card:hover .mm-card-arrow, .mm-card:focus-visible .mm-card-arrow { opacity: 1; transform: translate(0, -50%); }
-.mm-card:focus-visible { outline: 2px solid var(--purple); outline-offset: 1px; }
 
 /* Full-width promo banner */
 .mm-banner {
@@ -187,7 +171,7 @@
   .nav-item { display: block; border-bottom: 1px solid #f1f1f3; }
   .nav-trigger, .nav-link { width: 100%; justify-content: space-between; padding: 16px 2px; font-size: 17px; }
   .nav-trigger::after, .nav-link::after { display: none; }
-  .mm-panel, .mm-panel--split, .nav-item[data-menu="ai"] .mm-panel {
+  .mm-panel, .mm-panel--split, .mm-panel--cols {
     position: static; width: auto;
     padding: 0 0 16px; border: 0; border-radius: 0; box-shadow: none; background: none;
     -webkit-backdrop-filter: none; backdrop-filter: none;
@@ -198,9 +182,9 @@
   .nav-item.is-open .mm-panel { display: block; transform: none; }
   .mm-tabs { overflow-x: auto; scrollbar-width: none; }
   .mm-tab { font-size: 13px; padding: 0 10px; }
-  .mm-grid { grid-template-columns: 1fr; }
-  .mm-card { min-height: 0; padding: 12px 40px 12px 14px; }
-  .mm-card-arrow { opacity: 1; transform: translate(0, -50%); }
+  .mm-cols, .mm-cols:has(.mm-link-rich) { grid-template-columns: 1fr; }
+  .mm-link-rich span { white-space: normal; }
+  .mm-cols--one .mm-links { columns: 1; }
   .mm-split { grid-template-columns: 1fr; }
   .mm-split-media { display: none; }
   .mm-banner { flex-direction: column; align-items: flex-start; gap: 10px; }

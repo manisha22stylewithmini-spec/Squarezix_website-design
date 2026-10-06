@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Social Media Marketing — Growth Marketing | Squarezix</title>
+  <title>Social Media Agency in Dubai — Social Media Marketing | Squarezix</title>
   <meta name="description" content="Creative social media posts, data-driven strategies and results that make an impact across every platform your audience uses." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css?v=20261002x" />
-  <link rel="stylesheet" href="services.css?v=20261002x" />
-  <link rel="stylesheet" href="bento.css?v=20261002x" />
-  <link rel="stylesheet" href="sections.css?v=20261002x" />
-  <link rel="stylesheet" href="footer.css?v=20261002x" />
-  <link rel="stylesheet" href="menu.css?v=20261002x" />
-  <link rel="stylesheet" href="outro.css?v=20261002x" />
-  <link rel="stylesheet" href="about.css?v=20261002x" />
-  <link rel="stylesheet" href="service.css?v=20261002x" />
+  <link rel="stylesheet" href="styles.css?v=20261009a" />
+  <link rel="stylesheet" href="services.css?v=20261009a" />
+  <link rel="stylesheet" href="bento.css?v=20261009a" />
+  <link rel="stylesheet" href="sections.css?v=20261009a" />
+  <link rel="stylesheet" href="footer.css?v=20261009a" />
+  <link rel="stylesheet" href="menu.css?v=20261009a" />
+  <link rel="stylesheet" href="outro.css?v=20261009a" />
+  <link rel="stylesheet" href="about.css?v=20261009a" />
+  <link rel="stylesheet" href="service-static.css?v=20261009a" />
 </head>
 <body class="page-about">
   <header class="site-header">
@@ -28,11 +28,10 @@
       <!-- Each trigger opens a mega-menu built by menu.js from its data-menu key
            (desktop: hover dropdown · tablet/mobile: accordion inside the sheet) -->
       <nav class="main-nav" id="main-nav" aria-label="Main">
-        <div class="nav-item" data-menu="web"><button class="nav-trigger" type="button">Web &amp; Brand</button></div>
-        <div class="nav-item is-current" data-menu="growth"><button class="nav-trigger" type="button">Growth Marketing</button></div>
-        <div class="nav-item" data-menu="ai"><button class="nav-trigger" type="button">AI &amp; Intelligence</button></div>
+        <div class="nav-item is-current" data-menu="services"><button class="nav-trigger" type="button">Services</button></div>
+        <div class="nav-item" data-menu="dev"><button class="nav-trigger" type="button">Development &amp; Maintenance</button></div>
+        <div class="nav-item" data-menu="work"><button class="nav-trigger" type="button">Our Work</button></div>
         <div class="nav-item" data-menu="insights"><button class="nav-trigger" type="button">Insights</button></div>
-        <div class="nav-item"><a class="nav-link" href="about-us.html">About us</a></div>
       </nav>
 
       <a href="#ab-contact" class="btn-contact">
@@ -49,8 +48,8 @@
     </div>
   </header>
 
-    <main id="service" class="svp">
-    <!-- ===== Hero: animated wave gradient (waves-bg.js) behind eyebrow, headline, lead and one button ===== -->
+    <main id="service" class="ss">
+    <!-- ===== Hero: animated wave gradient (waves-bg.js) behind badge, headline, lead and one button ===== -->
     <section class="svh" aria-labelledby="svp-hero-title">
       <canvas class="svh-waves" aria-hidden="true"></canvas>
       <div class="svh-inner">
@@ -61,6 +60,7 @@
       </div>
     </section>
 
+    <!-- Looping services strip, same as the home page (site.js clones the group and loops it) -->
     <div class="marquee" aria-label="Our services">
       <div class="marquee-track" id="marquee-track">
         <ul class="marquee-group">
@@ -69,126 +69,57 @@
       </div>
     </div>
 
-    <!-- ===== Showcase: the sentence's image tiles drop into a dock as you scroll ===== -->
-    <section class="svb" aria-labelledby="svb-title" style="--n:4">
-      <div class="svb-pin">
-        <span class="svc-badge svb-badge">What we do</span>
-        <h2 id="svb-title" class="svb-statement">A <span class="svb-slot" data-i="0" aria-hidden="true"></span> community that talks back, <span class="svb-slot" data-i="1" aria-hidden="true"></span> content worth saving, <span class="svb-slot" data-i="2" aria-hidden="true"></span> ads that pay back and <span class="svb-slot" data-i="3" aria-hidden="true"></span> events people <em>remember.</em></h2>
-        <div class="svb-dock">
-          <div class="svb-dock-bar" aria-hidden="true"><span class="svb-play"></span><span class="svb-time">00:04 / 00:04</span><span class="svb-ticks"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
-          <ol class="svb-dock-slots"><li><a href="#svf-s0"><span class="svb-dock-slot" data-i="0"><img src="assets/blog/gcc-growth.jpg" alt="" loading="lazy" /></span><span class="svb-dock-label"><b>01</b>Community</span></a></li><li><a href="#svf-s1"><span class="svb-dock-slot" data-i="1"><img src="assets/reels/reel-2.jpg" alt="" loading="lazy" /></span><span class="svb-dock-label"><b>02</b>Content</span></a></li><li><a href="#svf-s2"><span class="svb-dock-slot" data-i="2"><img src="assets/reels/reel-4.jpg" alt="" loading="lazy" /></span><span class="svb-dock-label"><b>03</b>Ads</span></a></li><li><a href="#svf-s3"><span class="svb-dock-slot" data-i="3"><img src="assets/reels/reel-5.jpg" alt="" loading="lazy" /></span><span class="svb-dock-label"><b>04</b>Events</span></a></li></ol>
-        </div>
-        <div class="svb-tiles" aria-hidden="true"><div class="svb-tile" data-i="0"><img src="assets/blog/gcc-growth.jpg" alt="" loading="lazy" /></div><div class="svb-tile" data-i="1"><img src="assets/reels/reel-2.jpg" alt="" loading="lazy" /></div><div class="svb-tile" data-i="2"><img src="assets/reels/reel-4.jpg" alt="" loading="lazy" /></div><div class="svb-tile" data-i="3"><img src="assets/reels/reel-5.jpg" alt="" loading="lazy" /></div></div>
-      </div>
+    <section class="ss-sec ss-list" id="services">
+      <div class="ss-list-head"><span class="svc-badge">Social media services</span><h2 class="ab-h2">Social media marketing agency <em>in Dubai</em></h2><p class="ss-sub">Looking to grow your brand online? Our social media marketing agency specializes in crafting tailored strategies to enhance engagement, build brand awareness, and drive results. From content creation to paid advertising, we manage everything across platforms.</p></div>
+      <div class="ss-panels"><div class="ss-panel"><ol class="ss-rows"><li id="community-management"><a class="ss-row" href="community-management.html"><span class="ss-row-no">01</span><span class="ss-row-txt"><b>Community Management</b><span>Our social media marketing company in Dubai sees followers not just as metrics but communities.</span></span><span class="ss-row-go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a></li><li id="content-creation-services"><a class="ss-row" href="content-creation-services.html"><span class="ss-row-no">02</span><span class="ss-row-txt"><b>Content Creation Services</b><span>Enhance your brand presence with high-quality, engaging content.</span></span><span class="ss-row-go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a></li></ol><p class="ss-panel-cap"><b>Community &amp; content.</b> A daily presence and content your audience wants to share.</p></div><div class="ss-panel"><ol class="ss-rows"><li id="advertising-and-media-services"><a class="ss-row" href="advertising-and-media-services.html"><span class="ss-row-no">03</span><span class="ss-row-txt"><b>Advertising &amp; Media Services</b><span>Paid campaigns on Facebook, Instagram, TikTok, Snapchat, X and LinkedIn: targeting, creatives, budgets and…</span></span><span class="ss-row-go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a></li><li id="social-media-event-management"><a class="ss-row" href="social-media-event-management.html"><span class="ss-row-no">04</span><span class="ss-row-txt"><b>Social Media Event Management</b><span>Dubai is a city of events, seasons and festivals.</span></span><span class="ss-row-go"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></span></a></li></ol><p class="ss-panel-cap"><b>Ads &amp; events.</b> Paid media and event campaigns that drive action.</p></div></div>
     </section>
-    <p class="svb-after" data-rise>Every platform has its rules, strengths and audience expectations. We build one strategy and tune it for each, in Arabic and English.</p>
 
-    <!-- ===== One row per sub-category, alternating sides ===== -->
-    <section class="svf svf--sub" id="services" aria-label="Social Media Marketing services">
-      <article class="svf-row" id="svf-s0">
-        <div class="svf-panel" data-rise>
-          <div class="svf-art"><img src="assets/blog/gcc-growth.jpg" alt="" loading="lazy" /></div>
-          <ul class="svf-specs" aria-label="Community Management services"><li>Replies and DMs</li><li>Reputation management</li><li>Social listening</li></ul>
-        </div>
-        <div class="svf-copy">
-          <p class="svf-kicker" data-rise><b>01</b> / 04</p>
-          <h3 data-rise>Community Management</h3>
-          <p class="svf-blurb" data-rise>We start conversations, respond to feedback, manage reputation and monitor what people say about your brand.</p>
-          <a class="svp-link" href="#ab-contact" data-rise>Talk to us about community management <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        </div>
-      </article>
-      <article class="svf-row" id="svf-s1">
-        <div class="svf-panel" data-rise>
-          <div class="svf-art"><img src="assets/reels/reel-2.jpg" alt="" loading="lazy" /></div>
-          <ul class="svf-specs" aria-label="Content Creation Services services"><li>Posts and graphics</li><li>Reels and stories</li><li>Brand-aligned copy</li></ul>
-        </div>
-        <div class="svf-copy">
-          <p class="svf-kicker" data-rise><b>02</b> / 04</p>
-          <h3 data-rise>Content Creation Services</h3>
-          <p class="svf-blurb" data-rise>Posts, graphics, videos, stories and reels that reflect your brand identity and resonate with your audience.</p>
-          <a class="svp-link" href="#ab-contact" data-rise>Talk to us about content creation services <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        </div>
-      </article>
-      <article class="svf-row" id="svf-s2">
-        <div class="svf-panel" data-rise>
-          <div class="svf-art"><img src="assets/reels/reel-4.jpg" alt="" loading="lazy" /></div>
-          <ul class="svf-specs" aria-label="Advertising &amp; Media Services services"><li>Audience targeting</li><li>Campaigns on Facebook, Instagram, TikTok, Snapchat, LinkedIn and X</li><li>Performance tracking</li></ul>
-        </div>
-        <div class="svf-copy">
-          <p class="svf-kicker" data-rise><b>03</b> / 04</p>
-          <h3 data-rise>Advertising &amp; Media Services</h3>
-          <p class="svf-blurb" data-rise>Paid social that pays back: targeted campaigns on Facebook, Instagram, TikTok, Snapchat, LinkedIn and X.</p>
-          <a class="svp-link" href="#ab-contact" data-rise>Talk to us about advertising &amp; media services <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        </div>
-      </article>
-      <article class="svf-row" id="svf-s3">
-        <div class="svf-panel" data-rise>
-          <div class="svf-art"><img src="assets/reels/reel-5.jpg" alt="" loading="lazy" /></div>
-          <ul class="svf-specs" aria-label="Social Media Event Management services"><li>Launch planning</li><li>Live coverage</li><li>On-channel activations</li></ul>
-        </div>
-        <div class="svf-copy">
-          <p class="svf-kicker" data-rise><b>04</b> / 04</p>
-          <h3 data-rise>Social Media Event Management</h3>
-          <p class="svf-blurb" data-rise>Launches, live coverage and activations, planned and run on your channels.</p>
-          <a class="svp-link" href="#ab-contact" data-rise>Talk to us about social media event management <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        </div>
-      </article>
-      <div class="svp-ind-row" data-rise>
-        <p class="svp-ind-label">Industries we work with</p>
-        <!-- Same strip as the footer partners; outro.js clones the group and loops it -->
-        <div class="szf-partners-row svp-ind-loop">
-          <div class="szf-partners-track"><ul class="szf-partners-group"><li><strong>Marketing</strong><span>Advertising agencies</span></li><li><strong>Real Estate</strong><span>Property management</span></li><li><strong>Logistics</strong><span>Supply chain companies</span></li><li><strong>Healthcare</strong><span>Wellness enterprises</span></li><li><strong>Startups</strong><span>SMEs and growing teams</span></li><li><strong>Retail</strong><span>E-commerce businesses</span></li></ul></div>
-        </div>
+    <div class="ss-divider" aria-hidden="true"><i></i></div>
+
+    <section class="ss-sec">
+      <div class="ss-head ss-head--center"><span class="svc-badge">Our approach</span><h2 class="ab-h2">How we grow your <em>social presence</em></h2></div>
+      <ol class="ss-pillars" style="--cols:3"><li class="ss-pillar"><h3 class="ss-pillar-tab">Plan</h3><div class="ss-pillar-body"><span class="ss-pillar-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2.2 5-4.8 2.2 2.2-5z"/></svg></span><ul><li>Strategy development</li><li>Audience research &amp; segmentation</li><li>Competitor analysis</li><li>Content calendars</li><li>Local events &amp; seasons</li></ul></div></li><li class="ss-pillar"><h3 class="ss-pillar-tab">Create</h3><div class="ss-pillar-body"><span class="ss-pillar-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13 7 4 4"/></svg></span><ul><li>Posts, reels &amp; stories</li><li>Ad creatives</li><li>Influencer marketing</li><li>Arabic &amp; English content</li><li>Platform-specific formats</li></ul></div></li><li class="ss-pillar"><h3 class="ss-pillar-tab">Grow</h3><div class="ss-pillar-body"><span class="ss-pillar-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></span><ul><li>Account management</li><li>Community building</li><li>Paid + organic campaigns</li><li>Real-time monitoring</li><li>Analytics &amp; reporting</li></ul></div></li></ol>
+    </section>
+
+    <div class="ss-divider" aria-hidden="true"><i></i></div>
+
+    <section class="ss-sec ss-why">
+      <div class="ss-why-side"><div class="ss-head"><span class="svc-badge">Why Squarezix</span><h2 class="ab-h2">Looking for a social media agency <em>that delivers?</em></h2></div>
+        <a href="#ab-contact" class="btn-contact"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.18 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.1 9.9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" /><path d="M15 2.5a6 6 0 0 1 6.5 6.5M15 6a2.5 2.5 0 0 1 3 3" /></svg> Talk to our team</a>
+      </div>
+      <ul class="ss-why-list"><li><h3>Scalable Solutions for All Business Sizes</h3><p>Whether you’re a café in Jumeirah, a startup in Dubai Silicon Oasis, or a corporation with branches across the GCC, our social media services in Dubai scale. We provide small-business packages as well as enterprise-level strategies, ensuring quality, consistency, and impact regardless of your budget.</p></li><li><h3>Local Trends, Events &amp; Seasonal Awareness</h3><p>Dubai is a city of events, seasons and festivals. From Shopping Festivals to national days to new product launches—Squarezix integrates relevant local events into content calendars and campaigns. This helps your brand stay top of mind, culturally aligned, and visible when people are engaging most.</p></li><li><h3>Transparent Insights &amp; Consistent Reporting</h3><p>Transparency builds trust. Our clients receive regular reports with clear metrics: reach, engagement, follower growth, conversion paths, ad spend ROI. We explain not just what happened but why, and what we’ll do next. As a responsive social media agency in Dubai, we invite feedback and evolve strategies accordingly.</p></li><li><h3>Storytelling &amp; Authentic Voice</h3><p>In Dubai’s saturated social space, authenticity stands out. Squarezix helps brands develop a voice and narrative that reflect their values—whether it’s sustainability, innovation, heritage, or luxury. We produce story-led content that builds emotional connection and long-term loyalty more than transactional content ever could.</p></li><li><h3>Engaged Community Building &amp; Social Listening</h3><p>Our social media marketing company in Dubai sees followers not just as metrics but communities. We start conversations, respond to feedback, manage reputation, and monitor what people say about your brand. Through listening tools we keep a pulse on sentiment and can protect and grow your brand’s reputation.</p></li><li><h3>Platform-Specific Expertise &amp; Format Mastery</h3><p>Every social platform has its rules, strengths, and audience expectations. As a social media agency in Dubai, we know how to unlock growth on Instagram (Stories, Reels), TikTok, LinkedIn, Facebook, YouTube, and Snapchat. We craft content tailored for each format—short video, carousels, infographics, reels—so you don’t just publish; you succeed.</p></li><li><h3>Real-Time Monitoring &amp; Agile Content Optimization</h3><p>Trends move fast in Dubai. Squarezix’s social media services include real-time monitoring of campaign performance, trending topics, and platform shifts. We adjust content, posting schedules, and ad creatives swiftly to capitalize on trending moments or cultural events—whether Ramadan, Expo, holidays, or local festivals.</p></li><li><h3>Visual Excellence &amp; Design Local Flavor</h3><p>Design isn’t just decoration — in a visual marketplace like Dubai, it’s essential. Our social media creatives are high-quality, brand-aligned, mobile-optimized, and visually clean. We incorporate local context—architectural motifs, regional colors, festive patterns—to make your content more immediate and memorable.</p></li><li><h3>Integrated Paid + Organic Approach</h3><p>Many social media marketing agency in Dubai focus only on paid campaigns or content posting. We deliver both — blending organic content that builds trust with paid campaigns that drive action. This synergy improves engagement, follower growth, and conversions, ensuring each post and ad reinforces your brand’s bigger narrative.</p></li><li><h3>Data-First Strategy &amp; Audience Segmentation</h3><p>We don’t guess who your audience is. Squarezix uses analytics, audience insights, and social listening tools to define who your customers are, what platforms they use, and when they engage. As a social media services provider in Dubai, we divide audiences by interests, demographics, and behavior—so ads and organic content reach the right people at the right moments.</p></li><li><h3>Culturally Tuned Content That Resonates</h3><p>Being a social media marketing company in Dubai means speaking the language — literally and culturally. We create content in Arabic and English, adapt messaging for local customs, and design visuals that appeal to the region’s distinct aesthetic—influenced by both tradition and cosmopolitan trends. This ensures your brand feels native and relevant to diverse local audiences.</p></li></ul>
+    </section>
+
+    <div class="ss-divider" aria-hidden="true"><i></i></div>
+
+    <section class="ss-sec">
+      <div class="ss-head ss-head--center"><span class="svc-badge">Industries</span><h2 class="ab-h2">Brands we grow <em>across industries</em></h2></div>
+      <div class="szf-partners-row ss-ind-loop">
+        <div class="szf-partners-track"><ul class="szf-partners-group"><li><strong>Marketing</strong><span>Advertising agencies</span></li><li><strong>Real Estate</strong><span>Property management</span></li><li><strong>Logistics</strong><span>Supply chain companies</span></li><li><strong>Healthcare</strong><span>Wellness enterprises</span></li><li><strong>Startups</strong><span>SMEs and growing teams</span></li><li><strong>Retail</strong><span>E-commerce businesses</span></li></ul></div>
       </div>
     </section>
 
-    <!-- ===== Approach ===== -->
-    <section class="svp-pillars" aria-labelledby="svp-pillars-title">
-      <div class="ab-head ab-center">
-        <span class="svc-badge" data-rise>Our approach</span>
-        <h2 id="svp-pillars-title" class="ab-h2 ab-reveal" data-reveal>Social media marketing <em>services</em></h2>
+    <div class="ss-faq-band">
+    <section class="ss-sec ss-faq">
+      <div class="ss-faq-head"><span class="svc-badge">FAQs</span><h2 class="ab-h2">Have questions about our <em>social media services?</em></h2><p class="ss-sub">Platforms, timelines, costs and results — the questions brands ask us most about social media marketing in Dubai.</p></div>
+      <div class="ss-faq-frame">
+        <div class="ss-faq-list"><details class="ss-q" open><summary><span>Do social media marketing agencies in Dubai handle multiple platforms?</span><i class="ss-q-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></i></summary><div class="ss-a"><div class="ss-a-in"><p>Yes, they typically manage multiple platforms, including Facebook, Instagram, LinkedIn, TikTok, and Twitter, to ensure a cohesive online presence for your brand.</p></div></div></details><details class="ss-q"><summary><span>How do I choose the best social media agency in Dubai?</span><i class="ss-q-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></i></summary><div class="ss-a"><div class="ss-a-in"><p>Look for an agency with proven experience, positive client reviews, and expertise in your industry. Request a customized strategy proposal to evaluate their approach.</p></div></div></details><details class="ss-q"><summary><span>How long does it take to see results from social media marketing?</span><i class="ss-q-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></i></summary><div class="ss-a"><div class="ss-a-in"><p>Results depend on your goals. While some campaigns generate immediate engagement, consistent growth in brand visibility and sales may take 3-6 months.</p></div></div></details><details class="ss-q"><summary><span>Can a social media agency in Dubai help with paid ad campaigns?</span><i class="ss-q-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></i></summary><div class="ss-a"><div class="ss-a-in"><p>Yes, most agencies provide expert management of paid campaigns on platforms like Facebook Ads, Instagram Ads, and LinkedIn Ads. They ensure optimal targeting and ROI for your business.</p></div></div></details><details class="ss-q"><summary><span>How much do social media marketing services in Dubai cost?</span><i class="ss-q-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></i></summary><div class="ss-a"><div class="ss-a-in"><p>Costs vary depending on the scope of services, platform usage, and campaign goals. A basic package may start at AED 1,500 per month, while comprehensive strategies for larger businesses can exceed AED 10,000.</p></div></div></details><details class="ss-q"><summary><span>Why is social media important for businesses in Dubai?</span><i class="ss-q-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></i></summary><div class="ss-a"><div class="ss-a-in"><p>With Dubai&#x27;s diverse and tech-savvy population, social media is a powerful tool for reaching potential customers, building trust, and staying ahead of competitors in a rapidly evolving market.</p></div></div></details><details class="ss-q"><summary><span>How does a social media digital agency differ from a traditional marketing agency?</span><i class="ss-q-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></i></summary><div class="ss-a"><div class="ss-a-in"><p>A social media digital agency focuses exclusively on digital platforms, ensuring your brand reaches the right audience through targeted online strategies. They specialize in creating impactful campaigns for social networks.</p></div></div></details><details class="ss-q"><summary><span>What services do social media marketing agencies offer in Dubai?</span><i class="ss-q-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></i></summary><div class="ss-a"><div class="ss-a-in"><p>Social media agencies in Dubai typically provide:</p><ul><li>Strategy development</li><li>Content creation (posts, videos, and ads)</li><li>Paid advertising</li><li>Analytics and reporting</li><li>Community management</li></ul></div></div></details><details class="ss-q"><summary><span>Why should I hire a social media marketing agency in Dubai?</span><i class="ss-q-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></i></summary><div class="ss-a"><div class="ss-a-in"><p>A professional agency in Dubai understands the local market trends and audience behavior. They create tailored strategies to enhance your online presence, saving you time and delivering measurable results.</p></div></div></details><details class="ss-q"><summary><span>What is social media marketing, and how can it help businesses in Dubai?</span><i class="ss-q-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></i></summary><div class="ss-a"><div class="ss-a-in"><p>Social media marketing involves using platforms like Facebook, Instagram, LinkedIn, and TikTok to promote your business. In Dubai&#x27;s competitive market, it helps boost brand awareness, engage with your audience, and drive website traffic or sales.</p></div></div></details></div>
       </div>
-      <ol class="svp-pillar-list" style="--n:4"><li class="svp-pillar" data-rise><span class="svp-pillar-no">01</span><h3>Strategy Development</h3><ul><li>A tailored social media strategy</li><li>Aligned with your objectives</li><li>Built to maximise your ROI</li></ul></li><li class="svp-pillar" data-rise><span class="svp-pillar-no">02</span><h3>Content Creation</h3><ul><li>Eye-catching graphics</li><li>Compelling copy</li><li>Delivered across all platforms</li></ul></li><li class="svp-pillar" data-rise><span class="svp-pillar-no">03</span><h3>Media Management</h3><ul><li>Scheduling posts</li><li>Engaging with your followers</li><li>A consistent, authentic presence</li></ul></li><li class="svp-pillar" data-rise><span class="svp-pillar-no">04</span><h3>Analytics &amp; Reporting</h3><ul><li>Detailed analytics</li><li>Clear campaign reporting</li><li>Insights into performance</li></ul></li></ol>
+      <a href="#ab-contact" class="btn-contact ss-faq-more"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.18 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.1 9.9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" /><path d="M15 2.5a6 6 0 0 1 6.5 6.5M15 6a2.5 2.5 0 0 1 3 3" /></svg> Still have questions? Ask us</a>
     </section>
-
-    <!-- ===== Process clock: pinned while the hand goes once round the dial ===== -->
-    <section class="svp-clock" id="process" aria-labelledby="svp-clock-title" style="--n:6">
-      <div class="svp-clock-pin">
-        <div class="svp-clock-copy">
-          <span class="svc-badge">How we work</span>
-          <h2 id="svp-clock-title" class="ab-h2">From first post to <em>steady growth</em></h2>
-          <ol class="svp-clock-details"><li class="svp-clock-detail" data-stop="0"><div class="svp-cd-top"><span class="svp-clock-no">01</span><span class="svp-cd-when">Week 1</span></div><h3>Listen</h3><p class="svp-cd-lead">We find out who your audience is, where they spend time and what your competitors are doing.</p><div class="svp-cd-cols"><div class="svp-cd-does"><h4>What happens</h4><ul><li>Audience research</li><li>Competitor analysis</li><li>Social listening</li></ul></div><div class="svp-cd-gets"><h4>You get</h4><ul><li>Audience profile</li><li>Channel audit</li></ul></div></div></li><li class="svp-clock-detail" data-stop="1"><div class="svp-cd-top"><span class="svp-clock-no">02</span><span class="svp-cd-when">Week 2</span></div><h3>Strategy</h3><p class="svp-cd-lead">A plan that ties every channel to a business goal and a budget.</p><div class="svp-cd-cols"><div class="svp-cd-does"><h4>What happens</h4><ul><li>Channel and content strategy</li><li>Paid media plan</li><li>KPI framework</li></ul></div><div class="svp-cd-gets"><h4>You get</h4><ul><li>Strategy deck</li><li>Content calendar</li></ul></div></div></li><li class="svp-clock-detail" data-stop="2"><div class="svp-cd-top"><span class="svp-clock-no">03</span><span class="svp-cd-when">Weeks 3–4</span></div><h3>Create</h3><p class="svp-cd-lead">Posts, reels, stories and ad creative, in Arabic and English.</p><div class="svp-cd-cols"><div class="svp-cd-does"><h4>What happens</h4><ul><li>Content production</li><li>Ad creative</li><li>Copywriting</li></ul></div><div class="svp-cd-gets"><h4>You get</h4><ul><li>Content library</li><li>Ad sets</li></ul></div></div></li><li class="svp-clock-detail" data-stop="3"><div class="svp-cd-top"><span class="svp-clock-no">04</span><span class="svp-cd-when">Ongoing</span></div><h3>Publish</h3><p class="svp-cd-lead">Scheduled, on brand and tuned to each platform.</p><div class="svp-cd-cols"><div class="svp-cd-does"><h4>What happens</h4><ul><li>Scheduling and posting</li><li>Paid campaign launch</li><li>Local moments and events</li></ul></div><div class="svp-cd-gets"><h4>You get</h4><ul><li>Live campaigns</li><li>Posting schedule</li></ul></div></div></li><li class="svp-clock-detail" data-stop="4"><div class="svp-cd-top"><span class="svp-clock-no">05</span><span class="svp-cd-when">Ongoing</span></div><h3>Engage</h3><p class="svp-cd-lead">We answer, moderate and keep the conversation going.</p><div class="svp-cd-cols"><div class="svp-cd-does"><h4>What happens</h4><ul><li>Community management</li><li>Influencer partnerships</li><li>Reputation monitoring</li></ul></div><div class="svp-cd-gets"><h4>You get</h4><ul><li>Response log</li><li>Community report</li></ul></div></div></li><li class="svp-clock-detail" data-stop="5"><div class="svp-cd-top"><span class="svp-clock-no">06</span><span class="svp-cd-when">Monthly</span></div><h3>Optimise</h3><p class="svp-cd-lead">Clear reports that say what happened, why, and what we do next.</p><div class="svp-cd-cols"><div class="svp-cd-does"><h4>What happens</h4><ul><li>Performance reporting</li><li>Creative and audience testing</li><li>Budget reallocation</li></ul></div><div class="svp-cd-gets"><h4>You get</h4><ul><li>Monthly report</li><li>Next-month plan</li></ul></div></div></li></ol>
-          <p class="svp-clock-count" aria-hidden="true"><b>01</b> / 06<span><i></i></span></p>
-        </div>
-        <div class="svp-dial-wrap">
-          <div class="svp-orbit" aria-hidden="true"><i class="svp-sat"></i></div>
-          <div class="svp-dial" aria-hidden="true">
-            <div class="svp-bezel"></div>
-            <div class="svp-face"></div>
-            <div class="svp-sector"></div>
-            <div class="svp-ticks"><i style="--t:0" class="is-hour"></i><i style="--t:1"></i><i style="--t:2"></i><i style="--t:3"></i><i style="--t:4"></i><i style="--t:5" class="is-hour"></i><i style="--t:6"></i><i style="--t:7"></i><i style="--t:8"></i><i style="--t:9"></i><i style="--t:10" class="is-hour"></i><i style="--t:11"></i><i style="--t:12"></i><i style="--t:13"></i><i style="--t:14"></i><i style="--t:15" class="is-hour"></i><i style="--t:16"></i><i style="--t:17"></i><i style="--t:18"></i><i style="--t:19"></i><i style="--t:20" class="is-hour"></i><i style="--t:21"></i><i style="--t:22"></i><i style="--t:23"></i><i style="--t:24"></i><i style="--t:25" class="is-hour"></i><i style="--t:26"></i><i style="--t:27"></i><i style="--t:28"></i><i style="--t:29"></i><i style="--t:30" class="is-hour"></i><i style="--t:31"></i><i style="--t:32"></i><i style="--t:33"></i><i style="--t:34"></i><i style="--t:35" class="is-hour"></i><i style="--t:36"></i><i style="--t:37"></i><i style="--t:38"></i><i style="--t:39"></i><i style="--t:40" class="is-hour"></i><i style="--t:41"></i><i style="--t:42"></i><i style="--t:43"></i><i style="--t:44"></i><i style="--t:45" class="is-hour"></i><i style="--t:46"></i><i style="--t:47"></i><i style="--t:48"></i><i style="--t:49"></i><i style="--t:50" class="is-hour"></i><i style="--t:51"></i><i style="--t:52"></i><i style="--t:53"></i><i style="--t:54"></i><i style="--t:55" class="is-hour"></i><i style="--t:56"></i><i style="--t:57"></i><i style="--t:58"></i><i style="--t:59"></i></div>
-            <div class="svp-marks"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i></div>
-            <span class="svp-hand svp-hand--hour"></span>
-            <span class="svp-hand svp-hand--min"></span>
-            <span class="svp-hand svp-hand--sweep"></span>
-            <img class="svp-hub" src="assets/bento/sz-badge.webp" alt="" width="1119" height="1112" loading="lazy" />
-          </div>
-          <ol class="svp-stops" aria-label="Process steps"><li class="svp-stop" style="--i:0"><button type="button" data-stop="0" aria-label="Step 1: Listen"><span class="svp-stop-no">(01)</span><span class="svp-stop-name">Listen</span><span class="svp-stop-when">Week 1</span></button></li><li class="svp-stop" style="--i:1"><button type="button" data-stop="1" aria-label="Step 2: Strategy"><span class="svp-stop-no">(02)</span><span class="svp-stop-name">Strategy</span><span class="svp-stop-when">Week 2</span></button></li><li class="svp-stop" style="--i:2"><button type="button" data-stop="2" aria-label="Step 3: Create"><span class="svp-stop-no">(03)</span><span class="svp-stop-name">Create</span><span class="svp-stop-when">Weeks 3–4</span></button></li><li class="svp-stop" style="--i:3"><button type="button" data-stop="3" aria-label="Step 4: Publish"><span class="svp-stop-no">(04)</span><span class="svp-stop-name">Publish</span><span class="svp-stop-when">Ongoing</span></button></li><li class="svp-stop" style="--i:4"><button type="button" data-stop="4" aria-label="Step 5: Engage"><span class="svp-stop-no">(05)</span><span class="svp-stop-name">Engage</span><span class="svp-stop-when">Ongoing</span></button></li><li class="svp-stop" style="--i:5"><button type="button" data-stop="5" aria-label="Step 6: Optimise"><span class="svp-stop-no">(06)</span><span class="svp-stop-name">Optimise</span><span class="svp-stop-when">Monthly</span></button></li></ol>
-        </div>
-      </div>
-    </section>
+    </div>
 
     <section class="ab-contact" id="ab-contact" aria-labelledby="ab-contact-title">
       <div class="ab-contact-left">
-        <span class="svc-badge" data-rise>We’re a Global Web Design &amp; Development Company</span>
-        <h2 class="ab-h2 ab-reveal" data-reveal>Now Expanding To Multiple Cities Across <em>GCC Region &amp; Asia</em></h2>
-        <ul class="ab-ticks" data-rise>
+        <span class="svc-badge">We’re a Global Web Design &amp; Development Company</span>
+        <h2 class="ab-h2 ab-reveal">Now Expanding To Multiple Cities Across <em>GCC Region &amp; Asia</em></h2>
+        <ul class="ab-ticks">
           <li>Free 30-min strategy call</li>
           <li>Custom proposal within 5 days</li>
           <li>No obligation, no hard sell</li>
         </ul>
-        <p class="ab-rfp" data-rise>If you have any RFP requirements, please share them with us at <a href="mailto:info@squarezix.com">info@squarezix.com</a>, and if you are looking for a career-related inquiry, please check out our <a href="#">Career</a> Section.</p>
-        <ul class="ab-reach" data-rise>
+        <p class="ab-rfp">If you have any RFP requirements, please share them with us at <a href="mailto:info@squarezix.com">info@squarezix.com</a>, and if you are looking for a career-related inquiry, please check out our <a href="#">Career</a> Section.</p>
+        <ul class="ab-reach">
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg><a href="tel:+97142414120">+971 4 241 4120</a></li>
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg><a href="tel:+971551318051">+971 55 131 8051</a></li>
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><a href="mailto:info@squarezix.com">info@squarezix.com</a></li>
@@ -196,7 +127,7 @@
         </ul>
       </div>
 
-      <div class="ab-form-card" data-rise>
+      <div class="ab-form-card">
         <span class="svc-badge">Have a Chat</span>
         <h2 id="ab-contact-title" class="ab-h2 ab-form-title">Ready to Begin? <em>Let’s Get Started</em></h2>
         <p class="ab-form-sub">Fill out the form or send us an email, and we'll get back with you as soon as possible</p>
@@ -279,13 +210,15 @@
         <nav class="szf-col" aria-label="Services">
           <p class="szf-mono">[01] Services</p>
           <ul>
-            <li><a href="https://squarezix.com/social-media-agency-dubai/">Social.</a></li>
-            <li><a href="https://squarezix.com/seo-agency-dubai/">SEO.</a></li>
-            <li><a href="https://squarezix.com/website-design-company-dubai/">Web.</a></li>
-            <li><a href="https://squarezix.com/contact-us/">Content.</a></li>
-            <li><a href="https://squarezix.com/contact-us/">Paid.</a></li>
-            <li><a href="https://squarezix.com/contact-us/">Branding.</a></li>
-            <li><a class="szf-all" href="index.html#services">View all 20 <span aria-hidden="true">→</span></a></li>
+            <li><a href="branding.html">Branding.</a></li>
+            <li><a href="design.html">Design.</a></li>
+            <li><a href="social-media-marketing.html">Social.</a></li>
+            <li><a href="content-marketing.html">Content.</a></li>
+            <li><a href="paid-marketing.html">Paid.</a></li>
+            <li><a href="seo-ai-visibility.html">SEO.</a></li>
+            <li><a href="geo.html">GEO.</a></li>
+            <li><a href="website-development.html">Web.</a></li>
+            <li><a href="website-maintenance.html">Maintenance.</a></li>
           </ul>
         </nav>
         <nav class="szf-col" aria-label="Industries">
@@ -325,13 +258,12 @@
   </footer>
 
 
-  <script src="site.js?v=20261002x"></script>
-  <script src="menu.js?v=20261002x"></script>
-  <script src="sections.js?v=20261002x"></script>
-  <script src="waves-bg.js?v=20261002x"></script>
-  <script src="showcase.js?v=20261002x"></script>
-  <script src="clock.js?v=20261002x"></script>
-  <script src="about.js?v=20261002x"></script>
-  <script src="outro.js?v=20261002x"></script>
+  <script src="site.js?v=20261009a"></script>
+  <script src="menu.js?v=20261009a"></script>
+  <script src="sections.js?v=20261009a"></script>
+  <script src="waves-bg.js?v=20261009a"></script>
+  <script src="faq.js?v=20261009a"></script>
+  <script src="about.js?v=20261009a"></script>
+  <script src="outro.js?v=20261009a"></script>
 </body>
 </html>
