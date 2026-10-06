@@ -526,34 +526,61 @@
 
 /* ---------- Our story + numbers ---------- */
 .ab-story { padding: clamp(96px, 10vw, 150px) clamp(16px, 5vw, 84px) 0; }
-.ab-story-inner {
+
+.ab-story-header {
+  max-width: 900px; margin: 0 auto clamp(60px, 8vw, 100px);
+  text-align: center;
+}
+.ab-story-header .ab-h2 { margin-top: 20px; margin-bottom: clamp(16px, 2vw, 24px); }
+.ab-story-lead {
+  font-size: clamp(16px, 1.8vw, 20px); line-height: 1.6;
+  color: #ece6ff; margin: 0 auto clamp(16px, 2vw, 24px);
+}
+.ab-story-text {
+  font-size: clamp(15px, 1.6vw, 18px); line-height: 1.65;
+  color: #b8b8d1; margin: 0;
+}
+
+.ab-story-stats {
   max-width: 1440px; margin: 0 auto;
-  display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(32px, 5vw, 90px); align-items: center;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(24px, 3vw, 40px);
+  padding: 0 clamp(16px, 2vw, 40px);
 }
-.ab-story-copy .ab-h2 { margin-top: 20px; }
-.ab-story-copy .ab-sub { margin-left: 0; }
-.ab-story-lead { color: #ece6ff; }
-.ab-numbers {
-  list-style: none;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
-  border-radius: 22px; overflow: hidden;
-  background: rgba(255, 255, 255, .08);            /* shows through the gaps as hairlines */
-  border: 1px solid rgba(255, 255, 255, .08);
+
+.ab-stat-card {
+  position: relative;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(12px, 1.5vw, 20px);
+  padding: clamp(40px, 4vw, 60px) clamp(24px, 3vw, 40px);
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, .06), rgba(255, 255, 255, .02));
+  border: 1px solid rgba(181, 123, 255, .25);
+  transition: all .4s cubic-bezier(.22, 1, .36, 1);
+  min-height: clamp(280px, 35vw, 360px);
 }
-.ab-numbers li {
-  display: grid; gap: 8px; align-content: end;
-  min-height: clamp(150px, 14vw, 200px);
-  padding: clamp(22px, 2.4vw, 34px);
-  background: linear-gradient(180deg, #0f0b18, #07060b);
+
+.ab-stat-card:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, .12), rgba(255, 255, 255, .06));
+  border-color: rgba(181, 123, 255, .5);
+  translate: 0 -6px;
+  box-shadow: 0 20px 50px rgba(171, 36, 242, .15);
 }
-.ab-numbers li:first-child { background: radial-gradient(90% 80% at 0% 0%, rgba(171, 36, 242, .32), transparent 70%), linear-gradient(180deg, #170d2c, #0b0714); }
-.ab-numbers strong {
-  font-family: "Sora", sans-serif; font-weight: 500;
-  font-size: clamp(40px, 4.2vw, 64px); line-height: 1; letter-spacing: -0.04em;
-  background: linear-gradient(180deg, #fff, #c9a8ff);
+
+.ab-stat-value {
+  display: flex; align-items: baseline; justify-content: center; gap: 4px;
+}
+
+.ab-stat-value strong {
+  font-family: "Sora", sans-serif; font-weight: 700;
+  font-size: clamp(56px, 6.5vw, 96px); line-height: 1; letter-spacing: -0.04em;
+  background: linear-gradient(135deg, #ffffff, #d9b8ff);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
-.ab-numbers span { font-size: 14px; line-height: 1.4; color: #b8b8d1; }
+
+.ab-stat-label {
+  font-size: clamp(14px, 1.4vw, 18px); line-height: 1.5;
+  color: #b8b8d1; margin: 0; text-align: center;
+  font-weight: 500;
+}
 
 /* ---------- What we do ---------- */
 .ab-services { padding: clamp(100px, 11vw, 160px) clamp(16px, 5vw, 84px) 0; }
@@ -622,7 +649,7 @@
   .ab-hero-inner { grid-template-columns: 1fr; }
   .ab-hero-media { max-width: 680px; }
   .ab-compare-grid { grid-template-columns: 1fr; max-width: 680px; }
-  .ab-story-inner { grid-template-columns: 1fr; }
+  .ab-story-stats { grid-template-columns: 1fr; }
   .ab-svc-grid { grid-template-columns: 1fr 1fr; }
   .ab-mvv-grid { grid-template-columns: 1fr; }
   .ab-quotes { grid-template-columns: 1fr; max-width: 680px; }
@@ -636,6 +663,8 @@
   .ab-hero { min-height: 0; }
   .ab-stat--b { display: none; }
   .ab-stat--a { left: 12px; bottom: -18px; }
+  .ab-story-stats { grid-template-columns: 1fr; gap: clamp(16px, 2vw, 24px); }
+  .ab-stat-card { min-height: clamp(240px, 70vw, 320px); }
   .ab-steps { grid-template-columns: 1fr; }
   .ab-form { grid-template-columns: 1fr; }
   .ab-svc-grid { grid-template-columns: 1fr; }
