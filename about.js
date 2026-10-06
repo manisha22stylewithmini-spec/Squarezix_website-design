@@ -96,6 +96,7 @@
     steps: [...tl.querySelectorAll('.tl-step')], count: tl.querySelector('.tl-count'), bar: tl.querySelector('.tl-bar'),
   };
   let tlW = 0, tlS = 0, tlLen = 0, tlPad = 0, tlXs = [], tlLut = [];
+  let tlP = 0, tlTarget = 0, tlRaf = 0;
   function tlBuild() {
     if (!tlT) return;
     const W = tlT.track.offsetWidth, H = tlT.track.offsetHeight, n = tlT.steps.length;
@@ -116,7 +117,7 @@
     for (let i = 0; i <= 240; i++) { const l = (tlLen * i) / 240; tlLut.push([tlT.fill.getPointAtLength(l).x, l]); }
     // Scroll room = pan distance + extra so the line draws at a calm pace
     tlPad = parseFloat(getComputedStyle(tl).paddingTop);
-    tl.style.height = `${tlPad + tlT.pin.offsetHeight + Math.max(W - tlS, 0) + window.innerHeight * 1.6}px`;
+    tl.style.height = `${tlPad + tlT.pin.offsetHeight + Math.max(W - tlS, 0) + window.innerHeight * 2.8}px`;
   }
   const tlLenAtX = (x) => {
     for (let i = 1; i < tlLut.length; i++) {
@@ -127,25 +128,36 @@
     }
     return tlLen;
   };
+  // Scroll sets a target; the drawing eases toward it each frame so the motion trails the wheel smoothly
   function tlUpdate() {
     if (!tlT || !tlLen) return;
     const start = tl.getBoundingClientRect().top + tlPad;
     const range = tl.offsetHeight - tlPad - tlT.pin.offsetHeight;
-    const p = reduce ? 1 : clamp01(-start / (range || 1));
-    // The line's tip runs from just before the first milestone to the end; the track pans to keep the milestone just reached centred
-    const x0 = tlXs[0] - 40;
-    const x = x0 + (tlW - x0) * p;
+    tlTarget = reduce ? 1 : clamp01(-start / (range || 1));
+    if (reduce) { tlP = 1; tlRender(1); return; }
+    if (!tlRaf) tlRaf = requestAnimationFrame(tlTick);
+  }
+  function tlTick() {
+    tlP += (tlTarget - tlP) * 0.075;
+    if (Math.abs(tlTarget - tlP) < 0.0004) tlP = tlTarget;
+    tlRender(tlP);
+    tlRaf = tlP === tlTarget ? 0 : requestAnimationFrame(tlTick);
+  }
+  function tlRender(p) {
+    // First 8% of the pin shows only the title and empty curve; the line then enters from the left edge
+    const q = clamp01((p - 0.08) / 0.9);
+    const x = tlW * q;
     const pan = Math.min(Math.max(x - tlW / tlXs.length * 0.5 - tlS * 0.5, 0), Math.max(tlW - tlS, 0));
     tlT.track.style.transform = `translate3d(${-pan}px,0,0)`;
     const l = tlLenAtX(x);
     tlT.fill.style.strokeDashoffset = `${tlLen - l}`;
     const pt = tlT.fill.getPointAtLength(l);
     tlT.tip.setAttribute('cx', pt.x); tlT.tip.setAttribute('cy', pt.y);
-    tlT.tip.style.opacity = p > 0.002 && p < 0.998 ? 1 : 0;
+    tlT.tip.style.opacity = q > 0.002 && q < 0.998 ? 1 : 0;
     let lit = 0;
     tlT.steps.forEach((el, i) => { const on = x >= tlXs[i] - 2; el.classList.toggle('is-on', on); if (on) lit = i + 1; });
     tlT.count.textContent = String(Math.max(lit, 1)).padStart(2, '0');
-    tlT.bar.style.setProperty('--p', p.toFixed(3));
+    tlT.bar.style.setProperty('--p', q.toFixed(3));
   }
   if (tlT) {
     tlBuild();
