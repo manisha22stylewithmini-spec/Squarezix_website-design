@@ -70,6 +70,26 @@ def live(sec, title):
     return next(d for t, d, _b in sec['items'] if t == title)
 
 
+def find_live(title):
+    """First live-content description for a service title, searched anywhere in the frozen live copy."""
+    def walk(o):
+        if isinstance(o, (list, tuple)):
+            if len(o) >= 2 and o[0] == title and isinstance(o[1], str) and len(o[1]) > 40:
+                return o[1]
+            for x in o:
+                r = walk(x)
+                if r:
+                    return r
+        elif isinstance(o, dict):
+            for x in o.values():
+                r = walk(x)
+                if r:
+                    return r
+    out = walk(L)
+    assert out, title
+    return out
+
+
 def services(intro, *rows):
     """A page's service list — the same services, in the same order, as its header menu column."""
     return {'intro': intro, 'items': [(t, d, []) for t, d in rows]}
@@ -108,7 +128,10 @@ SVC = {
         ('Community Engagement Optimization', 'A helpful, genuine presence in the communities AI models learn from — Reddit, Quora and industry forums — so your brand is part of the conversations behind AI answers.'),
         ('Brand Visibility and Authority', live(GE, 'Link Building & Authority Development')),
         ('AI-Friendly Structured Data', live(GE, 'Technical SEO for AI Crawlers'))),
-    'web': services(WB['services']['intro'], *[(t, d) for t, d, _b in WB['services']['items'][:9]]),
+    'web': services(WB['services']['intro'], *[(t, d) for t, d, _b in WB['services']['items'][:9]],
+                    ('Headless Ecommerce Development', find_live('Headless E-Commerce Development')),
+                    ('Squarespace Website Development', find_live('Squarespace Development')),
+                    ('Website Migration Services', find_live('Website Migration Services'))),
     'maintain': services(WB['maintain']['intro'], *[(t, d) for t, d, _b in WB['maintain']['items']]),
 }
 SVC['content'] = CONTENT

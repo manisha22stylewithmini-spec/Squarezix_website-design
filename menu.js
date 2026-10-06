@@ -251,6 +251,18 @@
                 {
                   "t": "Vue.js Development",
                   "h": "vue-js-development.html"
+                },
+                {
+                  "t": "Headless Ecommerce Development",
+                  "h": "website-development.html#headless-ecommerce-development"
+                },
+                {
+                  "t": "Squarespace Website Development",
+                  "h": "website-development.html#squarespace-website-development"
+                },
+                {
+                  "t": "Website Migration Services",
+                  "h": "website-development.html#website-migration-services"
                 }
               ]
             }
