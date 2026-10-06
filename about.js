@@ -147,7 +147,17 @@
     // First 8% of the pin shows only the title and empty curve; the line then enters from the left edge
     const q = clamp01((p - 0.08) / 0.9);
     const x = tlW * q;
-    const pan = Math.min(Math.max(x - tlW / tlXs.length * 0.5 - tlS * 0.5, 0), Math.max(tlW - tlS, 0));
+    // Camera holds on the milestone just reached, then glides to the next one as the line approaches it
+    const n = tlXs.length;
+    let focus = tlXs[0];
+    if (x >= tlXs[n - 1]) focus = tlXs[n - 1];
+    else if (x > tlXs[0]) {
+      const i = tlXs.findIndex((v) => v > x) - 1;
+      const f = (x - tlXs[i]) / (tlXs[i + 1] - tlXs[i]);
+      const e = clamp01((f - 0.35) / 0.65);
+      focus = tlXs[i] + (tlXs[i + 1] - tlXs[i]) * e * e * (3 - 2 * e);
+    }
+    const pan = Math.min(Math.max(focus - tlS * 0.5, 0), Math.max(tlW - tlS, 0));
     tlT.track.style.transform = `translate3d(${-pan}px,0,0)`;
     const l = tlLenAtX(x);
     tlT.fill.style.strokeDashoffset = `${tlLen - l}`;

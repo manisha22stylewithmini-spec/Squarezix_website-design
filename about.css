@@ -456,13 +456,15 @@
 }
 @media (max-width: 640px) {
   .tl-pin { padding-top: 76px; }
+  .tl-pin .ab-head { margin-bottom: 32px; }
   .tl-stage { min-height: 400px; max-height: 560px; }
   .tl-node { width: 54px; height: 54px; }
   .tl-node svg { width: 20px; height: 20px; }
-  .tl-text { left: 6%; right: 6%; }
-  .tl-track { --amp: 46px; }
-  .is-low  .tl-text { top: calc(var(--y) + 40px); }
-  .is-high .tl-text { bottom: calc(100% - var(--y) + 40px); }
+  /* One step per screen with the neighbours peeking in */
+  .tl-text { left: 10%; right: 10%; }
+  .tl-track { --amp: 30px; --step-w: 86vw; }
+  .is-low  .tl-text { top: calc(var(--y) + 36px); }
+  .is-high .tl-text { bottom: calc(100% - var(--y) + 36px); }
   .tl-num { font-size: 96px; }
   .tl-desc { font-size: 14px; line-height: 1.55; }
 }
