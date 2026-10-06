@@ -88,6 +88,10 @@
   const steps = document.getElementById('ab-steps');
   const stepEls = steps ? [...steps.querySelectorAll('.ab-step')] : [];
 
+  // --- Timeline curve progress with scroll ---
+  const timelineSection = document.getElementById('timeline-section');
+  const timelineCurve = timelineSection ? timelineSection.querySelector('.curve-progress') : null;
+
   function onScroll() {
     const vh = window.innerHeight;
     groups.forEach(({ el, words }) => {
@@ -101,6 +105,15 @@
       const p = reduce ? 1 : clamp01((vh * 0.85 - r.top) / (vh * 0.5));
       steps.style.setProperty('--fill', p.toFixed(3));
       stepEls.forEach((s, i) => s.classList.toggle('is-lit', p >= (i / stepEls.length) + 0.02));
+    }
+    // Timeline curve progress
+    if (timelineSection && timelineCurve) {
+      const r = timelineSection.getBoundingClientRect();
+      const sectionHeight = timelineSection.offsetHeight;
+      const viewportTop = vh * 0.2;
+      const progress = clamp01((viewportTop - r.top) / (sectionHeight - vh * 0.8));
+      const dashOffset = 2000 * (1 - progress);
+      timelineCurve.style.setProperty('stroke-dashoffset', dashOffset.toFixed(1));
     }
   }
   window.addEventListener('scroll', onScroll, { passive: true });
