@@ -84,10 +84,6 @@
     return { el, words };
   });
 
-  // --- Process track fills with scroll; steps light as the line reaches them ---
-  const steps = document.getElementById('ab-steps');
-  const stepEls = steps ? [...steps.querySelectorAll('.ab-step')] : [];
-
   // --- Our Journey: section pins while the track pans and a wave line draws through the milestones ---
   const tl = document.getElementById('ab-timeline');
   const tlT = tl && {
@@ -183,12 +179,6 @@
       const lit = p * words.length;
       words.forEach((w, i) => w.style.setProperty('--o', (0.12 + 0.88 * clamp01(lit - i)).toFixed(3)));
     });
-    if (steps) {
-      const r = steps.getBoundingClientRect();
-      const p = reduce ? 1 : clamp01((vh * 0.85 - r.top) / (vh * 0.5));
-      steps.style.setProperty('--fill', p.toFixed(3));
-      stepEls.forEach((s, i) => s.classList.toggle('is-lit', p >= (i / stepEls.length) + 0.02));
-    }
     tlUpdate();
   }
   window.addEventListener('scroll', onScroll, { passive: true });

@@ -713,19 +713,6 @@
   color: #e9e6f2;
 }
 
-/* ---------- What we do ---------- */
-/* The real sub-inner classes read these from the .ss wrapper that service pages have */
-.ab-process { --u: 1px; --gut: clamp(16px, 5vw, 96px); --line: rgba(255, 255, 255, .1); --card: #0a0a15; }
-
-/* Process: the workflow node graph with four nodes in a 2 x 2 snake (1→2, down, 3→4) */
-.ab-process .ec-canvas { max-width: 920px; margin-inline: auto; }
-@media (min-width: 1101px) {
-  .ab-process .ec-flow--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .ab-process .ec-flow--4 .ec-node:nth-child(1) { grid-area: 1 / 1; margin-top: 0; }
-  .ab-process .ec-flow--4 .ec-node:nth-child(2) { grid-area: 1 / 2; margin-top: 40px; }
-  .ab-process .ec-flow--4 .ec-node:nth-child(3) { grid-area: 2 / 2; margin-top: 0; }
-  .ab-process .ec-flow--4 .ec-node:nth-child(4) { grid-area: 2 / 1; margin-top: 40px; }
-}
 
 
 @media (max-width: 1080px) {
