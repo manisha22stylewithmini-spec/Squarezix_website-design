@@ -482,3 +482,83 @@
 }
 @media (max-width: 1100px) { .pf-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .pf-cards { grid-template-columns: 1fr; } .pf-sel-all { margin-bottom: 0; } }
+
+/* ---------- Pill filter bar (Portfolio + Blogs) ---------- */
+.pf-bar-wrap, .bl-bar-wrap { max-width: 1040px; margin: clamp(32px, 4vw, 52px) auto 0; }
+.co-filterbar {
+  display: flex; align-items: stretch; border-radius: 999px; background: rgba(255, 255, 255, .035); border: 1px solid rgba(255, 255, 255, .11);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, .3), inset 0 1px 0 rgba(255, 255, 255, .06);
+}
+.co-fb-seg { position: relative; flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 4px; padding: 15px 52px 15px 30px; border-left: 1px solid rgba(255, 255, 255, .1); cursor: pointer; }
+.co-fb-seg:first-child { border-left: 0; }
+.co-fb-label { font-size: 12px; font-weight: 500; letter-spacing: .13em; text-transform: uppercase; color: #8f8aa6; }
+.co-fb-seg select {
+  appearance: none; -webkit-appearance: none; width: 100%; padding: 0; margin: 0; border: 0; border-radius: 0; background: transparent; cursor: pointer;
+  font: 500 clamp(16px, 1.55vw, 21px)/1.3 "DM Sans", sans-serif; color: #fff; text-overflow: ellipsis;
+}
+.co-fb-seg select option { background: #14131c; color: #fff; }
+.co-fb-seg select:focus { outline: none; }
+.co-fb-chev { position: absolute; right: 22px; top: 50%; width: 18px; height: 18px; translate: 0 -50%; fill: none; stroke: #cfcbe0; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; transition: stroke .25s ease; }
+.co-fb-seg:hover .co-fb-chev { stroke: #fff; }
+.co-fb-seg:focus-within { border-radius: 999px; box-shadow: inset 0 0 0 2px #b57bff; }
+.co-fb-count { cursor: default; }
+.co-fb-out { font: 500 clamp(16px, 1.55vw, 21px)/1.3 "DM Sans", sans-serif; color: #d9b8ff; }
+.co-fb-reset { position: absolute; right: 16px; top: 50%; translate: 0 -50%; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .14); color: #fff; transition: background .25s ease; }
+.co-fb-reset[hidden] { display: none; }
+.co-fb-reset svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.co-fb-reset:hover { background: rgba(171, 36, 242, .4); }
+.co-fb-reset:focus-visible { outline: 2px solid #b57bff; outline-offset: 2px; }
+
+@media (max-width: 860px) {
+  .co-filterbar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-radius: 26px; overflow: hidden; }
+  .co-fb-seg { padding: 14px 44px 14px 22px; border-left: 0; border-top: 1px solid rgba(255, 255, 255, .1); }
+  .co-fb-seg:nth-child(odd) { border-right: 1px solid rgba(255, 255, 255, .1); }
+  .co-fb-seg:nth-child(-n+2) { border-top: 0; }
+  .co-fb-seg:focus-within { border-radius: 0; }
+  .co-fb-chev { right: 16px; }
+}
+@media (max-width: 480px) {
+  .co-filterbar { grid-template-columns: 1fr; }
+  .co-fb-seg:nth-child(odd) { border-right: 0; }
+  .co-fb-seg:nth-child(2) { border-top: 1px solid rgba(255, 255, 255, .1); }
+}
+
+/* ---------- compact cards: four across, then the next row (Portfolio + Blogs) ---------- */
+.pf-card[hidden], .pf-nomatch[hidden], .bl-nomatch[hidden] { display: none; }
+.pf-cards { max-width: 1200px; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(10px, 1.4vw, 16px); }
+.pf-card { gap: 9px; padding: clamp(9px, 1vw, 12px) clamp(9px, 1vw, 12px) clamp(12px, 1.2vw, 16px); border-radius: 18px; }
+.pf-card-media { aspect-ratio: 16 / 11; border-radius: 11px; }
+.pf-card-media .pf-play { top: 8px; right: 8px; width: 28px; height: 28px; }
+.pf-card-media .pf-play svg { width: 11px; height: 11px; }
+.pf-card h3 { margin: 4px 4px 0; font-size: clamp(15px, 1.25vw, 18px); }
+.pf-card h3 a::after { border-radius: 18px; }
+.pf-card p { margin: 0 4px; font-size: clamp(12.5px, 1vw, 13.5px); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.pf-card-cta { margin: 2px 0 0 2px; padding: 8px 14px; font-size: 13px; gap: 6px; }
+.pf-card-cta svg { width: 14px; height: 14px; }
+.pf-card:hover { translate: 0 -4px; }
+.pf-nomatch { max-width: 640px; margin: 36px auto 0; text-align: center; padding: clamp(28px, 4vw, 48px) 24px; border-radius: 24px; background: radial-gradient(60% 100% at 50% 0%, rgba(171, 36, 242, .18), transparent 70%), #0b0b16; border: 1px solid rgba(255, 255, 255, .08); }
+.pf-nomatch h3 { margin: 0 0 8px; font-family: "Sora", sans-serif; font-weight: 500; font-size: clamp(20px, 2vw, 26px); color: #fff; }
+.pf-nomatch p { margin: 0 auto 22px; max-width: 420px; color: #b8b8d1; line-height: 1.6; }
+.pf-nomatch .co-link { background: none; border-top: 0; border-inline: 0; cursor: pointer; }
+
+.bl-grid { max-width: 1200px; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(10px, 1.4vw, 16px); }
+.bl-card-link { border-radius: 18px; }
+.bl-visual { aspect-ratio: 16 / 10; }
+.bl-visual .bl-cat { left: 10px; top: 10px; padding: 4px 9px; font-size: 11px; }
+.bl-art-ic { max-width: 64px; }
+.bl-card-body { gap: 9px; padding: 13px 14px 15px; }
+.bl-card-body h3 { font-size: clamp(14.5px, 1.15vw, 16.5px); line-height: 1.32; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.bl-desc { font-size: 13px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.bl-when { font-size: 12px; }
+.bl-more { padding-top: 2px; font-size: 13px; }
+.bl-more svg { width: 14px; height: 14px; }
+.bl-nomatch { margin: 32px 0 0; text-align: center; color: #b8b8d1; }
+.bl-nomatch .co-link { background: none; border-top: 0; border-inline: 0; cursor: pointer; margin-left: 8px; }
+
+@media (max-width: 700px) {
+  .pf-cards, .bl-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 420px) {
+  .pf-cards, .bl-grid { grid-template-columns: 1fr; }
+}
+.bl-visual .bl-cat { max-width: calc(100% - 20px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }

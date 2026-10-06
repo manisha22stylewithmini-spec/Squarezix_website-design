@@ -5,6 +5,23 @@
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const mk = (tag, cls, text) => { const el = document.createElement(tag); if (cls) el.className = cls; if (text != null) el.textContent = text; return el; };
   const ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Pill filter bar shared by Portfolio and Blogs: every <select data-key="x"> filters items by their data-x.
+  // matches() returns the items passing all selects; sync(n) updates the "Showing" count and reset button.
+  const filterBar = (bar, items, onChange) => {
+    const sels = $$('select', bar), out = $('.co-fb-out', bar), reset = $('.co-fb-reset', bar);
+    const noun = bar.dataset.noun || 'items';
+    const matches = () => {
+      const f = sels.map((s) => [s.dataset.key, s.value]);
+      return items.filter((c) => f.every(([k, v]) => v === 'all' || c.dataset[k] === v));
+    };
+    const sync = (n) => { out.textContent = `${n} ${n === 1 ? noun.replace(/s$/, '') : noun}`; reset.hidden = sels.every((s) => s.value === 'all'); };
+    sels.forEach((s) => s.addEventListener('change', onChange));
+    const clear = () => { sels.forEach((s) => { s.value = 'all'; }); onChange(); };
+    reset.addEventListener('click', clear);
+    return { matches, sync, clear };
+  };
 
   // ---- Careers: open positions. Empty list -> "No current openings" state; roles -> filterable list ----
   // Role shape: { title, team, location, type, href }
@@ -44,47 +61,44 @@
     }
   }
 
-  // ---- Portfolio: discipline filter + reels play on hover/focus ----
-  const grid = $('#pf-grid');
-  if (grid) {
-    const tiles = $$('.pf-tile', grid), chips = $$('.pf-filters .co-chip'), empty = $('#pf-empty');
-    const apply = (k) => {
-      let n = 0;
-      tiles.forEach((t) => { const show = k === 'all' || t.dataset.cat === k; t.hidden = !show; if (show) n++; });
-      grid.classList.toggle('is-filtered', k !== 'all');
-      grid.hidden = n === 0; empty.hidden = n !== 0;
-      chips.forEach((c) => { const on = c.dataset.filter === k; c.classList.toggle('is-on', on); c.setAttribute('aria-pressed', on); });
+  // ---- Portfolio: Capability / Industry / Outcome filter over the project cards ----
+  const pf = $('#pf-cards');
+  if (pf) {
+    const cards = $$('.pf-card', pf), bar = $('#pf-bar'), nomatch = $('#pf-nomatch');
+    bar.dataset.noun = 'projects';
+    const render = () => {
+      const list = fb.matches();
+      cards.forEach((c) => { c.hidden = !list.includes(c); });
+      nomatch.hidden = list.length !== 0;
+      fb.sync(list.length);
     };
-    chips.forEach((c) => c.addEventListener('click', () => apply(c.dataset.filter)));
-    $('[data-filter-reset]')?.addEventListener('click', () => apply('all'));
-    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    $$('.pf-tile--reel', grid).forEach((t) => {
-      const v = $('video', t);
-      const play = () => { if (reduce) return; v.play().then(() => v.classList.add('is-live')).catch(() => {}); };
-      const stop = () => { v.pause(); v.classList.remove('is-live'); v.currentTime = 0; };
-      t.addEventListener('pointerenter', play); t.addEventListener('pointerleave', stop);
-      t.addEventListener('focus', play); t.addEventListener('blur', stop);
-    });
+    const fb = filterBar(bar, cards, render);
+    $('[data-filter-reset]', nomatch)?.addEventListener('click', fb.clear);
+    render();
   }
 
-  // ---- Blogs: topic filter + load more, industry tabs, newsletter ----
+  // ---- Blogs: Topic / Industry / Category filter, load more, topic cards, industry tabs ----
   const bg = $('#bl-grid');
   if (bg) {
-    const cards = $$('.bl-card', bg), more = $('#bl-loadmore'), note = $('#bl-filter-note'), topicBtns = $$('.bl-topic');
-    const NAMES = { brand: 'Brand', growth: 'Growth', digital: 'Digital', intelligence: 'Intelligence' };
-    const STEP = 9;
-    let topic = 'all', limit = STEP;
+    const cards = $$('.bl-card', bg), more = $('#bl-loadmore'), topicBtns = $$('.bl-topic'), bar = $('#bl-bar'), nomatch = $('#bl-nomatch');
+    const STEP = 8;
+    let limit = STEP;
+    bar.dataset.noun = 'articles';
+    const topicSel = $('select[data-key="topic"]', bar);
     const render = () => {
-      const list = cards.filter((c) => topic === 'all' || c.dataset.topic === topic);
-      cards.forEach((c) => { c.hidden = true; c.classList.remove('is-lead'); });
-      list.slice(0, limit).forEach((c, i) => { c.hidden = false; c.classList.toggle('is-lead', i === 0 && !!$('img', c)); });
+      const list = fb.matches();
+      cards.forEach((c) => { c.hidden = true; });
+      list.slice(0, limit).forEach((c) => { c.hidden = false; });
       more.hidden = limit >= list.length;
-      note.textContent = topic === 'all' ? '' : `Showing ${NAMES[topic]} — ${list.length} article${list.length === 1 ? '' : 's'}`;
-      topicBtns.forEach((b) => b.setAttribute('aria-pressed', b.dataset.topic === topic));
+      nomatch.hidden = list.length !== 0;
+      topicBtns.forEach((b) => b.setAttribute('aria-pressed', b.dataset.topic === topicSel.value));
+      fb.sync(list.length);
     };
+    const fb = filterBar(bar, cards, () => { limit = STEP; render(); });
+    $('[data-filter-reset]', nomatch)?.addEventListener('click', fb.clear);
     topicBtns.forEach((b) => b.addEventListener('click', () => {
-      topic = topic === b.dataset.topic ? 'all' : b.dataset.topic; limit = STEP; render();
-      $('#latest').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+      topicSel.value = topicSel.value === b.dataset.topic ? 'all' : b.dataset.topic; limit = STEP; render();
+      $('#latest').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
     }));
     more.addEventListener('click', () => { limit += STEP; render(); });
     render();

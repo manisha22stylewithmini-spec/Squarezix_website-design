@@ -21,7 +21,7 @@ VER = '20261023a'
 WRITTEN = {
     'culture.html': 'all copy except the Life-at-SquareZix line and the learning/recognition facts taken from the live Careers page',
     'careers.html': 'Why SquareZix card text, hiring-process steps, FAQ answers',
-    'portfolio.html': 'hero, filter labels, FAQ, the five reel descriptions in Selected portfolios; website blurbs reuse the home page work cards',
+    'portfolio.html': 'hero, FAQ, the five reel descriptions, and the Capability/Industry/Outcome classification of each project (outcomes are goals taken from the home-page case-study challenges, no figures); website blurbs reuse the home page work cards',
     'blogs.html': 'hero, topic grouping, industry picks, newsletter copy',
 }
 
@@ -133,6 +133,23 @@ def faq_band(title, sub, items):
       </section>
     </div>
 '''
+
+
+FB_CHEV = '<svg class="co-fb-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>'
+FB_X = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>'
+
+
+def filterbar(label, selects, bar_id=''):
+    """Pill filter bar: one native <select> per segment plus a live 'Showing N' segment with a reset button.
+    selects = [(data_key, label, all_label, [(value, text), ...])]"""
+    segs = ''
+    for key, lab, all_label, opts in selects:
+        o = f'<option value="all">{e(all_label)}</option>' + ''.join(f'<option value="{v}">{e(t)}</option>' for v, t in opts)
+        segs += f'<label class="co-fb-seg"><span class="co-fb-label">{lab}</span><select data-key="{key}" aria-label="{lab}">{o}</select>{FB_CHEV}</label>'
+    idattr = f' id="{bar_id}"' if bar_id else ''
+    return (f'<div class="co-filterbar"{idattr} role="group" aria-label="{e(label)}" data-rise>{segs}'
+            f'<div class="co-fb-seg co-fb-count"><span class="co-fb-label">Showing</span><output class="co-fb-out" aria-live="polite"></output>'
+            f'<button type="button" class="co-fb-reset" hidden aria-label="Reset filters">{FB_X}</button></div></div>')
 
 
 def write(slug, title, desc, nav, body):
@@ -410,20 +427,23 @@ def portfolio():
                  5: 'Branded social reel for Solution Wagon.'}
     PHONE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.18 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.1 9.9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/><path d="M15 2.5a6 6 0 0 1 6.5 6.5M15 6a2.5 2.5 0 0 1 3 3"/></svg>'
 
-    def sel_card(title, desc, img, alt, href, play=False):
+    def sel_card(title, desc, img, alt, href, play=False, cap='', ind='none', out=''):
         badge = '<span class="pf-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5-11-6.5Z"/></svg></span>' if play else ''
-        return (f'<article class="pf-card" data-rise><a class="pf-card-media" href="{href}" tabindex="-1" aria-hidden="true">'
+        return (f'<article class="pf-card" data-cap="{cap}" data-ind="{ind}" data-out="{out}" data-rise><a class="pf-card-media" href="{href}" tabindex="-1" aria-hidden="true">'
                 f'<img src="{img}" alt="{e(alt)}" loading="lazy" />{badge}</a>'
                 f'<h3><a href="{href}">{e(title)}</a></h3><p>{e(desc)}</p>'
                 f'<a href="#ab-contact" class="btn-contact pf-card-cta">{PHONE} Contact us</a></article>')
 
+    SITE_META = [('digital', 'tech', 'leads'), ('digital', 'ecom', 'conversion'), ('digital', 'tech', 'adoption')]
+
     def sel_site(i):
         x = sites[i]
-        return sel_card(x['client'], x['blurb'], x['img'], x['alt'], 'case-study.html')
+        cap, ind, out = SITE_META[i]
+        return sel_card(x['client'], x['blurb'], x['img'], x['alt'], 'case-study.html', cap=cap, ind=ind, out=out)
 
     def sel_reel(i):
         r = reels[i]
-        return sel_card(r['title'], reel_desc[r['n']], f"assets/reels/reel-{r['n']}.jpg", f"{r['title']} reel poster", 'index.html#reels', play=True)
+        return sel_card(r['title'], reel_desc[r['n']], f"assets/reels/reel-{r['n']}.jpg", f"{r['title']} reel poster", 'index.html#reels', play=True, cap='marketing', ind='none', out='engagement')
 
     sel_cards = ''.join([sel_site(0), sel_reel(0), sel_site(1), sel_reel(1), sel_site(2), sel_reel(2), sel_reel(3), sel_reel(4)])
 
@@ -431,30 +451,20 @@ def portfolio():
                 'Websites, products and campaigns — designed, built and grown by one team.',
                 'Start a project', '#ab-contact')
     body += f'''
-    <section class="co-sec pf-sel" aria-labelledby="pf-sel-title">
-      <div class="pf-sel-head">
-        {head_block('Portfolio', 'Selected <em>portfolios</em>', 'From concept to reality — explore how we’re bringing groundbreaking ideas to life.', center=False, sid='pf-sel-title')}
-        <a href="#explorer" class="co-link pf-sel-all" data-rise>View all projects {ARROW_R}</a>
+    <section class="co-sec pf-sel" id="browse" aria-labelledby="pf-sel-title">
+      {head_block('Browse Work', 'Find a project <em>like yours</em>', 'Filter by what we did, who it was for and what changed — three ways in, not fifteen.', sid='pf-sel-title')}
+      <div class="pf-bar-wrap">{filterbar('Filter projects', [('cap', 'Capability', 'All Capabilities', [('digital', 'Digital Experience'), ('marketing', 'Digital Marketing')]), ('ind', 'Industry', 'All Industries', [('tech', 'Technology & Innovation'), ('ecom', 'E-commerce & Retail')]), ('out', 'Outcome', 'All Outcomes', [('leads', 'Lead generation'), ('conversion', 'Conversion'), ('adoption', 'Product adoption'), ('engagement', 'Audience engagement')])], 'pf-bar')}</div>
+      <div class="pf-cards" id="pf-cards">{sel_cards}</div>
+      <div class="pf-nomatch" id="pf-nomatch" hidden>
+        <h3>No projects match those filters.</h3>
+        <p>Try a different combination, or tell us what you need and we’ll share relevant examples.</p>
+        <div class="pf-empty-actions"><button type="button" class="co-link" data-filter-reset>Reset filters</button><a href="#ab-contact" class="btn-contact btn-contact--xl">Talk to us {ARROW_R}</a></div>
       </div>
-      <div class="pf-cards">{sel_cards}</div>
     </section>
 
     <section class="co-sec" aria-labelledby="pf-feat-title">
       {head_block('Featured Work', 'Work we’re <em>proud of</em>', '', sid='pf-feat-title')}
       <div class="pf-feats">{feat_html}</div>
-    </section>
-
-    <section class="co-sec" id="explorer" aria-labelledby="pf-ex-title">
-      {head_block('Work Explorer', 'Browse by <em>discipline</em>', 'Filter the work by what we did.', sid='pf-ex-title')}
-      <div class="co-chips pf-filters" role="group" aria-label="Filter work by discipline" data-rise>{chips_html}</div>
-      <div class="pf-grid" id="pf-grid">
-          {grid_html}
-      </div>
-      <div class="pf-empty" id="pf-empty" hidden>
-        <h3>Work in this category is on its way.</h3>
-        <p>We’re adding more projects. If this is what you need, tell us about it — we’ll share relevant examples.</p>
-        <div class="pf-empty-actions"><a href="#ab-contact" class="btn-contact btn-contact--xl">Talk to us {ARROW_R}</a><button type="button" class="co-link" data-filter-reset>See all work</button></div>
-      </div>
     </section>
 
     <section class="co-sec" aria-labelledby="pf-res-title">
@@ -534,6 +544,10 @@ TOPIC_ICON = {t[0]: t[3] for t in TOPICS}
 CLOCK = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'
 
 
+def slug(t):
+    return re.sub(r'[^a-z0-9]+', '-', t.lower()).strip('-')
+
+
 def blog_card(p, i):
     if p.get('img'):
         vis = f'<img src="{p["img"]}" alt="{e(p.get("alt", ""))}" loading="lazy" />'
@@ -543,7 +557,7 @@ def blog_card(p, i):
     if p.get('date'):
         meta = f'<span class="bl-when"><time datetime="{p["iso"]}">{p["date"]}</time><i></i>{CLOCK}{p["read"]}</span>'
     desc = f'<p class="bl-desc">{e(p["d"])}</p>' if p.get('d') else ''
-    return (f'<article class="bl-card" data-topic="{p["topic"]}" data-n="{i}"><a class="bl-card-link" href="{BLOG_LIVE}">'
+    return (f'<article class="bl-card" data-topic="{p["topic"]}" data-ind="{p.get("ind", "none")}" data-cat="{slug(p["c"])}" data-n="{i}"><a class="bl-card-link" href="{BLOG_LIVE}">'
             f'<div class="bl-visual">{vis}<span class="bl-cat">{e(p["c"])}</span></div>'
             f'<div class="bl-card-body"><h3>{e(p["t"])}</h3>{desc}{meta}'
             f'<span class="bl-more">Read article <i>{ARROW_R}</i></span></div></a></article>')
@@ -578,6 +592,13 @@ def blogs():
         ('How do I stay updated?', 'Browse the latest insights here, or follow us on social for new articles on AI, growth and the platforms shaping how brands get discovered.'),
     ]
 
+    cats = sorted({p['c'] for p in POSTS})
+    blog_bar = filterbar('Filter articles', [
+        ('topic', 'Topic', 'All Topics', [(k, name) for k, name, *_ in TOPICS]),
+        ('ind', 'Industry', 'All Industries', INDUSTRIES),
+        ('cat', 'Category', 'All Categories', [(slug(c), c) for c in cats]),
+    ], 'bl-bar')
+
     f = FEATURED
     feature = f'''<article class="bl-feature" data-rise>
         <a class="bl-feature-media" href="{BLOG_LIVE}" tabindex="-1" aria-hidden="true"><img src="{f['img']}" alt="" loading="lazy" /></a>
@@ -600,19 +621,18 @@ def blogs():
     </section>
 
     <section class="co-sec" aria-labelledby="bl-topics-title">
-      {head_block('Explore by Topic', 'Four ways into <em>what we think</em>', 'Choose a topic to filter the latest insights below.', sid='bl-topics-title')}
+      {head_block('Explore by Topic', 'Four ways into <em>what we think</em>', 'Choose a topic to filter the articles below.', sid='bl-topics-title')}
       <ul class="bl-topics">{topics_html}</ul>
     </section>
 
     <section class="co-sec" id="latest" aria-labelledby="bl-latest-title">
-      <div class="bl-latest-head">
-        {head_block('Latest Insights', 'The latest <em>thinking</em>', '', center=False, sid='bl-latest-title')}
-        <p class="bl-filter-note" id="bl-filter-note" aria-live="polite"></p>
-      </div>
+      {head_block('Browse Blogs', 'Find an article <em>worth reading</em>', 'Filter by topic, industry and category to get straight to what matters.', sid='bl-latest-title')}
+      <div class="bl-bar-wrap">{blog_bar}</div>
       <div class="bl-grid" id="bl-grid">
           {cards}
       </div>
-      <div class="co-more"><button type="button" class="btn-contact btn-contact--xl bl-loadmore" id="bl-loadmore">Load more insights {ARROW_R}</button></div>
+      <p class="bl-nomatch" id="bl-nomatch" hidden>No articles match those filters. <button type="button" class="co-link" data-filter-reset>Reset filters</button></p>
+      <div class="co-more"><button type="button" class="btn-contact btn-contact--xl bl-loadmore" id="bl-loadmore">Load more articles {ARROW_R}</button></div>
     </section>
 
     <section class="co-sec" aria-labelledby="bl-ind-title">
