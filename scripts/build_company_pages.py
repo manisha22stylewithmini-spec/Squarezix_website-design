@@ -21,7 +21,7 @@ VER = '20261023a'
 WRITTEN = {
     'culture.html': 'all copy except the Life-at-SquareZix line and the learning/recognition facts taken from the live Careers page',
     'careers.html': 'Why SquareZix card text, hiring-process steps, FAQ answers',
-    'portfolio.html': 'hero, filter labels, FAQ; project descriptions reuse the home page work cards',
+    'portfolio.html': 'hero, filter labels, FAQ, the five reel descriptions in Selected portfolios; website blurbs reuse the home page work cards',
     'blogs.html': 'hero, topic grouping, industry picks, newsletter copy',
 }
 
@@ -402,10 +402,43 @@ def portfolio():
         ('Why isn’t every project shown here?', 'This page is a curated selection. Some work is under NDA, and we only show results we can stand behind. Ask us for relevant examples for your industry.'),
     ]
 
+    # "Selected portfolios" card listing, straight after the hero (design: image, title, line, Contact us)
+    reel_desc = {1: 'A short-form social reel built around 3D motion graphics.',
+                 3: 'Kinetic-typography reel making the case for content-led strategy.',
+                 4: 'Short-form reel built around a single, direct client question.',
+                 2: 'Kinetic-typography social reel with bold, minimal type.',
+                 5: 'Branded social reel for Solution Wagon.'}
+    PHONE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.18 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.1 9.9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/><path d="M15 2.5a6 6 0 0 1 6.5 6.5M15 6a2.5 2.5 0 0 1 3 3"/></svg>'
+
+    def sel_card(title, desc, img, alt, href, play=False):
+        badge = '<span class="pf-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5-11-6.5Z"/></svg></span>' if play else ''
+        return (f'<article class="pf-card" data-rise><a class="pf-card-media" href="{href}" tabindex="-1" aria-hidden="true">'
+                f'<img src="{img}" alt="{e(alt)}" loading="lazy" />{badge}</a>'
+                f'<h3><a href="{href}">{e(title)}</a></h3><p>{e(desc)}</p>'
+                f'<a href="#ab-contact" class="btn-contact pf-card-cta">{PHONE} Contact us</a></article>')
+
+    def sel_site(i):
+        x = sites[i]
+        return sel_card(x['client'], x['blurb'], x['img'], x['alt'], 'case-study.html')
+
+    def sel_reel(i):
+        r = reels[i]
+        return sel_card(r['title'], reel_desc[r['n']], f"assets/reels/reel-{r['n']}.jpg", f"{r['title']} reel poster", 'index.html#reels', play=True)
+
+    sel_cards = ''.join([sel_site(0), sel_reel(0), sel_site(1), sel_reel(1), sel_site(2), sel_reel(2), sel_reel(3), sel_reel(4)])
+
     body = hero('Our Work', 'A selection of brands, experiences and <em>digital systems</em> we’ve built.',
                 'Websites, products and campaigns — designed, built and grown by one team.',
                 'Start a project', '#ab-contact')
     body += f'''
+    <section class="co-sec pf-sel" aria-labelledby="pf-sel-title">
+      <div class="pf-sel-head">
+        {head_block('Portfolio', 'Selected <em>portfolios</em>', 'From concept to reality — explore how we’re bringing groundbreaking ideas to life.', center=False, sid='pf-sel-title')}
+        <a href="#explorer" class="co-link pf-sel-all" data-rise>View all projects {ARROW_R}</a>
+      </div>
+      <div class="pf-cards">{sel_cards}</div>
+    </section>
+
     <section class="co-sec" aria-labelledby="pf-feat-title">
       {head_block('Featured Work', 'Work we’re <em>proud of</em>', '', sid='pf-feat-title')}
       <div class="pf-feats">{feat_html}</div>
