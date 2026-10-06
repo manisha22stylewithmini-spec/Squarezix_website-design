@@ -557,7 +557,7 @@ def blogs():
         </div>
       </article>'''
 
-    body = hero('Insights', 'Ideas shaping the future of <em>digital growth.</em>',
+    body = hero('Blogs', 'Ideas shaping the future of <em>digital growth.</em>',
                 'Perspectives, strategies and practical thinking across branding, technology, search, marketing and digital experiences.',
                 'Explore the latest', '#latest')
     body += f'''
