@@ -101,17 +101,5 @@
         if (k) { e.preventDefault(); pick((i + k + tabs.length) % tabs.length, true); }
       });
     });
-
-    // No newsletter backend yet: validate, then hand off to the visitor's mail app (same as the contact form)
-    const form = $('#bl-news'), nNote = $('#bl-news-note');
-    form?.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = form.email.value.trim();
-      const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-      nNote.classList.toggle('is-error', !ok);
-      if (!ok) { nNote.textContent = 'Please enter a valid email address.'; form.email.focus(); return; }
-      nNote.textContent = 'Opening your email app to confirm your subscription…';
-      location.href = `mailto:info@squarezix.com?subject=${encodeURIComponent('Subscribe me to SquareZix insights')}&body=${encodeURIComponent('Please add this email to the newsletter: ' + email)}`;
-    });
   }
 })();

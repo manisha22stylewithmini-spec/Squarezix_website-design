@@ -542,7 +542,7 @@ def blogs():
         ('Who writes the articles?', 'Our team of strategists, designers, developers and marketers — the same people who do the work. Articles are published under the Squarezix Team.'),
         ('Can I suggest a topic?', 'Please do. Send us the question you would like answered through the contact form below and we will consider it for a future article.'),
         ('Do you offer SEO and content services too?', 'Yes. SEO and AI visibility, content, social, paid media, branding and web development are all part of what we do — one team, one process.'),
-        ('How do I stay updated?', 'Subscribe to the newsletter above for new insights on AI, growth and the platforms shaping how brands get discovered.'),
+        ('How do I stay updated?', 'Browse the latest insights here, or follow us on social for new articles on AI, growth and the platforms shaping how brands get discovered.'),
     ]
 
     f = FEATURED
@@ -589,24 +589,7 @@ def blogs():
         <div class="bl-ind-panels" data-rise>{panels}</div>
       </div>
     </section>
-
-    <section class="co-sec" aria-labelledby="bl-news-title">
-      <div class="bl-news" data-rise>
-        <div class="bl-news-copy">
-          <span class="svc-badge">Stay Informed</span>
-          <h2 id="bl-news-title" class="ab-h2">Stay ahead of <em>what’s next.</em></h2>
-          <p>Insights on AI, growth and the platforms shaping how brands get discovered — straight to your inbox.</p>
-        </div>
-        <form class="bl-news-form" id="bl-news" novalidate>
-          <label class="visually-hidden" for="bl-news-email">Email address</label>
-          <input id="bl-news-email" type="email" name="email" placeholder="you@company.com" autocomplete="email" required />
-          <button type="submit" class="btn-contact">Subscribe {ARROW_R}</button>
-          <p class="bl-news-note" id="bl-news-note" role="status"></p>
-        </form>
-      </div>
-    </section>
 '''
-    body += cta_panel('Have a challenge <em>worth solving?</em>', 'Tell us what you are trying to grow, fix or launch. We will come back with a plan.', 'Start a Project', '#ab-contact')
     body += faq_band('Questions about <em>our insights?</em>', 'Quick answers about where the articles come from.', faq)
     write('blogs', 'Insights — Ideas Shaping the Future of Digital Growth | SquareZix',
           'Perspectives, strategies and practical thinking across branding, technology, search, marketing and digital experiences from the SquareZix team in Dubai.', 'insights', body)

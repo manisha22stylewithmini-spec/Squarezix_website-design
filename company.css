@@ -435,28 +435,12 @@
 .bl-ind-title { grid-area: title; font-size: 16px; line-height: 1.4; }
 .bl-ind-list svg { grid-area: arr; width: 20px; height: 20px; color: #d9b8ff; }
 
-.bl-news {
-  max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(24px, 4vw, 56px); align-items: center;
-  padding: clamp(28px, 5vw, 64px); border-radius: 28px;
-  background: radial-gradient(70% 120% at 100% 0%, rgba(171, 36, 242, .3), transparent 70%), linear-gradient(180deg, #16141f, #0a0910); border: 1px solid rgba(255, 255, 255, .1);
-}
-.bl-news .ab-h2 { margin: 16px 0 12px; font-size: clamp(28px, 3vw, 44px); }
-.bl-news-copy p { margin: 0; max-width: 42ch; line-height: 1.65; color: #b8b8d1; }
-.bl-news-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; }
-.bl-news-form input { height: 54px; padding: 0 22px; border-radius: 999px; font: 16px "DM Sans", sans-serif; color: #fff; background: rgba(255, 255, 255, .05); border: 1px solid rgba(255, 255, 255, .14); }
-.bl-news-form input::placeholder { color: #8f8aa6; }
-.bl-news-form input:focus-visible { outline: 2px solid #b57bff; outline-offset: 2px; }
-.bl-news-form .btn-contact { height: 54px; }
-.bl-news-form .btn-contact svg { width: 16px; height: 16px; }
-.bl-news-note { grid-column: 1 / -1; min-height: 20px; margin: 4px 6px 0; font-size: 14px; color: #b57bff; }
-.bl-news-note.is-error { color: #f87171; }
-
 @media (max-width: 1000px) {
   .bl-feature { grid-template-columns: 1fr; }
   .bl-feature-media { aspect-ratio: 16 / 10; }
   .bl-topics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .bl-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .bl-ind-panel, .bl-news { grid-template-columns: 1fr; }
+  .bl-ind-panel { grid-template-columns: 1fr; }
 }
 @media (max-width: 700px) {
   .bl-card.is-lead { grid-column: 1 / -1; }
@@ -465,6 +449,4 @@
 }
 @media (max-width: 620px) {
   .bl-topics, .bl-grid { grid-template-columns: 1fr; }
-  .bl-news-form { grid-template-columns: 1fr; }
-  .bl-news-form .btn-contact { justify-content: center; }
 }
