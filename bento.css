@@ -180,17 +180,16 @@
 /* Contact button — thick frosted ring + grainy gradient, from "btn design.pdf" */
 .btn-contact--xl {
   justify-self: center;   /* the header button rule sets justify-self: end */
-  gap: calc(10 * var(--u));
-  padding: calc(16 * var(--u)) calc(30 * var(--u));
+  gap: calc(8 * var(--u));
+  padding: calc(13 * var(--u)) calc(26 * var(--u));
   font-family: "DM Sans", sans-serif;
-  font-size: max(11px, calc(21 * var(--u))); font-weight: 500;
+  font-size: max(12px, calc(16 * var(--u))); font-weight: 500;
   background:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='1' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
     var(--brand-gradient);
   box-shadow:
-    0 0 0 calc(7 * var(--u)) rgba(190, 182, 206, 0.32),
-    0 calc(6 * var(--u)) calc(18 * var(--u)) rgba(0, 0, 0, 0.45),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    0 0 0 calc(5 * var(--u)) rgba(190, 182, 206, 0.32),
+    0 calc(5 * var(--u)) calc(14 * var(--u)) rgba(0, 0, 0, 0.45),
     inset 0 -2px 8px rgba(0, 0, 0, 0.3);
 }
 .btn-contact--xl svg { width: 1.1em; height: 1.1em; }

@@ -10,12 +10,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css?v=20261009a" />
   <link rel="stylesheet" href="services.css?v=20261009a" />
-  <link rel="stylesheet" href="bento.css?v=20261009a" />
+  <link rel="stylesheet" href="bento.css?v=20261012b" />
   <link rel="stylesheet" href="sections.css?v=20261009a" />
   <link rel="stylesheet" href="footer.css?v=20261009a" />
   <link rel="stylesheet" href="menu.css?v=20261009a" />
   <link rel="stylesheet" href="outro.css?v=20261009a" />
-  <link rel="stylesheet" href="about.css?v=20261009a" />
+  <link rel="stylesheet" href="about.css?v=20261010a" />
+  <link rel="stylesheet" href="service-static.css?v=20261009a" />
 </head>
 <body class="page-about">
   <header class="site-header">
@@ -48,44 +49,14 @@
   </header>
 
   <main id="about">
-    <!-- ===== Hero — we're inside Squarezix now: same universe as the end of the home dive ===== -->
-    <section class="ab-hero" aria-labelledby="ab-hero-title">
-      <canvas class="ab-stars" aria-hidden="true"></canvas>
-      <div class="ab-hero-grid" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
-
-      <div class="ab-hero-inner">
-        <div class="ab-hero-copy">
-          <span class="svc-badge ab-badge" data-rise>About</span>
-          <h1 id="ab-hero-title" class="ab-hero-title" data-rise>
-            <span>Partner with the Web Design</span>
-            <span class="ab-grad">Team Behind 1,000+ Successful</span>
-            <span>Websites.</span>
-          </h1>
-          <div class="ab-hero-cta" data-rise>
-            <a href="#ab-contact" class="btn-contact btn-contact--xl">
-              Request Quote
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
-            <a href="#ab-contact" class="ab-btn-ghost">
-              Contact Us
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
-          </div>
-        </div>
-
-        <!-- The same TV signal from the home page, now framed like a monitor we're looking into -->
-        <figure class="ab-hero-media" data-rise>
-          <div class="ab-screen">
-            <video src="assets/hero/hero-video.mp4" poster="assets/hero/hero-poster.jpg" autoplay muted loop playsinline preload="metadata"></video>
-            <div class="ab-screen-fx" aria-hidden="true"></div>
-            <div class="ab-screen-ui" aria-hidden="true">
-              <span><i class="crt-rec"></i>Rec · CH 02</span>
-              <span>Dubai · GCC · Asia</span>
-            </div>
-          </div>
-          <figcaption class="ab-stat ab-stat--a"><strong data-count="1000" data-suffix="+">1,000+</strong><span>Successful websites</span></figcaption>
-          <div class="ab-stat ab-stat--b" aria-hidden="true"><strong data-count="120" data-suffix="+">120+</strong><span>Projects on one process</span></div>
-        </figure>
+    <!-- ===== Hero: same as every inner page — wave gradient (waves-bg.js) behind badge, headline, lead and one button ===== -->
+    <section class="svh" aria-labelledby="svp-hero-title">
+      <canvas class="svh-waves" aria-hidden="true"></canvas>
+      <div class="svh-inner">
+        <span class="svc-badge ab-badge" data-rise>About Us</span>
+        <h1 id="svp-hero-title" class="svh-title" data-rise>The Team Behind <em>1,000+ Successful</em> Websites.</h1>
+        <p class="svh-lead" data-rise>Strategists, designers, developers and marketers under one roof in Dubai — one team and one process for brands that want to grow across the GCC and Asia.</p>
+        <a href="#ab-contact" class="btn-contact btn-contact--xl svh-cta" data-rise><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.18 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.1 9.9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" /><path d="M15 2.5a6 6 0 0 1 6.5 6.5M15 6a2.5 2.5 0 0 1 3 3" /></svg> Contact us</a>
       </div>
     </section>
 
@@ -124,77 +95,151 @@
           <ul>
             <li class="no">Small teams struggling to keep up with fast-changing digital trends</li>
             <li class="no">Limited access to advanced tools and performance analytics</li>
-            <li class="yes">Clear goals but not enough time or resources to execute effectively</li>
+            <li class="no">Clear goals but not enough time or resources to execute effectively</li>
             <li class="no">Project delays, reporting gaps, and inefficient ad spend</li>
           </ul>
         </article>
         <article class="ab-cmp" data-rise>
           <h3>Typical Marketing Agency Limitations</h3>
           <ul>
-            <li class="yes">Strategy support without hands-on execution</li>
+            <li class="no">Strategy support without hands-on execution</li>
             <li class="no">Extra costs for third-party tools and tracking software</li>
             <li class="no">Generic, one-size-fits-all marketing approaches</li>
-            <li class="yes">Inconsistent communication and slow issue resolution</li>
+            <li class="no">Inconsistent communication and slow issue resolution</li>
           </ul>
         </article>
       </div>
     </section>
 
+    <!-- ===== Our story + numbers (menu "Our Culture" lands here) ===== -->
+    <section class="ab-story" id="culture" aria-labelledby="ab-story-title">
+      <div class="ab-story-inner">
+        <div class="ab-story-copy">
+          <span class="svc-badge" data-rise>Our Story</span>
+          <h2 id="ab-story-title" class="ab-h2 ab-reveal" data-reveal>A Dubai studio that thinks <em>inside the square</em></h2>
+          <p class="ab-sub ab-story-lead" data-rise>Squarezix started with a simple idea: a website should be the hardest-working member of a business, not a brochure. We brought strategists, designers, developers and marketers under one roof in Business Bay so every project is planned, built and grown by the same team.</p>
+          <p class="ab-sub" data-rise>Today that team partners with brands across the UAE, the wider GCC and Asia — from first launch to rebrands, SEO and AI-search visibility — with one account manager, one process and one goal: measurable growth.</p>
+        </div>
+        <ul class="ab-numbers" aria-label="Squarezix in numbers">
+          <li data-rise><strong data-count="1000" data-suffix="+">1,000+</strong><span>Websites designed &amp; launched</span></li>
+          <li data-rise><strong data-count="9">9</strong><span>Core services under one roof</span></li>
+          <li data-rise><strong data-count="48">48</strong><span>Specialist services</span></li>
+          <li data-rise><strong data-count="7">7</strong><span>Official platform partnerships</span></li>
+        </ul>
+      </div>
+    </section>
+
     <!-- ===== Who we are — mission / vision / values ===== -->
-    <section class="ab-who" id="culture" aria-labelledby="ab-who-title">
-      <div class="ab-who-side">
+    <section class="ab-who" id="values" aria-labelledby="ab-who-title">
+      <div class="ab-who-head">
         <span class="svc-badge" data-rise>Who We Are</span>
         <h2 id="ab-who-title" class="ab-h2 ab-reveal" data-reveal>What Moves &amp; <em>Defines Us</em></h2>
-        <img class="ab-who-mark" src="assets/brand/sz-logo-on-dark.png" alt="" width="241" height="241" loading="lazy" data-rise />
       </div>
 
-      <div class="ab-acc" id="ab-acc">
-        <div class="ab-acc-item is-open" data-rise>
-          <button class="ab-acc-head" type="button" aria-expanded="true" aria-controls="ab-acc-1" id="ab-acc-h1">
-            <svg class="ab-acc-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4"/></svg>
-            <span>Our Mission</span>
-            <i class="ab-acc-chev" aria-hidden="true"></i>
-          </button>
-          <div class="ab-acc-panel" id="ab-acc-1" role="region" aria-labelledby="ab-acc-h1">
-            <div class="ab-acc-body">
-              <p class="ab-acc-lead">To empower businesses to grow smarter, scale faster, and lead with confidence.</p>
-              <p>At Squarezix, we don’t just deliver services — we build strategies that create measurable growth and long-term success for our clients.</p>
-            </div>
-          </div>
-        </div>
+      <!-- Mission, Vision, Values cards -->
+      <div class="ab-mvv-grid">
+        <!-- Vision -->
+        <article class="ab-card ab-card-vision" data-rise>
+          <svg class="ab-card-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <h3>Our <em>Vision</em></h3>
+          <p class="ab-card-lead">To become a trusted growth partner for ambitious brands worldwide — where innovation, strategy, and execution come together to unlock unlimited potential.</p>
+        </article>
 
-        <div class="ab-acc-item" data-rise>
-          <button class="ab-acc-head" type="button" aria-expanded="false" aria-controls="ab-acc-2" id="ab-acc-h2">
-            <svg class="ab-acc-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
-            <span>Our Vision</span>
-            <i class="ab-acc-chev" aria-hidden="true"></i>
-          </button>
-          <div class="ab-acc-panel" id="ab-acc-2" role="region" aria-labelledby="ab-acc-h2">
-            <div class="ab-acc-body">
-              <p class="ab-acc-lead">To become a trusted growth partner for ambitious brands worldwide — where innovation, strategy, and execution come together to unlock unlimited potential.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="ab-acc-item" data-rise>
-          <button class="ab-acc-head" type="button" aria-expanded="false" aria-controls="ab-acc-3" id="ab-acc-h3">
-            <svg class="ab-acc-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8-4.6-8-10.4A4.6 4.6 0 0 1 12 7a4.6 4.6 0 0 1 8 3.1c0 5.8-8 10.4-8 10.4Z"/></svg>
-            <span>Our Values</span>
-            <i class="ab-acc-chev" aria-hidden="true"></i>
-          </button>
-          <div class="ab-acc-panel" id="ab-acc-3" role="region" aria-labelledby="ab-acc-h3">
-            <div class="ab-acc-body">
-              <ol class="ab-values">
-                <li><h4>Growth First</h4><p>Your growth is our priority. Every strategy we create is designed to increase revenue, visibility, and long-term impact.</p></li>
-                <li><h4>True Partnership</h4><p>We work with you, not just for you. Collaboration and transparency are at the heart of everything we do.</p></li>
-                <li><h4>Innovation with Purpose</h4><p>We challenge the ordinary, think creatively, and use data-driven insights to drive smarter decisions.</p></li>
-                <li><h4>Results Over Promises</h4><p>We focus on measurable outcomes, not just activity. Performance and ROI guide our actions.</p></li>
-                <li><h4>Accountability &amp; Excellence</h4><p>We take ownership, move fast, and consistently deliver high standards in every project.</p></li>
-              </ol>
-            </div>
-          </div>
-        </div>
+        <!-- Mission -->
+        <article class="ab-card ab-card-mission" data-rise>
+          <svg class="ab-card-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/>
+            <circle cx="12" cy="12" r="1.4" fill="currentColor"/>
+          </svg>
+          <h3>Our <em>Mission</em></h3>
+          <p class="ab-card-lead">To empower businesses to grow smarter, scale faster, and lead with confidence.</p>
+          <p>At Squarezix, we don’t just deliver services — we build strategies that create measurable growth and long-term success for our clients.</p>
+        </article>
       </div>
+
+      <!-- Values full-width card -->
+      <article class="ab-card ab-card-values ab-card-full" data-rise>
+        <svg class="ab-card-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 20.5s-8-4.6-8-10.4A4.6 4.6 0 0 1 12 7a4.6 4.6 0 0 1 8 3.1c0 5.8-8 10.4-8 10.4Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h3>Our <em>Values</em></h3>
+        <ol class="ab-values">
+          <li><h4>Growth First</h4><p>Your growth is our priority. Every strategy we create is designed to increase revenue, visibility, and long-term impact.</p></li>
+          <li><h4>True Partnership</h4><p>We work with you, not just for you. Collaboration and transparency are at the heart of everything we do.</p></li>
+          <li><h4>Innovation with Purpose</h4><p>We challenge the ordinary, think creatively, and use data-driven insights to drive smarter decisions.</p></li>
+          <li><h4>Results Over Promises</h4><p>We focus on measurable outcomes, not just activity. Performance and ROI guide our actions.</p></li>
+          <li><h4>Accountability &amp; Excellence</h4><p>We take ownership, move fast, and consistently deliver high standards in every project.</p></li>
+        </ol>
+      </article>
+    </section>
+
+    <!-- ===== What we do — the nine core services ===== -->
+    <section class="ab-services" aria-labelledby="ab-services-title">
+      <div class="ab-head ab-center">
+        <span class="svc-badge" data-rise>What We Do</span>
+        <h2 id="ab-services-title" class="ab-h2 ab-reveal" data-reveal>Everything your brand needs, <em>one team</em></h2>
+        <p class="ab-sub" data-rise>Nine core services, one process and one point of contact — so strategy, design, build and growth never get lost between agencies.</p>
+      </div>
+      <ul class="ab-svc-grid">
+        <li data-rise><a class="ab-svc" href="branding.html">
+          <span class="ab-svc-num">01</span>
+          <h3>Branding</h3>
+          <p>Strategy, identity and rebrands that make you the obvious choice.</p>
+          <span class="ab-svc-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+        </a></li>
+        <li data-rise><a class="ab-svc" href="design.html">
+          <span class="ab-svc-num">02</span>
+          <h3>Web &amp; UI/UX Design</h3>
+          <p>Conversion-first, pixel-perfect design for every screen.</p>
+          <span class="ab-svc-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+        </a></li>
+        <li data-rise><a class="ab-svc" href="website-development.html">
+          <span class="ab-svc-num">03</span>
+          <h3>Web Development</h3>
+          <p>Fast, accessible, SEO-ready builds on the right platform.</p>
+          <span class="ab-svc-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+        </a></li>
+        <li data-rise><a class="ab-svc" href="seo-ai-visibility.html">
+          <span class="ab-svc-num">04</span>
+          <h3>SEO &amp; AI Visibility</h3>
+          <p>Technical, on-page and off-page SEO that ranks — and stays ranked.</p>
+          <span class="ab-svc-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+        </a></li>
+        <li data-rise><a class="ab-svc" href="geo.html">
+          <span class="ab-svc-num">05</span>
+          <h3>GEO &amp; AI Search</h3>
+          <p>Content that ChatGPT, Gemini and Perplexity cite and recommend.</p>
+          <span class="ab-svc-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+        </a></li>
+        <li data-rise><a class="ab-svc" href="social-media-marketing.html">
+          <span class="ab-svc-num">06</span>
+          <h3>Social Media</h3>
+          <p>Creative content and data-driven strategy on every platform.</p>
+          <span class="ab-svc-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+        </a></li>
+        <li data-rise><a class="ab-svc" href="content-marketing.html">
+          <span class="ab-svc-num">07</span>
+          <h3>Content Marketing</h3>
+          <p>Copy, digital PR and assets written to rank and to be shared.</p>
+          <span class="ab-svc-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+        </a></li>
+        <li data-rise><a class="ab-svc" href="paid-marketing.html">
+          <span class="ab-svc-num">08</span>
+          <h3>Paid Marketing</h3>
+          <p>Google, Bing, Amazon and social campaigns planned around ROI.</p>
+          <span class="ab-svc-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+        </a></li>
+        <li data-rise><a class="ab-svc" href="website-maintenance.html">
+          <span class="ab-svc-num">09</span>
+          <h3>Website Maintenance</h3>
+          <p>Hosting, backups, security and edits — handled.</p>
+          <span class="ab-svc-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
+        </a></li>
+      </ul>
     </section>
 
     <!-- ===== Technology ===== -->
@@ -238,18 +283,21 @@
       <div class="ab-quotes">
         <figure class="ab-quote" data-rise>
           <div class="ab-rating" aria-label="5 out of 5 stars">★★★★★</div>
+          <h3 class="ab-quote-title">Turning Social Feeds Into a Growth Engine</h3>
           <blockquote>“We wanted to reach eco-conscious audiences and communicate our values authentically. Squarezix’s social media marketing services in Dubai helped us connect with the right audience through relatable, educational content. Our traffic from social channels increased by 80%, and the brand’s awareness grew tremendously.”</blockquote>
-          <figcaption><i class="ab-avatar" aria-hidden="true"></i>Turning Social Feeds Into a Growth Engine</figcaption>
+          <figcaption><i class="ab-avatar" aria-hidden="true"></i><span><b>Eco-conscious lifestyle brand</b><small>Social Media Marketing</small></span></figcaption>
         </figure>
         <figure class="ab-quote" data-rise>
           <div class="ab-rating" aria-label="5 out of 5 stars">★★★★★</div>
+          <h3 class="ab-quote-title">Professional, Creative, and Always Results-Driven</h3>
           <blockquote>“Squarezix redefined our corporate image on social media through well-designed infographics, timely updates, and precise targeting. The engagement on our LinkedIn campaigns improved significantly. They’re not just a social media company in Dubai — they’re strategic partners committed to consistent growth.”</blockquote>
-          <figcaption><i class="ab-avatar" aria-hidden="true"></i>Professional, Creative, and Always Results-Driven</figcaption>
+          <figcaption><i class="ab-avatar" aria-hidden="true"></i><span><b>Corporate services firm</b><small>LinkedIn &amp; Social Campaigns</small></span></figcaption>
         </figure>
         <figure class="ab-quote" data-rise>
           <div class="ab-rating" aria-label="5 out of 5 stars">★★★★★</div>
+          <h3 class="ab-quote-title">Our Brand Feels Alive Again</h3>
           <blockquote>“We needed a creative refresh, and Squarezix delivered beyond expectations. Their social media marketing services brought our visuals, tone, and promotions to life — transforming how customers interact with our brand online. We now receive more direct inquiries through Instagram and WhatsApp than ever before.”</blockquote>
-          <figcaption><i class="ab-avatar" aria-hidden="true"></i>Our Brand Feels Alive Again</figcaption>
+          <figcaption><i class="ab-avatar" aria-hidden="true"></i><span><b>Retail brand</b><small>Creative Refresh &amp; Social</small></span></figcaption>
         </figure>
       </div>
     </section>
@@ -259,7 +307,7 @@
       <div class="ab-head ab-center">
         <span class="svc-badge" data-rise>How We Work</span>
         <h2 id="ab-process-title" class="ab-h2 ab-reveal" data-reveal>A process that’s <em>boringly reliable</em></h2>
-        <p class="ab-sub" data-rise>No surprises. No scope creep. Every engagement follows the same four-phase system we’ve refined across 120+ projects.</p>
+        <p class="ab-sub" data-rise>No surprises. No scope creep. Every engagement follows the same four-phase system we’ve refined across 1,000+ websites.</p>
       </div>
       <ol class="ab-steps" id="ab-steps">
         <li class="ab-step" data-rise><span class="ab-step-num">01</span><h3>Discover</h3><p>Deep-dive workshops on brand, audience, competitors and KPIs.</p></li>
@@ -286,7 +334,7 @@
       </div>
       <div class="work-stage ab-work-stage">
         <ul class="work-cards">
-          <li data-rise><a class="work-card" href="#">
+          <li data-rise><a class="work-card" href="website-development.html">
             <div class="wc-top">
               <span class="wc-num">01</span>
               <span class="wc-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
@@ -295,20 +343,20 @@
             </div>
             <div class="wc-media"><img src="assets/work/project-1.png" alt="Digital Stream website" loading="lazy" /></div>
           </a></li>
-          <li data-rise><a class="work-card" href="#">
+          <li data-rise><a class="work-card" href="ecommerce-website-development.html">
             <div class="wc-top">
               <span class="wc-num">02</span>
               <span class="wc-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-              <h3>Product listing or cart screen</h3>
+              <h3>E-commerce Storefronts</h3>
               <p>Storefronts built on headless architecture: fast browsing, flexible content and a checkout with no friction.</p>
             </div>
             <div class="wc-media"><img src="assets/work/project-2.png" alt="Hero Gradients storefront" loading="lazy" /></div>
           </a></li>
-          <li data-rise><a class="work-card" href="#">
+          <li data-rise><a class="work-card" href="web-and-app-design.html">
             <div class="wc-top">
               <span class="wc-num">03</span>
               <span class="wc-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-              <h3>Dashboard or app screen</h3>
+              <h3>Web Apps &amp; Dashboards</h3>
               <p>Complex products made usable. Dashboards, portals and internal tools designed for clarity and built to scale.</p>
             </div>
             <div class="wc-media"><img src="assets/work/project-3.png" alt="Lissr.ai product site" loading="lazy" /></div>
@@ -327,7 +375,7 @@
           <li>Custom proposal within 5 days</li>
           <li>No obligation, no hard sell</li>
         </ul>
-        <p class="ab-rfp" data-rise>If you have any RFP requirements, please share them with us at <a href="mailto:info@squarezix.com">info@squarezix.com</a>, and if you are looking for a career-related inquiry, please check out our <a href="#">Career</a> Section.</p>
+        <p class="ab-rfp" data-rise>If you have any RFP requirements, please share them with us at <a href="mailto:info@squarezix.com">info@squarezix.com</a>, and if you are looking for a career-related inquiry, please check out our <a href="https://squarezix.com/careers/" target="_blank" rel="noopener">Careers</a> page.</p>
         <ul class="ab-reach" data-rise>
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg><a href="tel:+97142414120">+971 4 241 4120</a></li>
           <li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg><a href="tel:+971551318051">+971 55 131 8051</a></li>
@@ -445,7 +493,7 @@
           <ul>
             <li><a href="about-us.html">About.</a></li>
             <li><a href="index.html#reels">Work.</a></li>
-            <li><a href="#">Careers.</a></li>
+            <li><a href="https://squarezix.com/careers/" target="_blank" rel="noopener">Careers.</a></li>
             <li><a href="#ab-contact">Contact.</a></li>
           </ul>
         </nav>
@@ -468,9 +516,10 @@
 
 
   <script src="site.js?v=20261009a"></script>
-  <script src="menu.js?v=20261009a"></script>
+  <script src="menu.js?v=20261011a"></script>
   <script src="sections.js?v=20261009a"></script>
-  <script src="about.js?v=20261009a"></script>
+  <script src="waves-bg.js?v=20261009a"></script>
+  <script src="about.js?v=20261010a"></script>
   <script src="outro.js?v=20261009a"></script>
 </body>
 </html>

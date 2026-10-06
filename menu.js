@@ -308,7 +308,7 @@
           banner: { title: 'See our work', cta: 'View portfolio', href: 'index.html#work' } },
         { label: 'Case Studies', title: 'Case Studies', img: 'assets/work/project-3.png',
           d: 'The brief, what we did and the results — a closer look at projects from first workshop to launch and growth.',
-          banner: { title: 'Proof, not promises', cta: 'Read case studies', href: `${LIVE}/case-study/` } },
+          banner: { title: 'Proof, not promises', cta: 'Read case studies', href: 'case-study.html' } },
       ],
     },
     insights: {
