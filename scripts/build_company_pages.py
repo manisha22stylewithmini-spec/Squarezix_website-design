@@ -648,22 +648,6 @@ def blogs():
                 'Perspectives, strategies and practical thinking across branding, technology, search, marketing and digital experiences.',
                 'Explore the latest', '#latest')
     body += f'''
-    <section class="blog bl-featured" id="featured" aria-labelledby="blog-title">
-      <div class="blog-head">
-        <span class="blog-badge">Featured Insights</span>
-        <h2 id="blog-title">Start with our <em>featured</em> insights.</h2>
-        <p>Perspectives on AI, growth, and the platforms shaping how brands get discovered.</p>
-      </div>
-      <ul class="blog-list">
-      {featured_cards}
-      </ul>
-    </section>
-
-    <section class="co-sec" aria-labelledby="bl-topics-title">
-      {head_block('Explore by Topic', 'Four ways into <em>what we think</em>', 'Choose a topic to filter the articles below.', sid='bl-topics-title')}
-      <ul class="bl-topics">{topics_html}</ul>
-    </section>
-
     <section class="co-sec" id="latest" aria-labelledby="bl-latest-title">
       {head_block('Browse Blogs', 'Find an article <em>worth reading</em>', 'Filter by topic, industry and category to get straight to what matters.', sid='bl-latest-title')}
       <div class="bl-bar-wrap">{blog_bar}</div>
@@ -674,12 +658,28 @@ def blogs():
       <div class="co-more"><button type="button" class="btn-contact btn-contact--xl bl-loadmore" id="bl-loadmore">Load more articles {ARROW_R}</button></div>
     </section>
 
+    <section class="co-sec" aria-labelledby="bl-topics-title">
+      {head_block('Explore by Topic', 'Four ways into <em>what we think</em>', 'Choose a topic to filter the articles above.', sid='bl-topics-title')}
+      <ul class="bl-topics">{topics_html}</ul>
+    </section>
+
     <section class="co-sec" aria-labelledby="bl-ind-title">
       {head_block('Industry Perspectives', 'What’s changing in <em>your industry?</em>', 'Pick your sector for the articles most relevant to it.', sid='bl-ind-title')}
       <div class="bl-ind">
         <div class="co-chips bl-ind-tabs" role="tablist" aria-label="Industry" data-rise>{tabs}</div>
         <div class="bl-ind-panels" data-rise>{panels}</div>
       </div>
+    </section>
+
+    <section class="blog bl-featured" id="featured" aria-labelledby="blog-title">
+      <div class="blog-head">
+        <span class="blog-badge">Featured Insights</span>
+        <h2 id="blog-title">Start with our <em>featured</em> insights.</h2>
+        <p>Perspectives on AI, growth, and the platforms shaping how brands get discovered.</p>
+      </div>
+      <ul class="blog-list">
+      {featured_cards}
+      </ul>
     </section>
 '''
     body += faq_band('Questions about <em>our insights?</em>', 'Quick answers about where the articles come from.', faq)
