@@ -88,9 +88,70 @@
   const steps = document.getElementById('ab-steps');
   const stepEls = steps ? [...steps.querySelectorAll('.ab-step')] : [];
 
-  // --- Timeline curve progress with scroll ---
-  const timelineSection = document.getElementById('timeline-section');
-  const timelineCurve = timelineSection ? timelineSection.querySelector('.curve-progress') : null;
+  // --- Our Journey: section pins while the track pans and a wave line draws through the milestones ---
+  const tl = document.getElementById('ab-timeline');
+  const tlT = tl && {
+    pin: tl.querySelector('.tl-pin'), stage: tl.querySelector('.tl-stage'), track: tl.querySelector('.tl-track'),
+    svg: tl.querySelector('.tl-svg'), fill: tl.querySelector('.tl-fill'), tip: tl.querySelector('.tl-tip'),
+    steps: [...tl.querySelectorAll('.tl-step')], count: tl.querySelector('.tl-count'), bar: tl.querySelector('.tl-bar'),
+  };
+  let tlW = 0, tlS = 0, tlLen = 0, tlPad = 0, tlXs = [], tlLut = [];
+  function tlBuild() {
+    if (!tlT) return;
+    const W = tlT.track.offsetWidth, H = tlT.track.offsetHeight, n = tlT.steps.length;
+    tlW = W; tlS = tlT.stage.offsetWidth;
+    const pts = tlT.steps.map((el, i) => [W * (i + 0.5) / n, el.querySelector('.tl-node').offsetTop]);
+    tlXs = pts.map((p) => p[0]);
+    const all = [[0, pts[0][1]], ...pts, [W, pts[n - 1][1]]];
+    let d = `M ${all[0][0]} ${all[0][1]}`;
+    for (let i = 1; i < all.length; i++) {
+      const [x0, y0] = all[i - 1], [x1, y1] = all[i], k = (x1 - x0) * 0.5;
+      d += ` C ${x0 + k} ${y0}, ${x1 - k} ${y1}, ${x1} ${y1}`;
+    }
+    tlT.svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    tlT.svg.querySelectorAll('path').forEach((p) => p.setAttribute('d', d));
+    tlLen = tlT.fill.getTotalLength();
+    tlT.fill.style.strokeDasharray = `${tlLen} ${tlLen}`;
+    tlLut = [];
+    for (let i = 0; i <= 240; i++) { const l = (tlLen * i) / 240; tlLut.push([tlT.fill.getPointAtLength(l).x, l]); }
+    // Scroll room = pan distance + extra so the line draws at a calm pace
+    tlPad = parseFloat(getComputedStyle(tl).paddingTop);
+    tl.style.height = `${tlPad + tlT.pin.offsetHeight + Math.max(W - tlS, 0) + window.innerHeight * 1.6}px`;
+  }
+  const tlLenAtX = (x) => {
+    for (let i = 1; i < tlLut.length; i++) {
+      if (tlLut[i][0] >= x) {
+        const [x0, l0] = tlLut[i - 1], [x1, l1] = tlLut[i];
+        return l0 + (l1 - l0) * ((x - x0) / (x1 - x0 || 1));
+      }
+    }
+    return tlLen;
+  };
+  function tlUpdate() {
+    if (!tlT || !tlLen) return;
+    const start = tl.getBoundingClientRect().top + tlPad;
+    const range = tl.offsetHeight - tlPad - tlT.pin.offsetHeight;
+    const p = reduce ? 1 : clamp01(-start / (range || 1));
+    // The line's tip runs from just before the first milestone to the end; the track pans to keep the milestone just reached centred
+    const x0 = tlXs[0] - 40;
+    const x = x0 + (tlW - x0) * p;
+    const pan = Math.min(Math.max(x - tlW / tlXs.length * 0.5 - tlS * 0.5, 0), Math.max(tlW - tlS, 0));
+    tlT.track.style.transform = `translate3d(${-pan}px,0,0)`;
+    const l = tlLenAtX(x);
+    tlT.fill.style.strokeDashoffset = `${tlLen - l}`;
+    const pt = tlT.fill.getPointAtLength(l);
+    tlT.tip.setAttribute('cx', pt.x); tlT.tip.setAttribute('cy', pt.y);
+    tlT.tip.style.opacity = p > 0.002 && p < 0.998 ? 1 : 0;
+    let lit = 0;
+    tlT.steps.forEach((el, i) => { const on = x >= tlXs[i] - 2; el.classList.toggle('is-on', on); if (on) lit = i + 1; });
+    tlT.count.textContent = String(Math.max(lit, 1)).padStart(2, '0');
+    tlT.bar.style.setProperty('--p', p.toFixed(3));
+  }
+  if (tlT) {
+    tlBuild();
+    document.fonts.ready.then(() => { tlBuild(); tlUpdate(); });
+    let tt; window.addEventListener('resize', () => { clearTimeout(tt); tt = setTimeout(() => { tlBuild(); tlUpdate(); }, 120); });
+  }
 
   function onScroll() {
     const vh = window.innerHeight;
@@ -106,15 +167,7 @@
       steps.style.setProperty('--fill', p.toFixed(3));
       stepEls.forEach((s, i) => s.classList.toggle('is-lit', p >= (i / stepEls.length) + 0.02));
     }
-    // Timeline curve progress
-    if (timelineSection && timelineCurve) {
-      const r = timelineSection.getBoundingClientRect();
-      const sectionHeight = timelineSection.offsetHeight;
-      const viewportTop = vh * 0.2;
-      const progress = clamp01((viewportTop - r.top) / (sectionHeight - vh * 0.8));
-      const dashOffset = 2000 * (1 - progress);
-      timelineCurve.style.setProperty('stroke-dashoffset', dashOffset.toFixed(1));
-    }
+    tlUpdate();
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll);

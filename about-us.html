@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="footer.css?v=20261009a" />
   <link rel="stylesheet" href="menu.css?v=20261009a" />
   <link rel="stylesheet" href="outro.css?v=20261009a" />
-  <link rel="stylesheet" href="about.css?v=20261010a" />
+  <link rel="stylesheet" href="about.css?v=20261013a" />
   <link rel="stylesheet" href="service-static.css?v=20261009a" />
 </head>
 <body class="page-about">
@@ -184,80 +184,69 @@
       </article>
     </section>
 
-    <!-- ===== Brand story timeline — vertical with curved progress ===== -->
-    <section class="ab-timeline" aria-labelledby="ab-timeline-title" id="timeline-section">
-      <div class="ab-head ab-center">
-        <span class="svc-badge" data-rise>Our Journey</span>
-        <h2 id="ab-timeline-title" class="ab-h2 ab-reveal" data-reveal>How <em>Squarezix</em> Built Its Name</h2>
-      </div>
-
-      <div class="timeline-sticky-wrapper">
-        <div class="timeline-content">
-          <!-- SVG Curved Progress Line -->
-          <svg class="timeline-curve" viewBox="0 0 120 1200" preserveAspectRatio="none" aria-hidden="true">
-            <defs>
-              <linearGradient id="curveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" style="stop-color:#ab24f2;stop-opacity:0.3" />
-                <stop offset="50%" style="stop-color:#ab24f2;stop-opacity:0.8" />
-                <stop offset="100%" style="stop-color:#621dd0;stop-opacity:0.3" />
-              </linearGradient>
-            </defs>
-            <!-- Background curve -->
-            <path d="M 60 0 Q 20 300, 60 600 Q 100 900, 60 1200" class="curve-bg" />
-            <!-- Animated progress curve -->
-            <path d="M 60 0 Q 20 300, 60 600 Q 100 900, 60 1200" class="curve-progress" style="--progress: 0%" />
-          </svg>
-
-          <!-- Frame 1: The Idea -->
-          <div class="timeline-frame frame-01" data-rise>
-            <div class="frame-dot"></div>
-            <div class="frame-content">
-              <h3>A Simple Idea</h3>
-              <p class="frame-year">2020</p>
-              <p class="frame-desc">One studio. One team. One vision: a website should be the hardest-working member of a business.</p>
-            </div>
-          </div>
-
-          <!-- Frame 2: First Projects -->
-          <div class="timeline-frame frame-02" data-rise>
-            <div class="frame-dot"></div>
-            <div class="frame-content">
-              <h3>First Clients</h3>
-              <p class="frame-year">2020-2021</p>
-              <p class="frame-desc">Launched our first websites. Strategists, designers, developers and marketers all under one roof in Business Bay.</p>
-            </div>
-          </div>
-
-          <!-- Frame 3: Growth -->
-          <div class="timeline-frame frame-03" data-rise>
-            <div class="frame-dot"></div>
-            <div class="frame-content">
-              <h3>Growing Fast</h3>
-              <p class="frame-year">2021-2023</p>
-              <p class="frame-desc">100+ websites shipped. Brands across the UAE and GCC started trusting us with their growth.</p>
-            </div>
-          </div>
-
-          <!-- Frame 4: Expansion -->
-          <div class="timeline-frame frame-04" data-rise>
-            <div class="frame-dot"></div>
-            <div class="frame-content">
-              <h3>SEO & AI Era</h3>
-              <p class="frame-year">2023-2024</p>
-              <p class="frame-desc">Added SEO, AI visibility, and growth services. Became a true growth partner, not just a design studio.</p>
-            </div>
-          </div>
-
-          <!-- Frame 5: Today -->
-          <div class="timeline-frame frame-05" data-rise>
-            <div class="frame-dot"></div>
-            <div class="frame-content">
-              <h3>1000+ Websites</h3>
-              <p class="frame-year">2024 & Beyond</p>
-              <p class="frame-desc">Trusted by ambitious brands worldwide. Still thinking inside the square. Still building growth.</p>
-            </div>
+    <!-- ===== Brand story timeline — pinned while a wavy line draws through five milestones (about.js) ===== -->
+    <section class="ab-timeline" aria-labelledby="ab-timeline-title" id="ab-timeline">
+      <div class="tl-pin">
+        <div class="ab-head ab-center">
+          <span class="svc-badge" data-rise>Our Journey</span>
+          <h2 id="ab-timeline-title" class="ab-h2 ab-reveal" data-reveal>How <em>Squarezix</em> Built Its Name</h2>
+        </div>
+        <div class="tl-stage">
+          <div class="tl-track" style="--n: 5">
+            <svg class="tl-svg" aria-hidden="true">
+              <path class="tl-shadow" />
+              <path class="tl-base" />
+              <path class="tl-fill" />
+              <circle class="tl-tip" r="6" />
+            </svg>
+            <article class="tl-step is-low" style="--i: 0">
+              <span class="tl-node" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.4 1 1.1 1 1.8V16h5v-.3c0-.7.4-1.4 1-1.8A6 6 0 0 0 12 3Z"/></svg></span>
+              <div class="tl-text">
+                <span class="tl-num" aria-hidden="true">1</span>
+                <p class="tl-year">2020</p>
+                <h3>A Simple Idea</h3>
+                <p class="tl-desc">One studio. One team. One vision: a website should be the hardest-working member of a business.</p>
+              </div>
+            </article>
+            <article class="tl-step is-high" style="--i: 1">
+              <span class="tl-node" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5.5 6-5.5s6 2.2 6 5.5M16 4.8a3.2 3.2 0 0 1 0 6.4M18 14.8c1.9.7 3 2.6 3 5.2"/></svg></span>
+              <div class="tl-text">
+                <span class="tl-num" aria-hidden="true">2</span>
+                <p class="tl-year">2020 – 2021</p>
+                <h3>First Clients</h3>
+                <p class="tl-desc">Launched our first websites. Strategists, designers, developers and marketers all under one roof in Business Bay.</p>
+              </div>
+            </article>
+            <article class="tl-step is-low" style="--i: 2">
+              <span class="tl-node" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg></span>
+              <div class="tl-text">
+                <span class="tl-num" aria-hidden="true">3</span>
+                <p class="tl-year">2021 – 2023</p>
+                <h3>Growing Fast</h3>
+                <p class="tl-desc">100+ websites shipped. Brands across the UAE and GCC started trusting us with their growth.</p>
+              </div>
+            </article>
+            <article class="tl-step is-high" style="--i: 3">
+              <span class="tl-node" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="m20 20-5-5M10.5 7.5v6M7.5 10.5h6"/></svg></span>
+              <div class="tl-text">
+                <span class="tl-num" aria-hidden="true">4</span>
+                <p class="tl-year">2023 – 2024</p>
+                <h3>SEO &amp; AI Era</h3>
+                <p class="tl-desc">Added SEO, AI visibility and growth services. Became a true growth partner, not just a design studio.</p>
+              </div>
+            </article>
+            <article class="tl-step is-low" style="--i: 4">
+              <span class="tl-node" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7L12 3Z"/></svg></span>
+              <div class="tl-text">
+                <span class="tl-num" aria-hidden="true">5</span>
+                <p class="tl-year">2024 &amp; Beyond</p>
+                <h3>1,000+ Websites</h3>
+                <p class="tl-desc">Trusted by ambitious brands worldwide. Still thinking inside the square. Still building growth.</p>
+              </div>
+            </article>
           </div>
         </div>
+        <div class="tl-progress" aria-hidden="true"><span class="tl-count">01</span><span class="tl-bar"><i></i></span><span>05</span></div>
       </div>
     </section>
 
@@ -603,7 +592,7 @@
   <script src="menu.js?v=20261011a"></script>
   <script src="sections.js?v=20261009a"></script>
   <script src="waves-bg.js?v=20261009a"></script>
-  <script src="about.js?v=20261010a"></script>
+  <script src="about.js?v=20261013a"></script>
   <script src="outro.js?v=20261009a"></script>
 </body>
 </html>
