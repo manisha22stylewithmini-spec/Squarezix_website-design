@@ -43,4 +43,27 @@
       if (sub) sub.textContent = `${roles.length} role${roles.length > 1 ? 's' : ''} open — apply to the one that fits.`;
     }
   }
+
+  // ---- Portfolio: discipline filter + reels play on hover/focus ----
+  const grid = $('#pf-grid');
+  if (grid) {
+    const tiles = $$('.pf-tile', grid), chips = $$('.pf-filters .co-chip'), empty = $('#pf-empty');
+    const apply = (k) => {
+      let n = 0;
+      tiles.forEach((t) => { const show = k === 'all' || t.dataset.cat === k; t.hidden = !show; if (show) n++; });
+      grid.classList.toggle('is-filtered', k !== 'all');
+      grid.hidden = n === 0; empty.hidden = n !== 0;
+      chips.forEach((c) => { const on = c.dataset.filter === k; c.classList.toggle('is-on', on); c.setAttribute('aria-pressed', on); });
+    };
+    chips.forEach((c) => c.addEventListener('click', () => apply(c.dataset.filter)));
+    $('[data-filter-reset]')?.addEventListener('click', () => apply('all'));
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    $$('.pf-tile--reel', grid).forEach((t) => {
+      const v = $('video', t);
+      const play = () => { if (reduce) return; v.play().then(() => v.classList.add('is-live')).catch(() => {}); };
+      const stop = () => { v.pause(); v.classList.remove('is-live'); v.currentTime = 0; };
+      t.addEventListener('pointerenter', play); t.addEventListener('pointerleave', stop);
+      t.addEventListener('focus', play); t.addEventListener('blur', stop);
+    });
+  }
 })();

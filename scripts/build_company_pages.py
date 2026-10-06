@@ -326,6 +326,117 @@ def careers():
           'Join a team where strategy, creativity, technology and growth come together. Real work, real growth, real ownership and real progression at SquareZix in Dubai.', 'insights', body)
 
 
+# ================================================================ PORTFOLIO
+def portfolio():
+    # Real projects (home page case studies) and the five social reels already in assets/
+    sites = [
+        dict(key='ds', client='Digital Stream', industry='B2B SaaS', cap='Positioning · UX/UI · Development · SEO', cat='digital',
+             img='assets/work/project-1.png', alt='Digital Stream website', year='2025',
+             blurb='A product story rewritten around one outcome, with every page leading to a demo.'),
+        dict(key='hg', client='Hero Gradients', industry='Digital goods e-commerce', cap='UX/UI · Headless build · CRO', cat='digital',
+             img='assets/work/project-2.png', alt='Hero Gradients storefront', year='2025',
+             blurb='A headless storefront with checkout cut from five screens to two.'),
+        dict(key='ls', client='Lissr.ai', industry='AI SaaS', cap='Product design · Design system · AI integration', cat='digital',
+             img='assets/work/project-3.png', alt='Lissr.ai product site and dashboard', year='2024',
+             blurb='Onboarding and a dashboard redesigned around a single first task.'),
+    ]
+    reels = [
+        dict(n=1, title='Digital Marketing', cap='Social video · Motion'),
+        dict(n=3, title='Strategy without content is invisible', cap='Social video · Motion'),
+        dict(n=4, title='Struggling to justify your rates?', cap='Social video · Motion'),
+        dict(n=2, title='Kinetic type reel', cap='Social video · Motion'),
+        dict(n=5, title='Solution Wagon', cap='Social video · Motion'),
+    ]
+    CAT = {'digital': 'Digital Experience', 'marketing': 'Digital Marketing'}
+
+    def feat(s, i, wide):
+        return f'''<a class="pf-feat{" pf-feat--wide" if wide else ""}" href="case-study.html" data-rise>
+          <div class="pf-feat-media"><img src="{s['img']}" alt="{s['alt']}" loading="lazy" /></div>
+          <div class="pf-feat-body">
+            <span class="pf-no">0{i+1}</span>
+            <h3>{s['client']}</h3>
+            <p class="pf-feat-blurb">{s['blurb']}</p>
+            <ul class="pf-chain"><li>{s['client']}</li><li>{s['industry']}</li><li>{s['cap']}</li></ul>
+          </div>
+          <span class="pf-arrow" aria-hidden="true">{ARROW}</span>
+        </a>'''
+    feat_html = feat(sites[0], 0, True) + feat(sites[1], 1, False) + feat(sites[2], 2, False)
+
+    def web_tile(s, size):
+        return f'''<a class="pf-tile pf-tile--{size}" href="case-study.html" data-cat="{s['cat']}" data-rise>
+          <div class="pf-tile-media"><img src="{s['img']}" alt="{s['alt']}" loading="lazy" /></div>
+          <div class="pf-tile-body"><span class="pf-tag">{CAT[s['cat']]}</span><h3>{s['client']}</h3>
+            <p class="pf-tile-chain"><span>{s['industry']}</span><span>{s['cap'].split(' · ')[0]}</span></p></div>
+          <span class="pf-arrow" aria-hidden="true">{ARROW}</span>
+        </a>'''
+
+    def reel_tile(r, size):
+        n = r['n']
+        return f'''<a class="pf-tile pf-tile--{size} pf-tile--reel" href="index.html#reels" data-cat="marketing" aria-label="{r['title']} — social reel" data-rise>
+          <div class="pf-tile-media"><img src="assets/reels/reel-{n}.jpg" alt="" loading="lazy" /><video src="assets/reels/reel-{n}.mp4" poster="assets/reels/reel-{n}.jpg" muted loop playsinline preload="none"></video></div>
+          <div class="pf-tile-body"><span class="pf-tag">{CAT['marketing']}</span><h3>{r['title']}</h3>
+            <p class="pf-tile-chain"><span>Social reel</span><span>Motion</span></p></div>
+          <span class="pf-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5-11-6.5Z"/></svg></span>
+        </a>'''
+
+    grid = [web_tile(sites[0], 'l'), reel_tile(reels[0], 's'), reel_tile(reels[1], 's'), web_tile(sites[1], 'l'),
+            web_tile(sites[2], 'full'), reel_tile(reels[2], 'xs'), reel_tile(reels[3], 'xs'), reel_tile(reels[4], 'xs')]
+    grid_html = '\n          '.join(grid)
+
+    counts = {'all': 8, 'branding': 0, 'digital': 3, 'marketing': 5, 'ai': 0}
+    chips = [('all', 'All'), ('branding', 'Branding'), ('digital', 'Digital Experience'), ('marketing', 'Digital Marketing'), ('ai', 'AI / Search')]
+    chips_html = ''.join(
+        f'<button type="button" class="co-chip{" is-on" if k == "all" else ""}" data-filter="{k}" aria-pressed="{"true" if k == "all" else "false"}">{lab}<sup>{counts[k]:02d}</sup></button>'
+        for k, lab in chips)
+
+    results = [(1000, '+', 'Websites delivered'), (80, '%', 'Social traffic growth for a lifestyle brand'), (7, '', 'Official platform partnerships')]
+    res_html = ''.join(
+        f'<div class="ab-stat-card" data-rise><div class="ab-stat-value"><strong data-count="{n}" data-suffix="{suf}">{n}{suf}</strong></div><p class="ab-stat-label">{lab}</p></div>'
+        for n, suf, lab in results)
+
+    faq = [
+        ('Can I see full case studies?', 'Yes. Our case studies walk through the brief, what we did and what changed. Every project here that has a case study links straight to it.'),
+        ('Do you only build websites?', 'No. Alongside websites and platforms we work on branding, UX and product design, search and AI visibility, paid media, social and content — one team, one process.'),
+        ('What kind of businesses do you work with?', 'A diverse mix of B2B, e-commerce and regional brands across the UAE, the wider GCC and Asia.'),
+        ('Can you work on something similar for my business?', 'Almost certainly. Book a free 30-minute strategy call and we will send a custom proposal within five days — no obligation, no hard sell.'),
+        ('Why isn’t every project shown here?', 'This page is a curated selection. Some work is under NDA, and we only show results we can stand behind. Ask us for relevant examples for your industry.'),
+    ]
+
+    body = hero('Our Work', 'A selection of brands, experiences and <em>digital systems</em> we’ve built.',
+                'Websites, products and campaigns — designed, built and grown by one team.',
+                'Start a project', '#ab-contact')
+    body += f'''
+    <section class="co-sec" aria-labelledby="pf-feat-title">
+      {head_block('Featured Work', 'Work we’re <em>proud of</em>', '', sid='pf-feat-title')}
+      <div class="pf-feats">{feat_html}</div>
+    </section>
+
+    <section class="co-sec" id="explorer" aria-labelledby="pf-ex-title">
+      {head_block('Work Explorer', 'Browse by <em>discipline</em>', 'Filter the work by what we did.', sid='pf-ex-title')}
+      <div class="co-chips pf-filters" role="group" aria-label="Filter work by discipline" data-rise>{chips_html}</div>
+      <div class="pf-grid" id="pf-grid">
+          {grid_html}
+      </div>
+      <div class="pf-empty" id="pf-empty" hidden>
+        <h3>Work in this category is on its way.</h3>
+        <p>We’re adding more projects. If this is what you need, tell us about it — we’ll share relevant examples.</p>
+        <div class="pf-empty-actions"><a href="#ab-contact" class="btn-contact btn-contact--xl">Talk to us {ARROW_R}</a><button type="button" class="co-link" data-filter-reset>See all work</button></div>
+      </div>
+    </section>
+
+    <section class="co-sec" aria-labelledby="pf-res-title">
+      {head_block('Selected Results', 'Real work. <em>Real outcomes.</em>', '', sid='pf-res-title')}
+      <div class="pf-results">{res_html}</div>
+      <p class="pf-note" data-rise>Figures come from our published company and client information. Case-study metrics are added once verified.</p>
+    </section>
+'''
+    body += cta_panel('Let’s build something <em>worth showing.</em>', 'Tell us what you want to launch, fix or grow — we’ll come back with a plan within five days.', 'Start a Project', '#ab-contact')
+    body += faq_band('Questions about <em>our work?</em>', 'What people ask before we start a project together.', faq)
+    write('portfolio', 'Our Work — Portfolio of Brands, Websites & Digital Systems | SquareZix',
+          'A selection of brands, experiences and digital systems built by SquareZix — websites, products and campaigns designed, built and grown by one Dubai team.', 'work', body)
+
+
 if __name__ == '__main__':
     culture()
     careers()
+    portfolio()

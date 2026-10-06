@@ -246,3 +246,99 @@
 
 /* the hidden attribute must win over component display rules */
 .ca-pos [hidden] { display: none !important; }
+
+/* ---------- Portfolio ---------- */
+.pf-feats { max-width: 1280px; margin: clamp(40px, 5vw, 64px) auto 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.pf-feat {
+  position: relative; display: flex; flex-direction: column; overflow: hidden; border-radius: 28px; color: #fff; text-decoration: none;
+  background: linear-gradient(180deg, #15141d, #0b0a11); border: 1px solid rgba(255, 255, 255, .08);
+  transition: border-color .35s ease, translate .6s cubic-bezier(.22, 1, .36, 1);
+}
+.pf-feat--wide { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); }
+.pf-feat-media { position: relative; overflow: hidden; aspect-ratio: 4 / 3; background: #121212; }
+.pf-feat--wide .pf-feat-media { aspect-ratio: auto; min-height: clamp(320px, 36vw, 520px); order: 2; }
+.pf-feat-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: scale 1s cubic-bezier(.22, 1, .36, 1); }
+.pf-feat-body { display: flex; flex-direction: column; padding: clamp(24px, 3vw, 44px); }
+.pf-feat--wide .pf-feat-body { justify-content: center; }
+.pf-no { font-family: "Instrument Serif", serif; font-style: italic; font-size: 22px; color: #b57bff; }
+.pf-feat h3 { margin: 8px 0 12px; font-family: "Sora", sans-serif; font-weight: 500; font-size: clamp(30px, 3.2vw, 48px); line-height: 1.05; letter-spacing: -0.035em; color: #fff; }
+.pf-feat--wide h3 { font-size: clamp(38px, 5vw, 72px); }
+.pf-feat-blurb { margin: 0; max-width: 34ch; font-size: 16px; line-height: 1.6; color: #b8b8d1; }
+.pf-chain { list-style: none; margin-top: auto; padding-top: 26px; display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
+.pf-feat--wide .pf-chain { margin-top: 34px; }
+.pf-chain li { position: relative; padding: 6px 12px; border-radius: 999px; font-size: 13.5px; color: #d6d3e3; background: rgba(255, 255, 255, .05); border: 1px solid rgba(255, 255, 255, .1); }
+.pf-chain li + li::before { content: "↓"; position: absolute; left: 14px; top: -18px; font-size: 13px; line-height: 18px; color: #b57bff; }
+.pf-arrow {
+  position: absolute; z-index: 2; top: 20px; right: 20px; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%;
+  background: rgba(10, 9, 16, .72); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, .2); color: #fff;
+  transition: background .35s ease, rotate .5s cubic-bezier(.22, 1, .36, 1), border-color .35s ease;
+}
+.pf-arrow svg { width: 20px; height: 20px; }
+.pf-feat:hover, .pf-tile:hover { border-color: rgba(181, 123, 255, .5); }
+.pf-feat:hover .pf-feat-media img, .pf-tile:hover .pf-tile-media img { scale: 1.05; }
+.pf-feat:hover .pf-arrow, .pf-tile:hover .pf-arrow { background: linear-gradient(135deg, #621dd0, #ab24f2); border-color: transparent; rotate: 45deg; }
+.pf-feat:focus-visible, .pf-tile:focus-visible { outline: 2px solid #b57bff; outline-offset: 3px; }
+
+.pf-filters { margin-top: clamp(32px, 4vw, 48px); }
+.co-chip[data-count="0"] { opacity: .55; }
+.pf-grid {
+  max-width: 1280px; margin: clamp(28px, 3vw, 40px) auto 0; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 14px;
+  grid-auto-rows: clamp(280px, 30vw, 440px); grid-auto-flow: dense;
+}
+.pf-tile { position: relative; overflow: hidden; isolation: isolate; border-radius: 24px; color: #fff; text-decoration: none; background: #0d0c14; border: 1px solid rgba(255, 255, 255, .08); transition: border-color .35s ease; }
+.pf-tile--l { grid-column: span 7; } .pf-tile--s { grid-column: span 5; } .pf-tile--xs { grid-column: span 4; } .pf-tile--full { grid-column: span 12; }
+.pf-tile[hidden] { display: none; }
+.pf-tile-media { position: absolute; inset: 0; z-index: -1; }
+.pf-tile-media img, .pf-tile-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: scale 1s cubic-bezier(.22, 1, .36, 1), opacity .4s ease; }
+.pf-tile-media video { opacity: 0; }
+.pf-tile-media video.is-live { opacity: 1; }
+.pf-tile-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8, 7, 13, 0) 38%, rgba(8, 7, 13, .9) 100%); }
+.pf-tile-body { position: absolute; left: 0; right: 0; bottom: 0; display: grid; gap: 10px; padding: clamp(18px, 2vw, 28px); }
+.pf-tag { justify-self: start; padding: 5px 11px; border-radius: 999px; font-size: 12px; font-weight: 500; color: #e9e3ff; background: rgba(10, 9, 16, .72); border: 1px solid rgba(255, 255, 255, .14); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.pf-tile h3 { margin: 0; max-width: 18em; font-family: "Sora", sans-serif; font-weight: 500; font-size: clamp(20px, 2vw, 30px); line-height: 1.15; letter-spacing: -0.02em; }
+.pf-tile-chain { margin: 0; display: flex; flex-wrap: wrap; font-size: 14px; color: #cfcbe0; }
+.pf-tile-chain span + span::before { content: "→"; margin: 0 10px; color: #b57bff; }
+.pf-play { position: absolute; top: 18px; right: 18px; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(10, 9, 16, .72); border: 1px solid rgba(255, 255, 255, .2); }
+.pf-play svg { width: 15px; height: 15px; fill: #fff; margin-left: 2px; }
+.pf-tile--full .pf-tile-media { left: 36%; -webkit-mask-image: linear-gradient(90deg, transparent, #000 34%); mask-image: linear-gradient(90deg, transparent, #000 34%); }
+.pf-tile--full .pf-tile-media::after { display: none; }
+.pf-tile--full .pf-tile-media img { object-fit: contain; object-position: right center; background: #181818; }
+.pf-tile--full .pf-tile-body { top: 0; align-content: end; max-width: 46%; }
+.pf-tile--full h3 { font-size: clamp(28px, 3.6vw, 54px); letter-spacing: -0.03em; }
+.pf-grid.is-filtered .pf-tile { grid-column: span 4; }
+.pf-grid.is-filtered .pf-tile--full .pf-tile-media { left: 0; -webkit-mask-image: none; mask-image: none; }
+.pf-grid.is-filtered .pf-tile--full .pf-tile-media::after { display: block; }
+.pf-grid.is-filtered .pf-tile--full .pf-tile-media img { object-fit: cover; }
+.pf-grid.is-filtered .pf-tile--full .pf-tile-body { top: auto; max-width: none; }
+.pf-grid.is-filtered .pf-tile--full h3 { font-size: clamp(20px, 2vw, 30px); }
+
+.pf-empty { max-width: 760px; margin: 32px auto 0; text-align: center; padding: clamp(32px, 5vw, 64px) clamp(20px, 4vw, 48px); border-radius: 28px; background: radial-gradient(60% 100% at 50% 0%, rgba(171, 36, 242, .2), transparent 70%), #0b0b16; border: 1px solid rgba(255, 255, 255, .08); }
+.pf-empty[hidden] { display: none; }
+.pf-empty h3 { margin: 0 0 10px; font-family: "Sora", sans-serif; font-weight: 500; font-size: clamp(22px, 2.2vw, 30px); color: #fff; }
+.pf-empty p { margin: 0 auto 26px; max-width: 460px; color: #b8b8d1; line-height: 1.65; }
+.pf-empty-actions { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; align-items: center; }
+.pf-empty-actions .btn-contact svg { width: 18px; height: 18px; }
+.pf-empty-actions .co-link { background: none; border-top: 0; border-inline: 0; cursor: pointer; }
+
+.pf-results { max-width: 1200px; margin: clamp(40px, 5vw, 64px) auto 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 2vw, 28px); }
+.pf-note { max-width: 600px; margin: 28px auto 0; text-align: center; font-size: 13.5px; line-height: 1.6; color: #8f8aa6; }
+
+@media (max-width: 1000px) {
+  .pf-feats { grid-template-columns: 1fr; }
+  .pf-feat--wide { display: flex; }
+  .pf-feat--wide .pf-feat-media { order: 0; aspect-ratio: 4 / 3; min-height: 0; }
+  .pf-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pf-tile--l, .pf-tile--full { grid-column: 1 / -1; }
+  .pf-tile--s, .pf-tile--xs, .pf-grid.is-filtered .pf-tile { grid-column: span 1; }
+  .pf-tile--full .pf-tile-media { left: 0; -webkit-mask-image: none; mask-image: none; }
+  .pf-tile--full .pf-tile-media::after { display: block; }
+  .pf-tile--full .pf-tile-media img { object-fit: cover; }
+  .pf-tile--full .pf-tile-body { top: auto; max-width: none; }
+  .pf-tile--full h3 { font-size: clamp(22px, 3vw, 30px); }
+  .pf-results { grid-template-columns: 1fr; max-width: 460px; }
+}
+@media (max-width: 560px) {
+  .pf-grid { grid-template-columns: 1fr; grid-auto-rows: 360px; }
+  .pf-tile--s, .pf-tile--xs, .pf-grid.is-filtered .pf-tile { grid-column: 1 / -1; }
+}
+.pf-grid[hidden] { display: none; }
