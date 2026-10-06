@@ -295,14 +295,43 @@
     io.observe(el);
   });
 
-  // --- Testimonial cards: soft light follows the cursor ---
-  document.querySelectorAll('.ab-quote').forEach((card) => {
-    card.addEventListener('pointermove', (e) => {
-      const r = card.getBoundingClientRect();
-      card.style.setProperty('--mx', `${e.clientX - r.left}px`);
-      card.style.setProperty('--my', `${e.clientY - r.top}px`);
+  // --- Testimonials: the active card sits in front, the others tuck behind it ---
+  const qWrap = document.querySelector('.ab-quotes');
+  if (qWrap) {
+    const cards = [...qWrap.querySelectorAll('.ab-quote')];
+    const dots = [...document.querySelectorAll('.ab-q-dots button')];
+    let active = 0;
+    const show = (i) => {
+      active = (i + cards.length) % cards.length;
+      cards.forEach((c, k) => {
+        c.dataset.pos = (k - active + cards.length) % cards.length;
+        c.tabIndex = c.dataset.pos === '0' ? -1 : 0;
+      });
+      dots.forEach((d, k) => { d.classList.toggle('is-on', k === active); d.setAttribute('aria-current', k === active); });
+    };
+    show(0);
+    cards.forEach((c, k) => {
+      c.addEventListener('click', () => { if (k !== active) show(k); });
+      c.addEventListener('keydown', (e) => { if ((e.key === 'Enter' || e.key === ' ') && k !== active) { e.preventDefault(); show(k); } });
+      c.addEventListener('pointermove', (e) => {
+        const r = c.getBoundingClientRect();
+        c.style.setProperty('--mx', `${e.clientX - r.left}px`);
+        c.style.setProperty('--my', `${e.clientY - r.top}px`);
+      });
     });
-  });
+    document.querySelectorAll('.ab-q-btn').forEach((b) => b.addEventListener('click', () => show(active + Number(b.dataset.dir))));
+    dots.forEach((d, k) => d.addEventListener('click', () => show(k)));
+    qWrap.parentElement.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') show(active + 1);
+      if (e.key === 'ArrowLeft') show(active - 1);
+    });
+    let sx = null;
+    qWrap.addEventListener('pointerdown', (e) => { sx = e.clientX; });
+    qWrap.addEventListener('pointerup', (e) => {
+      if (sx !== null && Math.abs(e.clientX - sx) > 50) show(active + (e.clientX < sx ? 1 : -1));
+      sx = null;
+    });
+  }
 
   // --- Contact form: validate, then hand off to the visitor's mail app ---
   // (No backend yet — swap the mailto for your form endpoint when one exists.)

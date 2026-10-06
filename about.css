@@ -480,42 +480,84 @@
 
 /* ---------- Client proof ---------- */
 .ab-proof { padding: clamp(100px, 11vw, 160px) clamp(16px, 5vw, 84px) 0; }
+/* Frosted stage: heading inside, three quote cards with the active one raised in front */
+.ab-q-panel {
+  position: relative; overflow: hidden; isolation: isolate;
+  max-width: 1440px; margin: 0 auto;
+  padding: clamp(40px, 5vw, 72px) clamp(16px, 4vw, 64px) clamp(32px, 4vw, 52px);
+  border-radius: clamp(20px, 2.4vw, 32px);
+  background:
+    linear-gradient(112deg, transparent 18%, rgba(255, 255, 255, .045) 26%, transparent 34%),
+    linear-gradient(112deg, transparent 40%, rgba(255, 255, 255, .03) 46%, transparent 52%),
+    radial-gradient(70% 60% at 50% 0%, rgba(98, 29, 208, .22), transparent 70%),
+    linear-gradient(180deg, #14131c, #0a0910);
+  border: 1px solid rgba(255, 255, 255, .08);
+  box-shadow: 0 40px 90px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255, 255, 255, .08);
+}
 .ab-quotes {
-  max-width: 1440px; margin: clamp(40px, 5vw, 64px) auto 0;
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(14px, 1.6vw, 22px);
+  --w: min(100%, 440px);
+  margin: clamp(36px, 4.5vw, 64px) auto 0; padding-top: 14px;
+  display: grid; justify-items: center; touch-action: pan-y;
 }
 .ab-quote {
   --mx: 50%; --my: 0%;
-  position: relative; overflow: hidden; margin: 0;
+  grid-area: 1 / 1; width: var(--w);
+  position: relative; overflow: hidden; margin: 0; cursor: pointer;
   display: flex; flex-direction: column;
-  padding: clamp(26px, 2.6vw, 36px);
-  border-radius: 20px;
+  padding: clamp(22px, 2.2vw, 30px);
+  border-radius: 16px;
   background:
-    radial-gradient(260px 200px at var(--mx) var(--my), rgba(171, 36, 242, .22), transparent 70%),
-    linear-gradient(180deg, #0f0b18, #07060b);
-  border: 1px solid rgba(255, 255, 255, .08);
-  transition: border-color .35s ease, translate .5s cubic-bezier(.22, 1, .36, 1);
+    radial-gradient(260px 200px at var(--mx) var(--my), rgba(171, 36, 242, .16), transparent 70%),
+    linear-gradient(180deg, #1d1c28, #14131c);
+  border: 1px solid rgba(255, 255, 255, .12);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, .5);
+  transition: transform .8s cubic-bezier(.22, 1, .36, 1), opacity .6s ease, filter .6s ease, border-color .3s ease;
+  will-change: transform;
 }
-.ab-quote:hover { border-color: rgba(181, 123, 255, .45); translate: 0 -6px; }
-.ab-quote::before {
-  content: "“"; position: absolute; right: 18px; top: -14px;
-  font-family: "Instrument Serif", serif; font-size: 140px; line-height: 1; color: rgba(171, 36, 242, .18);
-  pointer-events: none;
-}
-.ab-rating { letter-spacing: .25em; font-size: 14px; color: #b57bff; }
+.ab-quote[data-pos="0"] { z-index: 3; transform: translateY(-14px); cursor: default; border-color: rgba(255, 255, 255, .2); }
+.ab-quote[data-pos="1"] { z-index: 1; transform: translateX(62%) scale(.92); opacity: .5; filter: saturate(.7); }
+.ab-quote[data-pos="2"] { z-index: 1; transform: translateX(-62%) scale(.92); opacity: .5; filter: saturate(.7); }
+.ab-quote:not([data-pos="0"]):hover { opacity: .75; }
+.ab-quote:focus-visible { outline: 2px solid #b57bff; outline-offset: 3px; }
+.ab-rating { letter-spacing: .25em; font-size: 13px; color: #b57bff; }
+.ab-quote-title { margin: 14px 0 0; font-family: "Sora", sans-serif; font-weight: 500; font-size: clamp(17px, 1.4vw, 20px); line-height: 1.3; letter-spacing: -0.015em; color: #fff; }
 .ab-quote blockquote {
-  flex: 1; margin: 18px 0 26px;
-  font-size: 15.5px; line-height: 1.7; color: #e4e0ee;
+  flex: 1; margin: 12px 0 22px;
+  font-size: 15px; line-height: 1.65; color: #d9d6e6;
 }
 .ab-quote figcaption {
-  display: flex; align-items: center; gap: 14px;
-  padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, .08);
-  font-family: "DM Sans", sans-serif; font-weight: 500; font-size: 15px; color: #fff;
+  display: flex; align-items: center; gap: 12px;
+  padding: 8px 12px 8px 8px; border-radius: 9px;
+  background: linear-gradient(90deg, #621dd0, #8f2ff0 70%, #ab24f2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 8px 20px rgba(98, 29, 208, .35);
+  font-family: "DM Sans", sans-serif; font-weight: 500; font-size: 14px; color: #fff;
 }
+.ab-quote figcaption b { font-weight: 600; }
+.ab-quote figcaption small { display: block; margin-top: 1px; font-size: 12.5px; color: rgba(255, 255, 255, .78); }
 .ab-avatar {
-  flex: none; width: 40px; height: 40px; border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #d8b4fe, #ab24f2 55%, #621dd0);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, .5);
+  flex: none; width: 32px; height: 32px; border-radius: 7px;
+  background: radial-gradient(circle at 30% 30%, #f3e8ff, #d8b4fe 40%, #ab24f2);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .35);
+}
+
+.ab-q-nav { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: clamp(28px, 3.4vw, 44px); }
+.ab-q-btn {
+  width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; cursor: pointer;
+  background: rgba(255, 255, 255, .05); border: 1px solid rgba(255, 255, 255, .12); color: #fff;
+  transition: background .25s ease, border-color .25s ease;
+}
+.ab-q-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ab-q-btn:hover { background: rgba(171, 36, 242, .25); border-color: rgba(181, 123, 255, .5); }
+.ab-q-btn:focus-visible, .ab-q-dots button:focus-visible { outline: 2px solid #b57bff; outline-offset: 3px; }
+.ab-q-dots { display: flex; gap: 8px; }
+.ab-q-dots button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 4px; cursor: pointer; background: rgba(255, 255, 255, .22); transition: width .35s ease, background .35s ease; }
+.ab-q-dots button.is-on { width: 26px; background: #ab24f2; }
+
+@media (max-width: 1080px) {
+  .ab-quotes { --w: min(100%, 520px); }
+  .ab-quote[data-pos="1"], .ab-quote[data-pos="2"] { opacity: 0; visibility: hidden; pointer-events: none; transition: transform .8s cubic-bezier(.22, 1, .36, 1), opacity .5s ease, visibility 0s .8s; }
+  .ab-quote[data-pos="1"] { transform: translateX(30%) scale(.94); }
+  .ab-quote[data-pos="2"] { transform: translateX(-30%) scale(.94); }
 }
 
 /* ---------- Process ---------- */
@@ -669,14 +711,7 @@
 
 /* ---------- What we do ---------- */
 /* The real sub-inner classes read these from the .ss wrapper that service pages have */
-.ab-services .btn-contact { justify-self: auto; }
-.ab-services .btn-contact svg { width: 16px; height: 16px; flex: none; }
-.ab-services, .ab-process { --u: 1px; --gut: clamp(16px, 5vw, 96px); --line: rgba(255, 255, 255, .1); --card: #0a0a15; }
-.ab-card-link { color: inherit; text-decoration: none; }
-.ab-card-link::after { content: ""; position: absolute; inset: 0; border-radius: 16px; }
-.ab-card-link:focus-visible { outline: none; }
-.ab-card-link:focus-visible::after { outline: 2px solid #b57bff; outline-offset: 3px; }
-.ec-card:hover .ec-card-menu { background-image: radial-gradient(circle, #d9b8ff 1.5px, transparent 2px); }
+.ab-process { --u: 1px; --gut: clamp(16px, 5vw, 96px); --line: rgba(255, 255, 255, .1); --card: #0a0a15; }
 
 /* Process: the workflow node graph with four nodes in a 2 x 2 snake (1→2, down, 3→4) */
 .ab-process .ec-canvas { max-width: 920px; margin-inline: auto; }
@@ -694,7 +729,6 @@
   .ab-hero-media { max-width: 680px; }
   .ab-compare-grid { grid-template-columns: 1fr; max-width: 680px; }
   .ab-story-stats { grid-template-columns: 1fr; max-width: 460px; }
-  .ab-quotes { grid-template-columns: 1fr; max-width: 680px; }
   .ab-contact { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {
