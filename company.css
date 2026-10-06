@@ -568,3 +568,4 @@
   .bl-featured .blog-list { max-width: 1280px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 .bl-featured { padding-bottom: 0; }
+.bl-visual img.bl-demo { object-position: 50% 42%; }

@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261024a'
+VER = '20261025a'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -584,7 +584,7 @@ def blog_card(p, i):
     if p.get('img'):
         vis = f'<img src="{p["img"]}" alt="{e(p.get("alt", ""))}" loading="lazy" />'
     else:
-        vis = f'<span class="bl-art bl-art--{p["topic"]}" aria-hidden="true">{ic(TOPIC_ICON[p["topic"]], "bl-art-ic")}</span>'
+        vis = '<img class="bl-demo" src="assets/blog/placeholder.webp" alt="" loading="lazy" />'
     meta = ''
     if p.get('date'):
         meta = f'<span class="bl-when"><time datetime="{p["iso"]}">{p["date"]}</time><i></i>{CLOCK}{p["read"]}</span>'
