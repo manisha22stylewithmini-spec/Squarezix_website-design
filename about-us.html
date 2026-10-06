@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="footer.css?v=20261009a" />
   <link rel="stylesheet" href="menu.css?v=20261009a" />
   <link rel="stylesheet" href="outro.css?v=20261009a" />
-  <link rel="stylesheet" href="about.css?v=20261013a" />
+  <link rel="stylesheet" href="about.css?v=20261014a" />
   <link rel="stylesheet" href="service-static.css?v=20261009a" />
 </head>
 <body class="page-about">
@@ -136,52 +136,75 @@
       </div>
     </section>
 
-    <!-- ===== Who we are — mission / vision / values ===== -->
+    <!-- ===== Who we are — Vision / Mission / Values as tabs (about.js) ===== -->
     <section class="ab-who" id="values" aria-labelledby="ab-who-title">
       <div class="ab-who-head">
         <span class="svc-badge" data-rise>Who We Are</span>
         <h2 id="ab-who-title" class="ab-h2 ab-reveal" data-reveal>What Moves &amp; <em>Defines Us</em></h2>
       </div>
 
-      <!-- Mission, Vision, Values cards -->
-      <div class="ab-mvv-grid">
-        <!-- Vision -->
-        <article class="ab-card ab-card-vision" data-rise>
-          <svg class="ab-card-icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="2"/>
-          </svg>
-          <h3>Our <em>Vision</em></h3>
-          <p class="ab-card-lead">To become a trusted growth partner for ambitious brands worldwide — where innovation, strategy, and execution come together to unlock unlimited potential.</p>
-        </article>
+      <div class="mvv" data-rise>
+        <div class="mvv-tabs" role="tablist" aria-label="Vision, mission and values">
+        <button class="mvv-tab is-active" role="tab" id="mvv-tab-vision" aria-controls="mvv-panel-vision" aria-selected="true">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>Vision
+        </button>
+        <button class="mvv-tab" role="tab" id="mvv-tab-mission" aria-controls="mvv-panel-mission" aria-selected="false" tabindex="-1">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg>Mission
+        </button>
+        <button class="mvv-tab" role="tab" id="mvv-tab-values" aria-controls="mvv-panel-values" aria-selected="false" tabindex="-1">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-8-4.6-8-10.4A4.6 4.6 0 0 1 12 7a4.6 4.6 0 0 1 8 3.1c0 5.8-8 10.4-8 10.4Z"/></svg>Values
+        </button>
+          <span class="mvv-thumb" aria-hidden="true"></span>
+        </div>
 
-        <!-- Mission -->
-        <article class="ab-card ab-card-mission" data-rise>
-          <svg class="ab-card-icon" viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/>
-            <circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/>
-            <circle cx="12" cy="12" r="1.4" fill="currentColor"/>
-          </svg>
-          <h3>Our <em>Mission</em></h3>
-          <p class="ab-card-lead">To empower businesses to grow smarter, scale faster, and lead with confidence.</p>
-          <p>At Squarezix, we don’t just deliver services — we build strategies that create measurable growth and long-term success for our clients.</p>
-        </article>
+        <div class="mvv-panel is-active" role="tabpanel" id="mvv-panel-vision" aria-labelledby="mvv-tab-vision">
+          <span class="mvv-kicker">Our Vision</span>
+          <p class="mvv-statement">To become a trusted growth partner for ambitious brands worldwide — where innovation, strategy, and execution come together to <em>unlock unlimited potential.</em></p>
+        </div>
+
+        <div class="mvv-panel" role="tabpanel" id="mvv-panel-mission" aria-labelledby="mvv-tab-mission" hidden>
+          <span class="mvv-kicker">Our Mission</span>
+          <p class="mvv-statement">To empower businesses to grow smarter, scale faster, and <em>lead with confidence.</em></p>
+          <p class="mvv-support">At Squarezix, we don’t just deliver services — we build strategies that create measurable growth and long-term success for our clients.</p>
+        </div>
+
+        <div class="mvv-panel mvv-panel--values" role="tabpanel" id="mvv-panel-values" aria-labelledby="mvv-tab-values" hidden>
+          <span class="mvv-kicker">Our Values</span>
+          <ol class="mvv-values">
+            <li class="mvv-value">
+              <span class="mvv-value-num">01</span>
+              <svg class="mvv-value-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17 9 11l4 4 8-8M15 7h6v6"/></svg>
+              <h4>Growth First</h4>
+              <p>Your growth is our priority. Every strategy we create is designed to increase revenue, visibility, and long-term impact.</p>
+            </li>
+            <li class="mvv-value">
+              <span class="mvv-value-num">02</span>
+              <svg class="mvv-value-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="12" r="5.5"/><circle cx="15" cy="12" r="5.5"/></svg>
+              <h4>True Partnership</h4>
+              <p>We work with you, not just for you. Collaboration and transparency are at the heart of everything we do.</p>
+            </li>
+            <li class="mvv-value">
+              <span class="mvv-value-num">03</span>
+              <svg class="mvv-value-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.4 1 1.1 1 1.8V16h5v-.3c0-.7.4-1.4 1-1.8A6 6 0 0 0 12 3Z"/></svg>
+              <h4>Innovation with Purpose</h4>
+              <p>We challenge the ordinary, think creatively, and use data-driven insights to drive smarter decisions.</p>
+            </li>
+            <li class="mvv-value">
+              <span class="mvv-value-num">04</span>
+              <svg class="mvv-value-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg>
+              <h4>Results Over Promises</h4>
+              <p>We focus on measurable outcomes, not just activity. Performance and ROI guide our actions.</p>
+            </li>
+            <li class="mvv-value">
+              <span class="mvv-value-num">05</span>
+              <svg class="mvv-value-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 4.4 3.4 8.2 8 9 4.6-.8 8-4.6 8-9V6l-8-3Z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+              <h4>Accountability &amp; Excellence</h4>
+              <p>We take ownership, move fast, and consistently deliver high standards in every project.</p>
+            </li>
+          </ol>
+          <div class="mvv-dots" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i><i></i></div>
+        </div>
       </div>
-
-      <!-- Values full-width card -->
-      <article class="ab-card ab-card-values ab-card-full" data-rise>
-        <svg class="ab-card-icon" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M12 20.5s-8-4.6-8-10.4A4.6 4.6 0 0 1 12 7a4.6 4.6 0 0 1 8 3.1c0 5.8-8 10.4-8 10.4Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <h3>Our <em>Values</em></h3>
-        <ol class="ab-values">
-          <li><h4>Growth First</h4><p>Your growth is our priority. Every strategy we create is designed to increase revenue, visibility, and long-term impact.</p></li>
-          <li><h4>True Partnership</h4><p>We work with you, not just for you. Collaboration and transparency are at the heart of everything we do.</p></li>
-          <li><h4>Innovation with Purpose</h4><p>We challenge the ordinary, think creatively, and use data-driven insights to drive smarter decisions.</p></li>
-          <li><h4>Results Over Promises</h4><p>We focus on measurable outcomes, not just activity. Performance and ROI guide our actions.</p></li>
-          <li><h4>Accountability &amp; Excellence</h4><p>We take ownership, move fast, and consistently deliver high standards in every project.</p></li>
-        </ol>
-      </article>
     </section>
 
     <!-- ===== Brand story timeline — pinned while a wavy line draws through five milestones (about.js) ===== -->
@@ -592,7 +615,7 @@
   <script src="menu.js?v=20261011a"></script>
   <script src="sections.js?v=20261009a"></script>
   <script src="waves-bg.js?v=20261009a"></script>
-  <script src="about.js?v=20261013a"></script>
+  <script src="about.js?v=20261014a"></script>
   <script src="outro.js?v=20261009a"></script>
 </body>
 </html>

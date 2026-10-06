@@ -189,6 +189,42 @@
     });
   }
 
+  // --- Who we are: Vision / Mission / Values tabs (arrow keys move between tabs) ---
+  const mvv = document.querySelector('.mvv');
+  if (mvv) {
+    const tabs = [...mvv.querySelectorAll('.mvv-tab')];
+    const panels = tabs.map((t) => document.getElementById(t.getAttribute('aria-controls')));
+    const select = (i, focus) => {
+      tabs.forEach((t, j) => {
+        const on = i === j;
+        t.classList.toggle('is-active', on);
+        t.setAttribute('aria-selected', on);
+        t.tabIndex = on ? 0 : -1;
+        panels[j].hidden = !on;
+        panels[j].classList.toggle('is-active', on);
+      });
+      mvv.querySelector('.mvv-tabs').style.setProperty('--tab', i);
+      if (focus) tabs[i].focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => select(i));
+      t.addEventListener('keydown', (e) => {
+        const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+        if (k) { e.preventDefault(); select((i + k + tabs.length) % tabs.length, true); }
+        if (e.key === 'Home') { e.preventDefault(); select(0, true); }
+        if (e.key === 'End') { e.preventDefault(); select(tabs.length - 1, true); }
+      });
+    });
+    // Values row: dots follow the swipe position
+    const row = mvv.querySelector('.mvv-values');
+    const dots = [...mvv.querySelectorAll('.mvv-dots i')];
+    row.addEventListener('scroll', () => {
+      const max = row.scrollWidth - row.clientWidth;
+      const i = max > 0 ? Math.round((row.scrollLeft / max) * (dots.length - 1)) : 0;
+      dots.forEach((d, j) => d.classList.toggle('is-on', j === i));
+    }, { passive: true });
+  }
+
   // --- Seamless loops (tech chips + partner badges) ---
   function loop(track, group, widthVar, durVar, pxPerSec) {
     const build = () => {
