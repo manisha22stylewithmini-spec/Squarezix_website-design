@@ -15,13 +15,13 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261025a'
+VER = '20261026b'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
     'culture.html': 'all copy except the Life-at-SquareZix line and the learning/recognition facts taken from the live Careers page',
     'careers.html': 'Why SquareZix card text, hiring-process steps, FAQ answers',
-    'portfolio.html': 'hero, FAQ, the five reel descriptions, and the Capability/Industry/Outcome classification of each project (outcomes are goals taken from the home-page case-study challenges, no figures); website blurbs reuse the home page work cards',
+    'portfolio.html': 'hero, FAQ, the four folder titles/descriptions/stickers in What We Make, the five reel descriptions, and the Capability/Industry/Outcome classification of each project (outcomes are goals taken from the home-page case-study challenges, no figures); website blurbs reuse the home page work cards',
     'blogs.html': 'hero, topic grouping, industry picks, newsletter copy',
 }
 
@@ -456,6 +456,41 @@ def portfolio():
 
     sel_cards = ''.join([sel_site(0), sel_reel(0), sel_site(1), sel_reel(1), sel_site(2), sel_reel(2), sel_reel(3), sel_reel(4)])
 
+    # Folder stack: disciplines filed top to bottom, each folder peeks a slice of work and opens to the full piece
+    folders = [
+        dict(name='Websites & platforms', title='Sites that earn demos, not just visits.',
+             desc='Marketing sites and platforms designed around one outcome, built for speed, structure and search.',
+             tags=['b2b saas', 'ux/ui', 'development', 'seo'], media=['assets/work/project-1.png'], alt='Digital Stream website',
+             link=('case-study.html', 'See the case study')),
+        dict(name='E-commerce & storefronts', title='Storefronts with a checkout that keeps shoppers.',
+             desc='Headless builds, product pages around the photography and checkouts with less friction.',
+             tags=['digital goods', 'headless build', 'cro'], media=['assets/work/project-2.png'], alt='Hero Gradients storefront',
+             link=('case-study.html', 'See the case study')),
+        dict(name='Product & AI', title='Products people finish setting up.',
+             desc='Onboarding, dashboards and design systems for AI products, designed around a single first task.',
+             tags=['ai saas', 'product design', 'design system'], media=['assets/work/project-3.png'], alt='Lissr.ai product site and dashboard',
+             link=('case-study.html', 'See the case study')),
+        dict(name='Social & motion', title='Short-form reels that stop the scroll.',
+             desc='Kinetic-typography and 3D motion reels made for social feeds.',
+             tags=['social reels', 'motion', 'kinetic type'], media=['assets/reels/reel-1.jpg', 'assets/reels/reel-3.jpg', 'assets/reels/reel-4.jpg'],
+             alt='Social reel posters', link=('index.html#reels', 'Watch the reels')),
+    ]
+    fold_html = ''
+    for i, f in enumerate(folders):
+        trio = len(f['media']) > 1
+        imgs = ''.join(f'<img src="{m}" alt="{e(f["alt"]) if j == 0 else ""}" loading="lazy" />' for j, m in enumerate(f['media']))
+        stickers = ''.join(f'<li>{t}</li>' for t in f['tags'])
+        open_cls = ' is-open' if i == 0 else ''
+        fold_html += (
+            f'<article class="pf-folder{open_cls}" style="--i:{i}" data-rise>'
+            f'<button type="button" class="pf-folder-tab" id="pf-fold-tab-{i}" aria-expanded="{"true" if i == 0 else "false"}" aria-controls="pf-fold-{i}">'
+            f'<span class="pf-tab-no">0{i+1}</span><span class="pf-tab-name">{e(f["name"])}</span><i class="pf-tab-plus" aria-hidden="true"></i></button>'
+            f'<div class="pf-folder-body" id="pf-fold-{i}" role="region" aria-labelledby="pf-fold-tab-{i}"><div class="pf-folder-inner">'
+            f'<div class="pf-folder-info"><h3>{e(f["title"])}</h3><p>{e(f["desc"])}</p><ul class="pf-stickers">{stickers}</ul>'
+            f'<div class="pf-folder-more"><a href="{f["link"][0]}" class="co-link">{f["link"][1]} {ARROW_R}</a></div></div>'
+            f'<div class="pf-folder-media{" pf-folder-media--trio" if trio else ""}">{imgs}</div>'
+            f'</div></div></article>')
+
     body = hero('Portfolio', 'A selection of brands, experiences and <em>digital systems</em> we’ve built.',
                 'Websites, products and campaigns — designed, built and grown by one team.',
                 'Start a project', '#ab-contact')
@@ -469,6 +504,11 @@ def portfolio():
         <p>Try a different combination, or tell us what you need and we’ll share relevant examples.</p>
         <div class="pf-empty-actions"><button type="button" class="co-link" data-filter-reset>Reset filters</button><a href="#ab-contact" class="btn-contact btn-contact--xl">Talk to us {ARROW_R}</a></div>
       </div>
+    </section>
+
+    <section class="co-sec pf-folders" aria-labelledby="pf-fold-title">
+      {head_block('What We Make', 'Work, <em>filed by discipline</em>', 'Four disciplines, one team. Open a folder to see the work inside.', sid='pf-fold-title')}
+      <div class="pf-stack">{fold_html}</div>
     </section>
 
     <section class="co-sec" aria-labelledby="pf-feat-title">

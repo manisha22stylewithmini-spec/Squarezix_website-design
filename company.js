@@ -77,6 +77,23 @@
     render();
   }
 
+  // ---- Portfolio: folder stack, one folder open at a time ----
+  const stack = $('.pf-stack');
+  if (stack) {
+    const folders = $$('.pf-folder', stack);
+    const setOpen = (f, open) => {
+      f.classList.toggle('is-open', open);
+      $('.pf-folder-tab', f).setAttribute('aria-expanded', open);
+      $('.pf-folder-more', f).inert = !open;
+    };
+    folders.forEach((f) => $('.pf-folder-tab', f).addEventListener('click', () => {
+      const wasOpen = f.classList.contains('is-open');
+      folders.forEach((x) => setOpen(x, false));
+      if (!wasOpen) setOpen(f, true);
+    }));
+    folders.forEach((f, i) => setOpen(f, i === 0));
+  }
+
   // ---- Blogs: Topic / Industry / Category filter, load more, topic cards, industry tabs ----
   const bg = $('#bl-grid');
   if (bg) {
