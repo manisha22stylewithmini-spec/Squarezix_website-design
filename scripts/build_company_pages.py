@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261055a'
+VER = '20261056a'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -725,30 +725,40 @@ def pk_featured():
 '''
 
 
-# ================================================================ STORY TIMELINE (pinned horizontal scroll, after Selected Results)
-# Milestones are the five already published on about-us.html. Behaviour lives in company.js (.tl2).
-STORY = [
-    ('2020', 'A Simple Idea', 'One studio. One team. One vision: a website should be the hardest-working member of a business.'),
-    ('2020 – 2021', 'First Clients', 'Launched our first websites. Strategists, designers, developers and marketers all under one roof in Business Bay.'),
-    ('2021 – 2023', 'Growing Fast', '100+ websites shipped. Brands across the UAE and GCC started trusting us with their growth.'),
-    ('2023 – 2024', 'SEO & AI Era', 'Added SEO, AI visibility and growth services. Became a true growth partner, not just a design studio.'),
-    ('2024 & Beyond', '1,000+ Websites', 'Trusted by ambitious brands worldwide. Still thinking inside the square. Still building growth.'),
+# ================================================================ PROJECT TIMELINE (pinned horizontal scroll, after Selected Results)
+# How a typical SquareZix project runs: phase, when it finishes and who works on it. The 9-week total matches the
+# Digital Stream case ("Brief to launch 9 wks"); the phase split and role names are Claude-written, please review.
+PHASES = [
+    ('Week 1', 'Brief & goals', ['Brand Strategist', 'Project Lead'],
+     'We agree the one outcome that matters, the numbers that prove it, and what is in and out of scope.'),
+    ('Weeks 1 – 2', 'Research & data', ['Strategist', 'SEO & AI Specialist', 'Analyst'],
+     'Audience, competitors, search and AI visibility, and a baseline for every number we will later improve.'),
+    ('Weeks 2 – 3', 'Strategy & structure', ['Strategist', 'UX/UI Designer'],
+     'Positioning, page structure and the content plan, so every page leads to the outcome.'),
+    ('Weeks 3 – 6', 'Design & build', ['Designer', 'Developer', 'Content Lead'],
+     'Design, front end and copy move together, with reviews every week instead of a big reveal at the end.'),
+    ('Weeks 7 – 8', 'Test & optimise', ['Developer', 'SEO & AI Specialist'],
+     'Speed, mobile, schema, redirects and tracking are checked before anyone sees the site live.'),
+    ('Week 9', 'Launch & measure', ['Whole team'],
+     'We go live, watch the numbers against the baseline and write up what changed.'),
 ]
 
 
 def pk_timeline():
     items = ''
-    for i, (year, name, line) in enumerate(STORY):
+    for i, (when, name, who, line) in enumerate(PHASES):
         pos = 'top' if i % 2 == 0 else 'bottom'
+        chips = ''.join(f'<li>{e(w)}</li>' for w in who)
         items += (f'<article class="tl2-item tl2-item--{pos}" style="--i:{i}"><span class="tl2-stem" aria-hidden="true"></span><span class="tl2-dot" aria-hidden="true"></span>'
-                  f'<div class="tl2-text"><h3 class="tl2-year">{e(year)}</h3><p class="tl2-name">{e(name)}</p><p class="tl2-line">{e(line)}</p></div></article>')
-    return f'''    <section class="tl2" id="story" aria-label="Our story, 2020 to today">
+                  f'<div class="tl2-text"><h3 class="tl2-year">{e(when)}</h3><p class="tl2-name">{e(name)}</p>'
+                  f'<ul class="tl2-who" aria-label="Who works on this phase">{chips}</ul><p class="tl2-line">{e(line)}</p></div></article>')
+    return f'''    <section class="tl2" id="timeline" style="--n:{len(PHASES)}" aria-label="How a project runs, week by week">
       <div class="tl2-pin">
         <div class="tl2-track">
           <figure class="tl2-img"><img src="assets/footer/sz-stage.jpg" alt="The SquareZix team on stage" loading="lazy" /></figure>
           <div class="tl2-body">
             <div class="tl2-rail" aria-hidden="true"><i></i><b class="tl2-fill"></b><i></i></div>
-            <div class="tl2-head"><span class="svc-badge">Our Story</span><h2 class="tl2-title">Built one <em>project</em> at a time</h2><p class="tl2-period">2020 — today</p></div>
+            <div class="tl2-head"><span class="svc-badge">Project Timeline</span><h2 class="tl2-title">From brief <em>to launch</em></h2><p class="tl2-period">A typical 9-week project</p></div>
             {items}
           </div>
         </div>
