@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261045a'
+VER = '20261046b'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -495,6 +495,7 @@ def portfolio():
     body = hero('Portfolio', 'A selection of brands, experiences and <em>digital systems</em> we’ve built.',
                 'Websites, products and campaigns — designed, built and grown by one team.',
                 'Start a project', '#ab-contact')
+    body += collab() + shelf()
     body += f'''
     <section class="co-sec pf-sel" id="browse" aria-labelledby="pf-sel-title">
       {head_block('Browse Work', 'Find a project <em>like yours</em>', 'Filter by what we did, who it was for and what changed — three ways in, not fifteen.', sid='pf-sel-title')}
@@ -527,6 +528,163 @@ def portfolio():
     body += faq_band('Questions about <em>our work?</em>', 'What people ask before we start a project together.', faq)
     write('portfolio', 'Our Work — Portfolio of Brands, Websites & Digital Systems | SquareZix',
           'A selection of brands, experiences and digital systems built by SquareZix — websites, products and campaigns designed, built and grown by one Dubai team.', 'work', body)
+
+
+# ================================================================ CASE STUDIES (bookshelf + detail pages)
+# Copy comes from the home page case-study section (challenge, what we did, services, results) and the
+# five social reels already in assets/reels. Shelf colours stay inside the brand palette.
+CASES = [
+    dict(slug='digital-stream', client='Digital Stream', kind='Website', industry='B2B SaaS', year='2025', img='assets/work/project-1.png',
+         alt='Digital Stream website', no='01',
+         challenge='A strong product hidden behind a site that read like a spec sheet. Visitors left before they understood what it did.',
+         did='Rewrote the story around one outcome, redesigned every page to lead to a demo, and rebuilt the front end for speed.',
+         services=['Positioning', 'UX/UI', 'Development', 'SEO'],
+         results=[('+212%', 'Demo requests'), ('1.1s', 'Mobile load (LCP)'), ('9 wks', 'Brief to launch')],
+         book=dict(font='sora', w=78, h=86, bg='#f3e8ff', fg='#1a0b36', band='#621dd0', bh=20, title='Digital Stream')),
+    dict(slug='hero-gradients', client='Hero Gradients', kind='E-commerce', industry='Digital goods', year='2025', img='assets/work/project-2.png',
+         alt='Hero Gradients storefront', no='02',
+         challenge='Plenty of traffic, a slow catalogue and a checkout that lost shoppers at the shipping step.',
+         did='Moved the store to a headless stack, cut checkout from five screens to two and rebuilt product pages around the photography.',
+         services=['UX/UI', 'Headless build', 'CRO'],
+         results=[('+38%', 'Conversion rate'), ('−41%', 'Cart abandonment'), ('2.4×', 'Returning buyers')],
+         book=dict(font='sora', w=96, h=93, bg='#0f0a22', fg='#e2b8ff', band='linear-gradient(90deg,#621dd0,#ab24f2)', bh=12, top=True, title='Hero Gradients')),
+    dict(slug='lissr-ai', client='Lissr.ai', kind='Product & AI', industry='AI SaaS', year='2024', img='assets/work/project-3.png',
+         alt='Lissr.ai product site and dashboard', no='03',
+         challenge='An AI tool people signed up for and then abandoned, because the first screen asked for too much too soon.',
+         did='Mapped the first ten minutes of use, redesigned onboarding around a single task and rebuilt the dashboard to match.',
+         services=['Product design', 'Design system', 'AI integration'],
+         results=[('3×', 'Trial to paid'), ('−57%', 'Support tickets'), ('4 min', 'To first result')],
+         book=dict(font='sora', w=104, h=97, bg='linear-gradient(160deg,#7b2ff0,#ab24f2)', fg='#ffffff', tilt=-8, big=True, title='Lissr.ai')),
+]
+REEL_CASES = [
+    dict(slug='reel-digital-marketing', n=1, title='Digital Marketing', desc='A short-form social reel built around 3D motion graphics.',
+         book=dict(font='serif', w=58, h=74, bg='#ab24f2', fg='#ffffff', title='Digital Marketing')),
+    dict(slug='reel-strategy-without-content', n=3, title='Strategy without content is invisible', desc='Kinetic-typography reel making the case for content-led strategy.',
+         book=dict(font='mono', w=60, h=91, bg='#f7f5fb', fg='#621dd0', band='#e9d5ff', bh=9, title='Strategy without content is invisible')),
+    dict(slug='reel-justify-your-rates', n=4, title='Struggling to justify your rates?', desc='Short-form reel built around a single, direct client question.',
+         book=dict(font='serif', w=70, h=70, bg='#1c1233', fg='#f5f3ff', band='#ab24f2', bh=8, top=True, title='Justify your rates?')),
+    dict(slug='reel-kinetic-type', n=2, title='Kinetic type reel', desc='Kinetic-typography social reel with bold, minimal type.',
+         book=dict(font='sora', w=82, h=88, bg='#e9d5ff', fg='#2a0f5c', band='#3b1a74', bh=16, title='Kinetic Type')),
+    dict(slug='reel-solution-wagon', n=5, title='Solution Wagon', desc='Branded social reel for Solution Wagon.',
+         book=dict(font='sora', w=64, h=78, bg='#6d28d9', fg='#ffffff', title='Solution Wagon')),
+]
+SHELF_ORDER = ['digital-stream', 'reel-digital-marketing', 'hero-gradients', 'reel-strategy-without-content', 'lissr-ai',
+               'reel-justify-your-rates', 'reel-kinetic-type', 'reel-solution-wagon']
+
+
+def _case_by(slug_):
+    return next(c for c in CASES + REEL_CASES if c['slug'] == slug_)
+
+
+def book_html(c, current=False):
+    b = c['book']
+    is_site = 'client' in c
+    sub = f"{c['kind']} · {c['year']}" if is_site else 'Social reel'
+    if is_site:
+        tip = f"<b>{e(c['client'])}</b><span>{e(c['kind'])} · {e(c['industry'])}</span><i>{e(c['results'][0][0])} {e(c['results'][0][1].lower())}</i>"
+    else:
+        tip = f"<b>{e(c['title'])}</b><span>Social video · Motion</span><i>Watch the reel</i>"
+    style = f"--w:{b['w']}px;--h:{b['h']}%;--bg:{b['bg']};--fg:{b['fg']};"
+    if b.get('band'):
+        style += f"--band:{b['band']};--bh:{b['bh']}%;"
+    if b.get('tilt'):
+        style += f"--tilt:{b['tilt']}deg;"
+    cls = f"bk bk--{b['font']}" + (' bk--top' if b.get('top') else '') + (' bk--big' if b.get('big') else '') + (' is-current' if current else '')
+    label = f"{c['client']}: {c['kind']} case study" if is_site else f"{c['title']}: social reel"
+    num = c['no'] if is_site else 'R' + str(c['n'])
+    cur = ' aria-current="page"' if current else ''
+    return (f'<a class="{cls}" style="{style}" href="case-{c["slug"]}.html" aria-label="{e(label)}"{cur}>'
+            f'<span class="bk-top" aria-hidden="true">{num}</span><span class="bk-title" aria-hidden="true">{e(b["title"])}</span>'
+            f'<span class="bk-sub" aria-hidden="true">{e(sub)}</span><span class="bk-mark" aria-hidden="true">SZ</span>'
+            f'<span class="bk-tip" aria-hidden="true">{tip}</span></a>')
+
+
+def shelf(current=None, compact=False):
+    books = ''.join(book_html(_case_by(s), s == current) for s in SHELF_ORDER)
+    books += ('<a class="bk bk--mono bk--next" style="--w:66px;--h:82%;" href="#ab-contact" aria-label="Your brand: start the next case study">'
+              '<span class="bk-top" aria-hidden="true">+</span><span class="bk-title" aria-hidden="true">Your brand, next</span>'
+              '<span class="bk-sub" aria-hidden="true">Vol. 09</span><span class="bk-mark" aria-hidden="true">SZ</span>'
+              '<span class="bk-tip" aria-hidden="true"><b>Your brand</b><span>The next chapter on this shelf</span><i>Start a project</i></span></a>')
+    sid = '' if compact else ' id="shelf"'
+    return (f'    <section class="co-sec bk-sec{" bk-sec--compact" if compact else ""}"{sid} aria-label="Case study library">\n'
+            f'      <p class="bk-brand" data-rise><span>SQUAREZIX</span> <i aria-hidden="true">×</i> <b>Case Studies.</b></p>\n'
+            f'      <p class="co-sub bk-hint" data-rise>Every spine is a project. Hover to pull one off the shelf, click to open it.</p>\n'
+            f'      <div class="bk-shelf" data-rise>{books}</div>\n'
+            f'    </section>\n')
+
+
+def collab():
+    """How the team builds a case study: specialists around one brief (Claude-written copy, flag it)."""
+    import math
+    roles = [('Brand Strategist', 'Finds the one outcome that matters'), ('UX/UI Designer', 'Shapes how it looks and flows'),
+             ('Developer', 'Builds it fast and solid'), ('SEO & AI Specialist', 'Makes it findable in search and AI'),
+             ('Content & Social Lead', 'Gives it a voice people share'), ('Performance Analyst', 'Measures what changed')]
+    cx, cy, rx, ry = 300, 205, 220, 150
+    parts = ''
+    for i, (r, _d) in enumerate(roles):
+        a = -math.pi / 2 + i * 2 * math.pi / len(roles)
+        x, y = cx + rx * math.cos(a), cy + ry * math.sin(a)
+        ty = y + 26 if math.sin(a) > .2 else y - 14
+        parts += (f'<line x1="{cx}" y1="{cy}" x2="{x:.1f}" y2="{y:.1f}"/><circle class="d" cx="{x:.1f}" cy="{y:.1f}" r="5"/>'
+                  f'<text x="{x:.1f}" y="{ty:.1f}" text-anchor="middle">{e(r)}</text>')
+    names = ', '.join(r for r, _ in roles)
+    svg = (f'<svg class="cb-map" viewBox="0 0 600 420" role="img" aria-label="Six specialists around one case study: {e(names)}">'
+           f'<ellipse class="o" cx="{cx}" cy="{cy}" rx="{rx}" ry="{ry}"/>{parts}'
+           f'<circle class="h" cx="{cx}" cy="{cy}" r="64"/><text class="ht" x="{cx}" y="{cy - 3}" text-anchor="middle">One brief</text>'
+           f'<text class="hs" x="{cx}" y="{cy + 19}" text-anchor="middle">one case study</text></svg>')
+    cards = ''.join(f'<li><b>{e(r)}</b><span>{e(d)}</span></li>' for r, d in roles)
+    steps = ''.join(f'<li><i>{i + 1:02d}</i>{e(t)}</li>' for i, t in enumerate(
+        ['Brief & goals', 'Dig into the data', 'Form a hypothesis', 'Design · build · test', 'Measure, then write it up']))
+    head = head_block('How We Work', 'Not an ordinary case study. <em>A room full of market experts.</em>',
+                      'Every SquareZix case study starts with the people around the table. Strategists, designers, developers, '
+                      'SEO and AI specialists and marketers who know the GCC market work on one brief together, so the result is '
+                      'something people remember, not a template with a new logo.', center=False, sid='cb-title')
+    return (f'    <section class="co-sec cb-sec" aria-labelledby="cb-title">\n'
+            f'      <div class="cb-grid">\n        <div class="cb-copy">{head}<ul class="cb-roles" data-rise>{cards}</ul></div>\n'
+            f'        <div class="cb-visual" data-rise>{svg}</div>\n      </div>\n'
+            f'      <ol class="cb-steps" data-rise aria-label="How every case study gets made">{steps}</ol>\n'
+            f'    </section>\n')
+
+
+def case_pages():
+    order = [_case_by(s) for s in SHELF_ORDER]
+    for i, c in enumerate(order):
+        prev_c, next_c = order[i - 1], order[(i + 1) % len(order)]
+        is_site = 'client' in c
+        name = c['client'] if is_site else c['title']
+        story = ''
+        if is_site:
+            media = f'<img src="{c["img"]}" alt="{e(c["alt"])}" />'
+            facts = [('Client', c['client']), ('Project', c['kind']), ('Industry', c['industry']), ('Year', c['year'])]
+            stats = ''.join(f'<li data-rise><b>{e(v)}</b><span>{e(l)}</span></li>' for v, l in c['results'])
+            chips = ''.join(f'<li>{e(x)}</li>' for x in c['services'])
+            story = (f'    <section class="co-sec cd-sec" aria-labelledby="cd-res">\n'
+                     f'      {head_block("Results", "What <em>changed</em>", "", sid="cd-res")}\n'
+                     f'      <ul class="cd-stats">{stats}</ul>\n    </section>\n'
+                     f'    <section class="co-sec cd-sec" aria-label="Challenge and approach">\n'
+                     f'      <div class="cmp cd-story" data-rise>'
+                     f'<article class="cmp-panel cmp-panel--dim"><h3><span>The</span> challenge</h3><p>{e(c["challenge"])}</p></article>'
+                     f'<article class="cmp-panel cmp-panel--hi"><h3>What we did</h3><p>{e(c["did"])}</p><ul class="cmp-chips cd-chips">{chips}</ul></article>'
+                     f'</div>\n    </section>\n')
+            lead, badge = c['did'], f'Case Study {c["no"]} / 03'
+            h1 = f'{e(c["client"])} <em>{e(c["kind"])}</em>'
+        else:
+            media = (f'<video src="assets/reels/reel-{c["n"]}.mp4" poster="assets/reels/reel-{c["n"]}.jpg" controls playsinline muted loop '
+                     f'preload="none" aria-label="{e(c["title"])} reel"></video>')
+            facts = [('Format', 'Short-form social video'), ('Craft', 'Motion · Social video'), ('Made for', 'Instagram · TikTok · Reels')]
+            lead, badge, h1 = c['desc'], 'Social Reel', e(c['title'])
+        fact_html = ''.join(f'<div><dt>{e(k)}</dt><dd>{e(v)}</dd></div>' for k, v in facts)
+        body = hero(badge, h1, e(lead), 'Start a project like this', '#ab-contact')
+        body += (f'    <section class="co-sec cd-sec cd-intro">\n'
+                 f'      <div class="cd-grid{"" if is_site else " cd-grid--reel"}"><div class="cd-media" data-rise>{media}</div>'
+                 f'<dl class="cd-facts" data-rise>{fact_html}</dl></div>\n    </section>\n') + story
+        body += (f'    <nav class="co-sec cd-pager" aria-label="More case studies">'
+                 f'<a href="case-{prev_c["slug"]}.html"><span>Previous</span><b>{e(prev_c.get("client") or prev_c["title"])}</b></a>'
+                 f'<a href="portfolio.html#shelf" class="cd-pager-all">All case studies</a>'
+                 f'<a href="case-{next_c["slug"]}.html"><span>Next</span><b>{e(next_c.get("client") or next_c["title"])}</b></a></nav>\n')
+        body += shelf(c['slug'], compact=True)
+        body += cta_panel('Let’s write <em>your chapter next.</em>', 'Tell us what you want to launch, fix or grow — we’ll come back with a plan within five days.', 'Start a Project', '#ab-contact')
+        write(f'case-{c["slug"]}', f'{name} — Case Study | SquareZix', f'{name}: {lead}', 'work', body)
 
 
 # ================================================================ BLOGS
@@ -732,4 +890,5 @@ if __name__ == '__main__':
     culture()
     careers()
     portfolio()
+    case_pages()
     blogs()
