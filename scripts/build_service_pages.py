@@ -132,7 +132,9 @@ SVC = {
                     ('Headless Ecommerce Development', find_live('Headless E-Commerce Development')),
                     ('Squarespace Website Development', find_live('Squarespace Development')),
                     ('Website Migration Services', find_live('Website Migration Services'))),
-    'maintain': services(WB['maintain']['intro'], *[(t, d) for t, d, _b in WB['maintain']['items']]),
+    # Website Management Services has no live-site copy: the description is Claude-written (flag it)
+    'maintain': services(WB['maintain']['intro'], *[(t, d) for t, d, _b in WB['maintain']['items']],
+                         ('Website Management Services', 'We run your website day to day, so you do not have to. Content updates, plugin and platform upgrades, performance, security and monthly reporting are handled by one team, with a single point of contact for every change.')),
 }
 SVC['content'] = CONTENT
 # Paid Marketing's menu entries also say what each kind of advertising covers
