@@ -74,23 +74,45 @@
     };
     const fb = filterBar(bar, cards, render);
     $('[data-filter-reset]', nomatch)?.addEventListener('click', fb.clear);
-    // Category pockets: each sets the three filters at once; tapping the active pocket clears them again
-    const pockets = $$('.pk-pk[data-set]');
+    // Category pocket: each card sets the three filters at once; tapping the active card clears them again.
+    // The pocket front shows the details of the hovered / focused card, else the pressed one, else a default line.
+    const pockets = $$('.pk2-card[data-set]');
     const sels = $$('select', bar);
-    const syncPockets = () => pockets.forEach((p) => {
-      const set = JSON.parse(p.dataset.set);
-      p.setAttribute('aria-pressed', String(sels.every((s) => s.value === set[s.dataset.key])));
+    const wrap = $('.pk2'), info = $('.pk2-info');
+    const fields = { count: $('.pk2-info-count', info), name: $('.pk2-info-name', info), line: $('.pk2-info-line', info) };
+    const dflt = { count: fields.count.textContent, name: fields.name.textContent, line: fields.line.textContent };
+    let shown = null;
+    const show = (card) => {
+      const key = card ? card.dataset.name : '';
+      if (key === shown) return;
+      shown = key;
+      const d = card ? { count: card.dataset.cnt, name: card.dataset.name, line: card.dataset.line } : dflt;
+      fields.count.textContent = d.count; fields.name.textContent = d.name; fields.line.textContent = d.line;
+      info.classList.remove('is-swap'); void info.offsetWidth; if (!reduce) info.classList.add('is-swap');
+    };
+    const pressed = () => pockets.find((p) => p.getAttribute('aria-pressed') === 'true') || null;
+    const syncPockets = () => {
+      pockets.forEach((p) => {
+        const set = JSON.parse(p.dataset.set);
+        p.setAttribute('aria-pressed', String(sels.every((s) => s.value === set[s.dataset.key])));
+      });
+      wrap?.classList.toggle('has-active', !!pressed());
+      show(pressed());
+    };
+    pockets.forEach((p) => {
+      p.addEventListener('click', () => {
+        const on = p.getAttribute('aria-pressed') === 'true', set = JSON.parse(p.dataset.set);
+        sels.forEach((s) => { s.value = on ? 'all' : set[s.dataset.key]; });
+        render();
+        syncPockets();
+        if (!on) $('#browse')?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      });
+      ['pointerenter', 'focus'].forEach((ev) => p.addEventListener(ev, () => show(p)));
+      ['pointerleave', 'blur'].forEach((ev) => p.addEventListener(ev, () => show(pressed())));
     });
-    pockets.forEach((p) => p.addEventListener('click', () => {
-      const on = p.getAttribute('aria-pressed') === 'true', set = JSON.parse(p.dataset.set);
-      sels.forEach((s) => { s.value = on ? 'all' : set[s.dataset.key]; });
-      render();
-      if (!on) $('#browse')?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
-    }));
     sels.forEach((s) => s.addEventListener('change', syncPockets));
     $('.co-fb-reset', bar)?.addEventListener('click', syncPockets);
     $('[data-filter-reset]', nomatch)?.addEventListener('click', syncPockets);
-    pockets.forEach((p) => p.addEventListener('click', syncPockets));
     render();
   }
 

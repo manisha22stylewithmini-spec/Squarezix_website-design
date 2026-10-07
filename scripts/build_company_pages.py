@@ -18,7 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261060b'
+VER = '20261061c'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -665,34 +665,42 @@ def collab():
 # ================================================================ PORTFOLIO SHOWCASE (pocket · bento · featured work)
 # Structure follows the "Wall of Portfolios" reference; colours, fonts and content are Squarezix's own.
 def pk_pocket():
-    """Category shelf: one pocket per kind of work. Clicking a pocket sets the Browse filters below
-    (company.js) and scrolls to the matching projects; the active pocket follows the filters."""
+    """Category showcase: ONE wide pocket holding a card per kind of work. Hover/focus lifts a card out and the pocket front
+    shows that category's details; clicking sets the Browse filters below (company.js) and scrolls to the matching projects."""
     cats = [
         dict(name='Websites & platforms', line='Sites that earn demos, not just visits.', set='{"cap":"digital","ind":"tech","out":"leads"}',
-             tone='a', pics=['assets/work/project-1.png'], note=('+212%', 'demo requests'), n=1),
+             paper='lilac', img='assets/work/project-1.png', n=1, r=-3),
         dict(name='E-commerce & storefronts', line='Storefronts with a checkout that keeps shoppers.', set='{"cap":"all","ind":"ecom","out":"all"}',
-             tone='b', pics=['assets/work/project-2.png'], note=('+38%', 'conversion rate'), n=1),
+             paper='violet', img='assets/work/project-2.png', n=1, r=2),
         dict(name='Product & AI', line='Products people finish setting up.', set='{"cap":"all","ind":"all","out":"adoption"}',
-             tone='c', pics=['assets/work/project-3.png'], note=('3×', 'trial to paid'), n=1),
+             paper='mist', img='assets/work/project-3.png', n=1, r=-2),
         dict(name='Social & motion', line='Short-form reels that stop the scroll.', set='{"cap":"marketing","ind":"all","out":"all"}',
-             tone='d', pics=['assets/reels/reel-3.jpg', 'assets/reels/reel-1.jpg'], note=('5', 'social reels'), n=5),
+             paper='orchid', img='assets/reels/reel-3.jpg', n=5, r=3),
     ]
     head = head_block('Browse by Category', 'Pick a <em>pocket</em>',
-                      'Every kind of work we do, filed in its own pocket. Open one to see the projects inside.', sid='pk-title')
-    pockets = ''
+                      'Every kind of work we do, filed in one pocket. Hover a card to peek inside, click to see the projects.', sid='pk-title')
+    cards = ''
     for c in cats:
-        pics = ''.join(f'<img class="pk-pic pk-pic--{i + 1}{" pk-pic--tall" if "reels" in src else ""}" src="{src}" alt="" loading="lazy" />'
-                       for i, src in enumerate(c['pics']))
-        big, small = c['note']
         count = f'{c["n"]} project{"s" if c["n"] > 1 else ""}'
-        pockets += (f"<button type=\"button\" class=\"pk-pk pk-pk--{c['tone']}\" data-set='{c['set']}' aria-pressed=\"false\" aria-controls=\"pf-cards\">"
-                    f'<span class="pk-inside" aria-hidden="true"></span>'
-                    f'<span class="pk-peek" aria-hidden="true">{pics}<span class="pk-note"><b>{e(big)}</b><small>{e(small)}</small></span></span>'
-                    f'<span class="pk-front"><span class="pk-count">{count}</span><b class="pk-name">{e(c["name"])}</b>'
-                    f'<span class="pk-line">{e(c["line"])}</span><span class="pk-go">View work {ARROW_R}</span></span></button>')
+        cards += (f"<button type=\"button\" class=\"pk2-card pk2-card--{c['paper']}\" style=\"--r:{c['r']}deg\" data-set='{c['set']}' data-name=\"{e(c['name'], quote=True)}\" "
+                  f"data-line=\"{e(c['line'], quote=True)}\" data-cnt=\"{count}\" aria-pressed=\"false\" aria-controls=\"pf-cards\">"
+                  f'<i class="pk2-clip" aria-hidden="true"></i><span class="pk2-count">{count}</span>'
+                  f'<span class="pk2-title">{e(c["name"])}</span>'
+                  f'<span class="pk2-media" aria-hidden="true"><img src="{c["img"]}" alt="" loading="lazy" /></span></button>')
     return f'''    <section class="co-sec pk-sec" aria-labelledby="pk-title">
       {head}
-      <div class="pk-shelf" data-rise>{pockets}</div>
+      <div class="pk2" data-rise>
+        <div class="pk2-cards" role="group" aria-label="Work categories">{cards}</div>
+        <div class="pk2-front">
+          <div class="pk2-info" aria-live="polite">
+            <span class="pk2-info-count">4 categories</span>
+            <b class="pk2-info-name">Four kinds of work, one team</b>
+            <span class="pk2-info-line">Hover a card to peek inside.</span>
+            <span class="pk2-info-go">View work {ARROW_R}</span>
+          </div>
+          <span class="pk2-mark" aria-hidden="true">SZ</span>
+        </div>
+      </div>
     </section>
 '''
 
