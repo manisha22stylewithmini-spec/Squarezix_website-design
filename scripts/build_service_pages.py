@@ -317,17 +317,17 @@ PAGES = [
             'panels': [('Platforms & frameworks.', 'WordPress, e-commerce, React, Next.js, CMS and full-stack builds.'),
                        ('Enterprise & integrations.', 'Angular, ASP.NET, SharePoint, portals, APIs and security testing.')]}),
         'sections': [
-            # Live 'Methodology' section: titles only on the live page
-            ('timeline', 'Methodology', 'What Makes Squarezix the <em>Best Web Development Company in Dubai?</em>',
-             {'out': 'Live website', 'items': [(t, '', []) for t in ('Design-Driven Approach Focused on Aesthetics & Performance', 'Seamless Mobile & Tablet Experience',
-                                              'Conversion-Focused Layouts for Higher Leads & Sales', 'Collaborative Process—We Build Your Vision Together',
-                                              'Trendy, Future-Ready Design Elements', 'Optimized for Google Rankings and Speed')]}),
             ('pillars', 'Our approach', 'From brief to <em>launch-ready build</em>', pillars_of(
                 ('Plan', ['Requirements & discovery', 'Platform & stack selection', 'Information architecture', 'SEO-ready structure', 'Project roadmap']),
                 ('Build', ['Front-end & CMS development', 'API development & integration', 'Payment gateway integration', 'Multi-language & localization', 'Security & pentesting']),
                 ('Launch', ['Quality assurance & testing', 'Performance optimization', 'Website migration', 'Cloud & hosting setup', 'Maintenance & support']))),
             ('bento', 'Reliable Solutions', 'How Squarezix <em>Stands Out</em>',
              {'intro': L['web']['standout']['intro'], 'items': L['web']['standout']['items'], 'grid': 'rem2'}),
+            # Live 'Methodology' section: titles only on the live page
+            ('timeline', 'Methodology', 'What Makes Squarezix the <em>Best Web Development Company in Dubai?</em>',
+             {'out': 'Live website', 'items': [(t, '', []) for t in ('Design-Driven Approach Focused on Aesthetics & Performance', 'Seamless Mobile & Tablet Experience',
+                                              'Conversion-Focused Layouts for Higher Leads & Sales', 'Collaborative Process—We Build Your Vision Together',
+                                              'Trendy, Future-Ready Design Elements', 'Optimized for Google Rankings and Speed')]}),
             ('industries', 'Industries', 'Websites for businesses <em>across industries</em>', L['web']['industries']),
             ('faq', 'FAQs', 'Ask. Click. <em>Done.</em>', L['web']['faq'][:10], 'Find the top questions and clear answers, all in one place. If something’s missing, our team is just a message away.'),
         ],
