@@ -1035,3 +1035,12 @@ a.pk-tile:hover { translate: 0 -5px; border-color: rgba(201, 139, 255, .5); }
 .co-portfolio .tl2 { margin-top: 0; }
 .co-portfolio .tl2 + .co-cta-sec { padding-top: 0; }
 .co-portfolio .ss-faq-band { margin-top: var(--pf-gap); }
+
+/* Timeline image: feathered edges so the black photo melts into the page background (no hard frame) */
+.tl2-img { border-radius: 0; overflow: visible; }
+.tl2-img img {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 22%, #000 78%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 18%, #000 80%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent 0, #000 22%, #000 78%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 18%, #000 80%, transparent 100%);
+  mask-composite: intersect;
+}
