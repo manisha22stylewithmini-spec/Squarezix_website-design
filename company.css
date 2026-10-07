@@ -828,3 +828,52 @@ a.pk-tile:hover { translate: 0 -5px; border-color: rgba(201, 139, 255, .5); }
 .pk-view svg { width: 20px; height: 20px; }
 @media (max-width: 800px) { .pk-feat { grid-template-columns: 1fr; } .pk-view { grid-column: auto; } .pk-d--phone { display: none; } .pk-d--main { width: 86%; } }
 @media (prefers-reduced-motion: reduce) { .pk-c, .pk-tile, .pk-view { transition: none; } }
+
+/* ================= Portfolio project cards as folders (reference: frosted folders with peeking photos) ================= */
+.pf-cards:has(.pf-fc) { gap: clamp(22px, 2.6vw, 34px) clamp(16px, 2vw, 26px); }
+.pf-card.pf-fc { padding: 0; gap: 0; border: 0; border-radius: 0; background: none; box-shadow: none; text-align: center; }
+.pf-card.pf-fc:hover { translate: none; box-shadow: none; border: 0; }
+.pf-fc-folder { position: relative; display: block; aspect-ratio: 5 / 4.2; }
+.pf-fc-back { position: absolute; inset: 5% 1% 6%; border-radius: 22px; background: linear-gradient(180deg, #2b1a55, #1a1036); border: 1px solid rgba(255, 255, 255, .1); }
+.pf-fc-back::before { content: ""; position: absolute; left: -1px; top: -9%; width: 42%; height: 22%; border-radius: 18px 22px 0 0; background: #2b1a55; border: 1px solid rgba(255, 255, 255, .1); border-bottom: 0; }
+.pf-fc-pics { position: absolute; left: 7%; right: 7%; top: 0; height: 52%; }
+.pf-fc-pics img { position: absolute; width: 50%; aspect-ratio: 4 / 3; object-fit: cover; object-position: left top; border-radius: 9px; border: 3px solid #f6f1ff; background: #f6f1ff; box-shadow: 0 10px 18px -8px rgba(0, 0, 0, .7); transition: translate .5s cubic-bezier(.22, 1, .36, 1), rotate .5s cubic-bezier(.22, 1, .36, 1); }
+.pf-fc-p1 { left: 0; top: 26%; rotate: -5deg; }
+.pf-fc-p2 { left: 25%; top: 4%; rotate: 2deg; }
+.pf-fc-p3 { right: 0; top: 18%; rotate: 6deg; z-index: 1; }
+.pf-fc-front {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 66%; border-radius: 22px; z-index: 2;
+  background: linear-gradient(180deg, rgba(74, 44, 140, .82), rgba(30, 18, 62, .94)); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 184, 255, .22); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2), 0 24px 40px -18px rgba(0, 0, 0, .8);
+  transition: box-shadow .4s ease, border-color .4s ease;
+}
+.pf-fc-icon { position: absolute; top: 16%; left: 7%; display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px; background: rgba(255, 255, 255, .1); color: #e2b8ff; }
+.pf-fc-icon svg { width: 22px; height: 22px; }
+.pf-fc-clip { position: absolute; top: -16px; left: 50%; width: 12px; height: 32px; margin-left: -6px; border: 2px solid #d6cdee; border-radius: 8px; box-shadow: 0 2px 3px rgba(0, 0, 0, .35); z-index: 1; }
+.pf-fc-clip::after { content: ""; position: absolute; inset: 5px 2px 10px; border: 2px solid #d6cdee; border-bottom: 0; border-radius: 4px 4px 0 0; }
+.pf-fc-tag { position: absolute; top: -10%; right: 7%; rotate: 7deg; display: grid; gap: 2px; min-width: 34%; padding: 18px 12px 12px; border-radius: 8px; background: linear-gradient(180deg, #ece2ff, #d8c6fb); color: #2a0f5c; box-shadow: 0 12px 20px -8px rgba(0, 0, 0, .7); }
+.pf-fc-tag b { font: 700 clamp(18px, 1.6vw, 22px)/1 "Sora", sans-serif; letter-spacing: -.02em; }
+.pf-fc-tag small { font: 500 11px/1.25 "DM Sans", sans-serif; opacity: .8; }
+.pf-fc-stamp { position: absolute; top: -10%; right: 7%; rotate: 7deg; width: 30%; padding: 5px; background: #f6f1ff; box-shadow: 0 12px 20px -8px rgba(0, 0, 0, .7);
+  -webkit-mask: radial-gradient(circle 3px at 50% 0, transparent 98%, #000) 0 0 / 9px 100% repeat-x, linear-gradient(#000, #000);
+  -webkit-mask-composite: source-in; }
+.pf-fc-stamp img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+.pf-fc-play { position: absolute; inset: 0; display: grid; place-items: center; }
+.pf-fc-play svg { width: 26px; height: 26px; padding: 7px; border-radius: 50%; background: rgba(14, 10, 30, .7); fill: #fff; }
+.pf-fc-team { position: absolute; left: 7%; bottom: 13%; display: flex; }
+.pf-fc-team i { display: grid; place-items: center; width: 36px; height: 36px; margin-right: -9px; border-radius: 50%; border: 2px solid #22143f; font: 700 11px/1 "Sora", sans-serif; font-style: normal; color: #2a0f5c; }
+.pf-fc-team i:nth-child(1) { background: #f0dbfb; }
+.pf-fc-team i:nth-child(2) { background: #d9c7ff; }
+.pf-fc-team i:nth-child(3) { background: #c6adff; }
+.pf-card.pf-fc h3 { margin: clamp(14px, 1.6vw, 20px) 0 0; font: 600 clamp(17px, 1.5vw, 21px)/1.25 "Sora", sans-serif; color: #d9d4e8; }
+.pf-card.pf-fc h3 a { color: inherit; }
+.pf-card.pf-fc h3 a::after { border-radius: 22px; }
+.pf-card.pf-fc p { margin: 6px auto 0; max-width: 34ch; font-size: 13.5px; line-height: 1.5; color: #a9a3c0; -webkit-line-clamp: 2; }
+.pf-card.pf-fc:hover .pf-fc-p1 { translate: -6px -12px; rotate: -9deg; }
+.pf-card.pf-fc:hover .pf-fc-p2 { translate: 0 -16px; }
+.pf-card.pf-fc:hover .pf-fc-p3 { translate: 6px -12px; rotate: 10deg; }
+.pf-card.pf-fc:hover .pf-fc-front { border-color: rgba(226, 184, 255, .5); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 30px 50px -16px rgba(98, 29, 208, .6); }
+.pf-card.pf-fc:hover h3 { color: #fff; }
+.pf-card.pf-fc:has(h3 a:focus-visible) .pf-fc-front { border-color: #c98bff; }
+@media (min-width: 1101px) { .pf-cards:has(.pf-fc) { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 1100px; } }
+@media (prefers-reduced-motion: reduce) { .pf-fc-pics img { transition: none; } }

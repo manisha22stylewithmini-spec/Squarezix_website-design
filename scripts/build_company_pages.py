@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261050a'
+VER = '20261051b'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -437,23 +437,43 @@ def portfolio():
                  5: 'Branded social reel for Solution Wagon.'}
     PHONE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.18 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.1 9.9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/><path d="M15 2.5a6 6 0 0 1 6.5 6.5M15 6a2.5 2.5 0 0 1 3 3"/></svg>'
 
-    def sel_card(title, desc, img, alt, href, play=False, cap='', ind='none', out=''):
-        badge = '<span class="pf-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5-11-6.5Z"/></svg></span>' if play else ''
-        return (f'<article class="pf-card" data-cap="{cap}" data-ind="{ind}" data-out="{out}" data-rise><a class="pf-card-media" href="{href}" tabindex="-1" aria-hidden="true">'
-                f'<img src="{img}" alt="{e(alt)}" loading="lazy" />{badge}</a>'
-                f'<h3><a href="{href}">{e(title)}</a></h3><p>{e(desc)}</p>'
-                f'<a href="#ab-contact" class="btn-contact pf-card-cta">{PHONE} Contact us</a></article>')
+    # Project cards as folders: photos peek out of a frosted folder, a paper-clipped tag carries the key result
+    # (or the reel poster), small bubbles name the disciplines, title and line sit underneath.
+    ICON_WEB = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg>'
+    ICON_REEL = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="m10.5 9.5 4 2.5-4 2.5z" fill="currentColor"/></svg>'
+    SHORT = {'Positioning': 'Po', 'UX/UI': 'UX', 'Development': 'Dev', 'SEO': 'SEO', 'Headless build': 'HL', 'CRO': 'CRO',
+             'Product design': 'PD', 'Design system': 'DS', 'AI integration': 'AI'}
+
+    def sel_card(title, desc, img, href, pics, tag, team, icon, cap='', ind='none', out=''):
+        pic_html = ''.join(f'<img class="pf-fc-p{i + 1}" src="{src}" alt="" loading="lazy" />' for i, src in enumerate(pics + [img]))
+        team_html = ''.join(f'<i title="{e(full)}">{e(short)}</i>' for short, full in team)
+        return (f'<article class="pf-card pf-fc" data-cap="{cap}" data-ind="{ind}" data-out="{out}" data-rise>'
+                f'<a class="pf-fc-folder" href="{href}" tabindex="-1" aria-hidden="true"><span class="pf-fc-back"></span>'
+                f'<span class="pf-fc-pics">{pic_html}</span>'
+                f'<span class="pf-fc-front"><span class="pf-fc-icon">{icon}</span>{tag}<span class="pf-fc-team">{team_html}</span></span></a>'
+                f'<h3><a href="{href}">{e(title)}</a></h3><p>{e(desc)}</p></article>')
 
     SITE_META = [('digital', 'tech', 'leads'), ('digital', 'ecom', 'conversion'), ('digital', 'tech', 'adoption')]
+    site_imgs = [s['img'] for s in sites]
 
     def sel_site(i):
         x = sites[i]
+        c = next(k for k in CASES if k['client'] == x['client'])
         cap, ind, out = SITE_META[i]
-        return sel_card(x['client'], x['blurb'], x['img'], x['alt'], 'case-study.html', cap=cap, ind=ind, out=out)
+        v, label = c['results'][0]
+        tag = f'<span class="pf-fc-tag"><i class="pf-fc-clip"></i><b>{e(v)}</b><small>{e(label)}</small></span>'
+        others = [im for im in site_imgs if im != x['img']]
+        team = [(SHORT.get(s, s[:2]), s) for s in c['services'][:3]]
+        return sel_card(x['client'], x['blurb'], x['img'], 'case-study.html', others, tag, team, ICON_WEB, cap=cap, ind=ind, out=out)
 
     def sel_reel(i):
         r = reels[i]
-        return sel_card(r['title'], reel_desc[r['n']], f"assets/reels/reel-{r['n']}.jpg", f"{r['title']} reel poster", 'index.html#reels', play=True, cap='marketing', ind='none', out='engagement')
+        poster = f"assets/reels/reel-{r['n']}.jpg"
+        tag = (f'<span class="pf-fc-stamp"><i class="pf-fc-clip"></i><img src="{poster}" alt="" loading="lazy" />'
+               f'<span class="pf-fc-play"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5-11-6.5Z"/></svg></span></span>')
+        others = [f"assets/reels/reel-{reels[(i + k) % len(reels)]['n']}.jpg" for k in (1, 2)]
+        return sel_card(r['title'], reel_desc[r['n']], poster, 'index.html#reels', others, tag,
+                        [('Mo', 'Motion'), ('So', 'Social video')], ICON_REEL, cap='marketing', ind='none', out='engagement')
 
     sel_cards = ''.join([sel_site(0), sel_reel(0), sel_site(1), sel_reel(1), sel_site(2), sel_reel(2), sel_reel(3), sel_reel(4)])
 
