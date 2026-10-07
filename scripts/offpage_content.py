@@ -58,7 +58,7 @@ WHY = [
       'chips': ['Original research', 'Industry insights', 'Expert commentary', 'Surveys', 'Data-driven reports', 'Founder expertise', 'Newsworthy campaigns', 'Thought leadership'],
       'close': 'These assets can create legitimate reasons for publishers and journalists to reference your company.'}),
     ('Transparent Reporting',
-     'You should know exactly what is happening with your campaign. Our reporting provides visibility into acquired backlinks, referring domains, targeted pages and broader organic performance. No mystery backlink packages.', {'wide': True}),
+     'You should know exactly what is happening with your campaign. Our reporting provides visibility into acquired backlinks, referring domains, targeted pages and broader organic performance. No mystery backlink packages.', {}),
 ]
 
 SOLUTIONS = [
@@ -126,7 +126,7 @@ OFFPAGE_LAYOUT = [
       'items': STEPS}, 'process'),
     ('bento', 'Why Choose Squarezix', 'Why Choose SquareZix for <em>Off-Page SEO Services in Dubai?</em>',
      {'intro': 'Building backlinks is easy. Building the right backlinks is considerably harder. SquareZix combines SEO analysis, manual outreach, digital PR and local UAE market knowledge to develop off-page campaigns focused on sustainable authority rather than artificial backlink volume.',
-      'items': WHY}),
+      'items': WHY, 'grid': 'b5'}),
     ('nodes', 'Our Solutions', 'Comprehensive <em>Off-Page Solutions</em>',
      {'intro': 'Every website has a different authority gap. SquareZix develops customized off-page campaigns based on your existing backlink profile, competitors, industry and target market.',
       'items': SOLUTIONS}, 'services'),

@@ -716,7 +716,7 @@ def stand_card(title, text, extra=None):
     if isinstance(extra, dict) and extra.get('chips'):
         lead, chips, close = extra.get('lead', ''), extra['chips'], extra.get('close', '')
         body = (f'<p>{e(lead)}</p>' if lead else '') + f'<ul class="ec-chips">{"".join(f"<li>{e(c)}</li>" for c in chips)}</ul>' + (f'<p class="ec-close">{e(close)}</p>' if close else '')
-        return f'<li class="ec-feat{" ec-feat--full" if extra.get("wide") else ""}"><h3>{e(title)}</h3>{body}</li>'
+        return f'<li class="ec-feat ec-feat--chips{" ec-feat--full" if extra.get("wide") else ""}"><h3>{e(title)}</h3>{body}</li>'
     if isinstance(extra, dict) and extra.get('wide'):
         return f'<li class="ec-feat ec-feat--full"><h3>{e(title)}</h3><p>{e(text)}</p></li>'
     if title in STAND_LISTS:
@@ -738,7 +738,7 @@ def bento(badge, title, data):
         cards = ''.join(stand_card(t, d, b) for t, d, b in data['items'])
         return f'''    <section class="ss-sec">
       {head(badge, title, data.get('intro', ''), center=True)}
-      <ul class="ec-stand">{cards}</ul>
+      <ul class="ec-stand{' ec-stand--b5' if data.get('grid') == 'b5' else ''}">{cards}</ul>
     </section>
 
 '''
