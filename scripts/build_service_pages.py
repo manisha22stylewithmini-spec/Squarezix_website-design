@@ -386,10 +386,6 @@ def menu_items(page, key, subs=None):
 
 
 MENU_TABS = [
-    ('Branding & Design', 'branding.html', [
-        ('Branding', 'branding.html', menu_items('branding.html', 'branding')),
-        ('Design', 'design.html', menu_items('design.html', 'design')),
-    ]),
     ('Digital Marketing', None, [
         ('Social Media', 'social-media-marketing.html', menu_items('social-media-marketing.html', 'social')),
         ('Content Marketing', 'content-marketing.html', menu_items('content-marketing.html', 'content')),
@@ -399,6 +395,10 @@ MENU_TABS = [
     ('AI Search & SEO', None, [
         ('AI & Search Visibility', 'seo-ai-visibility.html',
          menu_items('seo-ai-visibility.html', 'seo') + menu_items('geo.html', 'geo')),
+    ]),
+    ('Branding & Design', 'branding.html', [
+        ('Branding', 'branding.html', menu_items('branding.html', 'branding')),
+        ('Design', 'design.html', menu_items('design.html', 'design')),
     ]),
 ]
 # Its own header item after Services: one tab each for development and maintenance

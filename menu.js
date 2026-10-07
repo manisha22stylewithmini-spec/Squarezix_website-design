@@ -14,64 +14,6 @@
       // <services:auto>
       tabs: [
         {
-          "label": "Branding & Design",
-          "page": "branding.html",
-          "cols": [
-            {
-              "title": "Branding",
-              "page": "branding.html",
-              "items": [
-                {
-                  "t": "Brand Strategy & Positioning",
-                  "h": "brand-strategy-and-positioning.html"
-                },
-                {
-                  "t": "Visual Identity Design",
-                  "h": "visual-identity-design.html"
-                },
-                {
-                  "t": "Brand Audit & Rebranding",
-                  "h": "brand-audit-and-rebranding.html"
-                },
-                {
-                  "t": "Brand Experience & Touchpoints",
-                  "h": "brand-experience-and-touchpoints.html"
-                },
-                {
-                  "t": "Brand Collateral & Print Design",
-                  "h": "brand-collateral-and-print-design.html"
-                }
-              ]
-            },
-            {
-              "title": "Design",
-              "page": "design.html",
-              "items": [
-                {
-                  "t": "Web & App Design",
-                  "h": "web-and-app-design.html"
-                },
-                {
-                  "t": "Revamp Website",
-                  "h": "revamp-website.html"
-                },
-                {
-                  "t": "Ecommerce Website Design",
-                  "h": "ecommerce-website-design.html"
-                },
-                {
-                  "t": "Social Media Design",
-                  "h": "social-media-design.html"
-                },
-                {
-                  "t": "Email Marketing Testing & Design",
-                  "h": "email-marketing-testing-and-design.html"
-                }
-              ]
-            }
-          ]
-        },
-        {
           "label": "Digital Marketing",
           "page": null,
           "cols": [
@@ -194,6 +136,64 @@
                 {
                   "t": "AI-Friendly Structured Data",
                   "h": "ai-friendly-structured-data.html"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Branding & Design",
+          "page": "branding.html",
+          "cols": [
+            {
+              "title": "Branding",
+              "page": "branding.html",
+              "items": [
+                {
+                  "t": "Brand Strategy & Positioning",
+                  "h": "brand-strategy-and-positioning.html"
+                },
+                {
+                  "t": "Visual Identity Design",
+                  "h": "visual-identity-design.html"
+                },
+                {
+                  "t": "Brand Audit & Rebranding",
+                  "h": "brand-audit-and-rebranding.html"
+                },
+                {
+                  "t": "Brand Experience & Touchpoints",
+                  "h": "brand-experience-and-touchpoints.html"
+                },
+                {
+                  "t": "Brand Collateral & Print Design",
+                  "h": "brand-collateral-and-print-design.html"
+                }
+              ]
+            },
+            {
+              "title": "Design",
+              "page": "design.html",
+              "items": [
+                {
+                  "t": "Web & App Design",
+                  "h": "web-and-app-design.html"
+                },
+                {
+                  "t": "Revamp Website",
+                  "h": "revamp-website.html"
+                },
+                {
+                  "t": "Ecommerce Website Design",
+                  "h": "ecommerce-website-design.html"
+                },
+                {
+                  "t": "Social Media Design",
+                  "h": "social-media-design.html"
+                },
+                {
+                  "t": "Email Marketing Testing & Design",
+                  "h": "email-marketing-testing-and-design.html"
                 }
               ]
             }
