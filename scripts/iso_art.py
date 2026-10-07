@@ -1,7 +1,7 @@
-"""Isometric line-light illustrations ("Luminous Stratum") for card sections.
+"""Isometric line-light illustrations in the Squarezix palette (brand purple #621DD0 -> pink #AB24F2 -> lilac) ("Luminous Stratum") for card sections.
 
 Each scene is plain inline SVG built on a 30° isometric lattice: dark violet glass slabs whose only
-brilliance is a neon edge (violet -> blue -> lilac), a pool of light beneath, a few floating satellites
+brilliance is a neon edge (brand pink -> lilac -> white), a pool of light beneath, a few floating satellites
 and a scatter of stars. Ids are prefixed per scene so many can live on one page.
 art(key) -> '<svg ...>'.  Motion classes (ix-float, ix-tw, ix-spin, ix-pulse) are animated in CSS.
 """
@@ -84,18 +84,18 @@ class Scene:
     def svg(self):
         k = self.k
         defs = f'''<defs>
-<linearGradient id="{k}-top" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2d1b62"/><stop offset="1" stop-color="#170f37"/></linearGradient>
-<linearGradient id="{k}-top2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a2483"/><stop offset="1" stop-color="#1d1346"/></linearGradient>
-<linearGradient id="{k}-hi" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9b7bff"/><stop offset="1" stop-color="#5a36cf"/></linearGradient>
-<linearGradient id="{k}-hi2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7c9bff"/><stop offset="1" stop-color="#4b3bd3"/></linearGradient>
-<linearGradient id="{k}-l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c1340"/><stop offset="1" stop-color="#0d0920"/></linearGradient>
-<linearGradient id="{k}-r" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#271a58"/><stop offset="1" stop-color="#120c2c"/></linearGradient>
-<linearGradient id="{k}-e" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c084fc"/><stop offset=".55" stop-color="#60a5fa"/><stop offset="1" stop-color="#ede9fe"/></linearGradient>
-<linearGradient id="{k}-e2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8b5cf6"/><stop offset="1" stop-color="#3b82f6"/></linearGradient>
-<linearGradient id="{k}-pin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9d5ff"/><stop offset=".45" stop-color="#a855f7"/><stop offset="1" stop-color="#4f46e5"/></linearGradient>
-<linearGradient id="{k}-beam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c4b5fd" stop-opacity="0"/><stop offset=".7" stop-color="#a78bfa" stop-opacity=".32"/><stop offset="1" stop-color="#60a5fa" stop-opacity=".5"/></linearGradient>
-<radialGradient id="{k}-gP"><stop offset="0" stop-color="#8b5cf6" stop-opacity=".55"/><stop offset="1" stop-color="#8b5cf6" stop-opacity="0"/></radialGradient>
-<radialGradient id="{k}-gB"><stop offset="0" stop-color="#3b82f6" stop-opacity=".45"/><stop offset="1" stop-color="#3b82f6" stop-opacity="0"/></radialGradient>
+<linearGradient id="{k}-top" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a1452"/><stop offset="1" stop-color="#140a2a"/></linearGradient>
+<linearGradient id="{k}-top2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3b1a74"/><stop offset="1" stop-color="#1c0e3c"/></linearGradient>
+<linearGradient id="{k}-hi" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c47bff"/><stop offset="1" stop-color="#621dd0"/></linearGradient>
+<linearGradient id="{k}-hi2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e2b8ff"/><stop offset="1" stop-color="#ab24f2"/></linearGradient>
+<linearGradient id="{k}-l" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#190e33"/><stop offset="1" stop-color="#0a0716"/></linearGradient>
+<linearGradient id="{k}-r" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#24124b"/><stop offset="1" stop-color="#100a24"/></linearGradient>
+<linearGradient id="{k}-e" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ab24f2"/><stop offset=".55" stop-color="#c98bff"/><stop offset="1" stop-color="#f3e8ff"/></linearGradient>
+<linearGradient id="{k}-e2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#621dd0"/><stop offset="1" stop-color="#ab24f2"/></linearGradient>
+<linearGradient id="{k}-pin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3e8ff"/><stop offset=".45" stop-color="#ab24f2"/><stop offset="1" stop-color="#621dd0"/></linearGradient>
+<linearGradient id="{k}-beam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c4b5fd" stop-opacity="0"/><stop offset=".7" stop-color="#c98bff" stop-opacity=".3"/><stop offset="1" stop-color="#ab24f2" stop-opacity=".5"/></linearGradient>
+<radialGradient id="{k}-gP"><stop offset="0" stop-color="#ab24f2" stop-opacity=".42"/><stop offset="1" stop-color="#ab24f2" stop-opacity="0"/></radialGradient>
+<radialGradient id="{k}-gB"><stop offset="0" stop-color="#621dd0" stop-opacity=".5"/><stop offset="1" stop-color="#621dd0" stop-opacity="0"/></radialGradient>
 <filter id="{k}-blur" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3.2"/></filter>
 <filter id="{k}-soft" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="9"/></filter>
 </defs>'''
@@ -200,8 +200,8 @@ def geogrid():
                             + label(t, gx + 75, gy + 75, r * 1.05, o))
             else:
                 dots.append(f'<circle cx="{gx + 75}" cy="{gy + 75}" r="2.4" fill="#c4b5fd" opacity=".35"/>')
-    grid_lines = ''.join(f'<line x1="{v}" y1="15" x2="{v}" y2="135" stroke="#8b5cf6" stroke-width=".6" opacity=".25"{NS}/>'
-                         f'<line x1="15" y1="{v}" x2="135" y2="{v}" stroke="#8b5cf6" stroke-width=".6" opacity=".25"{NS}/>' for v in range(15, 136, 30))
+    grid_lines = ''.join(f'<line x1="{v}" y1="15" x2="{v}" y2="135" stroke="#ab24f2" stroke-width=".6" opacity=".22"{NS}/>'
+                         f'<line x1="15" y1="{v}" x2="135" y2="{v}" stroke="#ab24f2" stroke-width=".6" opacity=".22"{NS}/>' for v in range(15, 136, 30))
     scan = f'<g transform="translate(75,75)"><g class="ix-spin"><circle r="44" fill="none" stroke="url(#ixc-e)" stroke-width="1.4" stroke-dasharray="40 236"{NS}/></g></g>'
     s.add(s.box(-75, -75, 0, 150, 150, 8, glow=True, inner=grid_lines + ''.join(dots) + scan),
           s.at(0, 0, 66, pin2d('ixc', .62), 'ix-float', -1))
