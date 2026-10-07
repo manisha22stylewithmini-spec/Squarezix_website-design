@@ -961,7 +961,8 @@ def vs(badge, title, data):
 
     def panel(cls, d):
         rows = ''.join(f'<li>{dot}{e(i)}</li>' for i in d['items'])
-        return f'<article class="cmp-panel {cls}"><h3>{e(d["title"])}</h3><ul class="cmp-chips">{rows}</ul><p class="cmp-note">{e(d["note"])}</p></article>'
+        note = f'<p class="cmp-note">{e(d["note"])}</p>' if d.get('note') else ''
+        return f'<article class="cmp-panel {cls}"><h3>{e(d["title"])}</h3><ul class="cmp-chips">{rows}</ul>{note}</article>'
     return f'''    <section class="ss-sec cmp-sec">
       {head(badge, title, data.get('intro', ''), center=True)}
       <div class="cmp cmp--vs">{panel('cmp-panel--dim', data['left'])}{panel('cmp-panel--hi', data['right'])}</div>

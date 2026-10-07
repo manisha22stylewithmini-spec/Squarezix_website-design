@@ -12,6 +12,7 @@ Node cards: (title, tag, description, [keywords]). Feature cards: (title, lead, 
 from local_seo_content import LOCAL_LAYOUT, LOCAL_HERO  # noqa: E402
 from offpage_content import OFFPAGE_LAYOUT, OFFPAGE_HERO  # noqa: E402
 import squarespace_content as SQ  # noqa: E402
+import technical_seo_content as TS  # noqa: E402
 import sys
 from pathlib import Path
 
@@ -538,21 +539,11 @@ SUBS = [
          points=[(t, d) for t, d, _b in L['geo']['why']['items'][:8]],
          faq=L['geo']['faq']),
 
-    dict(name='Technical SEO', parent='seo', source='written',
-         h1=['A Site Search', 'Engines Can', 'Crawl and Trust.'],
-         lead='Technical SEO that improves crawlability, speed and indexation, so the rest of your SEO has a solid foundation.',
+    dict(name='Technical SEO', parent='seo', source='live', layout=TS.TECH_LAYOUT, **TS.TECH_HERO,
          intro=lv('seo', 'services', 'Technical SEO'),
-         nodes=[('Crawl & Index Audit', 'Crawling', 'We review how search engines crawl and index your site, and fix blocked, duplicate and missing pages.', ['XML sitemaps', 'robots.txt', 'Indexation']),
-                ('Site Speed & Core Web Vitals', 'Performance', 'Faster load times and stable layouts for better rankings and a smoother experience on every device.', ['Core Web Vitals', 'Image optimisation', 'Caching']),
-                ('Site Architecture & Internal Linking', 'Structure', 'A clear structure and internal linking that help search engines and people find your key pages.', ['URL structure', 'Internal links', 'Breadcrumbs']),
-                ('Structured Data & Mobile Readiness', 'Markup', 'Schema markup and mobile-first fixes that help your pages earn rich results and AI citations.', ['Schema markup', 'Mobile-friendly', 'Rich results'])],
-         feats=[('What We Fix', 'The technical issues holding rankings back.', ['Crawl errors', 'Broken links', 'Duplicate content', 'Redirect chains']),
-                ('Tools & Data', 'Decisions backed by data.', ['Search Console', 'Log files', 'Site crawlers', 'PageSpeed']),
-                ('Results', 'What improves.', ['Indexation', 'Page speed', 'Rankings', 'Organic traffic'])],
-         faq=[('What is technical SEO?', 'It is the work that makes your website easy for search engines to crawl, understand and index, covering site speed, structure, mobile-friendliness and structured data.'),
-              ('How is it different from on-page SEO?', 'On-page SEO improves the content of individual pages. Technical SEO improves the site underneath all of them.'),
-              ('How long does a technical SEO audit take?', 'Most audits take one to two weeks, depending on the size of the website.'),
-              ('Will you work with our developers?', 'Yes. We write clear, prioritised tickets and work alongside your developers to ship the fixes.')]),
+         nodes=[(t, 'Included', d, m['kw']) for t, d, m in TS.DELIVERABLES],
+         feats=[('Platforms', 'Where we work.', [t for t, _d, _m in TS.PLATFORMS])],
+         faq=TS.FAQ),
     dict(name='On-Page SEO', parent='seo', source='written',
          h1=['Pages Built', 'to Rank and', 'to Convert.'],
          lead='On-page SEO that optimises your content, structure and metadata so every page ranks for what your customers search.',
