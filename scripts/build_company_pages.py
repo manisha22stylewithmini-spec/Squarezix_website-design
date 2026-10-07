@@ -18,7 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261061c'
+VER = '20261062a'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -526,7 +526,7 @@ def portfolio():
     body = hero('Portfolio', 'A selection of brands, experiences and <em>digital systems</em> we’ve built.',
                 'Websites, products and campaigns — designed, built and grown by one team.',
                 'Start a project', '#ab-contact')
-    body += pk_pocket()
+    body += pk_pocket() + pk_culture()
     body += f'''
     <section class="co-sec pf-sel" id="browse" aria-labelledby="pf-sel-title">
       {head_block('Browse Work', 'Find a project <em>like yours</em>', 'Filter by what we did, who it was for and what changed — three ways in, not fifteen.', sid='pf-sel-title')}
@@ -701,6 +701,18 @@ def pk_pocket():
           <span class="pk2-mark" aria-hidden="true">SZ</span>
         </div>
       </div>
+    </section>
+'''
+
+
+def pk_culture():
+    """Short culture note under the category pocket (Claude-written copy; facts from about-us.html: one roof in Business Bay)."""
+    head = head_block('Our Culture', 'Behind every project is <em>a team that cares</em>',
+                      'Strategists, designers, developers and marketers share one roof in Business Bay, and one rule: nothing goes in this portfolio unless we would be proud to show it to the next client. That is the culture behind the work: one team, honest feedback and a habit of finishing what we start.',
+                      sid='pk-culture-title')
+    return f'''    <section class="co-sec pk-culture" aria-labelledby="pk-culture-title">
+      {head}
+      <div class="pk-culture-cta" data-rise><a href="culture.html" class="btn-contact btn-contact--xl">Explore our culture {ARROW_R}</a></div>
     </section>
 '''
 

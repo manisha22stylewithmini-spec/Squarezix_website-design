@@ -1023,3 +1023,8 @@ a.pk-tile:hover { translate: 0 -5px; border-color: rgba(201, 139, 255, .5); }
   .pk2-mark { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .pk2-card, .pk2-media img, .pk2-info-go { transition: none; } .pk2-info.is-swap > * { animation: none; } }
+
+/* Culture note under the category pocket */
+.pk-culture { max-width: 760px; margin-inline: auto; text-align: center; padding-bottom: 0; }
+.pk-culture .co-sub { max-width: 62ch; margin-inline: auto; }
+.pk-culture-cta { display: flex; justify-content: center; margin-top: clamp(26px, 3vw, 38px); }
