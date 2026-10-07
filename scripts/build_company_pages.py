@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261048a'
+VER = '20261048b'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
