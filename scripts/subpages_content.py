@@ -13,6 +13,7 @@ from local_seo_content import LOCAL_LAYOUT, LOCAL_HERO  # noqa: E402
 from offpage_content import OFFPAGE_LAYOUT, OFFPAGE_HERO  # noqa: E402
 import squarespace_content as SQ  # noqa: E402
 import technical_seo_content as TS  # noqa: E402
+import webmgmt_content as WM  # noqa: E402
 import sys
 from pathlib import Path
 
@@ -217,6 +218,9 @@ SUBS = [
     # ===================== Design =====================
     dict(name='Website Design', parent='design', source='live',
          nodes_badge='Reliable Solutions', nodes_title='Web Design Company <em>in Dubai</em>',   # live heading
+         why_bento=('Reliable Solutions', 'What Sets Squarezix Apart in <em>Website Design Services</em>',
+                    {'intro': L['design']['why']['intro'],
+                     'items': [(t, d, {'wide': True} if i == len(L['design']['why']['items']) - 1 else {}) for i, (t, d, _b) in enumerate(L['design']['why']['items'])]}),
          h1=['Websites People', 'Enjoy', 'Using.'],
          lead='Custom, user-friendly, responsive website design: conversion-first and pixel-perfect on every screen.',
          intro=L['design']['services']['intro'],
@@ -816,6 +820,12 @@ SUBS = [
               ('Can Vue work with our existing back end?', 'Yes. We connect Vue front ends to your APIs, CMS or back-end services.')]),
 
     # ===================== Website maintenance =====================
+    dict(name='Website Management Services', parent='maintain', source='live', layout=WM.WM_LAYOUT, **WM.WM_HERO,
+         intro=L['web']['maintain']['intro'],
+         nodes=[(t, 'Service', d, []) for t, d, _m in WM.SERVICES],
+         feats=[('Care Plans', 'What we manage.', ['Updates', 'Backups', 'Security', 'Performance'])],
+         live=dict(blog=WM.WM_BLOG),
+         faq=WM.FAQ),
     dict(name='24/7 Uptime Monitoring', parent='maintain', source='written',
          h1=['Your Website,', 'Watched', 'Around the Clock.'],
          lead='Continuous monitoring that spots downtime and server errors early, so your website stays open for business.',

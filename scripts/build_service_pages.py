@@ -384,7 +384,9 @@ def sub_page(sp):
     file = slug(name) + '.html'
     nodes_data = {'intro': sp['intro'], 'items': [(t, d, {'tag': tag, 'kw': kw}) for t, tag, d, kw in sp['nodes']]}
     live = sp.get('live')
-    if 'trust' in sp:
+    if 'why_bento' in sp:
+        why_secs = [('bento',) + tuple(sp['why_bento'])]
+    elif 'trust' in sp:
         # Pages with both live sections: the trust cards, then the stand-outs, each in full wording
         why_secs = [('bento', 'Why Choose Squarezix', f'Why businesses trust Squarezix for <em>{e(name)} services?</em>', sp['trust']),
                     ('bento', 'Why Squarezix', 'How Squarezix <em>stands out</em>', sp['stand'])]
