@@ -216,6 +216,7 @@ SUBS = [
 
     # ===================== Design =====================
     dict(name='Website Design', parent='design', source='live',
+         nodes_badge='Reliable Solutions', nodes_title='Web Design Company <em>in Dubai</em>',   # live heading
          h1=['Websites People', 'Enjoy', 'Using.'],
          lead='Custom, user-friendly, responsive website design: conversion-first and pixel-perfect on every screen.',
          intro=L['design']['services']['intro'],

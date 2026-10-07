@@ -411,7 +411,7 @@ def sub_page(sp):
         'title': f'{name} in Dubai | Squarezix', 'h1': sp['h1'], 'grad': 1, 'lead': sp['lead'],
         'sections': sections or [
             ('statement', 'AI search', 'Your customers search smarter. <em>We make sure they find you.</em>', L['ecom']['geo']),
-            ('nodes', 'What we deliver', f'What’s included in <em>{e(name)}</em>', nodes_data, 'services'),
+            ('nodes', sp.get('nodes_badge', 'What we deliver'), sp.get('nodes_title', f'What’s included in <em>{e(name)}</em>'), nodes_data, 'services'),
             *why_secs,
             ('timeline', fam['flow_badge'], fam['flow_title'], flow),
             ('industries', 'Industries', 'Brands we work with <em>across industries</em>', sp.get('industries') or L['branding']['industries']),
