@@ -9,6 +9,7 @@ build_service_pages.py prints the list on every build.
 
 Node cards: (title, tag, description, [keywords]). Feature cards: (title, lead, [chips]).
 """
+from local_seo_content import LOCAL_LAYOUT, LOCAL_HERO  # noqa: E402
 import sys
 from pathlib import Path
 
@@ -466,9 +467,7 @@ SUBS = [
                 ('Search Everywhere', 'Visibility beyond Google.', ['Google', 'Bing', 'AI Overviews', 'ChatGPT']),
                 ('Reporting', 'Transparent and measurable.', ['Rankings', 'Traffic', 'Leads', 'Dashboards'])],
          faq=L['seo']['faq']),
-    dict(name='Local SEO', parent='seo', source='live',
-         h1=['Get Found Where', 'Your Customers', 'Are Searching.'],
-         lead='Visibility across Google Maps, Google Search, “near me” searches and AI-powered search platforms, with Local SEO built for Dubai businesses.',
+    dict(name='Local SEO', parent='seo', source='live', layout=LOCAL_LAYOUT, **LOCAL_HERO,
          intro=L['local']['why']['intro'],
          nodes=live_nodes('local', 'services', 'Local SEO', kws={
              'Google Business Profile Optimization': ['Categories', 'Photos & posts', 'Engagement'],

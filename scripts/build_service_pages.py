@@ -367,7 +367,9 @@ def sub_page(sp):
         bento_data = {'feats': [(t, lead, chips, False) for t, lead, chips in sp['feats']], 'points': sp.get('points') or fam['why']}
         why_secs = [('bento', 'Why Squarezix', f'Why choose Squarezix for <em>{e(name)}</em>', bento_data)]
     flow = {'items': [(t, d, []) for t, d in (sp.get('flow') or fam['flow'])]}
-    if live:
+    if sp.get('layout'):
+        sections = sp['layout']
+    elif live:
         sections = [
             ('bento', 'Why Choose Squarezix', f'Why businesses trust Squarezix for <em>{e(name)} services?</em>', sp['trust']),
             ('industries', live['ind'][0], live['ind'][1], sp.get('industries') or L['branding']['industries']),
@@ -659,10 +661,12 @@ def nodes(badge, title, data, sid=None):
         lead = lead + ('.' if rest else '')
         box = f'<p class="ec-card-field">{e(rest)}</p>' if rest else ''
         chips = f'<ul class="ec-card-meta">{"".join(f"<li>{e(k)}</li>" for k in kws)}</ul>' if kws else ''
-        return (f'<li class="ec-card" id="{slug(t)}"><span class="ec-card-tag"><i></i>{e(tag)}</span>'
+        close = f'<p class="ec-card-close">{e(meta["close"])}</p>' if isinstance(meta, dict) and meta.get('close') else ''
+        return (f'<li class="ec-card" id="{idp}{slug(t)}"><span class="ec-card-tag"><i></i>{e(tag)}</span>'
                 f'<div class="ec-card-body"><div class="ec-card-head"><span class="ec-card-mark">{e(mark)}</span><h3>{e(t)}</h3>'
                 f'<i class="ec-card-menu" aria-hidden="true"></i></div><p class="ec-card-lead">{e(lead)}</p>{box}'
-                f'{chips}</div></li>')
+                f'{chips}{close}</div></li>')
+    idp = f'{sid}-' if sid and sid != 'services' else ''
     cards = ''.join(card(t, d, b) for t, d, b in data['items'])
     return f'''    <section class="ss-sec ss-why"{f' id="{sid}"' if sid else ''}>
       <div class="ss-why-side">{head(badge, title, data.get('intro', ''))}
@@ -702,7 +706,13 @@ STAND_LISTS = {
 STAND_LINKS = {'AI SEO Services': 'ai-and-llm-seo.html', 'Ecommerce SEO': 'ecommerce-seo.html'}
 
 
-def stand_card(title, text):
+def stand_card(title, text, extra=None):
+    if isinstance(extra, dict) and extra.get('chips'):
+        lead, chips, close = extra.get('lead', ''), extra['chips'], extra.get('close', '')
+        body = (f'<p>{e(lead)}</p>' if lead else '') + f'<ul class="ec-chips">{"".join(f"<li>{e(c)}</li>" for c in chips)}</ul>' + (f'<p class="ec-close">{e(close)}</p>' if close else '')
+        return f'<li class="ec-feat{" ec-feat--full" if extra.get("wide") else ""}"><h3>{e(title)}</h3>{body}</li>'
+    if isinstance(extra, dict) and extra.get('wide'):
+        return f'<li class="ec-feat ec-feat--full"><h3>{e(title)}</h3><p>{e(text)}</p></li>'
     if title in STAND_LISTS:
         lead, chips, close = STAND_LISTS[title]
         body = (f'<p>{e(lead)}</p>' if lead else '') + f'<ul class="ec-chips">{"".join(f"<li>{e(c)}</li>" for c in chips)}</ul>' + (f'<p class="ec-close">{e(close)}</p>' if close else '')
@@ -719,7 +729,7 @@ def bento(badge, title, data):
     {'feats': [(title, lead, chips, wide)], 'points': [(title, text)]}; the ecommerce page builds
     them from its live stand-out list (BENTO_FEATURES + the remaining points)."""
     if 'items' in data and 'feats' not in data:
-        cards = ''.join(stand_card(t, d) for t, d, _b in data['items'])
+        cards = ''.join(stand_card(t, d, b) for t, d, b in data['items'])
         return f'''    <section class="ss-sec">
       {head(badge, title, data.get('intro', ''), center=True)}
       <ul class="ec-stand">{cards}</ul>
