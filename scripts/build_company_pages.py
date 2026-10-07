@@ -15,11 +15,10 @@ from pathlib import Path
 import sys
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from desk_art import desk  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261058a'
+VER = '20261059a'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -759,7 +758,7 @@ def pk_timeline():
     return f'''    <section class="tl2" id="timeline" style="--n:{len(PHASES)}" aria-label="How this portfolio came together, week by week">
       <div class="tl2-pin">
         <div class="tl2-track">
-          <figure class="tl2-img">{desk()}</figure>
+          <figure class="tl2-img"><img src="assets/portfolio/timeline-laptop.jpg" alt="A laptop showing a website, floating above dark rock in the mist" loading="lazy" /></figure>
           <div class="tl2-body">
             <div class="tl2-rail" aria-hidden="true"><i></i><s class="tl2-base"></s><b class="tl2-fill"></b><i></i></div>
             <div class="tl2-head"><span class="svc-badge">Portfolio Timeline</span><h2 class="tl2-title">How this portfolio <em>came together</em></h2><p class="tl2-period">Week by week, in the team’s words</p></div>
