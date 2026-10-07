@@ -827,7 +827,7 @@ def compare(badge, title, data):
         <article class="cmp-panel cmp-panel--hi">
           <h3>{e(R_['title'])}</h3>
           <p>{e(R_['text'])}</p>
-          <svg class="cmp-orbit" viewBox="0 0 680 340" role="img" aria-label="{e(R_['hub'])}: {e(', '.join(kws))}"><circle class="r" cx="340" cy="170" r="74"/>{parts}<rect class="h" x="276" y="150" width="128" height="40" rx="20"/><text class="ht" x="340" y="175" text-anchor="middle">{e(R_['hub'])}</text></svg>
+          <svg class="cmp-orbit" viewBox="0 0 680 340" role="img" aria-label="{e(R_['hub'])}: {e(', '.join(kws))}"><circle class="r" cx="340" cy="170" r="74"/>{parts}<text class="ht" x="340" y="177" text-anchor="middle">{e(R_['hub'])}</text></svg>
           <div class="cmp-foot"><span class="cmp-tag">{check}{e(R_['tag'])}</span><a href="{R_['cta'][0]}" class="cmp-btn cmp-btn--light">{e(R_['cta'][1])} {arrow_r}</a></div>
         </article>
       </div>

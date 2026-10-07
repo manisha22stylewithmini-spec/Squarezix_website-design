@@ -573,13 +573,12 @@
 .cmp-panel--hi p { color: #c9c3df; }
 
 .cmp-orbit { display: block; width: 100%; height: auto; margin: clamp(14px, 2vw, 24px) 0; }
-.cmp-orbit .r { fill: none; stroke: rgba(201, 139, 255, .22); stroke-width: 1; }
+.cmp-orbit .r { fill: #6b25d6; stroke: rgba(201, 139, 255, .35); stroke-width: 1; }
 .cmp-orbit line { stroke: rgba(201, 139, 255, .22); stroke-width: 1; }
 .cmp-orbit .d { fill: #a97be8; }
 .cmp-orbit text { font: 500 14px "DM Sans", sans-serif; fill: #b9b1d3; }
-.cmp-orbit .h { fill: url(#none); fill: #6b25d6; }
-.cmp-orbit .ht { font: 600 15px "Sora", sans-serif; fill: #fff; }
-@media (max-width: 600px) { .cmp-orbit text { font-size: 17px; } .cmp-orbit .ht { font-size: 18px; } }
+.cmp-orbit .ht { font: 600 20px "Sora", sans-serif; fill: #fff; }
+@media (max-width: 600px) { .cmp-orbit text { font-size: 17px; } .cmp-orbit .ht { font-size: 22px; } }
 
 .cmp-foot { margin-top: auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
 .cmp-tag { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px 9px 12px; border-radius: 999px; font-size: 13.5px; font-weight: 500; color: #ead9ff; background: rgba(171, 36, 242, .16); border: 1px solid rgba(171, 36, 242, .45); }
