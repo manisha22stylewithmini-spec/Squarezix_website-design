@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261054b'
+VER = '20261055a'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -533,6 +533,7 @@ def portfolio():
       <p class="pf-note" data-rise>Figures come from our published company and client information. Case-study metrics are added once verified.</p>
     </section>
 '''
+    body += pk_timeline()
     body += cta_panel('Let’s build something <em>worth showing.</em>', 'Tell us what you want to launch, fix or grow — we’ll come back with a plan within five days.', 'Start a Project', '#ab-contact')
     body += faq_band('Questions about <em>our work?</em>', 'What people ask before we start a project together.', faq)
     write('portfolio', 'Our Work — Portfolio of Brands, Websites & Digital Systems | SquareZix',
@@ -719,6 +720,38 @@ def pk_featured():
           </div>
         </div>
         <a class="pk-view" href="case-study.html">View Project {ARROW_R}</a>
+      </div>
+    </section>
+'''
+
+
+# ================================================================ STORY TIMELINE (pinned horizontal scroll, after Selected Results)
+# Milestones are the five already published on about-us.html. Behaviour lives in company.js (.tl2).
+STORY = [
+    ('2020', 'A Simple Idea', 'One studio. One team. One vision: a website should be the hardest-working member of a business.'),
+    ('2020 – 2021', 'First Clients', 'Launched our first websites. Strategists, designers, developers and marketers all under one roof in Business Bay.'),
+    ('2021 – 2023', 'Growing Fast', '100+ websites shipped. Brands across the UAE and GCC started trusting us with their growth.'),
+    ('2023 – 2024', 'SEO & AI Era', 'Added SEO, AI visibility and growth services. Became a true growth partner, not just a design studio.'),
+    ('2024 & Beyond', '1,000+ Websites', 'Trusted by ambitious brands worldwide. Still thinking inside the square. Still building growth.'),
+]
+
+
+def pk_timeline():
+    items = ''
+    for i, (year, name, line) in enumerate(STORY):
+        pos = 'top' if i % 2 == 0 else 'bottom'
+        items += (f'<article class="tl2-item tl2-item--{pos}" style="--i:{i}"><span class="tl2-stem" aria-hidden="true"></span><span class="tl2-dot" aria-hidden="true"></span>'
+                  f'<div class="tl2-text"><h3 class="tl2-year">{e(year)}</h3><p class="tl2-name">{e(name)}</p><p class="tl2-line">{e(line)}</p></div></article>')
+    return f'''    <section class="tl2" id="story" aria-label="Our story, 2020 to today">
+      <div class="tl2-pin">
+        <div class="tl2-track">
+          <figure class="tl2-img"><img src="assets/footer/sz-stage.jpg" alt="The SquareZix team on stage" loading="lazy" /></figure>
+          <div class="tl2-body">
+            <div class="tl2-rail" aria-hidden="true"><i></i><b class="tl2-fill"></b><i></i></div>
+            <div class="tl2-head"><span class="svc-badge">Our Story</span><h2 class="tl2-title">Built one <em>project</em> at a time</h2><p class="tl2-period">2020 — today</p></div>
+            {items}
+          </div>
+        </div>
       </div>
     </section>
 '''

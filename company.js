@@ -94,6 +94,40 @@
     render();
   }
 
+
+  // ---- Portfolio: story timeline. The section is tall; its inner pin sticks, the track slides sideways with scroll
+  // progress, the line fills, and each milestone (--r 0→1) draws its stem, pops its dot and fades its copy in.
+  const tl2 = $('.tl2');
+  if (tl2) {
+    const pin = $('.tl2-pin', tl2), track = $('.tl2-track', tl2), fill = $('.tl2-fill', tl2), items = $$('.tl2-item', tl2);
+    const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+    if (reduce) { tl2.classList.add('is-static'); }
+    else {
+      let dist = 0, raf = 0;
+      const measure = () => {
+        dist = Math.max(0, track.scrollWidth - innerWidth);
+        tl2.style.height = `${Math.round(innerHeight + dist * 1.1)}px`;
+      };
+      const frame = () => {
+        raf = 0;
+        const top = tl2.getBoundingClientRect().top;
+        const p = clamp(-top / Math.max(1, tl2.offsetHeight - innerHeight));
+        track.style.transform = `translate3d(${-p * dist}px, 0, 0)`;
+        const rail = $('.tl2-rail', tl2).getBoundingClientRect();
+        fill.style.width = `${Math.max(0, rail.width - 24) * clamp(p * 1.04)}px`;
+        items.forEach((it) => {
+          const x = it.getBoundingClientRect().left;
+          it.style.setProperty('--r', clamp((innerWidth * 0.82 - x) / (innerWidth * 0.16)).toFixed(3));
+        });
+      };
+      const queue = () => { if (!raf) raf = requestAnimationFrame(frame); };
+      measure(); frame();
+      addEventListener('scroll', queue, { passive: true });
+      addEventListener('resize', () => { measure(); queue(); });
+      addEventListener('load', () => { measure(); queue(); });
+    }
+  }
+
   // ---- Portfolio: folder stack, one folder open at a time ----
   const stack = $('.pf-stack');
   if (stack) {
