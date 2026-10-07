@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261046f'
+VER = '20261046g'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -639,7 +639,7 @@ def collab():
                       'SEO and AI specialists and marketers who know the GCC market work on one brief together, so the result is '
                       'something people remember, not a template with a new logo.', center=False, sid='cb-title')
     return (f'    <section class="co-sec cb-sec" aria-labelledby="cb-title">\n'
-            f'      <div class="cb-grid">\n        <div class="cb-copy">{head}<ul class="cb-roles" data-rise>{cards}</ul></div>\n'
+            f'      <div class="cb-grid">\n        <div class="cb-copy">{head}</div>\n'
             f'        <div class="cb-visual" data-rise>{svg}</div>\n      </div>\n'
             f'      <ol class="cb-steps" data-rise aria-label="How every case study gets made">{steps}</ol>\n'
             f'    </section>\n')
