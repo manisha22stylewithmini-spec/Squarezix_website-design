@@ -286,7 +286,7 @@
 
 /* The board: the same dotted dark canvas + hairline frame as the service-page node canvas (.ec-canvas) */
 .cx-wall-frame {
-  position: relative; margin-top: clamp(40px, 4vw, 64px); border-radius: 28px; overflow: hidden;
+  position: relative; z-index: 0; isolation: isolate; margin-top: clamp(40px, 4vw, 64px); border-radius: 28px; overflow: hidden;
   background: radial-gradient(rgba(255, 255, 255, .09) 1px, transparent 1.2px) 0 0 / 22px 22px, #0b0b16;
   border: 1px solid rgba(255, 255, 255, .07);
 }
