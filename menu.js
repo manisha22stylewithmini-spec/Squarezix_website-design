@@ -286,6 +286,42 @@
           ]
         },
         {
+          "label": "App Development",
+          "page": "app-development.html",
+          "cols": [
+            {
+              "title": "App Development",
+              "page": "app-development.html",
+              "items": [
+                {
+                  "t": "iOS App Development",
+                  "h": "app-development.html#ios-app-development"
+                },
+                {
+                  "t": "Android App Development",
+                  "h": "app-development.html#android-app-development"
+                },
+                {
+                  "t": "Cross-Platform App Development",
+                  "h": "app-development.html#cross-platform-app-development"
+                },
+                {
+                  "t": "Ecommerce App Development",
+                  "h": "app-development.html#ecommerce-app-development"
+                },
+                {
+                  "t": "Progressive Web Apps (PWA)",
+                  "h": "app-development.html#progressive-web-apps-pwa"
+                },
+                {
+                  "t": "App Maintenance & Support",
+                  "h": "app-development.html#app-maintenance-and-support"
+                }
+              ]
+            }
+          ]
+        },
+        {
           "label": "Website Maintenance",
           "page": "website-maintenance.html",
           "cols": [
