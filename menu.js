@@ -275,7 +275,7 @@
                 },
                 {
                   "t": "Squarespace Website Development",
-                  "h": "website-development.html#squarespace-website-development"
+                  "h": "squarespace-website-development.html"
                 },
                 {
                   "t": "Website Migration Services",

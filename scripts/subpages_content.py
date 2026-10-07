@@ -11,6 +11,7 @@ Node cards: (title, tag, description, [keywords]). Feature cards: (title, lead, 
 """
 from local_seo_content import LOCAL_LAYOUT, LOCAL_HERO  # noqa: E402
 from offpage_content import OFFPAGE_LAYOUT, OFFPAGE_HERO  # noqa: E402
+import squarespace_content as SQ  # noqa: E402
 import sys
 from pathlib import Path
 
@@ -768,6 +769,12 @@ SUBS = [
          flow=[(t, d) for t, d, _b in L['headless']['flow']['items']],
          industries=L['headless']['industries'],
          faq=L['headless']['faq']),
+    dict(name='Squarespace Website Development', parent='web', source='live', layout=SQ.SQ_LAYOUT, **SQ.SQ_HERO,
+         intro=L['web']['services']['intro'],
+         nodes=[(t, 'Service', d, []) for t, d, _m in SQ.SERVICES],
+         feats=[('Platform', 'What we build on.', ['Squarespace', 'Developer Platform', 'Custom code'])],
+         live=dict(blog=SQ.SQ_BLOG),
+         faq=SQ.FAQ),
     dict(name='Concrete CMS Development', parent='web', source='written',
          h1=['Easy Editing,', 'Enterprise', 'Security.'],
          lead='Concrete CMS websites with in-context editing, modular design and enterprise-grade security.',
