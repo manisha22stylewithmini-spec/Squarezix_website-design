@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261048b'
+VER = '20261049c'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -495,7 +495,7 @@ def portfolio():
     body = hero('Portfolio', 'A selection of brands, experiences and <em>digital systems</em> we’ve built.',
                 'Websites, products and campaigns — designed, built and grown by one team.',
                 'Start a project', '#ab-contact')
-    body += collab() + shelf()
+    body += collab() + shelf() + pk_pocket() + pk_bento() + pk_featured()
     body += f'''
     <section class="co-sec pf-sel" id="browse" aria-labelledby="pf-sel-title">
       {head_block('Browse Work', 'Find a project <em>like yours</em>', 'Filter by what we did, who it was for and what changed — three ways in, not fifteen.', sid='pf-sel-title')}
@@ -637,6 +637,67 @@ def collab():
             f'        <div class="cb-visual" data-rise>{svg}</div>\n      </div>\n'
             f'      <ol class="cb-steps" data-rise aria-label="How every case study gets made">{steps}</ol>\n'
             f'    </section>\n')
+
+
+# ================================================================ PORTFOLIO SHOWCASE (pocket · bento · featured work)
+# Structure follows the "Wall of Portfolios" reference; colours, fonts and content are Squarezix's own.
+def pk_pocket():
+    head = head_block('Our Journey', 'Squarezix’s <em>work journey</em>',
+                      'Websites, products and campaigns for brands across Dubai and the wider GCC — a few of them tucked in here.', sid='pk-title')
+    return f'''    <section class="co-sec pk-sec" aria-labelledby="pk-title">
+      {head}
+      <div class="pk-pocket" data-rise>
+        <div class="pk-cards">
+          <figure class="pk-c pk-c--photo" style="--r:-5deg"><img src="assets/work/project-1.png" alt="Digital Stream website" loading="lazy" /><figcaption>Digital Stream</figcaption></figure>
+          <div class="pk-c pk-c--note" style="--r:1deg"><p>One Dubai team for strategy, design, development and growth.</p><b>1,000+ websites</b></div>
+          <figure class="pk-c pk-c--phone" style="--r:3deg"><img src="assets/reels/reel-1.jpg" alt="Digital Marketing social reel" loading="lazy" /></figure>
+          <div class="pk-c pk-c--map" style="--r:4deg" aria-label="Based in Dubai"><span class="pk-pin" aria-hidden="true"></span><em>Dubai</em></div>
+        </div>
+        <div class="pk-front" aria-hidden="true"><span>SZ</span></div>
+      </div>
+    </section>
+'''
+
+
+def pk_bento():
+    chips = ['Visual Design', 'UX Research', 'Development', 'SEO', 'AI Search', 'Paid Media', 'Social Media', 'Branding']
+    chip_html = ''.join(f'<li style="--r:{r}deg">{e(c)}</li>' for c, r in zip(chips, (-12, 9, -4, 14, -8, 5, -14, 7)))
+    head = head_block('What We Do', 'Beyond the <em>screenshots</em>', 'The disciplines behind the work, and where to read and watch more of it.', sid='pk-bento-title')
+    blogs = ''.join(f'<li>{e(t)}</li>' for t in ('How AI Is Changing Search Visibility', 'Guide to Effective SEO Strategy in 2026'))
+    return f'''    <section class="co-sec pk-sec" aria-labelledby="pk-bento-title">
+      {head}
+      <div class="pk-bento" data-rise>
+        <a class="pk-tile pk-tile--sites" href="case-study.html">
+          <div class="pk-polas"><figure style="--r:-7deg"><img src="assets/work/project-1.png" alt="" loading="lazy" /><figcaption>Websites</figcaption></figure><figure style="--r:5deg"><img src="assets/work/project-2.png" alt="" loading="lazy" /><figcaption>E-commerce</figcaption></figure></div>
+          <h3>Websites &amp; platforms</h3><p>Marketing sites and platforms designed around one outcome, built for speed, structure and search.</p>
+        </a>
+        <div class="pk-tile pk-tile--skills"><h3>Capabilities</h3><p>One team across strategy, design, build and growth.</p><ul class="pk-chips">{chip_html}</ul></div>
+        <a class="pk-tile pk-tile--read" href="blogs.html"><h3>Insights</h3><ul class="pk-reads">{blogs}</ul><span class="pk-more">Read the blog {ARROW_R}</span></a>
+        <a class="pk-tile pk-tile--reels" href="index.html#reels"><h3>Social reels</h3><div class="pk-posters"><img src="assets/reels/reel-3.jpg" alt="" loading="lazy" /><img src="assets/reels/reel-4.jpg" alt="" loading="lazy" /></div><p>Short-form reels that stop the scroll.</p></a>
+      </div>
+    </section>
+'''
+
+
+def pk_featured():
+    c = CASES[0]
+    head = head_block('Featured Work', 'A closer look, <em>one project</em>', 'What the brief was, and what changed once it shipped.', sid='pk-feat-title')
+    stats = ''.join(f'<div><b>{e(v)}</b><span>{e(l)}</span></div>' for v, l in c['results'][:2])
+    return f'''    <section class="co-sec pk-sec" aria-labelledby="pk-feat-title">
+      {head}
+      <div class="pk-feat" data-rise>
+        <div class="pk-feat-info"><p class="pk-year">{c["year"]}</p><h3>A spec-sheet site rebuilt around one clear outcome</h3><div class="pk-stats">{stats}</div></div>
+        <div class="pk-feat-show">
+          <div class="pk-devices">
+            <figure class="pk-d pk-d--main"><img src="{c["img"]}" alt="{e(c["alt"])}" loading="lazy" /></figure>
+            <figure class="pk-d pk-d--phone pk-d--l"><img src="assets/reels/reel-2.jpg" alt="" loading="lazy" /></figure>
+            <figure class="pk-d pk-d--phone pk-d--r"><img src="assets/reels/reel-5.jpg" alt="" loading="lazy" /></figure>
+          </div>
+        </div>
+        <a class="pk-view" href="case-study.html">View Project {ARROW_R}</a>
+      </div>
+    </section>
+'''
 
 
 # ================================================================ BLOGS
