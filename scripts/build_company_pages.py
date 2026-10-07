@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261046b'
+VER = '20261046c'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -530,7 +530,7 @@ def portfolio():
           'A selection of brands, experiences and digital systems built by SquareZix — websites, products and campaigns designed, built and grown by one Dubai team.', 'work', body)
 
 
-# ================================================================ CASE STUDIES (bookshelf + detail pages)
+# ================================================================ CASE STUDIES (bookshelf; every book opens case-study.html)
 # Copy comes from the home page case-study section (challenge, what we did, services, results) and the
 # five social reels already in assets/reels. Shelf colours stay inside the brand palette.
 CASES = [
@@ -593,7 +593,7 @@ def book_html(c, current=False):
     label = f"{c['client']}: {c['kind']} case study" if is_site else f"{c['title']}: social reel"
     num = c['no'] if is_site else 'R' + str(c['n'])
     cur = ' aria-current="page"' if current else ''
-    return (f'<a class="{cls}" style="{style}" href="case-{c["slug"]}.html" aria-label="{e(label)}"{cur}>'
+    return (f'<a class="{cls}" style="{style}" href="case-study.html" aria-label="{e(label)}"{cur}>'
             f'<span class="bk-top" aria-hidden="true">{num}</span><span class="bk-title" aria-hidden="true">{e(b["title"])}</span>'
             f'<span class="bk-sub" aria-hidden="true">{e(sub)}</span><span class="bk-mark" aria-hidden="true">SZ</span>'
             f'<span class="bk-tip" aria-hidden="true">{tip}</span></a>')
@@ -644,47 +644,6 @@ def collab():
             f'        <div class="cb-visual" data-rise>{svg}</div>\n      </div>\n'
             f'      <ol class="cb-steps" data-rise aria-label="How every case study gets made">{steps}</ol>\n'
             f'    </section>\n')
-
-
-def case_pages():
-    order = [_case_by(s) for s in SHELF_ORDER]
-    for i, c in enumerate(order):
-        prev_c, next_c = order[i - 1], order[(i + 1) % len(order)]
-        is_site = 'client' in c
-        name = c['client'] if is_site else c['title']
-        story = ''
-        if is_site:
-            media = f'<img src="{c["img"]}" alt="{e(c["alt"])}" />'
-            facts = [('Client', c['client']), ('Project', c['kind']), ('Industry', c['industry']), ('Year', c['year'])]
-            stats = ''.join(f'<li data-rise><b>{e(v)}</b><span>{e(l)}</span></li>' for v, l in c['results'])
-            chips = ''.join(f'<li>{e(x)}</li>' for x in c['services'])
-            story = (f'    <section class="co-sec cd-sec" aria-labelledby="cd-res">\n'
-                     f'      {head_block("Results", "What <em>changed</em>", "", sid="cd-res")}\n'
-                     f'      <ul class="cd-stats">{stats}</ul>\n    </section>\n'
-                     f'    <section class="co-sec cd-sec" aria-label="Challenge and approach">\n'
-                     f'      <div class="cmp cd-story" data-rise>'
-                     f'<article class="cmp-panel cmp-panel--dim"><h3><span>The</span> challenge</h3><p>{e(c["challenge"])}</p></article>'
-                     f'<article class="cmp-panel cmp-panel--hi"><h3>What we did</h3><p>{e(c["did"])}</p><ul class="cmp-chips cd-chips">{chips}</ul></article>'
-                     f'</div>\n    </section>\n')
-            lead, badge = c['did'], f'Case Study {c["no"]} / 03'
-            h1 = f'{e(c["client"])} <em>{e(c["kind"])}</em>'
-        else:
-            media = (f'<video src="assets/reels/reel-{c["n"]}.mp4" poster="assets/reels/reel-{c["n"]}.jpg" controls playsinline muted loop '
-                     f'preload="none" aria-label="{e(c["title"])} reel"></video>')
-            facts = [('Format', 'Short-form social video'), ('Craft', 'Motion · Social video'), ('Made for', 'Instagram · TikTok · Reels')]
-            lead, badge, h1 = c['desc'], 'Social Reel', e(c['title'])
-        fact_html = ''.join(f'<div><dt>{e(k)}</dt><dd>{e(v)}</dd></div>' for k, v in facts)
-        body = hero(badge, h1, e(lead), 'Start a project like this', '#ab-contact')
-        body += (f'    <section class="co-sec cd-sec cd-intro">\n'
-                 f'      <div class="cd-grid{"" if is_site else " cd-grid--reel"}"><div class="cd-media" data-rise>{media}</div>'
-                 f'<dl class="cd-facts" data-rise>{fact_html}</dl></div>\n    </section>\n') + story
-        body += (f'    <nav class="co-sec cd-pager" aria-label="More case studies">'
-                 f'<a href="case-{prev_c["slug"]}.html"><span>Previous</span><b>{e(prev_c.get("client") or prev_c["title"])}</b></a>'
-                 f'<a href="portfolio.html#shelf" class="cd-pager-all">All case studies</a>'
-                 f'<a href="case-{next_c["slug"]}.html"><span>Next</span><b>{e(next_c.get("client") or next_c["title"])}</b></a></nav>\n')
-        body += shelf(c['slug'], compact=True)
-        body += cta_panel('Let’s write <em>your chapter next.</em>', 'Tell us what you want to launch, fix or grow — we’ll come back with a plan within five days.', 'Start a Project', '#ab-contact')
-        write(f'case-{c["slug"]}', f'{name} — Case Study | SquareZix', f'{name}: {lead}', 'work', body)
 
 
 # ================================================================ BLOGS
@@ -890,5 +849,4 @@ if __name__ == '__main__':
     culture()
     careers()
     portfolio()
-    case_pages()
     blogs()
