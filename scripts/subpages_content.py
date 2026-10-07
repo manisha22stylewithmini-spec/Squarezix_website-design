@@ -695,10 +695,8 @@ SUBS = [
          lead='API-first headless CMS websites that are faster, more secure and ready to deliver content to every channel.',
          intro=L['headless']['services']['intro'],
          nodes=live_nodes('headless', 'services', 'Headless CMS'),
-         feats=[('CMS Platforms', 'Headless platforms we build with.', ['Sanity', 'Strapi', 'Storyblok', 'Directus', 'Prismic', 'Builder.io', 'Statamic', 'dotCMS']),
-                ('Front Ends', 'Fast, modern frameworks.', ['Next.js', 'Vue.js', 'React']),
-                ('What You Get', 'From the live methodology.', ['API-first infrastructure', 'Content migration', 'Team training'])],
-         points=[(t, d) for t, d, _b in L['headless']['why']['items']],
+         trust=L['headless']['trust'],     # live 'Why businesses trust...' cards (full text)
+         stand=L['headless']['why'],       # live 'How Squarezix stands out' benefits (full text)
          flow=[(t, d) for t, d, _b in L['headless']['flow']['items']],
          industries=L['headless']['industries'],
          faq=L['headless']['faq']),

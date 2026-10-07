@@ -358,7 +358,13 @@ def sub_page(sp):
     name, fam = sp['name'], FAMILIES[sp['parent']]
     file = slug(name) + '.html'
     nodes_data = {'intro': sp['intro'], 'items': [(t, d, {'tag': tag, 'kw': kw}) for t, tag, d, kw in sp['nodes']]}
-    bento_data = {'feats': [(t, lead, chips, False) for t, lead, chips in sp['feats']], 'points': sp.get('points') or fam['why']}
+    if 'trust' in sp:
+        # Pages with both live sections: the trust cards, then the stand-outs, each in full wording
+        why_secs = [('bento', 'Why Choose Squarezix', f'Why businesses trust Squarezix for <em>{e(name)} services?</em>', sp['trust']),
+                    ('bento', 'Why Squarezix', 'How Squarezix <em>stands out</em>', sp['stand'])]
+    else:
+        bento_data = {'feats': [(t, lead, chips, False) for t, lead, chips in sp['feats']], 'points': sp.get('points') or fam['why']}
+        why_secs = [('bento', 'Why Squarezix', f'Why choose Squarezix for <em>{e(name)}</em>', bento_data)]
     flow = {'items': [(t, d, []) for t, d in (sp.get('flow') or fam['flow'])]}
     return {
         'file': file, 'menu': fam['menu'], 'badge': name, 'custom': True,
@@ -366,7 +372,7 @@ def sub_page(sp):
         'sections': [
             ('statement', 'AI search', 'Your customers search smarter. <em>We make sure they find you.</em>', L['ecom']['geo']),
             ('nodes', 'What we deliver', f'What’s included in <em>{e(name)}</em>', nodes_data, 'services'),
-            ('bento', 'Why Squarezix', f'Why choose Squarezix for <em>{e(name)}</em>', bento_data),
+            *why_secs,
             ('timeline', fam['flow_badge'], fam['flow_title'], flow),
             ('industries', 'Industries', 'Brands we work with <em>across industries</em>', sp.get('industries') or L['branding']['industries']),
             ('cta', 'Be everywhere your audience is <em>searching</em> with Squarezix', 'Connect with our AI experts to drive more leads from SEO in the AI era.'),
