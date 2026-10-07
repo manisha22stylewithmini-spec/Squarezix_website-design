@@ -352,6 +352,7 @@ SUBPAGES = {'Ecommerce Website Development': 'ecommerce-website-development.html
 
 # Every other menu service gets a sub-inner page in the locked structure (subpages_content.py)
 from subpages_content import SUBS, FAMILIES, WRITTEN  # noqa: E402
+from iso_art import art as iso_art  # noqa: E402
 
 
 def sub_page(sp):
@@ -757,6 +758,21 @@ def bento(badge, title, data):
 '''
 
 
+def illus(badge, title, data):
+    """Bento of illustration cards: an isometric line-light scene (scripts/iso_art.py) above each
+    title and line. The first two cards are wide, the rest sit three to a row."""
+    cards = ''.join(
+        f'<li class="ix-card"><div class="ix-art">{iso_art(b["art"])}</div>'
+        f'<div class="ix-copy"><h3>{e(t)}</h3><p>{e(d)}</p></div></li>'
+        for t, d, b in data['items'])
+    return f'''    <section class="ss-sec ix-sec">
+      {head(badge, title, data.get('intro', ''), center=True)}
+      <ul class="ix-grid">{cards}</ul>
+    </section>
+
+'''
+
+
 FLOW_ICONS = [   # one line icon per workflow node, in step order
     '<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.4-4.4"/>',
     '<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/>',
@@ -818,7 +834,7 @@ def cta(title, text):
 DIVIDER = '    <div class="ss-divider" aria-hidden="true"><i></i></div>\n\n'
 
 
-KINDS = {'nodes': nodes, 'statement': statement, 'bento': bento, 'timeline': timeline, 'cta': cta, 'pillars': pillars, 'why': why, 'industries': industries, 'faq': faq}
+KINDS = {'illus': illus, 'nodes': nodes, 'statement': statement, 'bento': bento, 'timeline': timeline, 'cta': cta, 'pillars': pillars, 'why': why, 'industries': industries, 'faq': faq}
 
 
 def main_html(p):
