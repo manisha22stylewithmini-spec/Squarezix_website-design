@@ -705,3 +705,11 @@
 .cb-steps i { font: italic 400 22px "Instrument Serif", serif; color: #c98bff; }
 @media (max-width: 960px) { .cb-grid { grid-template-columns: 1fr; } .cb-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .cb-roles, .cb-steps { grid-template-columns: 1fr; } .cb-map text { font-size: 17px; } }
+
+/* Challenge / what we did panels on the case-study page, one pair per project */
+.cd-cases { max-width: 1200px; margin: clamp(32px, 4vw, 48px) auto 0; display: grid; gap: clamp(28px, 4vw, 48px); }
+.cd-case-name { margin: 0 0 14px 6px; font: 500 clamp(18px, 1.8vw, 22px) "Sora", sans-serif; color: #fff; }
+.cd-case-name span { color: #c98bff; margin-right: 8px; font-size: .8em; }
+.cd-case-name em { font-family: "Instrument Serif", serif; font-weight: 400; color: #c98bff; }
+.cd-story .cmp-panel p { margin-top: 14px; }
+.cd-chips { margin-top: 18px; }
