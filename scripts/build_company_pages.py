@@ -18,7 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261066a'
+VER = '20261067b'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -165,8 +165,23 @@ def filterbar(label, selects, bar_id=''):
             f'<button type="button" class="co-fb-reset" hidden aria-label="Reset filters">{FB_X}</button></div></div>')
 
 
+def unify_buttons(html):
+    """Portfolio only (for now): every button on the page becomes the single primary button (assets/brand/btn-primary.pdf).
+    Links to #ab-contact open the contact-form popup instead of jumping down the page."""
+    def swap(m):
+        cls = m.group(1)
+        keep = ' ss-faq-more' if 'ss-faq-more' in cls else ''
+        return f'class="zx-btn{keep}"'
+    html = re.sub(r'class="(btn-contact[^"]*)"', swap, html)
+    html = re.sub(r'(<a href="#ab-contact" class="zx-btn[^"]*")', r'\1 data-contact-open', html)
+    return html
+
+
 def write(slug, title, desc, nav, body):
-    (ROOT / f'{slug}.html').write_text(shell(slug.split('-')[0] if False else slug, title, desc, nav, body))
+    html = shell(slug.split('-')[0] if False else slug, title, desc, nav, body)
+    if slug == 'portfolio':
+        html = unify_buttons(html)
+    (ROOT / f'{slug}.html').write_text(html)
     print('wrote', f'{slug}.html')
 
 
@@ -537,7 +552,7 @@ def portfolio():
         <p>Try a different combination, or tell us what you need and we’ll share relevant examples.</p>
         <div class="pf-empty-actions"><button type="button" class="co-link" data-filter-reset>Reset filters</button><a href="#ab-contact" class="btn-contact btn-contact--xl">Talk to us {ARROW_R}</a></div>
       </div>
-      <div class="pf-more"><a href="case-study.html#work" class="pf-more-btn">View more projects <span class="pf-more-left">Case studies</span><span aria-hidden="true">→</span></a></div>
+      <div class="pf-more"><a href="case-study.html#work" class="zx-btn">View more projects {ARROW_R}</a></div>
     </section>
 
     <section class="co-sec" aria-labelledby="pf-res-title">
@@ -549,7 +564,7 @@ def portfolio():
     body += pk_timeline()
     body += cta_panel('Let’s build something <em>worth showing.</em>', 'Tell us what you want to launch, fix or grow — we’ll come back with a plan within five days.', 'Start a Project', '#ab-contact')
     body += faq_band('Questions about <em>our work?</em>', 'What people ask before we start a project together.', faq)
-    body += quick_contact()
+    body += quick_contact() + contact_modal()
     write('portfolio', 'Our Work — Portfolio of Brands, Websites & Digital Systems | SquareZix',
           'A selection of brands, experiences and digital systems built by SquareZix — websites, products and campaigns designed, built and grown by one Dubai team.', 'work', body)
 
@@ -729,6 +744,33 @@ def quick_contact():
       <a class="qc-btn qc-btn--mail" href="mailto:info@squarezix.com?subject=Project%20enquiry" aria-label="Email info@squarezix.com"><span class="qc-ico">{mail}</span><span class="qc-tip">Email us</span></a>
       <a class="qc-btn qc-btn--li" href="https://www.linkedin.com/company/squarezix-marketing-agency/" target="_blank" rel="noopener" aria-label="SquareZix on LinkedIn"><span class="qc-ico">{li}</span><span class="qc-tip">Connect on LinkedIn</span></a>
     </nav>
+'''
+
+
+def contact_modal():
+    """Contact-us popup (native <dialog>), opened by every [data-contact-open] button. No backend yet: like the page form it
+    validates, then hands off to the visitor's mail app (company.js)."""
+    close = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>'
+    phone = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.18 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.1 9.9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/><path d="M15 2.5a6 6 0 0 1 6.5 6.5M15 6a2.5 2.5 0 0 1 3 3"/></svg>'
+    return f'''    <dialog class="zx-modal" id="zx-contact" aria-labelledby="zx-contact-title">
+      <button type="button" class="zx-modal-x" data-contact-close aria-label="Close contact form">{close}</button>
+      <div class="zx-modal-body">
+        <span class="svc-badge">Let’s Talk</span>
+        <h2 id="zx-contact-title" class="zx-modal-title">Tell us about <em>your project</em></h2>
+        <p class="zx-modal-sub">Share a few details and we’ll come back with a plan within five days.</p>
+        <form class="ab-form zx-form" id="zx-form" novalidate>
+          <label class="ab-field"><span>Your Name <b>*</b></span><input type="text" name="name" placeholder="Enter Your Name" autocomplete="name" required /></label>
+          <label class="ab-field"><span>Your Email <b>*</b></span><input type="email" name="email" placeholder="Enter Your Email" autocomplete="email" required /></label>
+          <label class="ab-field ab-field--full"><span>Your Phone Number <b>*</b></span><input type="tel" name="phone" placeholder="Enter Your Phone Number" autocomplete="tel" required /></label>
+          <label class="ab-field ab-field--full"><span>Your Message</span><textarea name="message" rows="3" placeholder="Type Here"></textarea></label>
+          <div class="ab-form-foot ab-field--full">
+            <button type="submit" class="zx-btn">{phone} Send message</button>
+            <p class="ab-form-note" id="zx-form-note" role="status"></p>
+          </div>
+        </form>
+        <p class="zx-modal-alt">Prefer chat? <a href="https://wa.me/971551318051?text=Hi%20SquareZix%2C%20I%27d%20like%20to%20talk%20about%20a%20project." target="_blank" rel="noopener">WhatsApp us</a> or write to <a href="mailto:info@squarezix.com">info@squarezix.com</a></p>
+      </div>
+    </dialog>
 '''
 
 
