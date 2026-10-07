@@ -758,6 +758,41 @@ def bento(badge, title, data):
 '''
 
 
+def process_iso(badge, title, data, sid=None):
+    """Steps as tilted isometric glass plates (left) with a glowing progress line; the chosen step's
+    full content opens in a panel beside them. Panels are all in the HTML; px-process.js shows one."""
+    items = data['items']
+    tabs = ''.join(
+        f'<button type="button" class="px-plate" role="tab" id="px-t-{i}" aria-controls="px-p-{i}" style="--i:{i}">'
+        f'<b>{i + 1:02d}</b><span>{e(t)}</span><i class="px-stub" aria-hidden="true"></i></button>'
+        for i, (t, _d, _m) in enumerate(items))
+    panels = ''
+    for i, (t, d, meta) in enumerate(items):
+        lead, _, rest = d.partition('. ')
+        lead = lead + ('.' if rest else '')
+        field = f'<p class="px-field">{e(rest)}</p>' if rest else ''
+        chips = f'<ul class="px-chips">{"".join(f"<li>{e(k)}</li>" for k in meta.get("kw", []))}</ul>' if meta.get('kw') else ''
+        close = f'<p class="px-close">{e(meta["close"])}</p>' if meta.get('close') else ''
+        panels += (f'<article class="px-panel" role="tabpanel" id="px-p-{i}" aria-labelledby="px-t-{i}">'
+                   f'<span class="px-step">{e(meta.get("tag", "Step"))} <i>/ {len(items)}</i></span>'
+                   f'<h3>{e(t)}</h3><p class="px-lead">{e(lead)}</p>{field}{chips}{close}</article>')
+    return f'''    <section class="ss-sec px-sec"{f' id="{sid}"' if sid else ''}>
+      {head(badge, title, data.get('intro', ''), center=True)}
+      <div class="ss-head--center px-cta"><a href="#ab-contact" class="btn-contact">{PHONE} Talk to our team</a></div>
+      <div class="px-stage" data-px style="--n:{len(items)}">
+        <div class="px-iso">
+          <div class="px-plane">
+            <div class="px-tabs" role="tablist" aria-orientation="vertical" aria-label="{e(badge)} steps">{tabs}</div>
+            <i class="px-trunk" aria-hidden="true"><i class="px-trunk-fill"></i><i class="px-node"></i></i>
+          </div>
+        </div>
+        <div class="px-panels">{panels}</div>
+      </div>
+    </section>
+
+'''
+
+
 def illus(badge, title, data):
     """Bento of illustration cards: an isometric line-light scene (scripts/iso_art.py) above each
     title and line. The first two cards are wide, the rest sit three to a row."""
@@ -834,7 +869,7 @@ def cta(title, text):
 DIVIDER = '    <div class="ss-divider" aria-hidden="true"><i></i></div>\n\n'
 
 
-KINDS = {'illus': illus, 'nodes': nodes, 'statement': statement, 'bento': bento, 'timeline': timeline, 'cta': cta, 'pillars': pillars, 'why': why, 'industries': industries, 'faq': faq}
+KINDS = {'process': process_iso, 'illus': illus, 'nodes': nodes, 'statement': statement, 'bento': bento, 'timeline': timeline, 'cta': cta, 'pillars': pillars, 'why': why, 'industries': industries, 'faq': faq}
 
 
 def main_html(p):
@@ -885,6 +920,11 @@ def live_blog(spec):
 '''
 
 
+def body_probe(p):
+    """True-ish text of the page's sections, used to decide which page scripts are needed."""
+    return ' '.join('px-stage' for sec in p['sections'] if sec[0] == 'process')
+
+
 def build():
     src = (ROOT / 'about-us.html').read_text()
     head_html, rest = src.split('<main', 1)
@@ -903,7 +943,8 @@ def build():
         h = h.replace('<div class="nav-item is-current" data-menu="insights">', '<div class="nav-item" data-menu="insights">')
         cur = p.get('menu', 'services')
         h = h.replace(f'<div class="nav-item" data-menu="{cur}">', f'<div class="nav-item is-current" data-menu="{cur}">')
-        t = tail.replace('<script src="about.js', f'<script src="waves-bg.js{ver}"></script>\n  <script src="faq.js{ver}"></script>\n  <script src="about.js', 1)
+        extra = f'\n  <script src="px-process.js{ver}"></script>' if 'px-stage' in body_probe(p) else ''
+        t = tail.replace('<script src="about.js', f'<script src="waves-bg.js{ver}"></script>\n  <script src="faq.js{ver}"></script>{extra}\n  <script src="about.js', 1)
         body = main_html(p)
         # "Our Blogs" from the home page, straight after the FAQ band
         faq_end = '</section>\n    </div>\n'

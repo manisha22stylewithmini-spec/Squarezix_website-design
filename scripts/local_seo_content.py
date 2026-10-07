@@ -150,7 +150,7 @@ LOCAL_LAYOUT = [
            {'wide': True})]}),
     ('illus', 'Expectations', 'What you can <em>expect</em>',
      {'intro': '', 'items': [(t, d, {'art': a}) for (t, d), a in zip(EXPECT, ['maps', 'profile', 'geogrid', 'leads', 'authority', 'threepack', 'district', 'ai'])]}),
-    ('nodes', 'Our Process', 'Our 7-step Local SEO growth process — <em>building local visibility across Google Maps, Search & AI platforms</em>',
+    ('process', 'Our Process', 'Our 7-step Local SEO growth process — <em>building local visibility across Google Maps, Search & AI platforms</em>',
      {'intro': 'Successful Local SEO requires more than occasional Google Business Profile updates. At SquareZix, we follow a structured Local SEO framework combining data, optimization, content, authority building, reputation management, and conversion tracking to grow your visibility across Dubai.',
       'items': STEPS}, 'process'),
     ('bento', 'Why Choose Squarezix', 'Why choose Squarezix for <em>Local SEO services in Dubai?</em>',
