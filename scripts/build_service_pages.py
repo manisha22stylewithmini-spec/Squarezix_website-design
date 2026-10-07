@@ -100,7 +100,8 @@ SVC = {
     'branding': services(S['intro'], *[(t, live(S, t)) for t in (
         'Brand Strategy & Positioning', 'Visual Identity Design', 'Brand Audit & Rebranding', 'Brand Experience & Touchpoints', 'Brand Collateral & Print Design')]),
     'design': services(DS['intro'],
-        ('Web & App Design', 'Websites and mobile apps designed around your users. Our designers focus on intuitive navigation, visually appealing layouts and interactive elements, so every screen looks great and is effortless to use.'),
+        ('Website Design', 'Websites designed around your users. Our designers focus on intuitive navigation, visually appealing layouts and interactive elements, so every screen looks great and is effortless to use.'),
+        ('App Design', 'Mobile app interfaces for iOS and Android designed around how people actually use them: clear flows, thumb-friendly layouts and a polished, consistent look from first tap to checkout.'),
         ('Revamp Website', live(DS, 'Website Redesign & Revamp')),
         ('Ecommerce Website Design', live(DS, 'E-Commerce Design')),
         ('Social Media Design', live(SO['why'], 'Visual Excellence & Design Local Flavor')),

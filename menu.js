@@ -193,8 +193,12 @@
               "page": "design.html",
               "items": [
                 {
-                  "t": "Web & App Design",
-                  "h": "web-and-app-design.html"
+                  "t": "Website Design",
+                  "h": "website-design.html"
+                },
+                {
+                  "t": "App Design",
+                  "h": "app-design.html"
                 },
                 {
                   "t": "Revamp Website",

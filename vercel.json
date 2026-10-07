@@ -1,5 +1,14 @@
 {
   "redirects": [
-    { "source": "/ai-and-llm-seo.html", "destination": "/ai-seo-services.html", "permanent": true }
+    {
+      "source": "/ai-and-llm-seo.html",
+      "destination": "/ai-seo-services.html",
+      "permanent": true
+    },
+    {
+      "source": "/web-and-app-design.html",
+      "destination": "/website-design.html",
+      "permanent": true
+    }
   ]
 }
