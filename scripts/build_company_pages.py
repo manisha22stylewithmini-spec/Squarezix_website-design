@@ -18,7 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261065a'
+VER = '20261066a'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -549,6 +549,7 @@ def portfolio():
     body += pk_timeline()
     body += cta_panel('Let’s build something <em>worth showing.</em>', 'Tell us what you want to launch, fix or grow — we’ll come back with a plan within five days.', 'Start a Project', '#ab-contact')
     body += faq_band('Questions about <em>our work?</em>', 'What people ask before we start a project together.', faq)
+    body += quick_contact()
     write('portfolio', 'Our Work — Portfolio of Brands, Websites & Digital Systems | SquareZix',
           'A selection of brands, experiences and digital systems built by SquareZix — websites, products and campaigns designed, built and grown by one Dubai team.', 'work', body)
 
@@ -714,6 +715,20 @@ def pk_culture():
       {head}
       <div class="pk-culture-cta" data-rise><a href="culture.html" class="btn-contact btn-contact--xl">Explore our culture {ARROW_R}</a></div>
     </section>
+'''
+
+
+def quick_contact():
+    """Fixed contact dock (right edge) for fast enquiries: WhatsApp, email, LinkedIn. Real links from index.html's footer."""
+    ic = lambda d: f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{d}</svg>'
+    wa = ic('<path d="M20.5 11.6a8.5 8.5 0 0 1-12.6 7.4L3.5 20.5l1.6-4.2A8.5 8.5 0 1 1 20.5 11.6Z"/><path d="M9.2 8.6c.2-.5.6-.5.9-.4l.9 2.1c.1.3 0 .5-.2.8l-.6.7a6 6 0 0 0 2.8 2.8l.7-.7c.3-.3.5-.3.8-.2l2 .9c.3.2.4.6.2 1-.4 1-1.5 1.6-2.6 1.4-3-.6-5.5-3.1-6.1-6.1-.1-.9.2-1.7.5-2.3Z" fill="currentColor" stroke="none"/>')
+    mail = ic('<rect x="3" y="5" width="18" height="14" rx="3"/><path d="m3.8 7.2 8.2 6.2 8.2-6.2"/>')
+    li = ic('<rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M8 10.5V16M8 7.8v.01M11.5 16v-3a2 2 0 0 1 4 0v3M11.5 10.5V16"/>')
+    return f'''    <nav class="qc" aria-label="Quick contact">
+      <a class="qc-btn qc-btn--wa" href="https://wa.me/971551318051?text=Hi%20SquareZix%2C%20I%27d%20like%20to%20talk%20about%20a%20project." target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp"><span class="qc-ico">{wa}</span><span class="qc-tip">Chat on WhatsApp</span></a>
+      <a class="qc-btn qc-btn--mail" href="mailto:info@squarezix.com?subject=Project%20enquiry" aria-label="Email info@squarezix.com"><span class="qc-ico">{mail}</span><span class="qc-tip">Email us</span></a>
+      <a class="qc-btn qc-btn--li" href="https://www.linkedin.com/company/squarezix-marketing-agency/" target="_blank" rel="noopener" aria-label="SquareZix on LinkedIn"><span class="qc-ico">{li}</span><span class="qc-tip">Connect on LinkedIn</span></a>
+    </nav>
 '''
 
 
