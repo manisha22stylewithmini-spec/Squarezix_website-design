@@ -549,6 +549,17 @@
   .px-plate { padding: 0 14px; gap: 10px; }
   .px-plate span { font-size: 13.5px; }
 }
+/* Phones: the plates become a horizontal swipe row (desktop and tablet keep the vertical stack) */
+@media (max-width: 640px) {
+  .px-iso { display: block; min-width: 0; padding: 4px 0 0; }
+  .px-plane { width: 100%; max-width: 100%; height: auto; }
+  .px-tabs { position: static; width: 100%; max-width: 100%; display: flex; gap: 12px; overflow-x: auto; padding: 26px 14px 28px; margin: -16px -14px -10px; width: auto; max-width: none; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .px-tabs::-webkit-scrollbar { display: none; }
+  .px-plate { flex: 0 0 236px; width: 236px; height: 76px; scroll-snap-align: center; }
+  .px-plate b { font-size: 24px; }
+  .px-plate span { font-size: 14px; }
+  .px-stub, .px-trunk { display: none; }
+}
 @media (prefers-reduced-motion: reduce) { .px-plate, .px-trunk-fill, .px-node { transition: none; } .px-panel:not([hidden]) { animation: none; } }
 
 /* ---------- Comparison: muted "without" panel beside a dark, glowing "our approach" panel ---------- */
