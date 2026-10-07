@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261054a'
+VER = '20261054b'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -524,6 +524,7 @@ def portfolio():
         <p>Try a different combination, or tell us what you need and we’ll share relevant examples.</p>
         <div class="pf-empty-actions"><button type="button" class="co-link" data-filter-reset>Reset filters</button><a href="#ab-contact" class="btn-contact btn-contact--xl">Talk to us {ARROW_R}</a></div>
       </div>
+      <div class="pf-more"><a href="case-study.html#work" class="pf-more-btn">View more projects <span class="pf-more-left">Case studies</span><span aria-hidden="true">→</span></a></div>
     </section>
 
     <section class="co-sec" aria-labelledby="pf-res-title">

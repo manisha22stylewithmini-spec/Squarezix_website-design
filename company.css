@@ -900,3 +900,13 @@ a.pk-tile:hover { translate: 0 -5px; border-color: rgba(201, 139, 255, .5); }
 .pf-sel { max-width: 1360px; margin-inline: auto; margin-top: clamp(20px, 3vw, 40px); padding-bottom: clamp(48px, 5vw, 72px); border-radius: 28px;
   background: radial-gradient(rgba(255, 255, 255, .09) 1px, transparent 1.2px) 0 0 / 22px 22px, #0b0b16; border: 1px solid rgba(255, 255, 255, .1); }
 @media (max-width: 1400px) { .pf-sel { margin-inline: clamp(10px, 2.5vw, 36px); } }
+
+/* "View more projects": the same pill as the case-study page's Load more button */
+.pf-more { display: flex; justify-content: center; margin-top: clamp(32px, 4vw, 48px); }
+.pf-more-btn { display: inline-flex; align-items: center; gap: 12px; padding: 17px 18px 17px 30px; border-radius: 999px; text-decoration: none; color: #fff; font: 700 15px "DM Sans", sans-serif;
+  background: var(--brand-gradient); box-shadow: 0 0 0 5px rgba(190, 182, 206, .18), 0 10px 26px rgba(0, 0, 0, .4); transition: background .25s, transform .2s; }
+.pf-more-btn:hover { background: var(--brand-gradient-hover); transform: translateY(-2px); }
+.pf-more-btn:active { transform: scale(.97); }
+.pf-more-btn:focus-visible { outline: 2px solid #b57bff; outline-offset: 3px; }
+.pf-more-left { padding: 5px 13px; border-radius: 999px; background: rgba(255, 255, 255, .18); font-size: 12.5px; font-weight: 600; }
+.pf-more-btn > span:last-child { padding-right: 8px; font-size: 18px; }
