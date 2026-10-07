@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261046c'
+VER = '20261046e'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -607,8 +607,7 @@ def shelf(current=None, compact=False, href='case-study.html'):
               '<span class="bk-tip" aria-hidden="true"><b>Your brand</b><span>The next chapter on this shelf</span><i>Start a project</i></span></a>')
     sid = '' if compact else ' id="shelf"'
     return (f'    <section class="co-sec bk-sec{" bk-sec--compact" if compact else ""}"{sid} aria-label="Case study library">\n'
-            f'      <p class="bk-brand" data-rise><span>SQUAREZIX</span> <i aria-hidden="true">×</i> <b>Case Studies.</b></p>\n'
-            f'      <p class="co-sub bk-hint" data-rise>Every spine is a project. Hover to pull one off the shelf, click to open it.</p>\n'
+            f'      {head_block("Case Library", "Squarezix <em>Case Studies.</em>", "Every spine is a project. Hover to pull one off the shelf, click to open it.")}\n'
             f'      <div class="bk-shelf" data-rise>{books}</div>\n'
             f'    </section>\n')
 
