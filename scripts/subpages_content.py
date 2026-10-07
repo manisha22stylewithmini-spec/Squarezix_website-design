@@ -691,12 +691,27 @@ SUBS = [
               ('Do we own the CMS?', 'Yes. You own the system and its code.'),
               ('Can it support Arabic and English?', 'Yes. We build multilingual support with right-to-left layouts for Arabic.')]),
     dict(name='Headless CMS Development', parent='web', source='live',
-         h1=['Content Freed', 'From Its', 'Front End.'],
-         lead='API-first headless CMS websites that are faster, more secure and ready to deliver content to every channel.',
+         h1=['Headless CMS', 'Development', 'Services'],
+         lead='Your customers search smarter. We make sure they find you. Squarezix helps your brand show up in these AI-driven answers—building visibility, trust, and influence where it matters most.',
          intro=L['headless']['services']['intro'],
          nodes=live_nodes('headless', 'services', 'Headless CMS'),
+         badge='CMS Development',
          trust=L['headless']['trust'],     # live 'Why businesses trust...' cards (full text)
          stand=L['headless']['why'],       # live 'How Squarezix stands out' benefits (full text)
+         # Follow the live page's section order and headings (hero tagline is the live hero text)
+         live=dict(
+             nostatement=True,
+             ind=('Industries we serve', 'SquareZix proudly develops Headless CMS websites for businesses <em>across multiple industries</em>'),
+             nodes_title='Best Headless CMS Development <em>Agency in Dubai</em>',
+             flow=('Methodology', 'Our proven Headless CMS development <em>methodology</em>'),
+             cta_text='Connect with our AI experts to drive more leads from SEO in the AI-Era.',
+             faq_title='Have questions about <em>Headless CMS Development?</em>',
+             faq_intro='Find the top questions and clear answers about our headless cms development services Dubai, all in one place. If something’s missing, our live chat is just a tap away.',
+             blog=('Blogs', 'What’s going on in <em>your industry</em>', [
+                 ('Website Development', 'Is DataLife Engine Still a Good CMS for Modern Websites?'),
+                 ('Website Development', 'Shopify Storefronts Now Support UCP: Is Your Ecommerce Website Ready for AI Shopping Agents?'),
+                 ('Website Development', 'Why Payload CMS Is Becoming a Powerful Choice for Next.js Websites'),
+                 ('Website Development', 'Can GPT-6 Astra Build Websites? What Businesses Need to Know')])),
          flow=[(t, d) for t, d, _b in L['headless']['flow']['items']],
          industries=L['headless']['industries'],
          faq=L['headless']['faq']),

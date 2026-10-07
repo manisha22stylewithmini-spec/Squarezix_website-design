@@ -419,3 +419,8 @@
 .ec-stand .ec-feat a:hover { color: #e9d5ff; border-color: #e9d5ff; }
 @media (max-width: 1000px) { .ec-stand { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 640px) { .ec-stand { grid-template-columns: 1fr; } }
+
+/* Pages whose live blog block lists four posts: two columns on desktop */
+@media (min-width: 1081px) { .blog-list--4 { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 1280px; } }
+.blog--live .blog-card h3 { margin-top: 14px; }
+.blog--live .blog-card .blog-more { margin-top: auto; padding-top: 14px; }

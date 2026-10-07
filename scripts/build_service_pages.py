@@ -358,6 +358,7 @@ def sub_page(sp):
     name, fam = sp['name'], FAMILIES[sp['parent']]
     file = slug(name) + '.html'
     nodes_data = {'intro': sp['intro'], 'items': [(t, d, {'tag': tag, 'kw': kw}) for t, tag, d, kw in sp['nodes']]}
+    live = sp.get('live')
     if 'trust' in sp:
         # Pages with both live sections: the trust cards, then the stand-outs, each in full wording
         why_secs = [('bento', 'Why Choose Squarezix', f'Why businesses trust Squarezix for <em>{e(name)} services?</em>', sp['trust']),
@@ -366,10 +367,22 @@ def sub_page(sp):
         bento_data = {'feats': [(t, lead, chips, False) for t, lead, chips in sp['feats']], 'points': sp.get('points') or fam['why']}
         why_secs = [('bento', 'Why Squarezix', f'Why choose Squarezix for <em>{e(name)}</em>', bento_data)]
     flow = {'items': [(t, d, []) for t, d in (sp.get('flow') or fam['flow'])]}
+    if live:
+        sections = [
+            ('bento', 'Why Choose Squarezix', f'Why businesses trust Squarezix for <em>{e(name)} services?</em>', sp['trust']),
+            ('industries', live['ind'][0], live['ind'][1], sp.get('industries') or L['branding']['industries']),
+            ('bento', 'Reliable Solutions', 'How Squarezix <em>stands out</em>', sp['stand']),
+            ('nodes', 'Reliable Solutions', live['nodes_title'], nodes_data, 'services'),
+            ('timeline', live['flow'][0], live['flow'][1], flow),
+            ('cta', 'Be everywhere your audience is <em>searching</em> with Squarezix', live['cta_text']),
+            ('faq', 'FAQs', live['faq_title'], sp['faq'], live['faq_intro']),
+        ]
+    else:
+        sections = None
     return {
-        'file': file, 'menu': fam['menu'], 'badge': name, 'custom': True,
+        'file': file, 'menu': fam['menu'], 'badge': sp.get('badge', name), 'custom': True, 'blog': live and live.get('blog'),
         'title': f'{name} in Dubai | Squarezix', 'h1': sp['h1'], 'grad': 1, 'lead': sp['lead'],
-        'sections': [
+        'sections': sections or [
             ('statement', 'AI search', 'Your customers search smarter. <em>We make sure they find you.</em>', L['ecom']['geo']),
             ('nodes', 'What we deliver', f'What’s included in <em>{e(name)}</em>', nodes_data, 'services'),
             *why_secs,
@@ -820,6 +833,32 @@ def menu_js(tabs_src):
     return json.dumps(tabs, ensure_ascii=False, indent=2)
 
 
+def live_blog(spec):
+    """Blog block with the home page component's markup, used where the live page has its own post list (title and tag only)."""
+    badge, title, posts = spec
+    cards = ''.join(
+        f'''<li>
+        <a class="blog-card" href="https://squarezix.com/blogs/">
+          <div class="blog-media"><img src="assets/blog/placeholder.webp" alt="" loading="lazy" /></div>
+          <div class="blog-body">
+            <div class="blog-meta"><span class="blog-tag">{e(tag)}</span></div>
+            <h3>{e(t)}</h3>
+            <span class="blog-more">Read more <i class="blog-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></i></span>
+          </div>
+        </a>
+      </li>''' for tag, t in posts)
+    return f'''    <section class="blog blog--live" id="blog" aria-labelledby="blog-title">
+      <div class="blog-head">
+        <span class="blog-badge">{e(badge)}</span>
+        <h2 id="blog-title">{title}</h2>
+      </div>
+      <ul class="blog-list blog-list--4">
+      {cards}
+      </ul>
+    </section>
+'''
+
+
 def build():
     src = (ROOT / 'about-us.html').read_text()
     head_html, rest = src.split('<main', 1)
@@ -844,7 +883,8 @@ def build():
         faq_end = '</section>\n    </div>\n'
         i = body.index('ss-faq-band')
         j = body.index(faq_end, i) + len(faq_end)
-        body = body[:j] + '\n' + blog + '\n' + body[j:]
+        page_blog = live_blog(p['blog']) if p.get('blog') else blog
+        body = body[:j] + '\n' + page_blog + '\n' + body[j:]
         (ROOT / p['file']).write_text(h + body + '    ' + contact + '</main>' + t)
         print('wrote', p['file'])
     # Menus: replace the generated blocks in menu.js
