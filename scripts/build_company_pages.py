@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261049c'
+VER = '20261050a'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -495,7 +495,7 @@ def portfolio():
     body = hero('Portfolio', 'A selection of brands, experiences and <em>digital systems</em> we’ve built.',
                 'Websites, products and campaigns — designed, built and grown by one team.',
                 'Start a project', '#ab-contact')
-    body += collab() + shelf() + pk_pocket() + pk_bento() + pk_featured()
+    body += pk_pocket()
     body += f'''
     <section class="co-sec pf-sel" id="browse" aria-labelledby="pf-sel-title">
       {head_block('Browse Work', 'Find a project <em>like yours</em>', 'Filter by what we did, who it was for and what changed — three ways in, not fifteen.', sid='pf-sel-title')}
@@ -506,16 +506,6 @@ def portfolio():
         <p>Try a different combination, or tell us what you need and we’ll share relevant examples.</p>
         <div class="pf-empty-actions"><button type="button" class="co-link" data-filter-reset>Reset filters</button><a href="#ab-contact" class="btn-contact btn-contact--xl">Talk to us {ARROW_R}</a></div>
       </div>
-    </section>
-
-    <section class="co-sec pf-folders" aria-labelledby="pf-fold-title">
-      {head_block('What We Make', 'Work, <em>filed by discipline</em>', 'Four disciplines, one team. Open a folder to see the work inside.', sid='pf-fold-title')}
-      <div class="pf-stack">{fold_html}</div>
-    </section>
-
-    <section class="co-sec" aria-labelledby="pf-feat-title">
-      {head_block('Featured Work', 'Work we’re <em>proud of</em>', '', sid='pf-feat-title')}
-      <div class="pf-feats">{feat_html}</div>
     </section>
 
     <section class="co-sec" aria-labelledby="pf-res-title">
