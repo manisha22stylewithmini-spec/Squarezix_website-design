@@ -320,7 +320,7 @@ PAGES = [
             ('statement', 'AI search', 'Your customers search smarter. <em>We make sure they find you.</em>', L['ecom']['geo']),
             # Same layout as the inner pages' Why Squarezix: heading left, every platform with its live copy right
             ('nodes', 'Ecommerce platforms', 'Best ecommerce web development <em>company in Dubai</em>', L['ecom']['services'], 'services'),
-            ('bento', 'Why Squarezix', 'How Squarezix <em>stands out</em>', L['ecom']['why']),
+            ('bento', 'Reliable Solutions', 'How Squarezix <em>stands out</em>', L['ecom']['why']),
             ('timeline', 'Development methodology', 'Our proven ecommerce <em>development workflow</em>', L['ecom']['workflow']),
             ('industries', 'Industries', 'Online stores <em>across industries</em>', L['ecom']['industries']),
             ('cta', 'Be everywhere your audience is <em>searching</em> with Squarezix', 'Connect with our AI experts to drive more leads from SEO in the AI era.'),
@@ -668,10 +668,45 @@ BENTO_FEATURES = [
 ]
 
 
+# Ecommerce stand-outs: the live page's own wording, in the live order. Paragraph items keep their full text;
+# list items show a lead line, the chips, then the closing sentence (as on the live page).
+STAND_LISTS = {
+    'Secure Payment Gateway Integration in Dubai': ('We integrate:', ['Apple Pay', 'Google Pay', 'Network International', 'CC Avenue', 'Tabby', 'Tamara'],
+                                                    'Our payment gateway integration Dubai solutions ensure frictionless checkout experiences.'),
+    'Third-Party Integrations': ('We connect your store with:', ['ERP systems', 'CRM platforms', 'POS systems', 'Shipping APIs', 'Inventory automation tools'],
+                                 'This creates a centralized, automated ecommerce ecosystem.'),
+    'Multilingual & Multi-Currency Support': ('UAE customers expect:', ['Arabic interface', 'English interface', 'Multi-currency support'],
+                                              'We build fully localized ecommerce platforms tailored for the region.'),
+    'AI-Driven Search & Personalization': ('', ['Smart filtering', 'Predictive search', 'Product recommendations', 'Customer behavior tracking'], ''),
+    'Mobile-First Architecture': ('Optimized layouts across:', ['Smartphones', 'Tablets', 'Desktop'], ''),
+}
+STAND_LINKS = {'AI SEO Services': 'ai-and-llm-seo.html', 'Ecommerce SEO': 'ecommerce-seo.html'}
+
+
+def stand_card(title, text):
+    if title in STAND_LISTS:
+        lead, chips, close = STAND_LISTS[title]
+        body = (f'<p>{e(lead)}</p>' if lead else '') + f'<ul class="ec-chips">{"".join(f"<li>{e(c)}</li>" for c in chips)}</ul>' + (f'<p class="ec-close">{e(close)}</p>' if close else '')
+    else:
+        para = e(text)
+        for phrase, href in STAND_LINKS.items():
+            para = para.replace(e(phrase), f'<a href="{href}">{e(phrase)}</a>', 1) if phrase in text else para
+        body = f'<p>{para}</p>'
+    return f'<li class="ec-feat"><h3>{e(title)}</h3>{body}</li>'
+
+
 def bento(badge, title, data):
     """Stand-outs as a bento: feature cards with chips, then compact cards. Pages pass
     {'feats': [(title, lead, chips, wide)], 'points': [(title, text)]}; the ecommerce page builds
     them from its live stand-out list (BENTO_FEATURES + the remaining points)."""
+    if 'items' in data and 'feats' not in data:
+        cards = ''.join(stand_card(t, d) for t, d, _b in data['items'])
+        return f'''    <section class="ss-sec">
+      {head(badge, title, data.get('intro', ''), center=True)}
+      <ul class="ec-stand">{cards}</ul>
+    </section>
+
+'''
     if 'feats' in data:
         feats_src, points = data['feats'], data['points']
     else:

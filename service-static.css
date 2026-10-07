@@ -407,3 +407,15 @@
   .ec-card-tag { translate: 0 100%; }
   .ec-card:hover .ec-card-tag { translate: 0 0; }
 }
+
+/* Stand-outs in the live page's full wording: one three-column grid, live order */
+.ec-stand { list-style: none; margin-top: clamp(40px, 4vw, 64px); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.ec-stand .ec-feat { grid-column: auto; display: flex; flex-direction: column; padding: 28px 28px 30px; }
+.ec-stand .ec-feat h3::after { content: ""; display: block; width: 28px; height: 2px; margin-top: 14px; border-radius: 1px; background: var(--brand-gradient); }
+.ec-stand .ec-feat p { margin-top: 14px; font-size: 14.5px; line-height: 1.7; color: #b8b8d1; }
+.ec-stand .ec-feat .ec-chips { margin-top: 16px; }
+.ec-stand .ec-feat .ec-chips + .ec-close { margin-top: 18px; }
+.ec-stand .ec-feat a { color: #c084fc; text-decoration: none; border-bottom: 1px solid rgba(192, 132, 252, .4); transition: color .2s ease, border-color .2s ease; }
+.ec-stand .ec-feat a:hover { color: #e9d5ff; border-color: #e9d5ff; }
+@media (max-width: 1000px) { .ec-stand { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .ec-stand { grid-template-columns: 1fr; } }
