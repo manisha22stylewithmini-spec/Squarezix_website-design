@@ -576,7 +576,7 @@ def _case_by(slug_):
     return next(c for c in CASES + REEL_CASES if c['slug'] == slug_)
 
 
-def book_html(c, current=False):
+def book_html(c, current=False, href='case-study.html'):
     b = c['book']
     is_site = 'client' in c
     sub = f"{c['kind']} · {c['year']}" if is_site else 'Social reel'
@@ -593,14 +593,14 @@ def book_html(c, current=False):
     label = f"{c['client']}: {c['kind']} case study" if is_site else f"{c['title']}: social reel"
     num = c['no'] if is_site else 'R' + str(c['n'])
     cur = ' aria-current="page"' if current else ''
-    return (f'<a class="{cls}" style="{style}" href="case-study.html" aria-label="{e(label)}"{cur}>'
+    return (f'<a class="{cls}" style="{style}" href="{href}" aria-label="{e(label)}"{cur}>'
             f'<span class="bk-top" aria-hidden="true">{num}</span><span class="bk-title" aria-hidden="true">{e(b["title"])}</span>'
             f'<span class="bk-sub" aria-hidden="true">{e(sub)}</span><span class="bk-mark" aria-hidden="true">SZ</span>'
             f'<span class="bk-tip" aria-hidden="true">{tip}</span></a>')
 
 
-def shelf(current=None, compact=False):
-    books = ''.join(book_html(_case_by(s), s == current) for s in SHELF_ORDER)
+def shelf(current=None, compact=False, href='case-study.html'):
+    books = ''.join(book_html(_case_by(s), s == current, href) for s in SHELF_ORDER)
     books += ('<a class="bk bk--mono bk--next" style="--w:66px;--h:82%;" href="#ab-contact" aria-label="Your brand: start the next case study">'
               '<span class="bk-top" aria-hidden="true">+</span><span class="bk-title" aria-hidden="true">Your brand, next</span>'
               '<span class="bk-sub" aria-hidden="true">Vol. 09</span><span class="bk-mark" aria-hidden="true">SZ</span>'
