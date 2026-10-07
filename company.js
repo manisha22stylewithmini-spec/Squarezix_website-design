@@ -74,6 +74,23 @@
     };
     const fb = filterBar(bar, cards, render);
     $('[data-filter-reset]', nomatch)?.addEventListener('click', fb.clear);
+    // Category pockets: each sets the three filters at once; tapping the active pocket clears them again
+    const pockets = $$('.pk-pk[data-set]');
+    const sels = $$('select', bar);
+    const syncPockets = () => pockets.forEach((p) => {
+      const set = JSON.parse(p.dataset.set);
+      p.setAttribute('aria-pressed', String(sels.every((s) => s.value === set[s.dataset.key])));
+    });
+    pockets.forEach((p) => p.addEventListener('click', () => {
+      const on = p.getAttribute('aria-pressed') === 'true', set = JSON.parse(p.dataset.set);
+      sels.forEach((s) => { s.value = on ? 'all' : set[s.dataset.key]; });
+      render();
+      if (!on) $('#browse')?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    }));
+    sels.forEach((s) => s.addEventListener('change', syncPockets));
+    $('.co-fb-reset', bar)?.addEventListener('click', syncPockets);
+    $('[data-filter-reset]', nomatch)?.addEventListener('click', syncPockets);
+    pockets.forEach((p) => p.addEventListener('click', syncPockets));
     render();
   }
 

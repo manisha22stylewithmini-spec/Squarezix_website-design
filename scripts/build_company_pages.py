@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261052b'
+VER = '20261053d'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -650,19 +650,34 @@ def collab():
 # ================================================================ PORTFOLIO SHOWCASE (pocket · bento · featured work)
 # Structure follows the "Wall of Portfolios" reference; colours, fonts and content are Squarezix's own.
 def pk_pocket():
-    head = head_block('Our Journey', 'Squarezix’s <em>work journey</em>',
-                      'Websites, products and campaigns for brands across Dubai and the wider GCC — a few of them tucked in here.', sid='pk-title')
+    """Category shelf: one pocket per kind of work. Clicking a pocket sets the Browse filters below
+    (company.js) and scrolls to the matching projects; the active pocket follows the filters."""
+    cats = [
+        dict(name='Websites & platforms', line='Sites that earn demos, not just visits.', set='{"cap":"digital","ind":"tech","out":"leads"}',
+             tone='a', pics=['assets/work/project-1.png'], note=('+212%', 'demo requests'), n=1),
+        dict(name='E-commerce & storefronts', line='Storefronts with a checkout that keeps shoppers.', set='{"cap":"all","ind":"ecom","out":"all"}',
+             tone='b', pics=['assets/work/project-2.png'], note=('+38%', 'conversion rate'), n=1),
+        dict(name='Product & AI', line='Products people finish setting up.', set='{"cap":"all","ind":"all","out":"adoption"}',
+             tone='c', pics=['assets/work/project-3.png'], note=('3×', 'trial to paid'), n=1),
+        dict(name='Social & motion', line='Short-form reels that stop the scroll.', set='{"cap":"marketing","ind":"all","out":"all"}',
+             tone='d', pics=['assets/reels/reel-3.jpg', 'assets/reels/reel-1.jpg'], note=('5', 'social reels'), n=5),
+    ]
+    head = head_block('Browse by Category', 'Pick a <em>pocket</em>',
+                      'Every kind of work we do, filed in its own pocket. Open one to see the projects inside.', sid='pk-title')
+    pockets = ''
+    for c in cats:
+        pics = ''.join(f'<img class="pk-pic pk-pic--{i + 1}{" pk-pic--tall" if "reels" in src else ""}" src="{src}" alt="" loading="lazy" />'
+                       for i, src in enumerate(c['pics']))
+        big, small = c['note']
+        count = f'{c["n"]} project{"s" if c["n"] > 1 else ""}'
+        pockets += (f"<button type=\"button\" class=\"pk-pk pk-pk--{c['tone']}\" data-set='{c['set']}' aria-pressed=\"false\" aria-controls=\"pf-cards\">"
+                    f'<span class="pk-inside" aria-hidden="true"></span>'
+                    f'<span class="pk-peek" aria-hidden="true">{pics}<span class="pk-note"><b>{e(big)}</b><small>{e(small)}</small></span></span>'
+                    f'<span class="pk-front"><span class="pk-count">{count}</span><b class="pk-name">{e(c["name"])}</b>'
+                    f'<span class="pk-line">{e(c["line"])}</span><span class="pk-go">View work {ARROW_R}</span></span></button>')
     return f'''    <section class="co-sec pk-sec" aria-labelledby="pk-title">
       {head}
-      <div class="pk-pocket" data-rise>
-        <div class="pk-cards">
-          <figure class="pk-c pk-c--photo" style="--r:-5deg"><img src="assets/work/project-1.png" alt="Digital Stream website" loading="lazy" /><figcaption>Digital Stream</figcaption></figure>
-          <div class="pk-c pk-c--note" style="--r:1deg"><p>One Dubai team for strategy, design, development and growth.</p><b>1,000+ websites</b></div>
-          <figure class="pk-c pk-c--phone" style="--r:3deg"><img src="assets/reels/reel-1.jpg" alt="Digital Marketing social reel" loading="lazy" /></figure>
-          <div class="pk-c pk-c--map" style="--r:4deg" aria-label="Based in Dubai"><span class="pk-pin" aria-hidden="true"></span><em>Dubai</em></div>
-        </div>
-        <div class="pk-front" aria-hidden="true"><span>SZ</span></div>
-      </div>
+      <div class="pk-shelf" data-rise>{pockets}</div>
     </section>
 '''
 
