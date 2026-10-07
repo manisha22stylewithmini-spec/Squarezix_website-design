@@ -714,14 +714,35 @@
 .cb-roles b { font: 600 14.5px "Sora", sans-serif; color: #fff; }
 .cb-roles span { font-size: 13.5px; line-height: 1.5; color: #b8b8d1; }
 .cb-visual { position: relative; border-radius: 26px; padding: clamp(10px, 2vw, 24px); background: radial-gradient(60% 55% at 50% 50%, rgba(98, 29, 208, .22), transparent 70%), #070511; border: 1px solid rgba(255, 255, 255, .07); }
-.cb-map { display: block; width: 100%; height: auto; }
-.cb-map .o { fill: none; stroke: rgba(201, 139, 255, .2); stroke-dasharray: 3 6; }
-.cb-map line { stroke: rgba(201, 139, 255, .3); stroke-width: 1; }
-.cb-map .d { fill: #c98bff; }
-.cb-map text { font: 500 14px "DM Sans", sans-serif; fill: #d8d0ee; }
-.cb-map .h { fill: #6b25d6; stroke: rgba(226, 184, 255, .5); }
-.cb-map .ht { font: 600 17px "Sora", sans-serif; fill: #fff; }
-.cb-map .hs { font: 400 13px "DM Sans", sans-serif; fill: #e9d5ff; }
+/* Sticky-note board: one brief, seven specialists (brand papers, handwritten like the case-study whiteboard) */
+.cb-board { position: relative; padding: clamp(18px, 2.4vw, 30px) clamp(10px, 1.6vw, 20px) clamp(22px, 2.6vw, 32px); }
+.cb-board-title { margin: 0 0 clamp(18px, 2.2vw, 26px); text-align: center; font: 700 clamp(26px, 2.6vw, 34px)/1 "Caveat", cursive; color: #f3e8ff; }
+.cb-board-title i { font-style: normal; font-weight: 500; color: #c98bff; font-size: .8em; }
+.cb-notes { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(12px, 1.6vw, 20px) clamp(10px, 1.3vw, 16px); }
+.cb-note {
+  grid-column: span 2; position: relative; display: grid; align-content: center; gap: 6px; min-height: clamp(104px, 10vw, 132px);
+  padding: 14px 12px 16px; text-align: center; color: #1f0f3d; background: linear-gradient(180deg, var(--p1), var(--p2));
+  border-radius: 2px 2px 3px 14px / 2px 2px 3px 6px; transform: rotate(var(--r, 0deg));
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset, 0 16px 18px -12px rgba(0, 0, 0, .8), 0 3px 6px rgba(0, 0, 0, .35);
+  transition: transform .45s cubic-bezier(.22, 1, .36, 1), box-shadow .45s ease;
+}
+.cb-note::before { content: ""; position: absolute; top: -7px; left: 50%; width: 42px; height: 14px; translate: -50% 0; rotate: -3deg; background: rgba(255, 255, 255, .28); border: 1px solid rgba(255, 255, 255, .25); }
+.cb-note b { font: 700 clamp(19px, 1.7vw, 23px)/1.05 "Caveat", cursive; }
+.cb-note span { font: 500 clamp(15px, 1.3vw, 17px)/1.15 "Caveat", cursive; opacity: .82; }
+.cb-note:nth-child(1) { grid-column: 2 / span 2; }
+.cb-note:nth-child(6) { grid-column: 2 / span 2; }
+.cb-note--lilac { --p1: #ece2ff; --p2: #ddcdfb; }
+.cb-note--violet { --p1: #c6adff; --p2: #b394f6; }
+.cb-note--mist { --p1: #f6f2fc; --p2: #e8e1f4; }
+.cb-note--lavender { --p1: #d9c7ff; --p2: #c9b3f8; }
+.cb-note--orchid { --p1: #f0dbfb; --p2: #e2c6f3; }
+.cb-note:hover { transform: rotate(0deg) translateY(-6px) scale(1.04); box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset, 0 26px 26px -14px rgba(0, 0, 0, .85), 0 0 0 2px rgba(201, 139, 255, .6); z-index: 1; }
+@media (max-width: 560px) {
+  .cb-notes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cb-note, .cb-note:nth-child(1), .cb-note:nth-child(6) { grid-column: auto; }
+  .cb-note:last-child { grid-column: 1 / -1; width: 60%; justify-self: center; }
+}
+@media (prefers-reduced-motion: reduce) { .cb-note { transition: none; } }
 .cb-steps { list-style: none; max-width: 1200px; margin: clamp(32px, 4vw, 48px) auto 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; counter-reset: none; }
 .cb-steps li { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-radius: 14px; background: #0d0b1a; border: 1px solid rgba(255, 255, 255, .07); font-size: 14px; color: #e5ddf7; }
 .cb-steps i { font: italic 400 22px "Instrument Serif", serif; color: #c98bff; }

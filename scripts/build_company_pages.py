@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261047c'
+VER = '20261048a'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -614,23 +614,16 @@ def shelf(current=None, compact=False, href='case-study.html'):
 
 def collab():
     """How the team builds a case study: specialists around one brief (Claude-written copy, flag it)."""
-    import math
     roles = [('Brand Strategist', 'Finds the one outcome that matters'), ('UX/UI Designer', 'Shapes how it looks and flows'),
              ('Developer', 'Builds it fast and solid'), ('SEO & AI Specialist', 'Makes it findable in search and AI'),
              ('Content & Social Lead', 'Gives it a voice people share'), ('Performance Analyst', 'Measures what changed')]
-    cx, cy, rx, ry = 300, 205, 220, 150
-    parts = ''
-    for i, (r, _d) in enumerate(roles):
-        a = -math.pi / 2 + i * 2 * math.pi / len(roles)
-        x, y = cx + rx * math.cos(a), cy + ry * math.sin(a)
-        ty = y + 26 if math.sin(a) > .2 else y - 14
-        parts += (f'<line x1="{cx}" y1="{cy}" x2="{x:.1f}" y2="{y:.1f}"/><circle class="d" cx="{x:.1f}" cy="{y:.1f}" r="5"/>'
-                  f'<text x="{x:.1f}" y="{ty:.1f}" text-anchor="middle">{e(r)}</text>')
-    names = ', '.join(r for r, _ in roles)
-    svg = (f'<svg class="cb-map" viewBox="0 0 600 420" role="img" aria-label="Six specialists around one case study: {e(names)}">'
-           f'<ellipse class="o" cx="{cx}" cy="{cy}" rx="{rx}" ry="{ry}"/>{parts}'
-           f'<circle class="h" cx="{cx}" cy="{cy}" r="64"/><text class="ht" x="{cx}" y="{cy - 3}" text-anchor="middle">One brief</text>'
-           f'<text class="hs" x="{cx}" y="{cy + 19}" text-anchor="middle">one case study</text></svg>')
+    notes = roles + [('Project Lead', 'Keeps one brief, one timeline, one team')]
+    papers = ['lilac', 'violet', 'mist', 'lavender', 'orchid', 'lilac', 'violet']
+    tilts = [-2.2, 1.6, -1.2, 2, -1.8, 1.4, -1]
+    note_html = ''.join(f'<li class="cb-note cb-note--{papers[i]}" style="--r:{tilts[i]}deg"><b>{e(r)}</b><span>{e(d)}</span></li>'
+                        for i, (r, d) in enumerate(notes))
+    svg = (f'<div class="cb-board" role="img" aria-label="Seven specialists on one brief: {e(", ".join(r for r, _ in notes))}">'
+           f'<p class="cb-board-title">One brief <i>→ one case study</i></p><ul class="cb-notes" aria-hidden="true">{note_html}</ul></div>')
     cards = ''.join(f'<li><b>{e(r)}</b><span>{e(d)}</span></li>' for r, d in roles)
     steps = ''.join(f'<li><i>{i + 1:02d}</i>{e(t)}</li>' for i, t in enumerate(
         ['Brief & goals', 'Dig into the data', 'Form a hypothesis', 'Design · build · test', 'Measure, then write it up']))
@@ -638,7 +631,8 @@ def collab():
                       'Every SquareZix case study starts with the people around the table. Strategists, designers, developers, '
                       'SEO and AI specialists and marketers who know the GCC market work on one brief together, so the result is '
                       'something people remember, not a template with a new logo.', center=False, sid='cb-title')
-    return (f'    <section class="co-sec cb-sec" aria-labelledby="cb-title">\n'
+    return (f'    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&display=swap" />\n'
+            f'    <section class="co-sec cb-sec" aria-labelledby="cb-title">\n'
             f'      <div class="cb-grid">\n        <div class="cb-copy">{head}</div>\n'
             f'        <div class="cb-visual" data-rise>{svg}</div>\n      </div>\n'
             f'      <ol class="cb-steps" data-rise aria-label="How every case study gets made">{steps}</ol>\n'
