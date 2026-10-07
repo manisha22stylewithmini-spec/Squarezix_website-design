@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261026b'
+VER = '20261045a'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -77,8 +77,9 @@ def shell(slug, title, desc, nav, body):
     head = re.sub(r'<title>.*?</title>', f'<title>{e(title)}</title>', head, flags=re.S)
     head = re.sub(r'<meta name="description" content=".*?" />', f'<meta name="description" content="{e(desc, quote=True)}" />', head, flags=re.S)
     head = re.sub(r'(<link rel="stylesheet" href="about\.css\?v=)\w+', rf'\g<1>{VER}', head)
-    head = head.replace('<link rel="stylesheet" href="service-static.css?v=20261009a" />',
-                        f'<link rel="stylesheet" href="service-static.css?v=20261009a" />\n  <link rel="stylesheet" href="company.css?v={VER}" />')
+    # about-us.html's service-static.css version changes with every style edit, so match any version
+    head, n = re.subn(r'(<link rel="stylesheet" href="service-static\.css\?v=\w+" />)', rf'\1\n  <link rel="stylesheet" href="company.css?v={VER}" />', head)
+    assert n == 1, 'service-static.css link not found in the about-us.html shell; company.css would be missing'
     head = head.replace('nav-item is-current', 'nav-item')
     head = head.replace(f'<div class="nav-item" data-menu="{nav}">', f'<div class="nav-item is-current" data-menu="{nav}">')
     tail = TAIL
