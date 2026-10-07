@@ -964,3 +964,7 @@ a.pk-tile:hover { translate: 0 -5px; border-color: rgba(201, 139, 255, .5); }
 .tl2.is-static .tl2-pin { position: static; height: auto; overflow-x: auto; padding: 8vh 0; }
 .tl2.is-static .tl2-item { --r: 1; }
 .tl2.is-static .tl2-fill { width: calc(100% - 24px); }
+
+/* stitched dashed line inside the project folders, like the category pockets */
+.pf-fc-front::before { content: ""; position: absolute; inset: 9px; border: 1.5px dashed rgba(255, 255, 255, .28); border-radius: 12px 12px 14px 14px; pointer-events: none; transition: border-color .4s ease; }
+.pf-card.pf-fc:hover .pf-fc-front::before { border-color: rgba(255, 255, 255, .5); }
