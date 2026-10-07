@@ -305,14 +305,21 @@ PAGES = [
         ],
     },
     {
-        'file': 'website-development.html', 'menu': 'dev', 'badge': 'Website Development',
+        'file': 'website-development.html', 'menu': 'dev', 'badge': 'Website Development', 'custom': True,
         'title': 'Web Development Company in Dubai | Squarezix',
         'h1': ['Websites Engineered', 'for Speed, Search', 'and Scale.'], 'grad': 1,
         'lead': 'Fast, accessible, SEO-ready builds on the platform that fits you, from first launch to migration.',
-        'list': ('Development services', 'Best website development <em>agency in Dubai</em>', panels(SVC['web'],
-                 ('Platforms & frameworks.', 'WordPress, e-commerce, React, Next.js and full-stack builds.'),
-                 ('CMS & front-end.', 'Custom, headless and Concrete CMS, plus Vue.js interfaces.'))),
         'sections': [
+            # Live 'Best Website Development Agency in Dubai': the 27 live services as solution cards (+ two extra live service pages the menu links to)
+            ('nodes', 'Development services', 'Best Website Development <em>Agency in Dubai</em>',
+             {'intro': L['web']['services']['intro'],
+              'items': [(t, d, {'tag': 'Service', 'kw': []}) for t, d, _b in L['web']['services']['items']]
+                       + [(t, d, {'tag': 'Service', 'kw': []}) for t, d, _b in SVC['web']['items'] if t in ('Headless Ecommerce Development', 'Website Migration Services')]}, 'services'),
+            # Live 'Methodology' section: titles only on the live page
+            ('timeline', 'Methodology', 'What Makes Squarezix the <em>Best Web Development Company in Dubai?</em>',
+             {'out': 'Live website', 'items': [(t, '', []) for t in ('Design-Driven Approach Focused on Aesthetics & Performance', 'Seamless Mobile & Tablet Experience',
+                                              'Conversion-Focused Layouts for Higher Leads & Sales', 'Collaborative Process—We Build Your Vision Together',
+                                              'Trendy, Future-Ready Design Elements', 'Optimized for Google Rankings and Speed')]}),
             ('pillars', 'Our approach', 'From brief to <em>launch-ready build</em>', pillars_of(
                 ('Plan', ['Requirements & discovery', 'Platform & stack selection', 'Information architecture', 'SEO-ready structure', 'Project roadmap']),
                 ('Build', ['Front-end & CMS development', 'API development & integration', 'Payment gateway integration', 'Multi-language & localization', 'Security & pentesting']),
@@ -929,11 +936,12 @@ def timeline(badge, title, data):
                     f'<circle cx="{nums[0]:g}" cy="{nums[1]:g}" r="4"/><circle cx="{nums[-2]:g}" cy="{nums[-1]:g}" r="4"/></svg>')
         else:
             wire = ''
-        nxt = (f'<span>Next</span><b>{e(items[i + 1][0])}</b>' if i + 1 < n else '<span>Output</span><b>Live store</b>')
+        desc = f'<p class="ec-node-desc">{e(d)}</p>' if d else ''
+        nxt = (f'<span>Next</span><b>{e(items[i + 1][0])}</b>' if i + 1 < n else f'<span>Output</span><b>{e(data.get("out", "Live store"))}</b>')
         tag = '<span class="ec-node-tag">Start</span>' if i == 0 else ('<span class="ec-node-tag ec-node-tag--end">Launch</span>' if i == n - 1 else '')
         nodes += (f'<li class="ec-node">{tag}<div class="ec-node-head"><span class="ec-node-ic"><svg viewBox="0 0 24 24" aria-hidden="true">{FLOW_ICONS[i % len(FLOW_ICONS)]}</svg></span>'
                   f'<h3>{e(t)}</h3><i class="ec-node-dots" aria-hidden="true"></i></div>'
-                  f'<div class="ec-node-box"><p class="ec-node-row"><span>Step</span><b>{i + 1:02d} / {n:02d}</b></p><p class="ec-node-desc">{e(d)}</p></div>'
+                  f'<div class="ec-node-box"><p class="ec-node-row"><span>Step</span><b>{i + 1:02d} / {n:02d}</b></p>{desc}</div>'
                   f'<p class="ec-node-row ec-node-box ec-node-next">{nxt}</p>{wire}</li>')
     return f'''    <section class="ss-sec">
       {head(badge, title, center=True)}
