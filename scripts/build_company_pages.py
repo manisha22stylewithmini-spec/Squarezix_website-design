@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261051b'
+VER = '20261052b'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -444,36 +444,34 @@ def portfolio():
     SHORT = {'Positioning': 'Po', 'UX/UI': 'UX', 'Development': 'Dev', 'SEO': 'SEO', 'Headless build': 'HL', 'CRO': 'CRO',
              'Product design': 'PD', 'Design system': 'DS', 'AI integration': 'AI'}
 
-    def sel_card(title, desc, img, href, pics, tag, team, icon, cap='', ind='none', out=''):
+    def sel_card(title, desc, img, href, pics, note, cap='', ind='none', out=''):
         pic_html = ''.join(f'<img class="pf-fc-p{i + 1}" src="{src}" alt="" loading="lazy" />' for i, src in enumerate(pics + [img]))
-        team_html = ''.join(f'<i title="{e(full)}">{e(short)}</i>' for short, full in team)
-        return (f'<article class="pf-card pf-fc" data-cap="{cap}" data-ind="{ind}" data-out="{out}" data-rise>'
+        big, small = note
+        return (f'<article class="pf-card pf-fc" data-cap="{cap}" data-ind="{ind}" data-out="{out}" data-rise><div class="pf-fc-wrap">'
                 f'<a class="pf-fc-folder" href="{href}" tabindex="-1" aria-hidden="true"><span class="pf-fc-back"></span>'
-                f'<span class="pf-fc-pics">{pic_html}</span>'
-                f'<span class="pf-fc-front"><span class="pf-fc-icon">{icon}</span>{tag}<span class="pf-fc-team">{team_html}</span></span></a>'
-                f'<h3><a href="{href}">{e(title)}</a></h3><p>{e(desc)}</p></article>')
+                f'<span class="pf-fc-pics">{pic_html}</span><span class="pf-fc-front"></span>'
+                f'<span class="pf-fc-note"><i class="pf-fc-clip"></i><b>{e(big)}</b><small>{e(small)}</small></span></a>'
+                f'<p class="pf-fc-desc">{e(desc)}</p></div>'
+                f'<h3><a href="{href}">{e(title)}</a></h3></article>')
 
     SITE_META = [('digital', 'tech', 'leads'), ('digital', 'ecom', 'conversion'), ('digital', 'tech', 'adoption')]
     site_imgs = [s['img'] for s in sites]
+    REEL_NOTE = {1: ('3D motion', 'Social reel'), 3: ('Kinetic type', 'Social reel'), 4: ('One question', 'Social reel'),
+                 2: ('Bold & minimal', 'Social reel'), 5: ('Branded', 'Social reel')}
 
     def sel_site(i):
         x = sites[i]
         c = next(k for k in CASES if k['client'] == x['client'])
         cap, ind, out = SITE_META[i]
-        v, label = c['results'][0]
-        tag = f'<span class="pf-fc-tag"><i class="pf-fc-clip"></i><b>{e(v)}</b><small>{e(label)}</small></span>'
         others = [im for im in site_imgs if im != x['img']]
-        team = [(SHORT.get(s, s[:2]), s) for s in c['services'][:3]]
-        return sel_card(x['client'], x['blurb'], x['img'], 'case-study.html', others, tag, team, ICON_WEB, cap=cap, ind=ind, out=out)
+        return sel_card(x['client'], x['blurb'], x['img'], 'case-study.html', others, c['results'][0], cap=cap, ind=ind, out=out)
 
     def sel_reel(i):
         r = reels[i]
         poster = f"assets/reels/reel-{r['n']}.jpg"
-        tag = (f'<span class="pf-fc-stamp"><i class="pf-fc-clip"></i><img src="{poster}" alt="" loading="lazy" />'
-               f'<span class="pf-fc-play"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5-11-6.5Z"/></svg></span></span>')
         others = [f"assets/reels/reel-{reels[(i + k) % len(reels)]['n']}.jpg" for k in (1, 2)]
-        return sel_card(r['title'], reel_desc[r['n']], poster, 'index.html#reels', others, tag,
-                        [('Mo', 'Motion'), ('So', 'Social video')], ICON_REEL, cap='marketing', ind='none', out='engagement')
+        return sel_card(r['title'], reel_desc[r['n']], poster, 'index.html#reels', others, REEL_NOTE[r['n']],
+                        cap='marketing', ind='none', out='engagement')
 
     sel_cards = ''.join([sel_site(0), sel_reel(0), sel_site(1), sel_reel(1), sel_site(2), sel_reel(2), sel_reel(3), sel_reel(4)])
 
