@@ -871,7 +871,7 @@ def illus(badge, title, data):
         for t, d, b in data['items'])
     return f'''    <section class="ss-sec ix-sec">
       {head(badge, title, data.get('intro', ''), center=True)}
-      <ul class="ix-grid">{cards}</ul>
+      <ul class="ix-grid{' ix-grid--' + data['grid'] if data.get('grid') else ''}">{cards}</ul>
     </section>
 
 '''

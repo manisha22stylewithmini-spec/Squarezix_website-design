@@ -11,6 +11,7 @@ def cards(sec, last_wide=True):
     return [(t, d, {'wide': True} if last_wide and i == len(items) - 1 else {}) for i, (t, d, _b) in enumerate(items)]
 
 
+ISSUE_ART = ['server', 'speed', 'lock', 'payment', 'backup', 'brokenlink', 'forms', 'browsers', 'firewall', 'updates']
 SERVICES = [node(t, 'Service', d, []) for t, d, _b in W['maintain']['items']]
 FAQ = [(q, a) for q, a in W['mfaq']]
 
@@ -20,8 +21,9 @@ WM_LAYOUT = [
     ('nodes', 'Our Services', 'How do we maintain <em>Your Website</em>', {'intro': W['maintain']['intro'], 'items': SERVICES}, 'services'),
     ('bento', 'Reliable Solutions', 'What Sets Squarezix Apart in <em>Website Maintenance Services</em>',
      {'intro': W['mwhy']['intro'], 'items': cards('mwhy')}),
-    ('bento', 'Website Issues', 'Keep Your Business Website <em>Secure and High-Performing</em>',
-     {'intro': W['fixes']['intro'], 'items': cards('fixes')}),
+    ('illus', 'Website Issues', 'Keep Your Business Website <em>Secure and High-Performing</em>',
+     {'intro': W['fixes']['intro'], 'grid': 'rem2',
+      'items': [(t, d, {'art': a}) for (t, d, _b), a in zip(W['fixes']['items'], ISSUE_ART)]}),
     ('bento', 'Why Choose Squarezix', 'Why Choose Squarezix as your <em>website maintenance partner?</em>',
      {'intro': W['mwhy2']['intro'], 'items': cards('mwhy2', last_wide=False), 'grid': 'b6'}),
     ('cta', 'Be Everywhere Your Audience is <em>Searching with Squarezix</em>', 'Connect with our AI experts to drive more leads from SEO in the AI-Era.'),

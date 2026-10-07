@@ -130,6 +130,20 @@ def tile_icon(kind, w):
         return f'<rect x="{w*.2}" y="{w*.32}" width="{w*.6}" height="{w*.42}" rx="{w*.07}" {WHITE}/><circle cx="{c}" cy="{w*.53}" r="{w*.12}" {WHITE}/>'
     if kind == 'check':
         return f'<path d="M{w*.26},{w*.5} L{w*.43},{w*.67} L{w*.75},{w*.33}" {WHITE}/>'
+    if kind == 'power':
+        return f'<path d="M{w*.34},{w*.3} A{w*.22},{w*.22} 0 1 0 {w*.66},{w*.3}" {WHITE}/><line x1="{c}" y1="{w*.2}" x2="{c}" y2="{w*.48}" {WHITE}/>'
+    if kind == 'bolt':
+        return f'<path d="M{w*.55},{w*.18} L{w*.3},{w*.55} H{w*.5} L{w*.44},{w*.82} L{w*.7},{w*.44} H{w*.5} Z" fill="#fff" opacity=".95"/>'
+    if kind == 'cart':
+        return f'<path d="M{w*.2},{w*.28} h{w*.12} l{w*.08},{w*.34} h{w*.3} l{w*.08},{w*.24}" {WHITE}/><circle cx="{w*.42}" cy="{w*.72}" r="{w*.04}" fill="#fff"/><circle cx="{w*.64}" cy="{w*.72}" r="{w*.04}" fill="#fff"/>'
+    if kind == 'cloud':
+        return f'<path d="M{w*.28},{w*.66} h{w*.4} a{w*.12},{w*.12} 0 0 0 {w*.02},-{w*.24} a{w*.17},{w*.17} 0 0 0 -{w*.32},{w*.04} a{w*.1},{w*.1} 0 0 0 -{w*.1},{w*.2} z" {WHITE}/>'
+    if kind == 'bug':
+        return f'<ellipse cx="{c}" cy="{w*.55}" rx="{w*.14}" ry="{w*.2}" {WHITE}/><path d="M{w*.36},{w*.45} h-{w*.12} M{w*.64},{w*.45} h{w*.12} M{w*.36},{w*.6} h-{w*.12} M{w*.64},{w*.6} h{w*.12} M{w*.42},{w*.3} l-{w*.06},-{w*.08} M{w*.58},{w*.3} l{w*.06},-{w*.08}" {WHITE}/>'
+    if kind == 'x':
+        return f'<path d="M{w*.3},{w*.3} L{w*.7},{w*.7} M{w*.7},{w*.3} L{w*.3},{w*.7}" {WHITE}/>'
+    if kind == 'refresh':
+        return f'<path d="M{w*.72},{w*.4} A{w*.22},{w*.22} 0 1 0 {w*.7},{w*.62}" {WHITE}/><path d="M{w*.74},{w*.22} V{w*.42} H{w*.54}" {WHITE}/>'
     if kind == 'link':
         return f'<rect x="{w*.18}" y="{w*.38}" width="{w*.36}" height="{w*.24}" rx="{w*.12}" {WHITE}/><rect x="{w*.46}" y="{w*.38}" width="{w*.36}" height="{w*.24}" rx="{w*.12}" {WHITE}/>'
     return ''
@@ -285,8 +299,138 @@ def ai():
     return s.svg()
 
 
+def base(key, seed, oy=165, pools=(200, 78)):
+    s = Scene(key, oy=oy)
+    s.add(s.stars(26, seed), s.pool(0, 0, pools[0], pools[1], 'B'), s.pool(0, 0, 120, 52, 'P'))
+    return s
+
+
+def server():
+    s = base('ixi', 91)
+    s.add(s.box(-100, -36, 0, 200, 72, 5))
+    for i, (h, top) in enumerate(((34, 'top'), (50, 'top2'), (34, 'top'))):
+        x = -92 + i * 64
+        dots = ''.join(f'<circle cx="{12 + j * 10}" cy="48" r="2.4" fill="#c4b5fd" opacity="{.9 if j < 2 else .35}"/>' for j in range(4))
+        bars = '<rect x="10" y="12" width="36" height="5" rx="2.5" fill="#a78bfa" opacity=".5"/><rect x="10" y="24" width="36" height="5" rx="2.5" fill="#a78bfa" opacity=".35"/>'
+        inner = dots + bars + (label('!', 28, 28, 22) if i == 1 else '')
+        s.add(s.box(x, -28, 5, 56, 56, h, top=top if i != 1 else 'hi', glow=(i == 1), inner=inner))
+    s.add(s.beam(0, 0, 55, 60, 18),
+          f'<g class="ix-float" style="animation-delay:-1.5s">{s.box(-14, -14, 78, 28, 28, 6, top="hi2", inner=tile_icon("power", 28))}</g>')
+    return s.svg()
+
+
+def speed():
+    s = base('ixj', 92)
+    gauge = ('<path d="M18,84 A52,52 0 0 1 122,84" fill="none" stroke="#3b1a74" stroke-width="10" stroke-linecap="round"/>'
+             '<path d="M18,84 A52,52 0 0 1 100,41" fill="none" stroke="url(#ixj-e)" stroke-width="10" stroke-linecap="round"/>'
+             '<line x1="70" y1="84" x2="100" y2="54" stroke="#fff" stroke-width="3" stroke-linecap="round"/><circle cx="70" cy="84" r="6" fill="#fff"/>')
+    s.add(s.box(-70, -60, 0, 140, 120, 8, glow=True, inner=gauge),
+          f'<g class="ix-float" style="animation-delay:-2s">{s.box(70, -96, 40, 28, 28, 6, top="hi", inner=tile_icon("bolt", 28))}</g>',
+          f'<g class="ix-float" style="animation-delay:-4s">{s.box(-112, 34, 28, 24, 24, 5, top="hi2", inner=tile_icon("check", 24))}</g>')
+    return s.svg()
+
+
+def lock():
+    s = base('ixk', 93, oy=152)
+    s.add(s.box(-60, -60, 0, 120, 120, 8, glow=True))
+    for nx, ny in ((-100, 0), (100, 0)):
+        s.add(s.line((nx, ny, 0), (0, 0, 8)), s.box(nx - 9, ny - 9, 0, 18, 18, 4, top='hi2', inner=tile_icon('check', 18)))
+    padlock = ('<path d="M-17,-8 V-22 a17,17 0 0 1 34,0 V-8" fill="none" stroke="#ede9fe" stroke-width="5" stroke-linecap="round"/>'
+               '<rect x="-27" y="-10" width="54" height="42" rx="9" fill="url(#ixk-pin)" stroke="#ede9fe" stroke-width="1"/>'
+               '<circle cx="0" cy="8" r="5.5" fill="#170f37"/><rect x="-1.8" y="10" width="3.6" height="9" rx="1.8" fill="#170f37"/>')
+    s.add(s.beam(0, 0, 8, 80, 22), s.at(0, 0, 50, padlock, 'ix-float', -1.5))
+    return s.svg()
+
+
+def payment():
+    s = base('ixl', 94)
+    card = ('<rect x="8" y="10" width="104" height="14" fill="#140a2a" opacity=".85"/><rect x="12" y="44" width="40" height="8" rx="2" fill="#ede9fe" opacity=".85"/>'
+            '<rect x="12" y="58" width="64" height="5" rx="2.5" fill="#a78bfa" opacity=".5"/><circle cx="92" cy="58" r="9" fill="#ab24f2" opacity=".9"/><circle cx="102" cy="58" r="9" fill="#c98bff" opacity=".8"/>')
+    s.add(s.box(-80, -55, 0, 160, 110, 6),
+          s.box(-60, -40, 6, 120, 80, 4, top='top2', glow=True, inner=card),
+          f'<g class="ix-float" style="animation-delay:-1s">{s.box(58, -96, 44, 28, 28, 6, top="hi", inner=tile_icon("cart", 28))}</g>',
+          f'<g class="ix-float" style="animation-delay:-3.5s">{s.box(-112, 40, 30, 24, 24, 5, top="hi2", inner=tile_icon("check", 24))}</g>')
+    return s.svg()
+
+
+def backup():
+    s = base('ixm', 95)
+    s.add(s.box(-62, -62, 0, 124, 124, 6))
+    for i in range(3):
+        top = 'hi' if i == 2 else 'top2'
+        inner = '<rect x="14" y="40" width="40" height="5" rx="2.5" fill="#a78bfa" opacity=".6"/><circle cx="92" cy="43" r="3.2" fill="#e2b8ff"/>' if i == 2 else ''
+        s.add(s.box(-48, -48, 6 + i * 20, 96, 96, 14, top=top, glow=(i == 2), inner=inner))
+    s.add(s.beam(0, 0, 70, 60, 18),
+          f'<g class="ix-float" style="animation-delay:-2s">{s.box(-14, -14, 100, 28, 28, 6, top="hi2", inner=tile_icon("cloud", 28))}</g>',
+          f'<g class="ix-float" style="animation-delay:-4s">{s.box(70, 44, 28, 24, 24, 5, top="hi", inner=tile_icon("refresh", 24))}</g>')
+    return s.svg()
+
+
+def brokenlink():
+    s = base('ixn', 96)
+    s.add(s.box(-100, -48, 0, 200, 96, 6, glow=True))
+    s.add(s.box(-88, -14, 6, 70, 28, 12, top='hi', inner=tile_icon('link', 28) if False else ''),
+          s.box(18, -14, 6, 70, 28, 12, top='hi2'))
+    s.add(s.at(-53, 0, 26, '<rect x="-24" y="-9" width="34" height="18" rx="9" fill="none" stroke="#fff" stroke-width="2.4"/>', 'ix-float', -1),
+          s.at(53, 0, 26, '<rect x="-10" y="-9" width="34" height="18" rx="9" fill="none" stroke="#fff" stroke-width="2.4"/>', 'ix-float', -3))
+    s.add(s.at(0, 0, 34, '<path d="M-7,-7 L7,7 M7,-7 L-7,7" stroke="#e2b8ff" stroke-width="3" stroke-linecap="round"/>', 'ix-pulse'),
+          s.beam(0, 0, 8, 52, 16))
+    return s.svg()
+
+
+def forms():
+    s = base('ixo', 97)
+    ui = ('<rect x="12" y="12" width="50" height="6" rx="3" fill="#ede9fe" opacity=".9"/>'
+          '<rect x="12" y="26" width="96" height="14" rx="4" fill="#140a2a" stroke="#a78bfa" stroke-width="1" opacity=".95"/>'
+          '<rect x="12" y="48" width="96" height="14" rx="4" fill="#140a2a" stroke="#a78bfa" stroke-width="1" opacity=".95"/>'
+          '<rect x="12" y="70" width="42" height="14" rx="7" fill="url(#ixo-pin)"/>')
+    s.add(s.box(-72, -52, 0, 144, 104, 6),
+          s.box(-60, -42, 6, 120, 96, 5, top='top2', glow=True, inner=ui),
+          f'<g class="ix-float" style="animation-delay:-1.5s">{s.box(64, -92, 46, 26, 26, 6, top="hi", inner=tile_icon("check", 26))}</g>')
+    return s.svg()
+
+
+def browsers():
+    s = base('ixp', 98, oy=170)
+    s.add(s.box(-96, -40, 0, 192, 80, 5))
+    for i, top in enumerate(('top', 'top2', 'hi')):
+        x = -88 + i * 62
+        bar = f'<rect x="0" y="0" width="52" height="9" fill="#140a2a" opacity=".9"/><circle cx="7" cy="4.5" r="2" fill="#c98bff"/><circle cx="14" cy="4.5" r="2" fill="#a78bfa"/>'
+        body = '<rect x="8" y="18" width="36" height="5" rx="2.5" fill="#a78bfa" opacity=".55"/><rect x="8" y="30" width="26" height="5" rx="2.5" fill="#a78bfa" opacity=".4"/>'
+        s.add(s.box(x, -30, 5, 54, 60, 8 + i * 10, top=top, glow=(i == 2), inner=bar + body))
+    s.add(f'<g class="ix-float" style="animation-delay:-2s">{s.box(-14, -14, 70, 28, 28, 6, top="hi2", inner=tile_icon("check", 28))}</g>')
+    return s.svg()
+
+
+def firewall():
+    s = base('ixq', 99, oy=165)
+    s.add(s.box(-90, -40, 0, 180, 80, 6))
+    for i in range(4):
+        s.add(s.box(-84 + i * 42, -22, 6, 38, 44, 26 + (i % 2) * 14, top='hi' if i == 1 else 'top2', glow=(i == 1)))
+    shield = ('<path d="M0,-34 L24,-26 V-6 C24,10 12,19 0,25 C-12,19 -24,10 -24,-6 V-26 Z" fill="url(#ixq-pin)" filter="url(#ixq-blur)" opacity=".75"/>'
+              '<path d="M0,-34 L24,-26 V-6 C24,10 12,19 0,25 C-12,19 -24,10 -24,-6 V-26 Z" fill="url(#ixq-pin)" stroke="#ede9fe" stroke-width="1"/>'
+              '<path d="M-9,-4 L-2,3 L11,-11" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>')
+    s.add(s.at(0, 0, 80, shield, 'ix-float', -1.5),
+          f'<g class="ix-float" style="animation-delay:-3s">{s.box(88, -70, 40, 24, 24, 5, top="hi2", inner=tile_icon("bug", 24))}</g>')
+    return s.svg()
+
+
+def updates():
+    s = base('ixr', 100)
+    s.add(s.box(-62, -62, 0, 124, 124, 6, glow=True))
+    for i, top in enumerate(('top', 'top2')):
+        s.add(s.box(-44, -44, 6 + i * 12, 88, 88, 8, top=top))
+    ring = ('<circle cx="0" cy="0" r="24" fill="none" stroke="url(#ixr-e)" stroke-width="5" stroke-dasharray="110 40" stroke-linecap="round"/>'
+            '<path d="M18,-24 L30,-14 L14,-10 Z" fill="#f5f3ff"/>')
+    s.add(s.beam(0, 0, 26, 60, 18), s.at(0, 0, 50, ring, 'ix-float', -1),
+          f'<g class="ix-float" style="animation-delay:-2.5s">{s.box(64, 40, 30, 24, 24, 5, top="hi", inner=tile_icon("check", 24))}</g>')
+    return s.svg()
+
+
 ART = {'maps': maps, 'profile': profile, 'geogrid': geogrid, 'leads': leads,
-       'authority': authority, 'threepack': threepack, 'district': district, 'ai': ai}
+       'authority': authority, 'threepack': threepack, 'district': district, 'ai': ai,
+       'server': server, 'speed': speed, 'lock': lock, 'payment': payment, 'backup': backup, 'brokenlink': brokenlink,
+       'forms': forms, 'browsers': browsers, 'firewall': firewall, 'updates': updates}
 
 
 def art(key):
