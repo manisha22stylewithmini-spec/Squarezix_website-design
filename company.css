@@ -971,14 +971,13 @@ a.pk-tile:hover { translate: 0 -5px; border-color: rgba(201, 139, 255, .5); }
 
 /* kind badge (icon + label) fills the top-left of each folder front */
 .pf-fc-meta { position: absolute; left: 18px; top: 18px; display: flex; align-items: center; gap: 10px; }
-.pf-fc-ico { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; color: #e2b8ff; background: rgba(255, 255, 255, .1); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18); }
-.pf-fc-ico svg { width: 22px; height: 22px; }
+.pf-fc-ico { display: grid; place-items: center; color: #e2b8ff; }
+.pf-fc-ico svg { width: 34px; height: 34px; stroke-width: 1.5; }
 .pf-fc-kind { font: 600 12px/1.2 "DM Sans", sans-serif; letter-spacing: .12em; text-transform: uppercase; color: rgba(243, 232, 255, .8); }
 @media (max-width: 1250px) { .pf-fc-kind { display: none; } }
 .pf-fc-go { position: absolute; right: 18px; bottom: 18px; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; color: #fff; background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .22); transition: background .3s ease, translate .3s ease; }
 .pf-fc-go svg { width: 17px; height: 17px; }
 .pf-card.pf-fc:hover .pf-fc-go, .pf-card.pf-fc:focus-within .pf-fc-go { background: linear-gradient(135deg, #ab24f2, #621dd0); translate: 2px -2px; }
-.pf-card.pf-fc .pf-fc-desc { right: 66px; }
 
 /* ================= One wide pocket with a card per category ================= */
 .pk2 { position: relative; max-width: 1120px; margin: clamp(48px, 5vw, 76px) auto 0; padding-top: 30px; }

@@ -18,7 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261062a'
+VER = '20261063a'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -462,7 +462,7 @@ def portfolio():
         return (f'<article class="pf-card pf-fc" data-cap="{cap}" data-ind="{ind}" data-out="{out}" data-rise><div class="pf-fc-wrap">'
                 f'<a class="pf-fc-folder" href="{href}" tabindex="-1" aria-hidden="true"><span class="pf-fc-back"></span>'
                 f'<span class="pf-fc-pics">{pic_html}</span>'
-                f'<span class="pf-fc-front"><span class="pf-fc-meta"><span class="pf-fc-ico">{KIND_ICON[kind]}</span><span class="pf-fc-kind">{e(kind)}</span></span><span class="pf-fc-go" aria-hidden="true">{ARROW}</span></span>'
+                f'<span class="pf-fc-front"><span class="pf-fc-meta"><span class="pf-fc-ico">{KIND_ICON[kind]}</span></span></span>'
                 f'<span class="pf-fc-note"><i class="pf-fc-clip"></i><b>{e(big)}</b><small>{e(small)}</small></span></a>'
                 f'<p class="pf-fc-desc">{e(desc)}</p></div>'
                 f'<h3><a href="{href}">{e(title)}</a></h3></article>')
