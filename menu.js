@@ -310,7 +310,7 @@
         }
       ],
       // </dev:auto>
-      banner: { kicker: 'Free audit', title: 'Is your website holding you back?', cta: 'Get a free website audit', href: CONTACT },
+      banner: { kicker: 'More services', title: 'Explore our full range of development services', cta: 'View more services', href: 'website-development.html#services' },
     },
     work: {
       layout: 'split',
