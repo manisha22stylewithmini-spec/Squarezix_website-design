@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261046g'
+VER = '20261047c'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -540,7 +540,7 @@ CASES = [
          did='Rewrote the story around one outcome, redesigned every page to lead to a demo, and rebuilt the front end for speed.',
          services=['Positioning', 'UX/UI', 'Development', 'SEO'],
          results=[('+212%', 'Demo requests'), ('1.1s', 'Mobile load (LCP)'), ('9 wks', 'Brief to launch')],
-         book=dict(font='sora', w=78, h=86, bg='#f3e8ff', fg='#1a0b36', band='#621dd0', bh=20, title='Digital Stream')),
+         book=dict(font='sora', w=78, h=94, bg='#f3e8ff', fg='#1a0b36', band='#621dd0', bh=20, title='Digital Stream')),
     dict(slug='hero-gradients', client='Hero Gradients', kind='E-commerce', industry='Digital goods', year='2025', img='assets/work/project-2.png',
          alt='Hero Gradients storefront', no='02',
          challenge='Plenty of traffic, a slow catalogue and a checkout that lost shoppers at the shipping step.',
@@ -554,7 +554,7 @@ CASES = [
          did='Mapped the first ten minutes of use, redesigned onboarding around a single task and rebuilt the dashboard to match.',
          services=['Product design', 'Design system', 'AI integration'],
          results=[('3×', 'Trial to paid'), ('−57%', 'Support tickets'), ('4 min', 'To first result')],
-         book=dict(font='sora', w=104, h=97, bg='linear-gradient(160deg,#7b2ff0,#ab24f2)', fg='#ffffff', tilt=-8, big=True, title='Lissr.ai')),
+         book=dict(font='sora', w=104, h=95, bg='linear-gradient(160deg,#7b2ff0,#ab24f2)', fg='#ffffff', tilt=-6, big=True, title='Lissr.ai')),
 ]
 REEL_CASES = [
     dict(slug='reel-digital-marketing', n=1, title='Digital Marketing', desc='A short-form social reel built around 3D motion graphics.',
@@ -562,11 +562,11 @@ REEL_CASES = [
     dict(slug='reel-strategy-without-content', n=3, title='Strategy without content is invisible', desc='Kinetic-typography reel making the case for content-led strategy.',
          book=dict(font='mono', w=60, h=91, bg='#f7f5fb', fg='#621dd0', band='#e9d5ff', bh=9, title='Strategy without content is invisible')),
     dict(slug='reel-justify-your-rates', n=4, title='Struggling to justify your rates?', desc='Short-form reel built around a single, direct client question.',
-         book=dict(font='serif', w=70, h=70, bg='#1c1233', fg='#f5f3ff', band='#ab24f2', bh=8, top=True, title='Justify your rates?')),
+         book=dict(font='serif', w=70, h=80, bg='#1c1233', fg='#f5f3ff', band='#ab24f2', bh=8, top=True, title='Justify your rates?')),
     dict(slug='reel-kinetic-type', n=2, title='Kinetic type reel', desc='Kinetic-typography social reel with bold, minimal type.',
          book=dict(font='sora', w=82, h=88, bg='#e9d5ff', fg='#2a0f5c', band='#3b1a74', bh=16, title='Kinetic Type')),
     dict(slug='reel-solution-wagon', n=5, title='Solution Wagon', desc='Branded social reel for Solution Wagon.',
-         book=dict(font='sora', w=64, h=78, bg='#6d28d9', fg='#ffffff', title='Solution Wagon')),
+         book=dict(font='sora', w=64, h=88, bg='#6d28d9', fg='#ffffff', title='Solution Wagon')),
 ]
 SHELF_ORDER = ['digital-stream', 'reel-digital-marketing', 'hero-gradients', 'reel-strategy-without-content', 'lissr-ai',
                'reel-justify-your-rates', 'reel-kinetic-type', 'reel-solution-wagon']
@@ -576,7 +576,7 @@ def _case_by(slug_):
     return next(c for c in CASES + REEL_CASES if c['slug'] == slug_)
 
 
-def book_html(c, current=False, href='case-study.html'):
+def book_html(c, current=False, href='case-study.html', i=0):
     b = c['book']
     is_site = 'client' in c
     sub = f"{c['kind']} · {c['year']}" if is_site else 'Social reel'
@@ -584,7 +584,7 @@ def book_html(c, current=False, href='case-study.html'):
         tip = f"<b>{e(c['client'])}</b><span>{e(c['kind'])} · {e(c['industry'])}</span><i>{e(c['results'][0][0])} {e(c['results'][0][1].lower())}</i>"
     else:
         tip = f"<b>{e(c['title'])}</b><span>Social video · Motion</span><i>Watch the reel</i>"
-    style = f"--w:{b['w']}px;--h:{b['h']}%;--bg:{b['bg']};--fg:{b['fg']};"
+    style = f"--i:{i};--w:{b['w']}px;--h:{b['h']}%;--bg:{b['bg']};--fg:{b['fg']};"
     if b.get('band'):
         style += f"--band:{b['band']};--bh:{b['bh']}%;"
     if b.get('tilt'):
@@ -600,8 +600,8 @@ def book_html(c, current=False, href='case-study.html'):
 
 
 def shelf(current=None, compact=False, href='case-study.html'):
-    books = ''.join(book_html(_case_by(s), s == current, href) for s in SHELF_ORDER)
-    books += ('<a class="bk bk--mono bk--next" style="--w:66px;--h:82%;" href="#ab-contact" aria-label="Your brand: start the next case study">'
+    books = ''.join(book_html(_case_by(s), s == current, href, n) for n, s in enumerate(SHELF_ORDER))
+    books += ('<a class="bk bk--mono bk--next" style="--i:8;--w:66px;--h:82%;" href="#ab-contact" aria-label="Your brand: start the next case study">'
               '<span class="bk-top" aria-hidden="true">+</span><span class="bk-title" aria-hidden="true">Your brand, next</span>'
               '<span class="bk-sub" aria-hidden="true">Vol. 09</span><span class="bk-mark" aria-hidden="true">SZ</span>'
               '<span class="bk-tip" aria-hidden="true"><b>Your brand</b><span>The next chapter on this shelf</span><i>Start a project</i></span></a>')
