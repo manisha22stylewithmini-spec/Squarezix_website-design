@@ -917,7 +917,22 @@ def cta(title, text):
 DIVIDER = '    <div class="ss-divider" aria-hidden="true"><i></i></div>\n\n'
 
 
-KINDS = {'compare': compare, 'process': process_iso, 'illus': illus, 'nodes': nodes, 'statement': statement, 'bento': bento, 'timeline': timeline, 'cta': cta, 'pillars': pillars, 'why': why, 'industries': industries, 'faq': faq}
+def vs(badge, title, data):
+    """Two panels side by side: the quieter 'other half' on the left, the page's own topic highlighted on the right."""
+    dot = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>'
+
+    def panel(cls, d):
+        rows = ''.join(f'<li>{dot}{e(i)}</li>' for i in d['items'])
+        return f'<article class="cmp-panel {cls}"><h3>{e(d["title"])}</h3><ul class="cmp-chips">{rows}</ul><p class="cmp-note">{e(d["note"])}</p></article>'
+    return f'''    <section class="ss-sec cmp-sec">
+      {head(badge, title, data.get('intro', ''), center=True)}
+      <div class="cmp cmp--vs">{panel('cmp-panel--dim', data['left'])}{panel('cmp-panel--hi', data['right'])}</div>
+    </section>
+
+'''
+
+
+KINDS = {'vs': vs, 'compare': compare, 'process': process_iso, 'illus': illus, 'nodes': nodes, 'statement': statement, 'bento': bento, 'timeline': timeline, 'cta': cta, 'pillars': pillars, 'why': why, 'industries': industries, 'faq': faq}
 
 
 def main_html(p):

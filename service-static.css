@@ -579,6 +579,14 @@
 .cmp-panel--hi h3 { color: #fff; }
 .cmp-panel--hi p { color: #c9c3df; }
 
+/* On-Page vs Off-Page: same panels, ticks instead of crosses */
+.cmp--vs .cmp-chips { margin-top: 22px; }
+.cmp--vs .cmp-chips svg { stroke-width: 2.6; }
+.cmp--vs .cmp-panel--hi .cmp-chips li { color: #e5ddf7; background: rgba(171, 36, 242, .1); border-color: rgba(201, 139, 255, .3); }
+.cmp--vs .cmp-panel--hi .cmp-chips svg { stroke: #c98bff; }
+.cmp-note { margin-top: auto; padding-top: 24px; font-size: 14px; font-weight: 500; }
+.cmp-panel--dim .cmp-note { color: #8e8aa3; }
+.cmp-panel--hi .cmp-note { color: #e2b8ff; }
 .cmp-orbit { display: block; width: 100%; height: auto; margin: clamp(14px, 2vw, 24px) 0; }
 .cmp-orbit .r { fill: #6b25d6; stroke: rgba(201, 139, 255, .35); stroke-width: 1; }
 .cmp-orbit line { stroke: rgba(201, 139, 255, .22); stroke-width: 1; }

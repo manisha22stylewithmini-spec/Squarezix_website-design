@@ -10,6 +10,7 @@ build_service_pages.py prints the list on every build.
 Node cards: (title, tag, description, [keywords]). Feature cards: (title, lead, [chips]).
 """
 from local_seo_content import LOCAL_LAYOUT, LOCAL_HERO  # noqa: E402
+from offpage_content import OFFPAGE_LAYOUT, OFFPAGE_HERO  # noqa: E402
 import sys
 from pathlib import Path
 
@@ -566,21 +567,13 @@ SUBS = [
               ('How long until on-page changes show results?', 'Many improvements start to show within a few weeks, though competitive terms take longer.'),
               ('Do you rewrite our content?', 'We improve existing content and write new content where pages are thin or missing.'),
               ('Can you optimise Arabic pages?', 'Yes. We optimise both Arabic and English pages for the way people search in each language.')]),
-    dict(name='Off-Page SEO', parent='seo', source='written',
-         h1=['Build the', 'Authority That', 'Ranks You.'],
-         lead='Off-page SEO that builds trust and authority through quality links, mentions and citations from sites that matter.',
+    dict(name='Off-Page SEO', parent='seo', source='live', layout=OFFPAGE_LAYOUT, **OFFPAGE_HERO,
          intro=lv('seo', 'services', 'Off-Page SEO'),
-         nodes=[('Link Building', 'Links', 'High-quality backlinks from relevant, trusted websites, built ethically and tracked month by month.', ['Backlinks', 'Relevance', 'Link quality']),
-                ('Guest Posting & Digital PR', 'Outreach', 'Articles and press placements on respected publications that put your brand in front of new audiences.', ['Guest posts', 'Press coverage', 'Brand mentions']),
-                ('Influencer & Partner Outreach', 'Partners', 'Relationships with creators, partners and industry voices who can share and link to your brand.', ['Influencers', 'Partners', 'Collaborations']),
-                ('Citations & Business Listings', 'Local', 'Consistent listings on UAE and global directories that support local visibility.', ['Directories', 'NAP consistency', 'Listings'])],
-         feats=[('Authority Signals', 'What search engines look for.', ['Backlinks', 'Brand mentions', 'Citations', 'Reviews']),
-                ('Our Approach', 'Ethical and sustainable.', ['No spam links', 'Relevant sites', 'Manual outreach']),
-                ('Reporting', 'Transparent and measurable.', ['New links', 'Domain authority', 'Referral traffic'])],
-         faq=[('What is off-page SEO?', 'It is everything done away from your own website to build trust and authority, such as link building, digital PR, brand mentions and citations.'),
-              ('Are the links you build safe?', 'Yes. We earn links from relevant, reputable websites and avoid spammy or paid-link schemes.'),
-              ('How many links will we get each month?', 'It depends on your goals and market. We agree targets with you and report every link we build.'),
-              ('Does off-page SEO help with AI search?', 'Yes. Mentions and links from trusted sources are also the signals AI assistants rely on when choosing what to cite.')]),
+         nodes=[(t, 'Solution', d, m['kw']) for t, d, m in __import__('offpage_content').SOLUTIONS],
+         feats=[('Authority Signals', 'What search engines look for.', ['Backlinks', 'Brand mentions', 'Citations', 'Referring domains']),
+                ('Our Approach', 'Ethical and sustainable.', ['White-hat outreach', 'Relevant sites', 'No PBNs']),
+                ('Reporting', 'Transparent and measurable.', ['New links', 'Referring domains', 'Referral traffic'])],
+         faq=__import__('offpage_content').FAQ),
 
     # ===================== GEO =====================
     dict(name='Generative AI Research and Analysis', parent='geo', source='written',
