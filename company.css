@@ -1027,3 +1027,11 @@ a.pk-tile:hover { translate: 0 -5px; border-color: rgba(201, 139, 255, .5); }
 .pk-culture { max-width: 760px; margin-inline: auto; text-align: center; padding-bottom: 0; }
 .pk-culture .co-sub { max-width: 62ch; margin-inline: auto; }
 .pk-culture-cta { display: flex; justify-content: center; margin-top: clamp(26px, 3vw, 38px); }
+
+/* Portfolio page: one consistent, generous rhythm between sections */
+.co-portfolio { --pf-gap: clamp(96px, 11vw, 170px); }
+.co-portfolio .co-sec { padding-top: var(--pf-gap); }
+.co-portfolio .co-sec.pf-sel { padding-top: clamp(72px, 8vw, 120px); margin-top: var(--pf-gap); }
+.co-portfolio .tl2 { margin-top: 0; }
+.co-portfolio .tl2 + .co-cta-sec { padding-top: 0; }
+.co-portfolio .ss-faq-band { margin-top: var(--pf-gap); }
