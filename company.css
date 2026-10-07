@@ -1109,3 +1109,6 @@ a.pk-tile:hover { translate: 0 -5px; border-color: rgba(201, 139, 255, .5); }
 html:has(.zx-modal[open]) { overflow: hidden; }
 @media (max-width: 520px) { .zx-form { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { .zx-modal[open], .zx-modal::backdrop { animation: none; } .zx-btn { transition: none; } }
+
+/* form errors use the brand lilac underline, not red (Portfolio page forms + popup) */
+.co-portfolio .ab-field.is-invalid input, .co-portfolio .ab-field.is-invalid textarea { border-bottom-color: #c98bff; box-shadow: 0 1px 0 rgba(201, 139, 255, .45); }
