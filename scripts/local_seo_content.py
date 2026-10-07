@@ -141,13 +141,15 @@ FAQ = [
 ]
 
 LOCAL_LAYOUT = [
-    ('bento', 'Local Visibility', 'Why your business needs a strategic <em>Local SEO approach</em>',
+    ('compare', 'Local Visibility', 'Why your business needs a strategic <em>Local SEO approach</em>',
      {'intro': 'Local SEO is more than adding “Dubai” to your website or setting up a Google Business Profile. When customers search for nearby products and services, Google considers signals such as relevance, distance, and prominence to determine which businesses appear prominently in local results. In Dubai, that competition becomes even more localized. A customer searching from DIFC may see different results from someone searching for the same service in Dubai Marina, Business Bay, or Jumeirah.',
-      'items': [
-          ('Without a strong Local SEO strategy, your business may experience:', '', {'chips': PROBLEMS, 'wide': True}),
-          ('Our approach',
-           'SquareZix builds a coordinated Local SEO strategy across your Google Business Profile, website, location content, reviews, citations, backlinks, structured data, and local authority signals. Our objective is not simply to improve a keyword position. It is to help your business appear more often when high-intent customers are ready to call, message, visit, book, or buy.',
-           {'wide': True})]}),
+      'left': {'dim': 'Without a strong', 'title': 'Local SEO strategy, your business may experience:', 'chips': PROBLEMS,
+               'link': ('#process', 'See how we fix it')},
+      'right': {'title': 'Our approach',
+                'text': 'SquareZix builds a coordinated Local SEO strategy across your Google Business Profile, website, location content, reviews, citations, backlinks, structured data, and local authority signals. Our objective is not simply to improve a keyword position. It is to help your business appear more often when high-intent customers are ready to call, message, visit, book, or buy.',
+                'hub': 'Local SEO',
+                'keywords': ['Google Business Profile', 'Website', 'Location content', 'Reviews', 'Citations', 'Backlinks', 'Structured data', 'Local authority'],
+                'tag': 'One coordinated strategy', 'cta': ('#ab-contact', 'Talk to our team')}}),
     ('illus', 'Expectations', 'What you can <em>expect</em>',
      {'intro': '', 'items': [(t, d, {'art': a}) for (t, d), a in zip(EXPECT, ['maps', 'profile', 'geogrid', 'leads', 'authority', 'threepack', 'district', 'ai'])]}),
     ('process', 'Our Process', 'Our 7-step Local SEO growth process — <em>building local visibility across Google Maps, Search & AI platforms</em>',

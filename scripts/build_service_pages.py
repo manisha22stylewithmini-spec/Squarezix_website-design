@@ -793,6 +793,46 @@ def process_iso(badge, title, data, sid=None):
 '''
 
 
+def compare(badge, title, data):
+    """Muted 'problem' panel beside a dark, glowing 'our approach' panel with a keyword hub diagram.
+    data: intro, left {dim, title, chips, link}, right {title, text, hub, keywords, tag, cta}"""
+    import math
+    L_, R_ = data['left'], data['right']
+    x_icon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>'
+    chips = ''.join(f'<li>{x_icon}{e(c)}</li>' for c in L_['chips'])
+    kws, lines, pills = R_['keywords'], '', ''
+    for i, k in enumerate(kws):
+        a = -math.pi / 2 + i * 2 * math.pi / len(kws)
+        x, y = 80 + 47 * math.cos(a), 45 + 33 * math.sin(a)
+        lines += f'<line x1="80" y1="45" x2="{x:.1f}" y2="{y:.1f}" style="--d:{i * 1.4:.1f}s"/>'
+        pills += f'<span class="cmp-kw" style="left:{x / 160 * 100:.2f}%;top:{y / 90 * 100:.2f}%;--d:{i * 1.6:.1f}s">{e(k)}</span>'
+    ring = ''.join(f'<circle cx="80" cy="45" r="{r}"/>' for r in (22, 38, 54))
+    check = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>'
+    arrow_dn = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>'
+    arrow_r = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
+    return f'''    <section class="ss-sec cmp-sec">
+      {head(badge, title, data.get('intro', ''), center=True)}
+      <div class="cmp">
+        <article class="cmp-panel cmp-panel--dim">
+          <h3><span>{e(L_['dim'])}</span> {e(L_['title'])}</h3>
+          <ul class="cmp-chips">{chips}</ul>
+          <a href="{L_['link'][0]}" class="cmp-btn cmp-btn--dark">{arrow_dn}{e(L_['link'][1])}</a>
+        </article>
+        <article class="cmp-panel cmp-panel--hi">
+          <h3>{e(R_['title'])}</h3>
+          <p>{e(R_['text'])}</p>
+          <div class="cmp-orbit" aria-hidden="true">
+            <svg viewBox="0 0 160 90" preserveAspectRatio="xMidYMid meet"><g class="cmp-rings">{ring}</g><g class="cmp-lines">{lines}</g><circle class="cmp-spin" cx="80" cy="45" r="15"/></svg>
+            <span class="cmp-hub">{e(R_['hub'])}</span>{pills}
+          </div>
+          <div class="cmp-foot"><span class="cmp-tag">{check}{e(R_['tag'])}</span><a href="{R_['cta'][0]}" class="cmp-btn cmp-btn--light">{e(R_['cta'][1])} {arrow_r}</a></div>
+        </article>
+      </div>
+    </section>
+
+'''
+
+
 def illus(badge, title, data):
     """Bento of illustration cards: an isometric line-light scene (scripts/iso_art.py) above each
     title and line. The first two cards are wide, the rest sit three to a row."""
@@ -869,7 +909,7 @@ def cta(title, text):
 DIVIDER = '    <div class="ss-divider" aria-hidden="true"><i></i></div>\n\n'
 
 
-KINDS = {'process': process_iso, 'illus': illus, 'nodes': nodes, 'statement': statement, 'bento': bento, 'timeline': timeline, 'cta': cta, 'pillars': pillars, 'why': why, 'industries': industries, 'faq': faq}
+KINDS = {'compare': compare, 'process': process_iso, 'illus': illus, 'nodes': nodes, 'statement': statement, 'bento': bento, 'timeline': timeline, 'cta': cta, 'pillars': pillars, 'why': why, 'industries': industries, 'faq': faq}
 
 
 def main_html(p):
