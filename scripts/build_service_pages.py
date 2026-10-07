@@ -305,16 +305,18 @@ PAGES = [
         ],
     },
     {
-        'file': 'website-development.html', 'menu': 'dev', 'badge': 'Website Development', 'custom': True,
+        'file': 'website-development.html', 'menu': 'dev', 'badge': 'Website Development',
         'title': 'Web Development Company in Dubai | Squarezix',
         'h1': ['Websites Engineered', 'for Speed, Search', 'and Scale.'], 'grad': 1,
         'lead': 'Fast, accessible, SEO-ready builds on the platform that fits you, from first launch to migration.',
+        # Live 'Best Website Development Agency in Dubai': the 27 live services (+ two extra live service pages the menu links to), as the two-panel list
+        'list': ('Development services', 'Best Website Development <em>Agency in Dubai</em>', {
+            'intro': L['web']['services']['intro'],
+            'items': [(t, d, []) for t, d, _b in L['web']['services']['items']]
+                     + [(t, d, []) for t, d, _b in SVC['web']['items'] if t in ('Headless Ecommerce Development', 'Website Migration Services')],
+            'panels': [('Platforms & frameworks.', 'WordPress, e-commerce, React, Next.js, CMS and full-stack builds.'),
+                       ('Enterprise & integrations.', 'Angular, ASP.NET, SharePoint, portals, APIs and security testing.')]}),
         'sections': [
-            # Live 'Best Website Development Agency in Dubai': the 27 live services as solution cards (+ two extra live service pages the menu links to)
-            ('nodes', 'Development services', 'Best Website Development <em>Agency in Dubai</em>',
-             {'intro': L['web']['services']['intro'],
-              'items': [(t, d, {'tag': 'Service', 'kw': []}) for t, d, _b in L['web']['services']['items']]
-                       + [(t, d, {'tag': 'Service', 'kw': []}) for t, d, _b in SVC['web']['items'] if t in ('Headless Ecommerce Development', 'Website Migration Services')]}, 'services'),
             # Live 'Methodology' section: titles only on the live page
             ('timeline', 'Methodology', 'What Makes Squarezix the <em>Best Web Development Company in Dubai?</em>',
              {'out': 'Live website', 'items': [(t, '', []) for t in ('Design-Driven Approach Focused on Aesthetics & Performance', 'Seamless Mobile & Tablet Experience',
