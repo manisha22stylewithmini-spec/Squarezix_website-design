@@ -59,7 +59,7 @@ SQ_LAYOUT = [
     ('nodes', 'Our Services', 'Best Squarespace Web Development <em>Company in Dubai</em>',
      {'intro': 'SquareZix is a leading Squarespace website development company in Dubai where we build visually stunning, mobile-first, and performance-driven websites that elevate your brand and drive measurable results. We help you unlock the true potential of custom Squarespace website design, development, migration, SEO, e-commerce, and integrations, all tailored for the Dubai market.',
       'items': SERVICES}, 'services'),
-    ('process', 'Methodology', 'Our Proven <em>Squarespace Website Development Workflow</em>', {'intro': '', 'items': STEPS}, 'process'),
+    ('timeline', 'Our methodology', 'Our Proven <em>Squarespace Website Development Workflow</em>', {'items': [(t, d, []) for t, d, _m in STEPS]}),
     ('cta', 'Be Everywhere Your Audience is <em>Searching with Squarezix</em>', 'Connect with our AI experts to drive more leads from SEO in the AI-Era.'),
     ('faq', 'FAQs', 'Have Questions about <em>Squarespace Website Development?</em>', FAQ,
      'Find the top questions and clear answers about our Squarespace website development services in Dubai, all in one place. If something’s missing, our live chat is just a tap away.'),
