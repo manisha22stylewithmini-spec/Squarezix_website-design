@@ -639,8 +639,7 @@
   position: relative; display: flex; align-items: flex-end; justify-content: center; gap: clamp(5px, .7vw, 9px);
   max-width: 1180px; height: clamp(400px, 42vw, 560px); margin: clamp(36px, 4vw, 56px) auto 0; padding: 80px 14px 0;
 }
-.bk-shelf::before { content: ""; position: absolute; left: 4%; right: 4%; bottom: -46px; height: 80px; background: radial-gradient(50% 50% at 50% 0%, rgba(171, 36, 242, .35), transparent 70%); pointer-events: none; }
-.bk-shelf::after { content: ""; position: absolute; left: 0; right: 0; bottom: -12px; height: 12px; border-radius: 3px; background: linear-gradient(180deg, #2a1452, #120a28); box-shadow: 0 18px 40px rgba(0, 0, 0, .6), inset 0 1px 0 rgba(201, 139, 255, .35); }
+.bk-shelf::after { content: ""; position: absolute; left: 0; right: 0; bottom: -12px; height: 2px; border-radius: 2px; background: rgba(201, 139, 255, .35); }
 .bk {
   position: relative; flex: none; display: flex; flex-direction: column; align-items: center; gap: 12px;
   width: calc(var(--w) * var(--bk-s, 1.22)); height: var(--h); padding: 16px 0 14px; box-sizing: border-box; text-decoration: none; color: var(--fg);
