@@ -330,35 +330,6 @@ PAGES = [
             ('faq', 'FAQs', 'Ask. Click. <em>Done.</em>', L['web']['faq'][:10], 'Find the top questions and clear answers, all in one place. If something’s missing, our team is just a message away.'),
         ],
     },
-    # App Development: no live page exists, so the copy below is Claude-written (flag it)
-    {
-        'file': 'app-development.html', 'menu': 'dev', 'badge': 'App Development',
-        'title': 'Mobile App Development Company in Dubai | Squarezix',
-        'h1': ['Apps Built to', 'Be Opened', 'Every Day.'], 'grad': 1,
-        'lead': 'iOS, Android and cross-platform apps designed, built and supported by the same team behind your website.',
-        'list': ('App development services', 'Mobile app <em>development in Dubai</em>', panels(SVC['app'],
-                 ('Native & cross-platform.', 'iOS, Android, Flutter and React Native builds.'),
-                 ('Commerce & web apps.', 'Ecommerce apps and progressive web apps, kept up to date after launch.'))),
-        'sections': [
-            ('pillars', 'Our approach', 'From idea to <em>app store launch</em>', pillars_of(
-                ('Plan', ['Goals & user research', 'Platform choice', 'Feature roadmap', 'Wireframes & prototype', 'Technical architecture']),
-                ('Build', ['UI design', 'iOS & Android development', 'API & backend integration', 'Payments & notifications', 'Security & testing']),
-                ('Launch', ['App Store & Google Play release', 'Analytics setup', 'Performance monitoring', 'Updates & new OS support', 'Ongoing support']))),
-            ('why', 'Why Squarezix', 'Why businesses choose us for <em>app development</em>', {'items': [
-                ('Web and app, one team', 'Your website, app and marketing are planned together, so design, data and messaging stay consistent.', []),
-                ('Built for the UAE market', 'Arabic and English interfaces, local payment methods and the habits of UAE users are designed in from the start.', []),
-                ('Clear process and communication', 'Prototypes, milestones and regular demos keep you informed from the first sketch to release.', []),
-                ('Support after launch', 'We keep your app updated for new devices and operating systems, and fix issues quickly.', [])]}),
-            ('industries', 'Industries', 'Apps for businesses <em>across industries</em>', L['web']['industries']),
-            ('faq', 'FAQs', 'Questions about <em>app development?</em>', [
-                ('Which platforms do you build apps for?', 'iOS, Android and cross-platform apps using Flutter or React Native, plus progressive web apps.'),
-                ('Should I build native or cross-platform?', 'Native apps suit performance-heavy or platform-specific products. Cross-platform apps suit most business apps and launch faster. We recommend one after reviewing your goals.'),
-                ('Can you build an app for my online store?', 'Yes. We build ecommerce apps connected to Shopify, WooCommerce, Magento and custom stores.'),
-                ('Will you publish the app on the App Store and Google Play?', 'Yes. We prepare your listings, handle review requirements and manage the release.'),
-                ('Do you support the app after launch?', 'Yes. Maintenance plans cover updates, bug fixes, monitoring and compatibility with new OS versions.')],
-             'Platforms, timelines and support: clear answers before you start building an app.'),
-        ],
-    },
     # Sub-inner page under Website Development. Its own design, section by section from the live
     # page; only the sections the inner pages also have (hero, strip, industries, FAQ, contact)
     # reuse their components. 'custom' = the sections below are the whole page.
@@ -479,7 +450,6 @@ MENU_TABS = [
 # Its own header item after Services: one tab each for development and maintenance
 DEV_TABS = [
     ('Website Development', 'website-development.html', [('Website Development', 'website-development.html', menu_items('website-development.html', 'web'))]),
-    ('App Development', 'app-development.html', [('App Development', 'app-development.html', menu_items('app-development.html', 'app'))]),
     ('Website Maintenance', 'website-maintenance.html', [('Website Maintenance', 'website-maintenance.html', menu_items('website-maintenance.html', 'maintain'))]),
 ]
 
