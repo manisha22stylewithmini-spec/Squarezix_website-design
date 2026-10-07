@@ -785,6 +785,9 @@ def build():
     contact = main[main.index('<section class="ab-contact"'):]
     contact = re.sub(r' data-(rise|reveal)(="[^"]*")?', '', contact)
     ver = re.search(r'about\.css(\?v=\w+)', head_html).group(1)
+    home = (ROOT / 'index.html').read_text()
+    blog = home[home.index('<section class="blog" id="blog"'):]
+    blog = '    ' + blog[:blog.index('</section>') + len('</section>')] + '\n'
     for p in PAGES:
         h = re.sub(r'<title>.*?</title>', f'<title>{e(p["title"])}</title>', head_html, flags=re.S)
         h = re.sub(r'<meta name="description" content="[^"]*"', f'<meta name="description" content="{e(p["lead"])}"', h)
@@ -793,7 +796,13 @@ def build():
         cur = p.get('menu', 'services')
         h = h.replace(f'<div class="nav-item" data-menu="{cur}">', f'<div class="nav-item is-current" data-menu="{cur}">')
         t = tail.replace('<script src="about.js', f'<script src="waves-bg.js{ver}"></script>\n  <script src="faq.js{ver}"></script>\n  <script src="about.js', 1)
-        (ROOT / p['file']).write_text(h + main_html(p) + '    ' + contact + '</main>' + t)
+        body = main_html(p)
+        # "Our Blogs" from the home page, straight after the FAQ band
+        faq_end = '</section>\n    </div>\n'
+        i = body.index('ss-faq-band')
+        j = body.index(faq_end, i) + len(faq_end)
+        body = body[:j] + '\n' + blog + '\n' + body[j:]
+        (ROOT / p['file']).write_text(h + body + '    ' + contact + '</main>' + t)
         print('wrote', p['file'])
     # Menus: replace the generated blocks in menu.js
     mp = ROOT / 'menu.js'
