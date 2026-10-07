@@ -800,13 +800,19 @@ def compare(badge, title, data):
     L_, R_ = data['left'], data['right']
     x_icon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>'
     chips = ''.join(f'<li>{x_icon}{e(c)}</li>' for c in L_['chips'])
-    kws, lines, pills = R_['keywords'], '', ''
+    kws, parts = R_['keywords'], ''
+    cx, cy, r = 340, 170, 74
     for i, k in enumerate(kws):
         a = -math.pi / 2 + i * 2 * math.pi / len(kws)
-        x, y = 80 + 47 * math.cos(a), 45 + 33 * math.sin(a)
-        lines += f'<line x1="80" y1="45" x2="{x:.1f}" y2="{y:.1f}" style="--d:{i * 1.4:.1f}s"/>'
-        pills += f'<span class="cmp-kw" style="left:{x / 160 * 100:.2f}%;top:{y / 90 * 100:.2f}%;--d:{i * 1.6:.1f}s">{e(k)}</span>'
-    ring = ''.join(f'<circle cx="80" cy="45" r="{r}"/>' for r in (22, 38, 54))
+        c, sn = math.cos(a), math.sin(a)
+        dx, dy = cx + r * c, cy + r * sn
+        lx, ly = cx + 214 * c, cy + 138 * sn
+        gx, gy = lx - 12 * c, ly - 12 * sn
+        anc = 'middle' if abs(c) < .2 else ('start' if c > 0 else 'end')
+        tx = lx + (10 if anc == 'start' else -10 if anc == 'end' else 0)
+        ty = ly + (4 if abs(c) >= .2 else (-6 if sn < 0 else 16))
+        parts += (f'<line x1="{dx:.1f}" y1="{dy:.1f}" x2="{gx:.1f}" y2="{gy:.1f}"/><circle class="d" cx="{dx:.1f}" cy="{dy:.1f}" r="2.6"/>'
+                  f'<text x="{tx:.1f}" y="{ty:.1f}" text-anchor="{anc}">{e(k)}</text>')
     check = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>'
     arrow_dn = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>'
     arrow_r = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>'
@@ -821,10 +827,7 @@ def compare(badge, title, data):
         <article class="cmp-panel cmp-panel--hi">
           <h3>{e(R_['title'])}</h3>
           <p>{e(R_['text'])}</p>
-          <div class="cmp-orbit" aria-hidden="true">
-            <svg viewBox="0 0 160 90" preserveAspectRatio="xMidYMid meet"><g class="cmp-rings">{ring}</g><g class="cmp-lines">{lines}</g><circle class="cmp-spin" cx="80" cy="45" r="15"/></svg>
-            <span class="cmp-hub">{e(R_['hub'])}</span>{pills}
-          </div>
+          <svg class="cmp-orbit" viewBox="0 0 680 340" role="img" aria-label="{e(R_['hub'])}: {e(', '.join(kws))}"><circle class="r" cx="340" cy="170" r="74"/>{parts}<rect class="h" x="276" y="150" width="128" height="40" rx="20"/><text class="ht" x="340" y="175" text-anchor="middle">{e(R_['hub'])}</text></svg>
           <div class="cmp-foot"><span class="cmp-tag">{check}{e(R_['tag'])}</span><a href="{R_['cta'][0]}" class="cmp-btn cmp-btn--light">{e(R_['cta'][1])} {arrow_r}</a></div>
         </article>
       </div>
