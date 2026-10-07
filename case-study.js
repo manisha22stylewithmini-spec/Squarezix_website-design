@@ -236,7 +236,7 @@
       el.pager.innerHTML = `
         <div class="cx-pager-track" aria-hidden="true"><span class="cx-pager-fill" style="width:${pct}%"></span></div>
         ${state.count < list.length
-          ? `<button type="button" class="cx-pager-btn" data-more>Load more projects <span class="cx-pager-left">${list.length - state.count} left</span><span aria-hidden="true">↓</span></button>`
+          ? `<button type="button" class="zx-btn" data-more>Load more projects <span class="cx-pager-left">${list.length - state.count} left</span><span aria-hidden="true">↓</span></button>`
           : (state.count > PAGE_SIZE ? '<button type="button" class="cx-reset cx-pager-less" data-less>Show less</button>' : '')}`;
     }
   }
@@ -412,7 +412,7 @@
     wPager.innerHTML = `
       <div class="cx-pager-track" aria-hidden="true"><span class="cx-pager-fill" style="width:${Math.round((paged.length / list.length) * 100)}%"></span></div>
       ${left > 0
-        ? `<button type="button" class="cx-pager-btn" data-wmore>Load ${Math.min(page, left)} more ${Math.min(page, left) === 1 ? 'project' : 'projects'} <span class="cx-pager-left">${left} left</span><span aria-hidden="true">↓</span></button>`
+        ? `<button type="button" class="zx-btn" data-wmore>Load ${Math.min(page, left)} more ${Math.min(page, left) === 1 ? 'project' : 'projects'} <span class="cx-pager-left">${left} left</span><span aria-hidden="true">↓</span></button>`
         : '<p class="cx-pager-note">You’re all caught up — every project is showing.</p>'}
       ${shown > page ? '<button type="button" class="cx-reset cx-pager-less" data-wless>Show less ↑</button>' : ''}`;
   }

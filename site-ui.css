@@ -1,0 +1,88 @@
+/* Site-wide UI shared by every page: the one primary button, the contact-us popup and the quick-contact dock.
+   Loaded last (scripts/apply_site_ui.py adds it to every page). */
+/* ================= Quick-contact dock: fixed on the right edge of the viewport (Portfolio) ================= */
+.qc { position: fixed; right: clamp(10px, 1.6vw, 24px); top: 50%; z-index: 19; translate: 0 -50%; display: flex; flex-direction: column; gap: 12px; padding: 10px; border-radius: 999px;
+  background: rgba(14, 10, 30, .72); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border: 1px solid rgba(201, 139, 255, .3);
+  box-shadow: 0 18px 44px -12px rgba(98, 29, 208, .7), inset 0 1px 0 rgba(255, 255, 255, .12); animation: qc-in .8s .6s cubic-bezier(.22, 1, .36, 1) both; }
+@keyframes qc-in { from { opacity: 0; translate: 40px -50%; } to { opacity: 1; translate: 0 -50%; } }
+.qc-btn { position: relative; display: grid; place-items: center; width: 50px; height: 50px; border-radius: 50%; color: #fff; text-decoration: none;
+  background: linear-gradient(135deg, #ab24f2, #621dd0); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), 0 8px 18px -6px rgba(98, 29, 208, .9); transition: transform .35s cubic-bezier(.22, 1, .36, 1), box-shadow .35s ease; }
+.qc-btn--mail { background: linear-gradient(135deg, #8b3df0, #4a1fb0); }
+.qc-btn--li { background: linear-gradient(135deg, #6d28d9, #3b1a8f); }
+.qc-btn--wa { width: 56px; height: 56px; margin-bottom: 2px; background: linear-gradient(135deg, #c24bff, #7b2ff0); }
+.qc-btn--wa::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(226, 184, 255, .85); animation: qc-pulse 2.2s ease-out infinite; pointer-events: none; }
+@keyframes qc-pulse { 0% { transform: scale(1); opacity: .9; } 70% { transform: scale(1.7); opacity: 0; } 100% { transform: scale(1.7); opacity: 0; } }
+.qc-ico svg { display: block; width: 25px; height: 25px; }
+.qc-btn--wa .qc-ico svg { width: 29px; height: 29px; }
+.qc-btn:hover, .qc-btn:focus-visible { transform: scale(1.12) rotate(-6deg); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .45), 0 12px 24px -6px rgba(171, 36, 242, .95), 0 0 0 4px rgba(226, 184, 255, .25); outline: none; }
+.qc-btn:focus-visible { box-shadow: 0 0 0 3px #e2b8ff; }
+.qc-tip { position: absolute; right: calc(100% + 18px); top: 50%; translate: 8px -50%; padding: 8px 14px; border-radius: 999px; white-space: nowrap; font: 600 13px/1 "DM Sans", sans-serif; color: #fff;
+  background: rgba(14, 10, 30, .94); border: 1px solid rgba(201, 139, 255, .4); box-shadow: 0 10px 24px rgba(0, 0, 0, .5); opacity: 0; pointer-events: none; transition: opacity .25s ease, translate .3s ease; }
+.qc-btn:hover .qc-tip, .qc-btn:focus-visible .qc-tip { opacity: 1; translate: 0 -50%; }
+@media (max-width: 640px) { .qc { top: auto; bottom: 18px; translate: none; padding: 8px; gap: 10px; animation-name: qc-in-m; } .qc-btn { width: 44px; height: 44px; } .qc-btn--wa { width: 50px; height: 50px; } .qc-tip { display: none; } }
+@keyframes qc-in-m { from { opacity: 0; translate: 40px 0; } to { opacity: 1; translate: 0 0; } }
+@media print { .qc { display: none; } }
+@media (prefers-reduced-motion: reduce) { .qc { animation: none; } .qc-btn--wa::before { animation: none; display: none; } .qc-btn, .qc-tip { transition: none; } }
+
+/* ================= THE one primary button ("Frame 19": assets/brand/btn-primary.pdf / .png) =================
+   147x48 pill, 3px black outline, purple gradient with a soft inner shade, white icon + label. Used for every button. */
+.zx-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-sizing: border-box; height: 48px; padding: 0 20px; white-space: nowrap; cursor: pointer;
+  font: 500 15px/1 "DM Sans", sans-serif; letter-spacing: 0; color: #fff; text-decoration: none; border: 3px solid #000; border-radius: 999px;
+  background: linear-gradient(100deg, #621dd0 0%, #7e20db 52%, #a022ec 100%);
+  box-shadow: inset 0 -5px 9px -3px rgba(28, 4, 70, .45), inset 4px 0 10px -2px rgba(28, 4, 70, .3);
+  transition: transform .2s ease, filter .2s ease;
+}
+.zx-btn svg { width: 16px; height: 16px; flex: none; }
+.zx-btn:hover { transform: translateY(-1px); filter: brightness(1.12) saturate(1.08); }
+.zx-btn:active { transform: translateY(0) scale(.98); }
+.zx-btn:focus-visible { outline: 2px solid #e2b8ff; outline-offset: 3px; }
+.site-header .zx-btn { justify-self: end; }
+.svh .zx-btn { margin-top: var(--svh-gap); }
+
+/* ================= Contact-us popup ================= */
+.zx-modal { width: min(560px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); margin: auto; padding: 0; overflow: auto; border: 1px solid rgba(201, 139, 255, .3); border-radius: 28px; color: #fff;
+  background: radial-gradient(70% 50% at 50% 0%, rgba(98, 29, 208, .3), transparent 70%), #0e0b1c; box-shadow: 0 40px 90px -20px rgba(98, 29, 208, .6); }
+.zx-modal[open] { animation: zx-pop .35s cubic-bezier(.22, 1, .36, 1); }
+.zx-modal::backdrop { background: rgba(6, 4, 16, .72); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); animation: zx-fade .3s ease; }
+@keyframes zx-pop { from { opacity: 0; translate: 0 18px; scale: .97; } to { opacity: 1; translate: 0 0; scale: 1; } }
+@keyframes zx-fade { from { opacity: 0; } to { opacity: 1; } }
+.zx-modal-x { position: absolute; top: 16px; right: 16px; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .18); background: rgba(255, 255, 255, .06); color: #fff; cursor: pointer; transition: background .2s ease; }
+.zx-modal-x:hover { background: rgba(255, 255, 255, .14); }
+.zx-modal-x svg { width: 18px; height: 18px; }
+.zx-modal-body { padding: clamp(28px, 4vw, 40px) clamp(22px, 4vw, 40px) clamp(24px, 3vw, 32px); }
+.zx-modal-title { margin: 14px 0 0; font: 500 clamp(26px, 3.4vw, 34px)/1.1 "Sora", sans-serif; letter-spacing: -.02em; }
+.zx-modal-title em { font-family: "Instrument Serif", serif; font-weight: 400; color: #c98bff; }
+.zx-modal-sub { margin: 10px 0 0; color: #b8b8d1; font-size: 15px; line-height: 1.55; }
+.zx-form { margin-top: 24px; gap: 18px 16px; }
+.zx-form .ab-form-foot { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; }
+.zx-modal-alt { margin: 20px 0 0; font-size: 13.5px; color: #8e8aa3; }
+.zx-modal-alt a { color: #e2b8ff; text-decoration: underline; text-underline-offset: 3px; }
+.zx-modal-done { text-align: center; padding: 18px 0 8px; }
+.zx-modal-done b { display: block; margin-bottom: 8px; font: 500 24px/1.2 "Sora", sans-serif; }
+.zx-modal-done span { color: #b8b8d1; font-size: 15px; }
+html:has(.zx-modal[open]) { overflow: hidden; }
+@media (max-width: 520px) { .zx-form { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .zx-modal[open], .zx-modal::backdrop { animation: none; } .zx-btn { transition: none; } }
+
+/* form errors use the brand lilac underline, not red */
+.ab-field.is-invalid input, .ab-field.is-invalid textarea { border-bottom-color: #c98bff; box-shadow: 0 1px 0 rgba(201, 139, 255, .45); }
+
+/* ---- the one button inside the layouts that used to size/space the old buttons ---- */
+.cta-inner .zx-btn { margin-top: 28px; }
+.work-aside .zx-btn { margin-top: 22px; margin-left: 6px; }
+.reels-aside .zx-btn { margin-top: 22px; margin-left: 6px; }
+.ab-work .work-aside .zx-btn { margin: clamp(20px, 2vw, 28px) 0 0; }
+.wu-cta { margin-top: 32px; justify-self: center; }
+.wu-h .wu-cta { margin-top: 28px; margin-left: 7px; }
+.wf-cta { margin-top: auto; margin-left: 10px; }
+.ss .zx-btn { justify-self: auto; }
+.ss .ss-faq-more { justify-self: center; }
+.ss-faq-more { margin-top: var(--faq-gap); }
+.ab-form-foot .zx-btn { font-family: "DM Sans", sans-serif; }
+button.zx-btn { appearance: none; -webkit-appearance: none; }
+/* home hero button keeps its place and entrance, but wears the same face as every other button */
+.zx-btn.hero-cta { min-width: 0; height: 48px; padding: 0 20px; border: 3px solid #000; font: 500 15px/1 "DM Sans", sans-serif;
+  background: linear-gradient(100deg, #621dd0 0%, #7e20db 52%, #a022ec 100%); box-shadow: inset 0 -5px 9px -3px rgba(28, 4, 70, .45), inset 4px 0 10px -2px rgba(28, 4, 70, .3); }
+.zx-btn.hero-cta:hover { background: linear-gradient(100deg, #621dd0 0%, #7e20db 52%, #a022ec 100%); }
+@media (max-width: 900px) { .site-header .zx-btn { height: 42px; padding: 0 16px; font-size: 14px; } }

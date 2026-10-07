@@ -1052,3 +1052,5 @@ def build():
 
 if __name__ == '__main__':
     build()
+    import apply_site_ui
+    apply_site_ui.main()

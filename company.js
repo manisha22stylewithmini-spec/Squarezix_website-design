@@ -118,35 +118,6 @@
 
 
 
-  // ---- Contact-us popup: every [data-contact-open] button opens it; validates, then hands off to the visitor's mail app ----
-  const zxModal = $('#zx-contact');
-  if (zxModal && typeof zxModal.showModal === 'function') {
-    let opener = null;
-    const open = (btn) => { opener = btn || null; $$('.is-invalid', zxModal).forEach((f) => f.classList.remove('is-invalid')); const zn = $('#zx-form-note'); if (zn) zn.textContent = ''; if (!zxModal.open) zxModal.showModal(); setTimeout(() => $('input[name="name"]', zxModal)?.focus(), 60); };
-    const close = () => { if (zxModal.open) zxModal.close(); };
-    $$('[data-contact-open]').forEach((b) => b.addEventListener('click', (e) => { e.preventDefault(); open(b); }));
-    $$('[data-contact-close]', zxModal).forEach((b) => b.addEventListener('click', close));
-    zxModal.addEventListener('click', (e) => { if (e.target === zxModal) close(); });
-    zxModal.addEventListener('close', () => opener?.focus());
-    const zform = $('#zx-form'), znote = $('#zx-form-note');
-    zform.addEventListener('input', (e) => e.target.closest('.ab-field')?.classList.remove('is-invalid'));
-    zform.addEventListener('submit', (e) => {
-      e.preventDefault();
-      let ok = true;
-      $$('[required]', zform).forEach((input) => {
-        const bad = !input.value.trim() || (input.type === 'email' && !/^\S+@\S+\.\S+$/.test(input.value));
-        input.closest('.ab-field').classList.toggle('is-invalid', bad);
-        if (bad && ok) { input.focus(); ok = false; }
-      });
-      if (!ok) { znote.textContent = 'Please fill in the required fields.'; return; }
-      const d = Object.fromEntries(new FormData(zform));
-      const body = `Name: ${d.name}\nEmail: ${d.email}\nPhone: ${d.phone}\n\n${d.message || ''}`;
-      window.location.href = `mailto:info@squarezix.com?subject=${encodeURIComponent(`New enquiry from ${d.name}`)}&body=${encodeURIComponent(body)}`;
-      znote.textContent = '';
-      zform.replaceWith(Object.assign(mk('div', 'zx-modal-done'), { innerHTML: '<b>Thank you!</b><span>Your email app is opening with your message. We’ll come back with a plan within five days.</span>' }));
-    });
-  }
-
   // ---- Portfolio: story timeline. The section is tall; its inner pin sticks, the track slides sideways with scroll
   // progress, the line fills, and each milestone (--r 0→1) draws its stem, pops its dot and fades its copy in.
   const tl2 = $('.tl2');
