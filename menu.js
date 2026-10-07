@@ -62,6 +62,11 @@
               "page": "paid-marketing.html",
               "items": [
                 {
+                  "t": "PPC Agency",
+                  "h": "ppc-agency.html",
+                  "d": "Google Ads · Bing Ads · Amazon PPC · Social Ads"
+                },
+                {
                   "t": "Search & Display Advertising",
                   "h": "search-and-display-advertising.html",
                   "d": "Google Search · Google Display · Bing Ads"
@@ -98,6 +103,18 @@
                   "h": "search-engine-optimization.html"
                 },
                 {
+                  "t": "Technical SEO",
+                  "h": "technical-seo.html"
+                },
+                {
+                  "t": "On-Page SEO",
+                  "h": "on-page-seo.html"
+                },
+                {
+                  "t": "Off-Page SEO",
+                  "h": "off-page-seo.html"
+                },
+                {
                   "t": "Local SEO",
                   "h": "local-seo.html"
                 },
@@ -110,8 +127,8 @@
                   "h": "ecommerce-seo.html"
                 },
                 {
-                  "t": "AI & LLM SEO",
-                  "h": "ai-and-llm-seo.html"
+                  "t": "AI SEO Services",
+                  "h": "ai-seo-services.html"
                 },
                 {
                   "t": "Generative AI Research and Analysis",

@@ -111,16 +111,20 @@ SVC = {
         ('Advertising & Media Services', 'Paid campaigns on Facebook, Instagram, TikTok, Snapchat, X and LinkedIn: targeting, creatives, budgets and reporting managed end to end, so every ad reinforces your brand and drives action.'),
         ('Social Media Event Management', live(SO['why'], 'Local Trends, Events & Seasonal Awareness'))),
     'paid': services(L['paid']['core']['intro'],   # keywords per row come from PAID_SUB
+        ('PPC Agency', 'A Dubai PPC agency managing Google, Bing, Amazon and social campaigns end to end, with every dirham tied to leads and sales.'),
         ('Search & Display Advertising', 'Reach people the moment they search on Google and Bing, and stay visible across the Display Network.'),
         ('Shopping & Marketplace Advertising', 'Put your products in front of ready-to-buy shoppers on Google Shopping and Amazon.'),
         ('Social & App Advertising', 'Reach your audience where they scroll, and bring high-intent users to your app.'),
         ('Retargeting & Remarketing', live(L['paid']['services'], 'Remarketing & Retargeting Ads'))),
     'seo': services(SE['intro'],
         ('Search Engine Optimization', 'Our expert team drives organic traffic, improves search rankings and boosts online visibility, with technical, on-page and off-page SEO tailored to the competitive Dubai market.'),
+        ('Technical SEO', live(SE, 'Technical SEO')),
+        ('On-Page SEO', live(SE, 'On-Page SEO')),
+        ('Off-Page SEO', live(SE, 'Off-Page SEO')),
         ('Local SEO', live(SE, 'Local SEO')),
         ('Enterprise SEO', 'SEO at scale for large and multi-location websites: site architecture, technical health and content programmes across thousands of pages, with reporting your stakeholders can act on.'),
         ('Ecommerce SEO', live(SE, 'E-Commerce SEO')),
-        ('AI & LLM SEO', live(SE, 'AI SEO'))),
+        ('AI SEO Services', live(SE, 'AI SEO'))),
     'geo': services(GE['intro'],
         ('Generative AI Research and Analysis', live(GE, 'AI SEO Audit & Strategy')),
         ('Semantic Keywords Research', live(GE, 'AI-Backed Keyword Research & Targeting')),
@@ -139,6 +143,7 @@ SVC = {
 SVC['content'] = CONTENT
 # Paid Marketing's menu entries also say what each kind of advertising covers
 PAID_SUB = {
+    'PPC Agency': 'Google Ads · Bing Ads · Amazon PPC · Social Ads',
     'Search & Display Advertising': 'Google Search · Google Display · Bing Ads',
     'Shopping & Marketplace Advertising': 'Google Shopping · Shopping Feed Optimization · Amazon PPC',
     'Social & App Advertising': 'Social Ads · App Install Ads',
@@ -704,7 +709,7 @@ STAND_LISTS = {
     'AI-Driven Search & Personalization': ('', ['Smart filtering', 'Predictive search', 'Product recommendations', 'Customer behavior tracking'], ''),
     'Mobile-First Architecture': ('Optimized layouts across:', ['Smartphones', 'Tablets', 'Desktop'], ''),
 }
-STAND_LINKS = {'AI SEO Services': 'ai-and-llm-seo.html', 'Ecommerce SEO': 'ecommerce-seo.html'}
+STAND_LINKS = {'AI SEO Services': 'ai-seo-services.html', 'Ecommerce SEO': 'ecommerce-seo.html'}
 
 
 def stand_card(title, text, extra=None):
