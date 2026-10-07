@@ -309,13 +309,12 @@ PAGES = [
         'title': 'Web Development Company in Dubai | Squarezix',
         'h1': ['Websites Engineered', 'for Speed, Search', 'and Scale.'], 'grad': 1,
         'lead': 'Fast, accessible, SEO-ready builds on the platform that fits you, from first launch to migration.',
-        # Live 'Best Website Development Agency in Dubai': the 27 live services (+ two extra live service pages the menu links to), as the two-panel list
+        # The development services list only (the same 12 services as the Development menu), each with its live description
         'list': ('Development services', 'Best Website Development <em>Agency in Dubai</em>', {
             'intro': L['web']['services']['intro'],
-            'items': [(t, d, []) for t, d, _b in L['web']['services']['items']]
-                     + [(t, d, []) for t, d, _b in SVC['web']['items'] if t in ('Headless Ecommerce Development', 'Website Migration Services')],
-            'panels': [('Platforms & frameworks.', 'WordPress, e-commerce, React, Next.js, CMS and full-stack builds.'),
-                       ('Enterprise & integrations.', 'Angular, ASP.NET, SharePoint, portals, APIs and security testing.')]}),
+            'items': SVC['web']['items'],
+            'panels': [('Platforms & frameworks.', 'WordPress, e-commerce, React, Next.js and full-stack builds.'),
+                       ('CMS & front-end.', 'Custom, headless and Concrete CMS, plus Vue.js interfaces.')]}),
         'sections': [
             ('pillars', 'Our approach', 'From brief to <em>launch-ready build</em>', pillars_of(
                 ('Plan', ['Requirements & discovery', 'Platform & stack selection', 'Information architecture', 'SEO-ready structure', 'Project roadmap']),
