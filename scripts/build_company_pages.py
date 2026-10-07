@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261056a'
+VER = '20261057b'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -725,40 +725,40 @@ def pk_featured():
 '''
 
 
-# ================================================================ PROJECT TIMELINE (pinned horizontal scroll, after Selected Results)
-# How a typical SquareZix project runs: phase, when it finishes and who works on it. The 9-week total matches the
-# Digital Stream case ("Brief to launch 9 wks"); the phase split and role names are Claude-written, please review.
+# ================================================================ PORTFOLIO TIMELINE (pinned horizontal scroll, after Selected Results)
+# How this portfolio came together, stage by stage, with a one-line point of view from the role that led it.
+# Stages, week split and the quotes are Claude-written placeholders (no real names yet): replace with the real team's words.
 PHASES = [
-    ('Week 1', 'Brief & goals', ['Brand Strategist', 'Project Lead'],
-     'We agree the one outcome that matters, the numbers that prove it, and what is in and out of scope.'),
-    ('Weeks 1 – 2', 'Research & data', ['Strategist', 'SEO & AI Specialist', 'Analyst'],
-     'Audience, competitors, search and AI visibility, and a baseline for every number we will later improve.'),
-    ('Weeks 2 – 3', 'Strategy & structure', ['Strategist', 'UX/UI Designer'],
-     'Positioning, page structure and the content plan, so every page leads to the outcome.'),
-    ('Weeks 3 – 6', 'Design & build', ['Designer', 'Developer', 'Content Lead'],
-     'Design, front end and copy move together, with reviews every week instead of a big reveal at the end.'),
-    ('Weeks 7 – 8', 'Test & optimise', ['Developer', 'SEO & AI Specialist'],
-     'Speed, mobile, schema, redirects and tracking are checked before anyone sees the site live.'),
-    ('Week 9', 'Launch & measure', ['Whole team'],
-     'We go live, watch the numbers against the baseline and write up what changed.'),
+    ('Week 1', 'Choosing the work', 'Brand Strategist', 'BS',
+     'We only show projects with a result we can stand behind.'),
+    ('Weeks 1 – 2', 'Gathering the proof', 'Performance Analyst', 'PA',
+     'Every number here comes from the project’s own baseline.'),
+    ('Weeks 2 – 3', 'Shaping the story', 'Content Lead', 'CL',
+     'One outcome per project, told in plain words.'),
+    ('Weeks 3 – 6', 'Designing the showcase', 'UX/UI Designer', 'UX',
+     'Easy to scan, hard to forget.'),
+    ('Weeks 7 – 8', 'Making it findable', 'SEO & AI Specialist', 'SA',
+     'If search and AI can’t read it, nobody sees it.'),
+    ('Week 9', 'Going live', 'Developer', 'DV',
+     'Fast on every screen, then we keep measuring.'),
 ]
 
 
 def pk_timeline():
     items = ''
-    for i, (when, name, who, line) in enumerate(PHASES):
+    for i, (when, name, role, ini, quote) in enumerate(PHASES):
         pos = 'top' if i % 2 == 0 else 'bottom'
-        chips = ''.join(f'<li>{e(w)}</li>' for w in who)
         items += (f'<article class="tl2-item tl2-item--{pos}" style="--i:{i}"><span class="tl2-stem" aria-hidden="true"></span><span class="tl2-dot" aria-hidden="true"></span>'
-                  f'<div class="tl2-text"><h3 class="tl2-year">{e(when)}</h3><p class="tl2-name">{e(name)}</p>'
-                  f'<ul class="tl2-who" aria-label="Who works on this phase">{chips}</ul><p class="tl2-line">{e(line)}</p></div></article>')
-    return f'''    <section class="tl2" id="timeline" style="--n:{len(PHASES)}" aria-label="How a project runs, week by week">
+                  f'<div class="tl2-text"><p class="tl2-when">{e(when)}</p><h3 class="tl2-year">{e(name)}</h3>'
+                  f'<blockquote class="tl2-quote">{e(quote)}</blockquote>'
+                  f'<p class="tl2-by"><span class="tl2-av" aria-hidden="true">{e(ini)}</span>{e(role)}</p></div></article>')
+    return f'''    <section class="tl2" id="timeline" style="--n:{len(PHASES)}" aria-label="How this portfolio came together, week by week">
       <div class="tl2-pin">
         <div class="tl2-track">
           <figure class="tl2-img"><img src="assets/footer/sz-stage.jpg" alt="The SquareZix team on stage" loading="lazy" /></figure>
           <div class="tl2-body">
-            <div class="tl2-rail" aria-hidden="true"><i></i><b class="tl2-fill"></b><i></i></div>
-            <div class="tl2-head"><span class="svc-badge">Project Timeline</span><h2 class="tl2-title">From brief <em>to launch</em></h2><p class="tl2-period">A typical 9-week project</p></div>
+            <div class="tl2-rail" aria-hidden="true"><i></i><s class="tl2-base"></s><b class="tl2-fill"></b><i></i></div>
+            <div class="tl2-head"><span class="svc-badge">Portfolio Timeline</span><h2 class="tl2-title">How this portfolio <em>came together</em></h2><p class="tl2-period">Week by week, in the team’s words</p></div>
             {items}
           </div>
         </div>
