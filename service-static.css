@@ -521,8 +521,14 @@
 
 .px-panels { min-width: 0; }
 .px-panel {
-  padding: clamp(22px, 2.6vw, 34px); border-radius: 22px; background: linear-gradient(180deg, #14131f, #0a0a15); border: 1px solid rgba(255, 255, 255, .09);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, .45);
+  position: relative; padding: clamp(22px, 2.6vw, 34px); border-radius: 26px; border: 1px solid transparent; overflow: hidden;
+  background:
+    radial-gradient(60% 50% at 0% 0%, rgba(171, 36, 242, .22), transparent 70%) padding-box,
+    radial-gradient(50% 45% at 100% 100%, rgba(98, 29, 208, .2), transparent 70%) padding-box,
+    linear-gradient(145deg, rgba(34, 24, 62, .78), rgba(10, 9, 22, .86)) padding-box,
+    linear-gradient(135deg, rgba(226, 184, 255, .55), rgba(255, 255, 255, .08) 32%, rgba(255, 255, 255, .05) 68%, rgba(171, 36, 242, .4)) border-box;
+  -webkit-backdrop-filter: blur(18px) saturate(140%); backdrop-filter: blur(18px) saturate(140%);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .45), 0 0 50px rgba(98, 29, 208, .12), inset 0 1px 0 rgba(255, 255, 255, .14), inset 0 0 40px rgba(171, 36, 242, .05);
 }
 .px-panel[hidden] { display: none; }
 .px-panel:not([hidden]) { animation: px-in .55s cubic-bezier(.22, 1, .36, 1); }
