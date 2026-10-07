@@ -426,6 +426,12 @@
   .ec-stand--b5 .ec-feat--chips { grid-column: span 3; order: 2; }
 }
 @media (max-width: 900px) { .ec-stand--b5 { grid-template-columns: 1fr; } }
+/* Grids of 3n+2 cards: the last two share the final row */
+@media (min-width: 901px) {
+  .ec-stand--rem2 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .ec-stand--rem2 .ec-feat { grid-column: span 2; }
+  .ec-stand--rem2 .ec-feat:nth-last-child(-n+2) { grid-column: span 3; }
+}
 @media (max-width: 1000px) { .ec-stand { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 640px) { .ec-stand { grid-template-columns: 1fr; } }
 

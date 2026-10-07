@@ -207,11 +207,7 @@ PAGES = [
                 ('Discover', ['Stakeholder interviews', 'User surveys & personas', 'Competitor audits', 'User journey mapping', 'Content strategy']),
                 ('Design', ['Wireframing & prototyping', 'UI/UX design', 'Responsive web design', 'Interactive & animation design', 'Style guides & UI kits']),
                 ('Deliver', ['Usability testing', 'Accessibility (WCAG)', 'Core Web Vitals focus', 'Conversion & CRO', 'Developer handover']))),
-            ('bento', 'Reliable Solutions', 'What Sets Squarezix Apart in <em>Website Design Services</em>',
-             {'intro': L['design']['why']['intro'],
-              'items': [(t, d, {'wide': True} if i == len(L['design']['why']['items']) - 1 else {}) for i, (t, d, _b) in enumerate(L['design']['why']['items'])]}),
-            ('nodes', 'Reliable Solutions', 'Web Design Company <em>in Dubai</em>',
-             {'intro': L['design']['services']['intro'], 'items': [(t, d, {'tag': 'Service', 'kw': []}) for t, d, _b in L['design']['services']['items']]}, 'solutions'),
+            ('why', 'Why Squarezix', 'What sets Squarezix apart in <em>website design</em>', items_only(L['design']['why'])),
             ('industries', 'Industries', 'Websites we design <em>across industries</em>', L['design']['industries']),
             ('faq', 'FAQs', 'Got questions about our <em>website design services?</em>', L['design']['faq'][:10], 'Everything you need to know before you start a website design project, answered by the designers who build them.'),
         ],
@@ -320,7 +316,8 @@ PAGES = [
                 ('Plan', ['Requirements & discovery', 'Platform & stack selection', 'Information architecture', 'SEO-ready structure', 'Project roadmap']),
                 ('Build', ['Front-end & CMS development', 'API development & integration', 'Payment gateway integration', 'Multi-language & localization', 'Security & pentesting']),
                 ('Launch', ['Quality assurance & testing', 'Performance optimization', 'Website migration', 'Cloud & hosting setup', 'Maintenance & support']))),
-            ('why', 'Why Squarezix', 'Why businesses trust us for <em>web development</em>', items_only(L['web']['why'])),
+            ('bento', 'Reliable Solutions', 'How Squarezix <em>Stands Out</em>',
+             {'intro': L['web']['standout']['intro'], 'items': L['web']['standout']['items'], 'grid': 'rem2'}),
             ('industries', 'Industries', 'Websites for businesses <em>across industries</em>', L['web']['industries']),
             ('faq', 'FAQs', 'Ask. Click. <em>Done.</em>', L['web']['faq'][:10], 'Find the top questions and clear answers, all in one place. If something’s missing, our team is just a message away.'),
         ],
@@ -780,7 +777,7 @@ def bento(badge, title, data):
         cards = ''.join(stand_card(t, d, b) for t, d, b in data['items'])
         return f'''    <section class="ss-sec">
       {head(badge, title, data.get('intro', ''), center=True)}
-      <ul class="ec-stand{' ec-stand--b5' if data.get('grid') == 'b5' else ''}">{cards}</ul>
+      <ul class="ec-stand{' ec-stand--' + data['grid'] if data.get('grid') else ''}">{cards}</ul>
     </section>
 
 '''
