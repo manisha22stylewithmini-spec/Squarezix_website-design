@@ -18,7 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261059c'
+VER = '20261060b'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
@@ -447,12 +447,22 @@ def portfolio():
     SHORT = {'Positioning': 'Po', 'UX/UI': 'UX', 'Development': 'Dev', 'SEO': 'SEO', 'Headless build': 'HL', 'CRO': 'CRO',
              'Product design': 'PD', 'Design system': 'DS', 'AI integration': 'AI'}
 
-    def sel_card(title, desc, img, href, pics, note, cap='', ind='none', out=''):
+    def _ico(d):
+        return f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{d}</svg>'
+    KIND_ICON = {
+        'Website': _ico('<rect x="3" y="4.5" width="18" height="15" rx="2.5"/><path d="M3 9.5h18M7 7h.01M10 7h.01"/>'),
+        'E-commerce': _ico('<path d="M3.5 4.5h2.3l2 10h9.4l2-7.5H7"/><circle cx="9.5" cy="19" r="1.3"/><circle cx="17" cy="19" r="1.3"/>'),
+        'Product & AI': _ico('<path d="M12 3.5l1.7 4.6 4.6 1.7-4.6 1.7L12 16.1l-1.7-4.6-4.6-1.7 4.6-1.7z"/><path d="M18.5 15.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/>'),
+        'Social reel': _ico('<rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="m10.5 9.5 4 2.5-4 2.5z" fill="currentColor"/>'),
+    }
+
+    def sel_card(title, desc, img, href, pics, note, kind, cap='', ind='none', out=''):
         pic_html = ''.join(f'<img class="pf-fc-p{i + 1}" src="{src}" alt="" loading="lazy" />' for i, src in enumerate(pics + [img]))
         big, small = note
         return (f'<article class="pf-card pf-fc" data-cap="{cap}" data-ind="{ind}" data-out="{out}" data-rise><div class="pf-fc-wrap">'
                 f'<a class="pf-fc-folder" href="{href}" tabindex="-1" aria-hidden="true"><span class="pf-fc-back"></span>'
-                f'<span class="pf-fc-pics">{pic_html}</span><span class="pf-fc-front"></span>'
+                f'<span class="pf-fc-pics">{pic_html}</span>'
+                f'<span class="pf-fc-front"><span class="pf-fc-meta"><span class="pf-fc-ico">{KIND_ICON[kind]}</span><span class="pf-fc-kind">{e(kind)}</span></span><span class="pf-fc-go" aria-hidden="true">{ARROW}</span></span>'
                 f'<span class="pf-fc-note"><i class="pf-fc-clip"></i><b>{e(big)}</b><small>{e(small)}</small></span></a>'
                 f'<p class="pf-fc-desc">{e(desc)}</p></div>'
                 f'<h3><a href="{href}">{e(title)}</a></h3></article>')
@@ -467,13 +477,13 @@ def portfolio():
         c = next(k for k in CASES if k['client'] == x['client'])
         cap, ind, out = SITE_META[i]
         others = [im for im in site_imgs if im != x['img']]
-        return sel_card(x['client'], x['blurb'], x['img'], 'case-study.html', others, c['results'][0], cap=cap, ind=ind, out=out)
+        return sel_card(x['client'], x['blurb'], x['img'], 'case-study.html', others, c['results'][0], c['kind'] if c['kind'] != 'Website' else 'Website', cap=cap, ind=ind, out=out)
 
     def sel_reel(i):
         r = reels[i]
         poster = f"assets/reels/reel-{r['n']}.jpg"
         others = [f"assets/reels/reel-{reels[(i + k) % len(reels)]['n']}.jpg" for k in (1, 2)]
-        return sel_card(r['title'], reel_desc[r['n']], poster, 'index.html#reels', others, REEL_NOTE[r['n']],
+        return sel_card(r['title'], reel_desc[r['n']], poster, 'index.html#reels', others, REEL_NOTE[r['n']], 'Social reel',
                         cap='marketing', ind='none', out='engagement')
 
     sel_cards = ''.join([sel_site(0), sel_reel(0), sel_site(1), sel_reel(1), sel_site(2), sel_reel(2), sel_reel(3), sel_reel(4)])
