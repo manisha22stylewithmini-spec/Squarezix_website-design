@@ -180,6 +180,8 @@ def items_only(data):
 # panels) → approach pillars → why Squarezix → industries strip → FAQs → contact form.
 # Copy comes from the matching live page; approach pillars on pages that have none live
 # are grouped from that page's own services.
+import social_content  # noqa: E402
+
 PAGES = [
     {
         'file': 'branding.html', 'badge': 'Branding',
@@ -214,24 +216,7 @@ PAGES = [
             ('faq', 'FAQs', 'Got questions about our <em>website design services?</em>', L['design']['faq'][:10], 'Everything you need to know before you start a website design project, answered by the designers who build them.'),
         ],
     },
-    {
-        'file': 'social-media-marketing.html', 'badge': 'Social Media Marketing',
-        'title': 'Social Media Agency in Dubai — Social Media Marketing | Squarezix',
-        'h1': ['Social Media', 'People Actually', 'Follow.'], 'grad': 1,
-        'lead': 'Creative social media posts, data-driven strategies and results that make an impact across every platform your audience uses.',
-        'list': ('Social media services', 'Social media marketing agency <em>in Dubai</em>', panels(SVC['social'],
-                 ('Community & content.', 'A daily presence and content your audience wants to share.'),
-                 ('Ads & events.', 'Paid media and event campaigns that drive action.'))),
-        'sections': [
-            ('pillars', 'Our approach', 'How we grow your <em>social presence</em>', pillars_of(
-                ('Plan', ['Strategy development', 'Audience research & segmentation', 'Competitor analysis', 'Content calendars', 'Local events & seasons']),
-                ('Create', ['Posts, reels & stories', 'Ad creatives', 'Influencer marketing', 'Arabic & English content', 'Platform-specific formats']),
-                ('Grow', ['Account management', 'Community building', 'Paid + organic campaigns', 'Real-time monitoring', 'Analytics & reporting']))),
-            ('why', 'Why Squarezix', 'Looking for a social media agency <em>that delivers?</em>', items_only(L['social']['why'])),
-            ('industries', 'Industries', 'Brands we grow <em>across industries</em>', L['branding']['industries']),
-            ('faq', 'FAQs', 'Have questions about our <em>social media services?</em>', L['social']['faq'], 'Platforms, timelines, costs and results — the questions brands ask us most about social media marketing in Dubai.'),
-        ],
-    },
+    social_content.SOCIAL_PAGE,
     {
         'file': 'content-marketing.html', 'badge': 'Content Marketing',
         'title': 'Content Marketing in Dubai — Copywriting, Digital PR & Content | Squarezix',
