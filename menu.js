@@ -275,7 +275,7 @@
                 },
                 {
                   "t": "Headless Ecommerce Development",
-                  "h": "website-development.html#headless-ecommerce-development"
+                  "h": "headless-ecommerce-development.html"
                 },
                 {
                   "t": "Squarespace Website Development",
@@ -283,7 +283,11 @@
                 },
                 {
                   "t": "Website Migration Services",
-                  "h": "website-development.html#website-migration-services"
+                  "h": "website-migration-services.html"
+                },
+                {
+                  "t": "ERP Customization",
+                  "h": "erp-customization.html"
                 }
               ]
             }

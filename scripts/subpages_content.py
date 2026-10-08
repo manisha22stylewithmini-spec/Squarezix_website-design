@@ -933,5 +933,9 @@ SUBS = [
               ('Will speed optimisation break anything?', 'No. We test every change on staging before it goes live.')]),
 ]
 
+# ERP Customization, Headless Ecommerce Development and Website Migration Services: live wording on the existing components (dev3_pages.py)
+import dev3_pages as D3  # noqa: E402
+SUBS += D3.PAGES
+
 # Pages whose copy is Claude's own (no live page) — to clear when the design system is finalised
 WRITTEN = [s['name'] for s in SUBS if s['source'] == 'written']

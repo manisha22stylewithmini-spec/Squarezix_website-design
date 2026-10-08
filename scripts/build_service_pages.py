@@ -144,7 +144,8 @@ SVC = {
     'web': services(WB['services']['intro'], *[(t, d) for t, d, _b in WB['services']['items'][:9]],
                     ('Headless Ecommerce Development', find_live('Headless E-Commerce Development')),
                     ('Squarespace Website Development', find_live('Squarespace Development')),
-                    ('Website Migration Services', find_live('Website Migration Services'))),
+                    ('Website Migration Services', find_live('Website Migration Services')),
+                    ('ERP Customization', 'Off-the-shelf ERP systems often fail to meet the specific demands of growing businesses in the UAE.')),
     # Website Management Services has no live-site copy: the description is Claude-written (flag it)
     'maintain': services(WB['maintain']['intro'], *[(t, d) for t, d, _b in WB['maintain']['items']],
                          ('Website Management Services', 'We run your website day to day, so you do not have to. Content updates, plugin and platform upgrades, performance, security and monthly reporting are handled by one team, with a single point of contact for every change.')),
@@ -408,7 +409,7 @@ def sub_page(sp):
     else:
         sections = None
     return {
-        'file': file, 'menu': fam['menu'], 'badge': sp.get('badge', name), 'custom': True, 'blog': live and live.get('blog'),
+        'file': file, 'menu': fam['menu'], 'badge': sp.get('badge', name), 'custom': True, 'blog': live and live.get('blog'), 'noblog': sp.get('noblog'),
         'title': f'{name} in Dubai | Squarezix', 'h1': sp['h1'], 'grad': 1, 'lead': sp['lead'],
         'sections': sections or [
             ('statement', 'AI search', 'Your customers search smarter. <em>We make sure they find you.</em>', L['ecom']['geo']),
@@ -1033,10 +1034,13 @@ def build():
         body = main_html(p)
         # "Our Blogs" from the home page, straight after the FAQ band
         faq_end = '</section>\n    </div>\n'
-        i = body.index('ss-faq-band')
-        j = body.index(faq_end, i) + len(faq_end)
-        page_blog = live_blog(p['blog']) if p.get('blog') else blog
-        body = body[:j] + '\n' + page_blog + '\n' + body[j:]
+        page_blog = live_blog(p['blog']) if p.get('blog') else ('' if p.get('noblog') else blog)
+        if 'ss-faq-band' in body:
+            i = body.index('ss-faq-band')
+            j = body.index(faq_end, i) + len(faq_end)
+            body = body[:j] + '\n' + page_blog + '\n' + body[j:]
+        else:
+            body = body + '\n' + page_blog + '\n'
         (ROOT / p['file']).write_text(h + body + '    ' + contact + '</main>' + t)
         print('wrote', p['file'])
     # Menus: replace the generated blocks in menu.js
