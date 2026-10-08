@@ -1,0 +1,104 @@
+/* Squarezix design tokens: the code side of the Figma file "Squarezix — Design System" (page "Foundations").
+   Existing tokens stay in styles.css (--brand-purple, --brand-pink, --brand-gradient, --brand-gradient-hover, --bg-dark,
+   --header-dark, --header-dark-2, --text-light, --text-muted). This file adds every token Figma defines that the CSS did not
+   have yet. New components should use these instead of hard-coded values. Device modes follow Figma's "Device" collection:
+   Desktop (default) · Tablet (<= 1080px) · Mobile (<= 700px). */
+
+:root {
+  /* ---- Colour (semantic, from the Figma "Color" collection) ---- */
+  --black: #000000;
+  --band: #201e3e;                         /* bg/band: FAQ band and raised strips */
+  --glass: rgba(255, 255, 255, .878);      /* bg/glass: header glass fill */
+  --brand-tint: rgba(98, 29, 208, .30);    /* bg/tint */
+  --text-body: #d0d0d8;                    /* text/body */
+  --text-subtle: #8f8aa6;                  /* text/subtle */
+  --text-faint: #6f6c7d;                   /* text/faint */
+  --accent-soft: #b57bff;                  /* text/accent: italic accent words, active outlines */
+  --accent-pale: #e9d5ff;                  /* text/accent-pale */
+  --border-subtle: rgba(255, 255, 255, .14);   /* border/subtle */
+  --border-faint: rgba(255, 255, 255, .08);    /* border/faint */
+  --border-brand-soft: rgba(171, 36, 242, .55); /* border/brand-soft */
+
+  /* ---- Spacing scale (Figma: Spacing) ---- */
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  --space-4xl: 96px;
+
+  /* ---- Radius (Figma: Radius) ---- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --radius-pill: 999px;
+
+  /* ---- Shadows: always black, never brand-coloured (Figma: Effect styles) ---- */
+  --shadow-card: 0 20px 40px rgba(0, 0, 0, .35);
+  --shadow-lift: 0 24px 60px rgba(0, 0, 0, .60);
+  --shadow-button: 0 6px 18px rgba(0, 0, 0, .45);
+  --shadow-panel: 0 30px 60px -12px rgba(0, 0, 0, .50);
+  --glass-blur: 22px;                      /* Glass/Blur 22: backdrop-filter radius */
+
+  /* ---- Typefaces: three only ---- */
+  --font-title: "Sora", sans-serif;
+  --font-body: "DM Sans", sans-serif;
+  --font-accent: "Instrument Serif", serif;
+
+  /* ---- Layout + type scale: DESKTOP mode ---- */
+  --layout-page-width: 1440px;
+  --layout-gutter: 96px;
+  --layout-section-gap: 150px;
+  --layout-card-gap: 24px;
+  --type-display: 96px;
+  --type-h1: 64px;
+  --type-h2: 56px;
+  --type-h3: 28px;
+  --type-h4: 20px;
+  --type-body-lg: 18px;
+  --type-body: 16px;
+  --type-accent-h1: 72px;
+  --type-accent-h2: 63px;
+  --type-stat: 54px;
+}
+
+/* TABLET mode */
+@media (max-width: 1080px) {
+  :root {
+    --layout-page-width: 768px; --layout-gutter: 40px; --layout-section-gap: 110px; --layout-card-gap: 20px;
+    --type-display: 64px; --type-h1: 48px; --type-h2: 42px; --type-h3: 24px; --type-h4: 19px;
+    --type-body-lg: 17px; --type-body: 16px; --type-accent-h1: 54px; --type-accent-h2: 47px; --type-stat: 44px;
+  }
+}
+
+/* MOBILE mode */
+@media (max-width: 700px) {
+  :root {
+    --layout-page-width: 375px; --layout-gutter: 16px; --layout-section-gap: 72px; --layout-card-gap: 16px;
+    --type-display: 44px; --type-h1: 36px; --type-h2: 32px; --type-h3: 22px; --type-h4: 18px;
+    --type-body-lg: 16px; --type-body: 15px; --type-accent-h1: 40px; --type-accent-h2: 36px; --type-stat: 34px;
+  }
+}
+
+/* ---- Text styles (Figma: Title / Accent / Body / UI) as classes ---- */
+.t-display   { font: 400 var(--type-display)/1.05 var(--font-title); letter-spacing: -.02em; }
+.t-h1        { font: 600 var(--type-h1)/1.1 var(--font-title); letter-spacing: -.01em; }
+.t-h2        { font: 400 var(--type-h2)/1.1 var(--font-title); letter-spacing: -.02em; }
+.t-h3        { font: 400 var(--type-h3)/1.2 var(--font-title); letter-spacing: -.01em; }
+.t-h4        { font: 400 var(--type-h4)/1.3 var(--font-title); letter-spacing: -.01em; }
+.t-accent-h1 { font: italic 400 var(--type-accent-h1)/1 var(--font-accent); letter-spacing: -.01em; }
+.t-accent-h2 { font: italic 400 var(--type-accent-h2)/1 var(--font-accent); letter-spacing: -.01em; }
+.t-stat      { font: italic 400 var(--type-stat)/1 var(--font-accent); }
+.t-body-lg   { font: 400 var(--type-body-lg)/1.55 var(--font-body); }
+.t-body      { font: 400 var(--type-body)/1.6 var(--font-body); }
+.t-body-sm   { font: 400 13.5px/1.5 var(--font-body); }
+.t-button    { font: 500 15px/1.2 var(--font-body); }
+.t-button-lg { font: 500 21px/1.2 var(--font-body); }
+.t-nav       { font: 400 15px/1.2 var(--font-body); }
+.t-badge     { font: 500 12px/1.3 var(--font-body); letter-spacing: .02em; }
+.t-label     { font: 400 11px/1.3 var(--font-body); letter-spacing: .14em; text-transform: uppercase; }
+.t-meta      { font: 400 12.5px/1.3 var(--font-body); letter-spacing: .04em; }
