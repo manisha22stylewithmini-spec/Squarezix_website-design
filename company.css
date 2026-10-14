@@ -1163,3 +1163,6 @@ a.pk-tile:hover { translate: 0 -5px; border-color: rgba(201, 139, 255, .5); }
 .bp-article .cd-steps, .bp-article .cd-cards, .bp-article .cd-stats { padding-left: 0; }
 .bp-article .cd-chips { display: flex; flex-wrap: wrap; padding-left: 0; gap: 8px; }
 .bp-article .cd-cards { display: grid; }
+
+.cd-phase { margin: 2.4em 0 1.2em; padding: 6px 14px; width: fit-content; border-radius: 999px; font: 600 11px/1 "DM Sans", sans-serif; letter-spacing: .16em; text-transform: uppercase; color: #e9d5ff; background: rgba(171, 36, 242, .14); border: 1px solid rgba(201, 139, 255, .3); }
+.bp-article > .cd-phase:first-child { margin-top: 0; }
