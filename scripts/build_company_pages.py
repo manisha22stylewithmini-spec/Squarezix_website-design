@@ -25,6 +25,7 @@ WRITTEN = {
     'culture.html': 'all copy except the Life-at-SquareZix line and the learning/recognition facts taken from the live Careers page',
     'careers.html': 'Why SquareZix card text, hiring-process steps, FAQ answers',
     'portfolio.html': 'hero, FAQ, the four folder titles/descriptions/stickers in What We Make, the five reel descriptions, and the Capability/Industry/Outcome classification of each project (outcomes are goals taken from the home-page case-study challenges, no figures); website blurbs reuse the home page work cards',
+    'contact-us.html': 'none: hero lead, card labels and hours are the live contact-us page; hero button label is ours',
     'blogs.html': 'hero, topic grouping, industry picks, newsletter copy',
 }
 
@@ -55,6 +56,7 @@ IC = {
     'camera': '<path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.5"/>',
     'mail': '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
     'pin': '<path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/>',
+    'phone': '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.18 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.1 9.9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>',
     'clock': '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
 }
 
@@ -999,10 +1001,36 @@ def blogs():
           'Perspectives, strategies and practical thinking across branding, technology, search, marketing and digital experiences from the SquareZix team in Dubai.', 'insights', body)
 
 
+# ================================================================ CONTACT
+def contact():
+    """Contact Us page: live squarezix.com/contact-us wording. Hero + four contact cards; the shell adds the contact section (form)."""
+    maps = 'https://www.google.com/maps/search/?api=1&amp;query=The+Burlington+Tower+Business+Bay+Dubai'
+    cards = [('phone', 'Phone Number', '+971 4 241 4120', 'Call Now', 'tel:+97142414120'),
+             ('mail', 'Email', 'info@squarezix.com', 'Send Email', 'mailto:info@squarezix.com'),
+             ('pin', 'Our Office', '801, The Burlington Tower, Business Bay, Dubai, UAE', 'Get Directions', maps),
+             ('clock', 'Working Hours', 'MON – FRI · 8:30 AM – 5:30 PM', 'Book Meeting', '#ab-form')]
+    ext = ' target="_blank" rel="noopener"'
+    cards_html = ''.join(
+        f'<li class="ca-ben ct-card" data-rise><span class="ca-ben-ic">{ic(i)}</span><div><h3>{t}</h3><p>{v}</p>'
+        f'<a href="{h}" class="co-link ct-act"{ext if "google" in h else ""}>{l} {ARROW_R}</a></div></li>'
+        for i, t, v, l, h in cards)
+    body = hero('Contact Us', 'Speak <em>to Us</em>',
+                'We drive digital transformation through innovative online solutions that empower brands, accelerate growth, and turn engagement into measurable results.',
+                'Send a message', '#ab-form')
+    body += f'''
+    <section class="co-sec" aria-label="Ways to reach us">
+      <ul class="ca-bens ct-cards">{cards_html}</ul>
+    </section>
+'''
+    write('contact-us', 'Contact Us — Speak to SquareZix | Digital Agency in Dubai',
+          'Call, email or visit SquareZix at The Burlington Tower, Business Bay, Dubai. Fill out the form and we\'ll get back with you as soon as possible.', 'insights', body)
+
+
 if __name__ == '__main__':
     culture()
     careers()
     portfolio()
     blogs()
+    contact()
     import apply_site_ui
     apply_site_ui.main()

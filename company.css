@@ -1044,3 +1044,8 @@ a.pk-tile:hover { translate: 0 -5px; border-color: rgba(201, 139, 255, .5); }
   mask-image: linear-gradient(to right, transparent 0, #000 22%, #000 78%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 18%, #000 80%, transparent 100%);
   mask-composite: intersect;
 }
+
+/* Contact Us page: contact cards reuse .ca-ben; the action link sits at the bottom of each card */
+.ct-card { align-items: flex-start; }
+.ct-card p { overflow-wrap: anywhere; }
+.ct-act { margin-top: 14px; font-size: 14px; }
