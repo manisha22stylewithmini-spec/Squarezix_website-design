@@ -1133,3 +1133,33 @@ a.pk-tile:hover { translate: 0 -5px; border-color: rgba(201, 139, 255, .5); }
 .cd-pager b { font: 500 16px "Sora", sans-serif; color: #fff; }
 .cd-pager .cd-pager-all { align-self: stretch; place-content: center; text-align: center; color: #e2b8ff; font-size: 14px; }
 @media (max-width: 640px) { .cd-stats { grid-template-columns: 1fr; } .cd-pager { grid-template-columns: 1fr 1fr; } .cd-pager .cd-pager-all { grid-column: 1 / -1; order: -1; } }
+
+/* ---- Case-study narrative sections (numbered framework) ---- */
+.cd-sec { margin: 0 0 2.6em; padding-top: 2em; border-top: 1px solid rgba(255, 255, 255, .08); scroll-margin-top: calc(var(--header-h, 80px) + 24px); }
+.cd-sec:first-child { padding-top: 0; border-top: 0; }
+.cd-sec h2 { margin-top: .2em; }
+.cd-no { margin: 0 0 6px; font: 600 12px/1 "DM Sans", sans-serif; letter-spacing: .16em; color: #b57bff; }
+.cd-steps { list-style: none; margin: 0 0 1.4em; padding: 0; display: grid; gap: 10px; counter-reset: none; }
+.cd-steps li { display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: center; padding: 16px 18px; border-radius: 16px; background: rgba(255, 255, 255, .03); border: 1px solid rgba(255, 255, 255, .08); }
+.cd-steps i { font: 600 15px "Sora", sans-serif; font-style: normal; color: #d9b8ff; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 12px; background: rgba(171, 36, 242, .16); }
+.cd-steps span { color: #fff; font-size: 17px; line-height: 1.5; }
+.cd-stats small { font: 600 11px/1 "DM Sans", sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #8f8aa6; }
+.cd-cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.cd-cards li { display: grid; gap: 6px; padding: 18px; border-radius: 16px; background: rgba(255, 255, 255, .03); border: 1px solid rgba(255, 255, 255, .08); }
+.cd-cards b { font: 500 17px "Sora", sans-serif; color: #fff; }
+.cd-cards span, .cd-who { font-size: 15px; color: #b8b8d1; }
+.cd-related { margin-top: clamp(56px, 7vw, 96px); }
+.cd-rel-grid { max-width: 1180px; margin: clamp(28px, 3vw, 40px) auto 0; padding: 0 clamp(16px, 4vw, 32px); display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.cd-rel { display: grid; border-radius: 20px; overflow: hidden; text-decoration: none; background: linear-gradient(180deg, #14131f, #0a0a15); border: 1px solid rgba(255, 255, 255, .08); transition: border-color .25s ease, translate .25s ease; }
+.cd-rel:hover { border-color: rgba(201, 139, 255, .5); translate: 0 -4px; }
+.cd-rel-img img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+.cd-rel-body { display: grid; gap: 6px; padding: 18px 20px 20px; }
+.cd-rel-body small { font-size: 12.5px; letter-spacing: .06em; color: #b57bff; }
+.cd-rel-body b { font: 500 19px "Sora", sans-serif; color: #fff; }
+.cd-rel-body em { font-style: normal; font-size: 14.5px; color: #b8b8d1; }
+@media (max-width: 640px) { .cd-cards { grid-template-columns: 1fr; } }
+
+/* the article's generic list rules must not override the case-study lists */
+.bp-article .cd-steps, .bp-article .cd-cards, .bp-article .cd-stats { padding-left: 0; }
+.bp-article .cd-chips { display: flex; flex-wrap: wrap; padding-left: 0; gap: 8px; }
+.bp-article .cd-cards { display: grid; }
