@@ -208,3 +208,27 @@
     });
   }
 })();
+
+/* Blog detail page: reading progress, contents scroll-spy, copy link */
+(() => {
+  const art = document.getElementById('bp-article');
+  if (!art) return;
+  const bar = document.querySelector('.bp-progress');
+  const links = [...document.querySelectorAll('.bp-toc a')];
+  const heads = links.map((a) => document.getElementById(a.getAttribute('href').slice(1))).filter(Boolean);
+  const onScroll = () => {
+    const r = art.getBoundingClientRect(), vh = innerHeight;
+    if (bar) bar.style.setProperty('--p', Math.min(1, Math.max(0, (vh * 0.2 - r.top) / Math.max(1, r.height - vh * 0.5))).toFixed(3));
+    let cur = 0;
+    heads.forEach((h, i) => { if (h.getBoundingClientRect().top < vh * 0.3) cur = i; });
+    links.forEach((a, i) => a.classList.toggle('is-on', i === cur && heads.length > 0 && heads[0].getBoundingClientRect().top < vh * 0.3));
+  };
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  const copy = document.querySelector('[data-copy-link]');
+  copy?.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(location.href); } catch (_) { /* ignore */ }
+    copy.classList.add('is-copied');
+    setTimeout(() => copy.classList.remove('is-copied'), 1600);
+  });
+})();

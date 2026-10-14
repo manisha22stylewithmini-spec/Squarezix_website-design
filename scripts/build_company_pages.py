@@ -18,13 +18,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 ROOT = Path(__file__).resolve().parent.parent
 ABOUT = (ROOT / 'about-us.html').read_text()
-VER = '20261068a'
+VER = '20261072a'
 
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
     'culture.html': 'all copy except the Life-at-SquareZix line and the learning/recognition facts taken from the live Careers page',
     'careers.html': 'Why SquareZix card text, hiring-process steps, FAQ answers',
     'portfolio.html': 'hero, FAQ, the four folder titles/descriptions/stickers in What We Make, the five reel descriptions, and the Capability/Industry/Outcome classification of each project (outcomes are goals taken from the home-page case-study challenges, no figures); website blurbs reuse the home page work cards',
+    'blog-*.html': 'none: article text, date and read time are the live article; only the side rail (contents, share, speak-to-an-expert) and related-articles heading are ours',
     'contact-us.html': 'none: hero lead, card labels and hours are the live contact-us page; hero button label is ours',
     'blogs.html': 'hero, topic grouping, industry picks, newsletter copy',
 }
@@ -805,6 +806,16 @@ def pk_timeline():
 # ================================================================ BLOGS
 BLOG_LIVE = 'https://squarezix.com/blogs/'
 
+try:
+    from blog_raw import RAW as POST_RAW
+except ImportError:
+    POST_RAW = {}
+
+
+def post_href(title):
+    """Local detail page (blog-<live slug>.html, built by build_blog_posts.py) when the live article was ported, else the live blog listing."""
+    return f"blog-{POST_RAW[title]['slug']}.html" if title in POST_RAW else BLOG_LIVE
+
 # Titles and categories are the live squarezix.com/blogs listing. The live listing shows no dates,
 # descriptions or read times, so only the three posts already on the home page carry them.
 # topic: brand | growth | digital | intelligence   (our new architecture over the live categories)
@@ -895,6 +906,8 @@ def slug(t):
 
 
 def blog_card(p, i):
+    if not p.get('img') and p['t'] in POST_RAW and POST_RAW[p['t']].get('img'):
+        p = {**p, 'img': POST_RAW[p['t']]['img']}
     if p.get('img'):
         vis = f'<img src="{p["img"]}" alt="{e(p.get("alt", ""))}" loading="lazy" />'
     else:
@@ -903,7 +916,7 @@ def blog_card(p, i):
     if p.get('date'):
         meta = f'<span class="bl-when"><time datetime="{p["iso"]}">{p["date"]}</time><i></i>{CLOCK}{p["read"]}</span>'
     desc = f'<p class="bl-desc">{e(p["d"])}</p>' if p.get('d') else ''
-    return (f'<article class="bl-card" data-topic="{p["topic"]}" data-ind="{p.get("ind", "none")}" data-cat="{slug(p["c"])}" data-n="{i}"><a class="bl-card-link" href="{BLOG_LIVE}">'
+    return (f'<article class="bl-card" data-topic="{p["topic"]}" data-ind="{p.get("ind", "none")}" data-cat="{slug(p["c"])}" data-n="{i}"><a class="bl-card-link" href="{post_href(p["t"])}">'
             f'<div class="bl-visual">{vis}<span class="bl-cat">{e(p["c"])}</span></div>'
             f'<div class="bl-card-body"><h3>{e(p["t"])}</h3>{desc}{meta}'
             f'<span class="bl-more">Read article <i>{ARROW_R}</i></span></div></a></article>')
@@ -926,7 +939,7 @@ def blogs():
         tabidx = '' if sel else ' tabindex="-1"'
         tabs += f'<button type="button" class="co-chip{on}" role="tab" id="bl-ind-tab-{k}" aria-controls="bl-ind-{k}" aria-selected="{str(sel).lower()}"{tabidx}>{name}</button>'
         links = ''.join(
-            f'<li><a href="{BLOG_LIVE}"><span class="bl-ind-cat">{e(p["c"])}</span><span class="bl-ind-title">{e(p["t"])}</span>{ARROW_R}</a></li>'
+            f'<li><a href="{post_href(p["t"])}"><span class="bl-ind-cat">{e(p["c"])}</span><span class="bl-ind-title">{e(p["t"])}</span>{ARROW_R}</a></li>'
             for p in POSTS if p.get('ind') == k)
         panels += (f'<div class="bl-ind-panel" role="tabpanel" id="bl-ind-{k}" aria-labelledby="bl-ind-tab-{k}"{"" if sel else " hidden"}>'
                    f'<h3 class="bl-ind-q">What’s changing in <em>{name}?</em></h3><ul class="bl-ind-list">{links}</ul></div>')
@@ -1032,5 +1045,7 @@ if __name__ == '__main__':
     portfolio()
     blogs()
     contact()
+    import build_blog_posts
+    build_blog_posts.main()
     import apply_site_ui
     apply_site_ui.main()
