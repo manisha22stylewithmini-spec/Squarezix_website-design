@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Blog detail pages: one blog-<live slug>.html per article in blog_raw.py (live squarezix.com article text, frozen).
 
-Layout: article header (breadcrumb, category, title, byline), featured image, article body + sticky side rail
+Layout: article header (category, title, byline), featured image, article body + sticky side rail
 (contents, share, speak-to-an-expert), related articles on the existing listing cards, then the shared contact section.
 Run via build_company_pages.py (it calls main()) or directly: python3 scripts/build_blog_posts.py
 """
@@ -69,7 +69,6 @@ def page(title, r):
              f'<button type="button" data-copy-link aria-label="Copy link">{B.ic("layers")}</button></div></div>')
     out = f'''    <div class="bp-progress" aria-hidden="true"><i></i></div>
     <header class="bp-head">
-      <nav class="bp-crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><i>/</i><a href="blogs.html">Blogs</a><i>/</i><span>{e(cat)}</span></nav>
       <span class="svc-badge" data-rise>{e(cat)}</span>
       <h1 class="bp-title" data-rise>{e(r['h1'])}</h1>
       <div class="bl-byline bp-byline" data-rise><span>By Squarezix Team</span><i></i><time datetime="{r['iso']}">{e(r['date'])}</time><i></i><span class="bl-read">{B.CLOCK}{e(r['read'])}</span></div>

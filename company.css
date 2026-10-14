@@ -1054,10 +1054,6 @@ a.pk-tile:hover { translate: 0 -5px; border-color: rgba(201, 139, 255, .5); }
 .bp-progress { position: fixed; inset: 0 0 auto 0; height: 3px; z-index: 60; background: transparent; pointer-events: none; }
 .bp-progress i { display: block; height: 100%; width: 100%; transform-origin: 0 50%; transform: scaleX(var(--p, 0)); background: linear-gradient(90deg, #621dd0, #ab24f2); }
 .bp-head { max-width: 920px; margin: 0 auto; padding: calc(var(--header-h, 80px) + clamp(40px, 6vw, 80px)) clamp(16px, 4vw, 32px) 0; text-align: center; display: grid; justify-items: center; gap: 18px; }
-.bp-crumbs { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 10px; font-size: 13.5px; color: #8f8aa6; }
-.bp-crumbs a { color: #b8b8d1; text-decoration: none; }
-.bp-crumbs a:hover { color: #fff; }
-.bp-crumbs i { font-style: normal; opacity: .5; }
 .bp-title { margin: 0; font-family: "Sora", sans-serif; font-weight: 600; font-size: clamp(30px, 4.4vw, 56px); line-height: 1.1; letter-spacing: -0.02em; color: #fff; text-wrap: balance; }
 .bp-byline { justify-content: center; }
 .bp-hero-img { max-width: 1040px; margin: clamp(28px, 4vw, 48px) auto 0; padding: 0 clamp(16px, 4vw, 32px); }
