@@ -157,10 +157,97 @@ def page(i, order):
     B.write(f'case-{c["slug"]}', f'{name} — Case Study | SquareZix', f'{name}: {lead}', 'work', out)
 
 
+# ---- United Advocates: client-supplied case study copy (verbatim), same page shell as the other case studies ----
+UA = dict(
+    slug='united-advocates', name='United Advocates', cat='Law Firm',
+    sub='Website Development & Social Media Case Study',
+    title='United Advocates Website Development Case Study | SquareZix',
+    desc='See how SquareZix developed United Advocates’ professional legal website and supported its social media presence to strengthen its digital communication.',
+    img='assets/work/united-advocates.jpg', alt='United Advocates website homepage',
+    intro=['SquareZix partnered with United Advocates to strengthen its digital presence through professional website development and social media support.',
+           'The project focused on creating a structured, credible and user-friendly website suitable for a legal practice while extending the firm’s digital presence through social media. The objective was to provide potential clients with clear access to information about the firm and its legal services while maintaining a professional presence across relevant digital channels.'],
+    client=['United Advocates is a legal services firm with an online presence at united-advocates.com.',
+            'For a law firm, the website is an important digital touchpoint. Potential clients may visit the website to understand the firm, explore its areas of legal practice and determine how to make contact before speaking with a lawyer.',
+            'The digital experience therefore needs to communicate information clearly while maintaining the professionalism and credibility expected within the legal sector.',
+            'United Advocates required a website capable of supporting these requirements alongside social media activity that could extend the firm’s digital presence beyond its website.'],
+    pain=[('Establishing a Professional Legal Digital Presence', ['Legal websites require a different approach from conventional commercial websites.', 'The platform needs to present the law firm professionally while giving prospective clients straightforward access to important information.', 'United Advocates needed a digital presence that reflected the professional nature of its legal services without creating an unnecessarily complicated user experience.']),
+          ('Presenting Legal Services Clearly', ['Law firms can provide services across multiple practice areas, each addressing different client requirements.', 'Without a structured website, visitors may struggle to identify whether the firm provides the legal service relevant to their situation.', 'The challenge was to establish a clear digital framework for presenting the firm’s information and legal services.']),
+          ('Creating a Straightforward User Journey', ['Visitors to a law firm’s website often arrive with a specific requirement.', 'They may want to understand a particular legal service, learn more about the firm or find contact information.', 'The website therefore needed a logical structure that could guide users toward relevant information without unnecessary navigation complexity.']),
+          ('Supporting Users Across Different Devices', ['Potential clients may research legal services from smartphones, tablets or desktop computers.', 'The website needed to provide a consistent experience across these devices while keeping important content accessible and readable.']),
+          ('Building a Presence Beyond the Website', ['A professional website establishes a central digital destination, but it represents only one part of a firm’s wider online presence.', 'United Advocates also required social media support to maintain visibility and communication through additional digital channels.'])],
+    solutions=[('Professional Legal Website Development', ['SquareZix developed the United Advocates website with the requirements of a professional legal business in mind.', 'The development approach focused on creating a structured digital platform where visitors could understand the firm and access relevant information through a clear online experience.']),
+               ('Structured Legal Content Presentation', ['The website was developed with a clear information hierarchy to help organize the firm’s content and legal services.', 'Structured pages and navigation create clearer pathways between different areas of information, helping prospective clients locate content relevant to their requirements.']),
+               ('User-Focused Navigation', ['Navigation and page relationships were developed to create a straightforward user journey.', 'Rather than making visitors search through unnecessary layers of information, the website provides a framework for moving between important areas of the firm’s digital presence.']),
+               ('Responsive Website Development', ['SquareZix developed the website to adapt across desktop, tablet and mobile devices.', 'Responsive implementation helps maintain content readability, navigation and usability across different screen sizes.']),
+               ('Social Media Support', ['SquareZix extended United Advocates’ digital presence through social media support.', 'Social channels provide additional opportunities to communicate legal information, firm-related content and relevant updates while maintaining visibility outside the main website.']),
+               ('Connected Website & Social Presence', ['The website and social media presence were approached as complementary components of the firm’s broader digital identity.', 'The website serves as the central platform for detailed information, while social media provides additional channels for ongoing communication and digital visibility.'])],
+    results=[('Professional Website for the Legal Sector', ['United Advocates gained a dedicated digital platform capable of professionally representing the firm online.', 'The website provides prospective clients with a central destination for understanding the business and exploring relevant legal information.']),
+             ('Clearer Presentation of Legal Information', ['The structured website provides a clearer framework for organizing the firm’s information and services.', 'This makes it easier for visitors to navigate between relevant areas without encountering an unnecessarily complicated digital experience.']),
+             ('Improved Digital Accessibility', ['Responsive development enables the website to adapt across desktop, tablet and mobile screens.', 'Potential clients can therefore access the firm’s online information across different devices.']),
+             ('Extended Presence Through Social Media', ['Social media support expands United Advocates’ digital presence beyond visitors who directly reach the website.', 'These channels provide additional opportunities for the firm to communicate and maintain an active online presence.']),
+             ('Website and Social Media Working Together', ['Combining website development with social media support creates a more connected digital presence.', 'The website provides the foundation for detailed legal and company information, while social platforms support ongoing communication and visibility.'])],
+    conclusion=['The United Advocates project demonstrates how website development and social media can work together to establish a professional digital presence for a legal services firm.',
+                'SquareZix developed a structured and responsive website designed to present the firm and its legal information clearly while supporting users across different devices.',
+                'Social media support extends that presence beyond the website, giving United Advocates additional digital channels for communication and visibility.',
+                'The project demonstrates SquareZix’s ability to support professional services businesses with a digital approach that combines website development, user experience and ongoing social media presence.'],
+)
+
+
+def _ua_list(items):
+    return '<ol class="cd-ua">' + ''.join(
+        f'<li><i>{n:02d}</i><div><h3>{e(t)}</h3>{"".join("<p>" + e(x) + "</p>" for x in ps)}</div></li>' for n, (t, ps) in enumerate(items, 1)) + '</ol>'
+
+
+def page_ua(order):
+    u = UA
+    P = lambda ps: ''.join(f'<p>{e(x)}</p>' for x in ps)
+    secs = [('intro', 'Project overview', P(u['intro']), 'Context'),
+            ('client', 'Client introduction', P(u['client']), 'Context'),
+            ('pain', 'Pain points', _ua_list(u['pain']), 'Discovery'),
+            ('solutions', 'Solutions', _ua_list(u['solutions']), 'Execution'),
+            ('results', 'Results', _ua_list(u['results']), 'Impact'),
+            ('conclusion', 'Conclusion', P(u['conclusion']), 'Impact')]
+    article, seen = '', set()
+    for n, (sid, t, h, ph) in enumerate(secs, 1):
+        tag = '' if ph in seen else f'<p class="cd-phase">{ph}</p>'
+        seen.add(ph)
+        article += f'{tag}<section class="cd-sec" id="{sid}"><p class="cd-no">{n:02d}</p><h2>{e(t)}</h2>{h}</section>\n        '
+    toc = ''.join(f'<li><a href="#{sid}">{n:02d} · {e(t)}</a></li>' for n, (sid, t, _, _) in enumerate(secs, 1))
+    toc += f'<li><a href="#continue">{len(secs) + 1:02d} · Continue exploring</a></li>'
+    facts = [('Client', u['name']), ('Industry', 'Legal services'), ('Project', 'Website development'),
+             ('Services', 'Website development, social media support'), ('Website', 'united-advocates.com')]
+    facts_html = ''.join(f'<div><dt>{e(k)}</dt><dd>{e(v)}</dd></div>' for k, v in facts)
+    out = f'''    <div class="bp-progress" aria-hidden="true"><i></i></div>
+    <header class="bp-head">
+      <span class="svc-badge" data-rise>Case Study · {e(u['cat'])}</span>
+      <h1 class="bp-title" data-rise>{e(u['name'])}</h1>
+      <p class="cd-sub" data-rise>{e(u['sub'])}</p>
+      <p class="cd-lead" data-rise>{e(u['intro'][0])}</p>
+    </header>
+    <figure class="bp-hero-img cd-media" data-rise><img src="{u['img']}" alt="{e(u['alt'])}" /></figure>
+    <div class="bp-layout">
+      <article class="bp-article" id="bp-article">
+        {article}
+      </article>
+      <aside class="bp-rail">
+        <dl class="cd-facts">{facts_html}</dl>
+        <nav class="bp-toc" aria-label="On this page"><h2>On this page</h2><ol>{toc}</ol></nav>
+        <div class="bp-cta"><h2>Want a result like <em>this?</em></h2><p>Tell us what you want to launch, fix or grow.</p>
+          <a href="#ab-contact" class="zx-btn" data-contact-open>Start a project</a></div>
+      </aside>
+    </div>
+'''
+    out += _related(dict(slug=u['slug'], industry='Legal services', kind='Website'), order)
+    out += B.cta_panel('Have a similar challenge? <em>Let’s talk.</em>', 'Tell us what you want to launch, fix or grow — we’ll come back with a plan within five days.', 'Start a Project', '#ab-contact')
+    B.write(f"case-{u['slug']}", u['title'], u['desc'], 'work', out)
+
+
+
 def main():
     order = [B._case_by(s) for s in B.SHELF_ORDER]
     for i in range(len(order)):
         page(i, order)
+    page_ua(order)
 
 
 if __name__ == '__main__':

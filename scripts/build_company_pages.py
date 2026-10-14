@@ -26,6 +26,7 @@ WRITTEN = {
     'careers.html': 'Why SquareZix card text, hiring-process steps, FAQ answers',
     'portfolio.html': 'hero, FAQ, the four folder titles/descriptions/stickers in What We Make, the five reel descriptions, and the Capability/Industry/Outcome classification of each project (outcomes are goals taken from the home-page case-study challenges, no figures); website blurbs reuse the home page work cards',
     'blog-*.html': 'none: article text, date and read time are the live article; only the side rail (contents, share, speak-to-an-expert) and related-articles heading are ours',
+    'case-united-advocates.html': 'none: client-supplied copy, verbatim; screenshot of united-advocates.com',
     'case-*.html': 'none: client, challenge, what we did, services and results are the home-page case-study copy; side rail labels are ours',
     'contact-us.html': 'none: hero lead, card labels and hours are the live contact-us page; hero button label is ours',
     'blogs.html': 'hero, topic grouping, industry picks, newsletter copy',
