@@ -90,6 +90,8 @@
 
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  // The three real cases have a detail page; the sample rows keep opening the contact form
+  const caseHref = (p) => (p.sample ? '#ab-contact' : `case-${p.client.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}.html`);
   const haystack = (p) => `${p.client} ${p.title} ${p.excerpt} ${p.service} ${p.industry} ${p.tags}`.toLowerCase();
   const year = (p) => p.date.slice(0, 4);
   const ARROW = '<svg viewBox="0 0 64 64"><path d="M5 32h49M36 13l19 19-19 19"/></svg>';
@@ -218,7 +220,7 @@
       el.grid.innerHTML = paged.map((p, i) => `
         <article class="cx-card" style="animation-delay:${Math.min(i, 8) * 35}ms">
           <p class="cx-card-cat">${esc(p.service)}</p>
-          <h2><a href="#ab-contact" title="Start a project like ${esc(p.client)}">${esc(p.title)}</a></h2>
+          <h2><a href="${caseHref(p)}" title="${p.sample ? 'Start a project like ' : 'Read the case study: '}${esc(p.client)}">${esc(p.title)}</a></h2>
           <p class="cx-card-excerpt">${esc(p.excerpt)}</p>
           <p class="cx-card-result">${esc(p.result)}</p>
           <p class="cx-card-meta">${esc(p.client)} · ${esc(p.industry)} · ${year(p)}</p>
@@ -392,7 +394,7 @@
       return;
     }
     workList.innerHTML = paged.map((p, i) => `
-      <a class="cx-row" href="#ab-contact" data-p="${projects.indexOf(p)}" style="animation-delay:${Math.min(i, 7) * 45}ms" aria-label="${esc(p.client)} — ${esc(p.result)}">
+      <a class="cx-row" href="${caseHref(p)}" data-p="${projects.indexOf(p)}" style="animation-delay:${Math.min(i, 7) * 45}ms" aria-label="${esc(p.client)} — ${esc(p.result)}">
         <span class="cx-row-index">${String(i + 1).padStart(2, '0')}</span>
         <span class="cx-row-name">
           <span class="cx-row-client">${esc(p.client)}</span>

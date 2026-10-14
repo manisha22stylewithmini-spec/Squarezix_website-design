@@ -26,6 +26,7 @@ WRITTEN = {
     'careers.html': 'Why SquareZix card text, hiring-process steps, FAQ answers',
     'portfolio.html': 'hero, FAQ, the four folder titles/descriptions/stickers in What We Make, the five reel descriptions, and the Capability/Industry/Outcome classification of each project (outcomes are goals taken from the home-page case-study challenges, no figures); website blurbs reuse the home page work cards',
     'blog-*.html': 'none: article text, date and read time are the live article; only the side rail (contents, share, speak-to-an-expert) and related-articles heading are ours',
+    'case-*.html': 'none: client, challenge, what we did, services and results are the home-page case-study copy; side rail labels are ours',
     'contact-us.html': 'none: hero lead, card labels and hours are the live contact-us page; hero button label is ours',
     'blogs.html': 'hero, topic grouping, industry picks, newsletter copy',
 }
@@ -480,7 +481,7 @@ def portfolio():
         c = next(k for k in CASES if k['client'] == x['client'])
         cap, ind, out = SITE_META[i]
         others = [im for im in site_imgs if im != x['img']]
-        return sel_card(x['client'], x['blurb'], x['img'], 'case-study.html', others, c['results'][0], c['kind'] if c['kind'] != 'Website' else 'Website', cap=cap, ind=ind, out=out)
+        return sel_card(x['client'], x['blurb'], x['img'], f"case-{c['slug']}.html", others, c['results'][0], c['kind'] if c['kind'] != 'Website' else 'Website', cap=cap, ind=ind, out=out)
 
     def sel_reel(i):
         r = reels[i]
@@ -496,11 +497,11 @@ def portfolio():
         dict(name='Websites & platforms', title='Sites that earn demos, not just visits.',
              desc='Marketing sites and platforms designed around one outcome, built for speed, structure and search.',
              tags=['b2b saas', 'ux/ui', 'development', 'seo'], media=['assets/work/project-1.png'], alt='Digital Stream website',
-             link=('case-study.html', 'See the case study')),
+             link=('case-digital-stream.html', 'See the case study')),
         dict(name='E-commerce & storefronts', title='Storefronts with a checkout that keeps shoppers.',
              desc='Headless builds, product pages around the photography and checkouts with less friction.',
              tags=['digital goods', 'headless build', 'cro'], media=['assets/work/project-2.png'], alt='Hero Gradients storefront',
-             link=('case-study.html', 'See the case study')),
+             link=('case-hero-gradients.html', 'See the case study')),
         dict(name='Product & AI', title='Products people finish setting up.',
              desc='Onboarding, dashboards and design systems for AI products, designed around a single first task.',
              tags=['ai saas', 'product design', 'design system'], media=['assets/work/project-3.png'], alt='Lissr.ai product site and dashboard',
@@ -602,7 +603,8 @@ def _case_by(slug_):
     return next(c for c in CASES + REEL_CASES if c['slug'] == slug_)
 
 
-def book_html(c, current=False, href='case-study.html', i=0):
+def book_html(c, current=False, href=None, i=0):
+    href = href or f"case-{c['slug']}.html"
     b = c['book']
     is_site = 'client' in c
     sub = f"{c['kind']} · {c['year']}" if is_site else 'Social reel'
@@ -625,7 +627,7 @@ def book_html(c, current=False, href='case-study.html', i=0):
             f'<span class="bk-tip" aria-hidden="true">{tip}</span></a>')
 
 
-def shelf(current=None, compact=False, href='case-study.html'):
+def shelf(current=None, compact=False, href=None):
     books = ''.join(book_html(_case_by(s), s == current, href, n) for n, s in enumerate(SHELF_ORDER))
     books += ('<a class="bk bk--mono bk--next" style="--i:8;--w:66px;--h:82%;" href="#ab-contact" aria-label="Your brand: start the next case study">'
               '<span class="bk-top" aria-hidden="true">+</span><span class="bk-title" aria-hidden="true">Your brand, next</span>'
@@ -1047,5 +1049,7 @@ if __name__ == '__main__':
     contact()
     import build_blog_posts
     build_blog_posts.main()
+    import build_case_pages
+    build_case_pages.main()
     import apply_site_ui
     apply_site_ui.main()
