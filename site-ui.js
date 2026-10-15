@@ -190,6 +190,10 @@
     if (!dlg) build();
     opener = b;
     const sel = dlg.querySelector('select[name="role"]');
+    if (sel && b.dataset.role && ![...sel.options].some((o) => o.value === b.dataset.role)) {
+      const o = document.createElement('option'); o.value = b.dataset.role; o.textContent = `${b.dataset.role}${b.dataset.team ? ' · ' + b.dataset.team : ''}`;
+      sel.insertBefore(o, sel.options[1] || null);
+    }
     if (sel) sel.value = b.dataset.role && [...sel.options].some((o) => o.value === b.dataset.role) ? b.dataset.role : '';
     dlg.querySelector('#zx-apply-sub').textContent = b.dataset.role
       ? `You are applying for ${b.dataset.role}. Attach your CV and we will take it from there.`

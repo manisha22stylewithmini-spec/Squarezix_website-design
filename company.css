@@ -1205,3 +1205,13 @@ a.pk-tile:hover { translate: 0 -5px; border-color: rgba(201, 139, 255, .5); }
 .ca-pos-open a { color: #e9d5ff; text-underline-offset: 3px; }
 @media (max-width: 700px) { .ca-role { grid-template-columns: 32px minmax(0, 1fr) 24px; } .ca-role-l { grid-column: 2; grid-row: 2; font-size: 14px; } .ca-role-a { grid-row: 1 / span 2; grid-column: 3; } }
 @media (prefers-reduced-motion: reduce) { .ca-dept-panel, .ca-dept-chev { transition: none; } }
+
+/* ---- Job opening detail page (job-*.html, scripts/build_job_pages.py) ---- */
+.jb-chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.jb-chips li { padding: 7px 14px; border-radius: 999px; font-size: 14px; color: #e5ddf7; background: rgba(171, 36, 242, .1); border: 1px solid rgba(201, 139, 255, .3); }
+.bp-article .cd-sec ul { list-style: none; padding: 0; gap: 10px; }
+.bp-article .cd-sec li { position: relative; padding-left: 28px; }
+.bp-article .cd-sec li::before { content: ""; position: absolute; left: 4px; top: .62em; width: 10px; height: 10px; border-radius: 50%; background: linear-gradient(135deg, #621dd0, #ab24f2); }
+.jb-more { margin-top: clamp(56px, 7vw, 96px); }
+.jb-more .ca-pos { max-width: 980px; }
+.jb-more .ca-dept-panel > ul { padding-top: 0; }

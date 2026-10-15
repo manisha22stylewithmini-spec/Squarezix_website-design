@@ -26,6 +26,7 @@ WRITTEN = {
     'careers.html': 'Why SquareZix card text, hiring-process steps, FAQ answers, and the SAMPLE open-position roles (ROLES in the generator; placeholders until real openings are supplied)',
     'portfolio.html': 'hero, FAQ, the four folder titles/descriptions/stickers in What We Make, the five reel descriptions, and the Capability/Industry/Outcome classification of each project (outcomes are goals taken from the home-page case-study challenges, no figures); website blurbs reuse the home page work cards',
     'blog-*.html': 'none: article text, date and read time are the live article; only the side rail (contents, share, speak-to-an-expert) and related-articles heading are ours',
+    'job-*.html': 'SAMPLE: every job detail page is placeholder copy from scripts/jobs_content.py until real openings are supplied',
     'case-united-advocates.html': 'none: client-supplied copy, verbatim; screenshot of united-advocates.com',
     'case-*.html': 'none: client, challenge, what we did, services and results are the home-page case-study copy; side rail labels are ours',
     'contact-us.html': 'none: hero lead, card labels and hours are the live contact-us page; hero button label is ours',
@@ -271,18 +272,11 @@ def culture():
 # ================================================================ CAREERS
 # Open positions. SAMPLE roles below are placeholders so the listing design can be reviewed: replace them with the real
 # openings (or set ROLES = [] to show the "No current openings" state). Role shape: (team, title, location, type)
-ROLES_ARE_SAMPLE = True
-ROLES = [
-    ('Design', 'Senior UI/UX Designer', 'Dubai office', 'Full-time'),
-    ('Design', 'Brand Designer', 'Dubai office or hybrid', 'Full-time'),
-    ('Development', 'Front-end Developer', 'Dubai office or hybrid', 'Full-time'),
-    ('Development', 'WordPress Developer', 'Dubai office', 'Full-time'),
-    ('Development', 'Shopify Developer', 'Remote (GCC)', 'Full-time'),
-    ('Marketing', 'Performance Marketing Manager', 'Dubai office', 'Full-time'),
-    ('Marketing', 'Social Media Executive', 'Dubai office', 'Full-time'),
-    ('SEO', 'SEO Specialist', 'Dubai office or hybrid', 'Full-time'),
-    ('Content', 'Content Writer', 'Remote (GCC)', 'Full-time'),
-]
+import jobs_content
+ROLES_ARE_SAMPLE = jobs_content.IS_SAMPLE
+JOBS = jobs_content.JOBS
+# (team, title, location, type, detail page)
+ROLES = [(j['team'], j['title'], f"{j['city']} · {j['workplace']}", j['job_type'], f"job-{j['slug']}.html") for j in JOBS]
 TEAM_ICON = {'Design': 'spark', 'Development': 'layers', 'Marketing': 'signal', 'SEO': 'rocket', 'Content': 'book',
              'Video': 'camera', 'Strategy': 'bulb', 'Sales': 'cash', 'Support': 'chat'}
 
@@ -290,13 +284,13 @@ TEAM_ICON = {'Design': 'spark', 'Development': 'layers', 'Marketing': 'signal', 
 def positions_html(roles, mail):
     """Department accordion: tilted 'N+ new posting' tag, icon + team bar, numbered role rows (first team open)."""
     teams = {}
-    for t, title, loc, typ in roles:
-        teams.setdefault(t, []).append((title, loc, typ))
+    for t, title, loc, typ, href in roles:
+        teams.setdefault(t, []).append((title, loc, typ, href))
     out = ''
     for i, (t, rs) in enumerate(teams.items()):
         rows = ''.join(
-            f'<li><a class="ca-role" href="{mail.format(title=e(title).replace(" ", "%20"))}" data-apply-open data-role="{e(title, quote=True)}" data-team="{e(t, quote=True)}"><i>{n:02d}</i><span class="ca-role-t">{e(title)}</span>'
-            f'<span class="ca-role-l">{e(loc)}</span><span class="ca-role-a">{ARROW_R}</span></a></li>' for n, (title, loc, typ) in enumerate(rs, 1))
+            f'<li><a class="ca-role" href="{href}" data-role="{e(title, quote=True)}" data-team="{e(t, quote=True)}"><i>{n:02d}</i><span class="ca-role-t">{e(title)}</span>'
+            f'<span class="ca-role-l">{e(loc)}</span><span class="ca-role-a">{ARROW_R}</span></a></li>' for n, (title, loc, typ, href) in enumerate(rs, 1))
         out += (f'<section class="ca-dept{" is-open" if i == 0 else ""}"><span class="ca-dept-tag">{len(rs)}+ new posting</span>'
                 f'<button type="button" class="ca-dept-bar" aria-expanded="{"true" if i == 0 else "false"}" aria-controls="ca-dept-{i}">'
                 f'<span class="ca-dept-ic">{ic(TEAM_ICON.get(t, "star"))}</span><span class="ca-dept-name">{e(t)}</span>'
@@ -1084,5 +1078,7 @@ if __name__ == '__main__':
     build_blog_posts.main()
     import build_case_pages
     build_case_pages.main()
+    import build_job_pages
+    build_job_pages.main()
     import apply_site_ui
     apply_site_ui.main()
