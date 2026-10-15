@@ -61,6 +61,15 @@
     }
   }
 
+  // ---- Careers: department accordion (open positions) ----
+  $$('.ca-dept').forEach((d) => {
+    const bar = $('.ca-dept-bar', d);
+    bar.addEventListener('click', () => {
+      const on = d.classList.toggle('is-open');
+      bar.setAttribute('aria-expanded', on);
+    });
+  });
+
   // ---- Portfolio: Capability / Industry / Outcome filter over the project cards ----
   const pf = $('#pf-cards');
   if (pf) {

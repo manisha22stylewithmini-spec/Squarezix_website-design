@@ -23,7 +23,7 @@ VER = '20261072a'
 # Pages / sections whose copy Claude wrote (no live squarezix.com content for them)
 WRITTEN = {
     'culture.html': 'all copy except the Life-at-SquareZix line and the learning/recognition facts taken from the live Careers page',
-    'careers.html': 'Why SquareZix card text, hiring-process steps, FAQ answers',
+    'careers.html': 'Why SquareZix card text, hiring-process steps, FAQ answers, and the SAMPLE open-position roles (ROLES in the generator; placeholders until real openings are supplied)',
     'portfolio.html': 'hero, FAQ, the four folder titles/descriptions/stickers in What We Make, the five reel descriptions, and the Capability/Industry/Outcome classification of each project (outcomes are goals taken from the home-page case-study challenges, no figures); website blurbs reuse the home page work cards',
     'blog-*.html': 'none: article text, date and read time are the live article; only the side rail (contents, share, speak-to-an-expert) and related-articles heading are ours',
     'case-united-advocates.html': 'none: client-supplied copy, verbatim; screenshot of united-advocates.com',
@@ -269,6 +269,42 @@ def culture():
 
 
 # ================================================================ CAREERS
+# Open positions. SAMPLE roles below are placeholders so the listing design can be reviewed: replace them with the real
+# openings (or set ROLES = [] to show the "No current openings" state). Role shape: (team, title, location, type)
+ROLES_ARE_SAMPLE = True
+ROLES = [
+    ('Design', 'Senior UI/UX Designer', 'Dubai office', 'Full-time'),
+    ('Design', 'Brand Designer', 'Dubai office or hybrid', 'Full-time'),
+    ('Development', 'Front-end Developer', 'Dubai office or hybrid', 'Full-time'),
+    ('Development', 'WordPress Developer', 'Dubai office', 'Full-time'),
+    ('Development', 'Shopify Developer', 'Remote (GCC)', 'Full-time'),
+    ('Marketing', 'Performance Marketing Manager', 'Dubai office', 'Full-time'),
+    ('Marketing', 'Social Media Executive', 'Dubai office', 'Full-time'),
+    ('SEO', 'SEO Specialist', 'Dubai office or hybrid', 'Full-time'),
+    ('Content', 'Content Writer', 'Remote (GCC)', 'Full-time'),
+]
+TEAM_ICON = {'Design': 'spark', 'Development': 'layers', 'Marketing': 'signal', 'SEO': 'rocket', 'Content': 'book',
+             'Video': 'camera', 'Strategy': 'bulb', 'Sales': 'cash', 'Support': 'chat'}
+
+
+def positions_html(roles, mail):
+    """Department accordion: tilted 'N+ new posting' tag, icon + team bar, numbered role rows (first team open)."""
+    teams = {}
+    for t, title, loc, typ in roles:
+        teams.setdefault(t, []).append((title, loc, typ))
+    out = ''
+    for i, (t, rs) in enumerate(teams.items()):
+        rows = ''.join(
+            f'<li><a class="ca-role" href="{mail.format(title=e(title).replace(" ", "%20"))}"><i>{n:02d}</i><span class="ca-role-t">{e(title)}</span>'
+            f'<span class="ca-role-l">{e(loc)}</span><span class="ca-role-a">{ARROW_R}</span></a></li>' for n, (title, loc, typ) in enumerate(rs, 1))
+        out += (f'<section class="ca-dept{" is-open" if i == 0 else ""}"><span class="ca-dept-tag">{len(rs)}+ new posting</span>'
+                f'<button type="button" class="ca-dept-bar" aria-expanded="{"true" if i == 0 else "false"}" aria-controls="ca-dept-{i}">'
+                f'<span class="ca-dept-ic">{ic(TEAM_ICON.get(t, "star"))}</span><span class="ca-dept-name">{e(t)}</span>'
+                f'<svg class="ca-dept-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>'
+                f'<div class="ca-dept-panel" id="ca-dept-{i}"><ul>{rows}</ul></div></section>')
+    return f'<div class="ca-depts">{out}</div>'
+
+
 def careers():
     why = [('Work', 'Work across B2B, ecommerce and regional brands, on campaigns that move real numbers.'),
            ('Growth', 'Build skills on meaningful projects, with a team that treats performance data as a craft, not a checkbox.'),
@@ -333,21 +369,17 @@ def careers():
     </section>
 
     <section class="co-sec" id="open-roles" aria-labelledby="ca-pos-title">
-      {head_block('Open Positions', 'Open <em>positions</em>', '<span id="ca-pos-sub">We’re not hiring for a specific role right now.</span>', sid='ca-pos-title')}
-      <div class="ca-pos" id="ca-pos" data-state="empty">
-        <div class="ca-pos-list" hidden>
-          <div class="ca-pos-filters" role="group" aria-label="Filter roles by team"></div>
-          <ul class="ca-pos-items"></ul>
-        </div>
-        <div class="ca-pos-empty" data-rise>
+      {head_block('Open Positions', 'Open <em>positions</em>', '<span id="ca-pos-sub">' + ('If you want to share our mission of building a stronger digital presence for brands, we’d love to hear from you.' if ROLES else 'We’re not hiring for a specific role right now.') + '</span>', sid='ca-pos-title')}
+      <div class="ca-pos" id="ca-pos" data-state="{'list' if ROLES else 'empty'}">
+        {positions_html(ROLES, mail.replace('Application%20%E2%80%94%20SquareZix', 'Application%20%E2%80%94%20{title}')) if ROLES else ''}
+        <div class="ca-pos-empty" data-rise{'' if not ROLES else ' hidden'}>
           <span class="ca-pos-ic">{ic('mail')}</span>
           <h3>No current openings.</h3>
           <p>Don’t see your role? We’re always interested in meeting people who can add something meaningful.</p>
           <a href="{mail}" class="btn-contact btn-contact--xl">Send an Application {ARROW_R}</a>
         </div>
+        <p class="ca-pos-open" data-rise>Don’t see your role? <a href="{mail}">Send us an application</a> and tell us what you would build.</p>
       </div>
-      <!-- Add roles as JSON and the list replaces the empty state: [{{"title":"","team":"","location":"","type":"","href":""}}] -->
-      <script type="application/json" id="ca-positions">[]</script>
     </section>
 
     <section class="co-sec" aria-labelledby="ca-proc-title">
