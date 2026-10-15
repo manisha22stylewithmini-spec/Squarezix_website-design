@@ -82,3 +82,102 @@
     form.replaceWith(done);
   });
 })();
+
+// Job application popup (careers page): any [data-apply-open] opens it; a role link pre-selects that role.
+// Needs a backend to deliver the CV itself: set APPLY_ENDPOINT to a URL that accepts a multipart POST
+// (fields: name, email, phone, role, link, message, cv). Until then the details open in the visitor's mail app
+// and they attach the CV themselves.
+(() => {
+  const APPLY_ENDPOINT = '';
+  const HR = 'info@squarezix.com';
+  const MAX = 5 * 1024 * 1024;
+  const x = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>';
+  const up = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V5M7.5 9.5 12 5l4.5 4.5M5 19h14"/></svg>';
+  const esc = (t) => String(t).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+  let dlg = null, opener = null;
+
+  const roles = () => [...document.querySelectorAll('.ca-role[data-role]')].map((a) => ({ role: a.dataset.role, team: a.dataset.team }));
+
+  const build = () => {
+    const opts = roles().map((r) => `<option value="${esc(r.role)}">${esc(r.role)} · ${esc(r.team)}</option>`).join('');
+    dlg = document.createElement('dialog');
+    dlg.className = 'zx-modal zx-apply';
+    dlg.setAttribute('aria-labelledby', 'zx-apply-title');
+    dlg.innerHTML = `
+      <button type="button" class="zx-modal-x" data-apply-close aria-label="Close application form">${x}</button>
+      <div class="zx-modal-body">
+        <span class="svc-badge">Careers</span>
+        <h2 id="zx-apply-title" class="zx-modal-title">Apply to <em>SquareZix</em></h2>
+        <p class="zx-modal-sub" id="zx-apply-sub">Tell us about you and attach your CV. Your application goes straight to our HR team.</p>
+        <form class="ab-form zx-form" id="zx-apply-form" novalidate>
+          <label class="ab-field ab-field--full"><span>Position <b>*</b></span>
+            <select name="role" required><option value="">Select a position</option>${opts}<option value="General application">General application</option></select></label>
+          <label class="ab-field"><span>Full Name <b>*</b></span><input type="text" name="name" placeholder="Enter Your Name" autocomplete="name" required /></label>
+          <label class="ab-field"><span>Email <b>*</b></span><input type="email" name="email" placeholder="Enter Your Email" autocomplete="email" required /></label>
+          <label class="ab-field"><span>Phone Number <b>*</b></span><input type="tel" name="phone" placeholder="Enter Your Phone Number" autocomplete="tel" required /></label>
+          <label class="ab-field"><span>LinkedIn or portfolio</span><input type="url" name="link" placeholder="https://" autocomplete="url" /></label>
+          <div class="ab-field ab-field--full zx-drop" data-drop><span>Your CV <b>*</b></span>
+            <label class="zx-drop-box" for="zx-apply-cv">${up}<strong>Drop your CV here</strong><small>or click to browse · PDF, DOC or DOCX · up to 5 MB</small><em class="zx-drop-name" aria-live="polite"></em></label>
+            <input id="zx-apply-cv" class="zx-drop-input" type="file" name="cv" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required /></div>
+          <label class="ab-field ab-field--full"><span>Cover note</span><textarea name="message" rows="3" placeholder="Tell us what you would bring"></textarea></label>
+          <div class="ab-form-foot ab-field--full">
+            <button type="submit" class="zx-btn">Submit application</button>
+            <p class="ab-form-note" id="zx-apply-note" role="status"></p>
+          </div>
+        </form>
+      </div>`;
+    document.body.appendChild(dlg);
+    const form = dlg.querySelector('form'), note = dlg.querySelector('#zx-apply-note');
+    const drop = dlg.querySelector('[data-drop]'), input = dlg.querySelector('#zx-apply-cv'), nameEl = dlg.querySelector('.zx-drop-name');
+    const show = () => { const f = input.files[0]; nameEl.textContent = f ? `${f.name} · ${(f.size / 1024).toFixed(0)} KB` : ''; drop.classList.toggle('has-file', !!f); };
+    input.addEventListener('change', () => { drop.classList.remove('is-invalid'); show(); });
+    ['dragenter', 'dragover'].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add('is-over'); }));
+    ['dragleave', 'drop'].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove('is-over'); }));
+    drop.addEventListener('drop', (e) => { if (e.dataTransfer?.files?.length) { input.files = e.dataTransfer.files; show(); drop.classList.remove('is-invalid'); } });
+    form.addEventListener('input', (e) => e.target.closest('.ab-field')?.classList.remove('is-invalid'));
+    dlg.querySelector('[data-apply-close]').addEventListener('click', () => dlg.close());
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+    dlg.addEventListener('close', () => opener?.focus?.());
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      let ok = true;
+      form.querySelectorAll('[required]').forEach((f) => {
+        let bad = f.type === 'file' ? !f.files.length : !f.value.trim() || (f.type === 'email' && !/^\S+@\S+\.\S+$/.test(f.value));
+        if (f.type === 'file' && f.files[0] && f.files[0].size > MAX) { bad = true; note.textContent = 'The CV must be 5 MB or smaller.'; }
+        f.closest('.ab-field').classList.toggle('is-invalid', bad);
+        if (bad && ok) { f.focus?.(); ok = false; }
+      });
+      if (!ok) { if (!note.textContent) note.textContent = 'Please fill in the required fields and attach your CV.'; return; }
+      const d = Object.fromEntries(new FormData(form));
+      const done = (html) => { const el = document.createElement('div'); el.className = 'zx-modal-done'; el.innerHTML = html; form.replaceWith(el); };
+      if (APPLY_ENDPOINT) {
+        const btn = form.querySelector('button[type="submit"]'); btn.disabled = true; note.textContent = 'Sending…';
+        try {
+          const r = await fetch(APPLY_ENDPOINT, { method: 'POST', body: new FormData(form) });
+          if (!r.ok) throw new Error(r.status);
+          done('<b>Application sent</b><span>Thank you. Our HR team will review it and come back to you.</span>');
+        } catch (_) { btn.disabled = false; note.textContent = `Could not send. Please email your CV to ${HR}.`; }
+        return;
+      }
+      const body = `Position: ${d.role}\nName: ${d.name}\nEmail: ${d.email}\nPhone: ${d.phone}\nLinkedIn / portfolio: ${d.link || '-'}\n\n${d.message || ''}\n\n(Please attach your CV: ${input.files[0]?.name || ''})`;
+      window.location.href = `mailto:${HR}?subject=${encodeURIComponent(`Application: ${d.role} - ${d.name}`)}&body=${encodeURIComponent(body)}`;
+      done(`<b>One last step</b><span>Your email app is opening with your details. Please attach <strong>${esc(input.files[0]?.name || 'your CV')}</strong> and press send to ${HR}.</span>`);
+    });
+  };
+
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-apply-open]');
+    if (!b) return;
+    e.preventDefault();
+    if (!dlg) build();
+    opener = b;
+    const sel = dlg.querySelector('select[name="role"]');
+    if (sel) sel.value = b.dataset.role && [...sel.options].some((o) => o.value === b.dataset.role) ? b.dataset.role : '';
+    dlg.querySelector('#zx-apply-sub').textContent = b.dataset.role
+      ? `You are applying for ${b.dataset.role}. Attach your CV and we will take it from there.`
+      : 'Tell us about you and attach your CV. Your application goes straight to our HR team.';
+    if (!dlg.open) dlg.showModal();
+    setTimeout(() => dlg.querySelector(b.dataset.role ? 'input[name="name"]' : 'select[name="role"]')?.focus(), 60);
+  });
+})();

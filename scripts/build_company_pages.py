@@ -125,12 +125,12 @@ def head_block(badge, title, sub='', center=True, sid=None):
             f'<h2{idattr} class="ab-h2 ab-reveal" data-reveal>{title}</h2>{s}</div>')
 
 
-def cta_panel(title, text, label, href, secondary=''):
+def cta_panel(title, text, label, href, secondary='', attrs=''):
     return f'''    <section class="co-sec co-cta-sec">
       <div class="co-cta" data-rise>
         <h2 class="ab-h2">{title}</h2>
         <p>{text}</p>
-        <div class="co-cta-actions"><a href="{href}" class="btn-contact btn-contact--xl">{label} {ARROW_R}</a>{secondary}</div>
+        <div class="co-cta-actions"><a href="{href}" class="btn-contact btn-contact--xl"{attrs}>{label} {ARROW_R}</a>{secondary}</div>
       </div>
     </section>
 '''
@@ -295,7 +295,7 @@ def positions_html(roles, mail):
     out = ''
     for i, (t, rs) in enumerate(teams.items()):
         rows = ''.join(
-            f'<li><a class="ca-role" href="{mail.format(title=e(title).replace(" ", "%20"))}"><i>{n:02d}</i><span class="ca-role-t">{e(title)}</span>'
+            f'<li><a class="ca-role" href="{mail.format(title=e(title).replace(" ", "%20"))}" data-apply-open data-role="{e(title, quote=True)}" data-team="{e(t, quote=True)}"><i>{n:02d}</i><span class="ca-role-t">{e(title)}</span>'
             f'<span class="ca-role-l">{e(loc)}</span><span class="ca-role-a">{ARROW_R}</span></a></li>' for n, (title, loc, typ) in enumerate(rs, 1))
         out += (f'<section class="ca-dept{" is-open" if i == 0 else ""}"><span class="ca-dept-tag">{len(rs)}+ new posting</span>'
                 f'<button type="button" class="ca-dept-bar" aria-expanded="{"true" if i == 0 else "false"}" aria-controls="ca-dept-{i}">'
@@ -376,9 +376,9 @@ def careers():
           <span class="ca-pos-ic">{ic('mail')}</span>
           <h3>No current openings.</h3>
           <p>Don’t see your role? We’re always interested in meeting people who can add something meaningful.</p>
-          <a href="{mail}" class="btn-contact btn-contact--xl">Send an Application {ARROW_R}</a>
+          <a href="{mail}" class="btn-contact btn-contact--xl" data-apply-open>Send an Application {ARROW_R}</a>
         </div>
-        <p class="ca-pos-open" data-rise>Don’t see your role? <a href="{mail}">Send us an application</a> and tell us what you would build.</p>
+        <p class="ca-pos-open" data-rise>Don’t see your role? <a href="{mail}" data-apply-open>Send us an application</a> and tell us what you would build.</p>
       </div>
     </section>
 
@@ -387,7 +387,7 @@ def careers():
       <ol class="ca-steps">{steps_html}</ol>
     </section>
 '''
-    body += cta_panel('Your next chapter <em>could start here.</em>', 'See which roles are open, or send us an application and tell us what you would build.', 'View Open Roles', '#open-roles')
+    body += cta_panel('Your next chapter <em>could start here.</em>', 'See which roles are open, or send us an application and tell us what you would build.', 'Apply Now', '#open-roles', attrs=' data-apply-open')
     body += faq_band('Questions before you <em>apply?</em>', 'What people ask us about working at SquareZix.', faq)
     write('careers', 'Careers at SquareZix — Build What’s Next | Dubai Digital Agency',
           'Join a team where strategy, creativity, technology and growth come together. Real work, real growth, real ownership and real progression at SquareZix in Dubai.', 'insights', body)
