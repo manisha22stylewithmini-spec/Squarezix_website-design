@@ -150,19 +150,36 @@
       });
       if (!ok) { if (!note.textContent) note.textContent = 'Please fill in the required fields and attach your CV.'; return; }
       const d = Object.fromEntries(new FormData(form));
-      const done = (html) => { const el = document.createElement('div'); el.className = 'zx-modal-done'; el.innerHTML = html; form.replaceWith(el); };
+      const done = (pending) => {
+        const role = d.role && d.role !== 'General application' ? `the <strong>${esc(d.role)}</strong> role` : 'SquareZix';
+        const cv = esc(input.files[0]?.name || 'your CV');
+        dlg.querySelector('.zx-modal-body').innerHTML = `
+          <div class="zx-success">
+            <span class="zx-success-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>
+            <h2 class="zx-modal-title">Congratulations!</h2>
+            <p class="zx-success-lead">You have successfully applied for ${role}.</p>
+            <p class="zx-success-sub">Please wait for our HR team to respond. For more details, you can email us or speak to HR directly.</p>
+            ${pending ? `<p class="zx-success-todo"><b>One last step:</b> attach <strong>${cv}</strong> in the email that just opened and press send.</p>` : ''}
+            <ul class="zx-success-contact">
+              <li><span>Email</span><a href="mailto:${HR}">${HR}</a></li>
+              <li><span>Phone</span><a href="tel:+97142414120">+971 4 241 4120</a></li>
+            </ul>
+            <button type="button" class="zx-btn" data-apply-close>Close</button>
+          </div>`;
+        dlg.querySelector('[data-apply-close]').addEventListener('click', () => dlg.close());
+      };
       if (APPLY_ENDPOINT) {
         const btn = form.querySelector('button[type="submit"]'); btn.disabled = true; note.textContent = 'Sending…';
         try {
           const r = await fetch(APPLY_ENDPOINT, { method: 'POST', body: new FormData(form) });
           if (!r.ok) throw new Error(r.status);
-          done('<b>Application sent</b><span>Thank you. Our HR team will review it and come back to you.</span>');
+          done(false);
         } catch (_) { btn.disabled = false; note.textContent = `Could not send. Please email your CV to ${HR}.`; }
         return;
       }
       const body = `Position: ${d.role}\nName: ${d.name}\nEmail: ${d.email}\nPhone: ${d.phone}\nLinkedIn / portfolio: ${d.link || '-'}\n\n${d.message || ''}\n\n(Please attach your CV: ${input.files[0]?.name || ''})`;
       window.location.href = `mailto:${HR}?subject=${encodeURIComponent(`Application: ${d.role} - ${d.name}`)}&body=${encodeURIComponent(body)}`;
-      done(`<b>One last step</b><span>Your email app is opening with your details. Please attach <strong>${esc(input.files[0]?.name || 'your CV')}</strong> and press send to ${HR}.</span>`);
+      done(true);
     });
   };
 
