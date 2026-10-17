@@ -26,7 +26,7 @@ WRITTEN = {
     'careers.html': 'Why SquareZix card text, hiring-process steps, FAQ answers, and the SAMPLE open-position roles (ROLES in the generator; placeholders until real openings are supplied)',
     'portfolio.html': 'hero, FAQ, the four folder titles/descriptions/stickers in What We Make, the five reel descriptions, and the Capability/Industry/Outcome classification of each project (outcomes are goals taken from the home-page case-study challenges, no figures); website blurbs reuse the home page work cards',
     'blog-*.html': 'none: article text, date and read time are the live article; only the side rail (contents, share, speak-to-an-expert) and related-articles heading are ours',
-    'community-hub.html': 'none: live community-hub wording and all FAQs; the search box is ours',
+    'community-hub.html': 'live community-hub wording and all FAQs; the search box, the "How We Answer" sticky-note section (heading, paragraph, 7 role notes) and the closing panel are ours',
     'job-*.html': 'SAMPLE: every job detail page is placeholder copy from scripts/jobs_content.py until real openings are supplied',
     'case-united-advocates.html': 'none: client-supplied copy, verbatim; screenshot of united-advocates.com',
     'case-*.html': 'none: client, challenge, what we did, services and results are the home-page case-study copy; side rail labels are ours',

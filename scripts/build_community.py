@@ -12,6 +12,28 @@ from community_raw import CATS, ITEMS
 
 SHOW = 12  # items shown before "Load more"
 
+# LABEL / written copy (not on the live page): the sticky-note board section after the questions
+NOTES = [('SEO & AI Specialist', 'Answers on search and AI visibility'), ('Web Designer', 'Answers on design and UX'),
+         ('Developer', 'Answers on websites, CMS and ecommerce'), ('Brand Strategist', 'Answers on branding and positioning'),
+         ('Social & Content Lead', 'Answers on social and content'), ('Performance Marketer', 'Answers on SEM and paid media'),
+         ('Project Lead', 'Keeps every answer honest and practical')]
+
+
+def board():
+    papers = ['lilac', 'violet', 'mist', 'lavender', 'orchid', 'lilac', 'violet']
+    tilts = [-2.2, 1.6, -1.2, 2, -1.8, 1.4, -1]
+    notes = ''.join(f'<li class="cb-note cb-note--{papers[i]}" style="--r:{tilts[i]}deg"><b>{e(r)}</b><span>{e(d)}</span></li>' for i, (r, d) in enumerate(NOTES))
+    vis = (f'<div class="cb-board" role="img" aria-label="Seven specialists behind the Community Hub: {e(", ".join(r for r, _ in NOTES))}">'
+           f'<p class="cb-board-title">One question <i>→ one clear answer</i></p><ul class="cb-notes" aria-hidden="true">{notes}</ul></div>')
+    head = B.head_block('How We Answer', 'Not just an FAQ. <em>Answers from the people doing the work.</em>',
+                        'Every answer in the Community Hub comes from the specialists who do this work every day. Strategists, designers, developers, '
+                        'SEO and AI specialists and marketers who know the GCC market, so you get a practical answer, not a generic one.',
+                        center=False, sid='cb-title')
+    return (f'    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&display=swap" />\n'
+            f'    <section class="co-sec cb-sec" aria-labelledby="cb-title">\n'
+            f'      <div class="cb-grid">\n        <div class="cb-copy">{head}</div>\n'
+            f'        <div class="cb-visual" data-rise>{vis}</div>\n      </div>\n    </section>\n')
+
 
 def main():
     counts = {k: sum(1 for i in ITEMS if i['cat'] == k) for k, _ in CATS}
@@ -40,6 +62,7 @@ def main():
       </section></div>
     </section>
 '''
+    body += board()
     body += B.cta_panel('Still have <em>a question?</em>', 'Our team is here to help you find the right solution for your business.', 'Speak to an Expert', '#ab-contact')
     B.write('community-hub', 'Community Hub — SquareZix for AI, SEO & Business Growth',
             'Explore expert articles, practical guides, frequently asked questions, industry updates, and digital marketing insights designed to help businesses grow in the AI era.',
