@@ -63,6 +63,8 @@ def main():
     </section>
 '''
     body += board()
+    # client proof: the same testimonials section as the About page (live client quotes), lifted from about-us.html
+    body += '    ' + B._between(B.ABOUT, '<section class="ab-proof"', '</section>') + '\n'
     body += B.cta_panel('Still have <em>a question?</em>', 'Our team is here to help you find the right solution for your business.', 'Speak to an Expert', '#ab-contact')
     B.write('community-hub', 'Community Hub — SquareZix for AI, SEO & Business Growth',
             'Explore expert articles, practical guides, frequently asked questions, industry updates, and digital marketing insights designed to help businesses grow in the AI era.',
