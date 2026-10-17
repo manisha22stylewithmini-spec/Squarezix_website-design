@@ -4,7 +4,7 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-VER = '20261072d'
+VER = '20261072e'
 OLD_BTN = ('btn-contact', 'cmp-btn', 'hero-cta', 'cx-pager-btn', 'pf-more-btn')
 KEEP = ('ss-faq-more', 'wu-cta', 'wf-cta', 'bl-loadmore', 'hero-cta', 'svh-cta')
 OPENER_HREFS = ('#ab-contact', '#contact')

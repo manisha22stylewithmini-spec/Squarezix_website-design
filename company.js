@@ -61,6 +61,32 @@
     }
   }
 
+  // ---- Community Hub: topic chips + search + load-more over the FAQ list ----
+  const chList = $('#ch-list');
+  if (chList) {
+    const items = $$('.ss-q', chList), chips = $$('#ch-chips .co-chip'), q = $('#ch-search'), none = $('#ch-none'), more = $('#ch-more'), count = $('#ch-count');
+    const STEP = +chList.dataset.show || 12;
+    let cat = 'all', limit = STEP;
+    const render = () => {
+      const term = q.value.trim().toLowerCase();
+      const hit = items.filter((d) => (cat === 'all' || d.dataset.cat === cat) && (!term || d.textContent.toLowerCase().includes(term)));
+      items.forEach((d) => { d.hidden = true; });
+      hit.slice(0, limit).forEach((d) => { d.hidden = false; });
+      more.parentElement.hidden = limit >= hit.length;
+      none.hidden = hit.length !== 0;
+      count.textContent = `Showing ${Math.min(limit, hit.length)} of ${hit.length} question${hit.length === 1 ? '' : 's'}`;
+    };
+    chips.forEach((b) => b.addEventListener('click', () => {
+      cat = b.dataset.cat; limit = STEP;
+      chips.forEach((x) => { x.classList.toggle('is-on', x === b); x.setAttribute('aria-pressed', x === b); });
+      render();
+    }));
+    q.addEventListener('input', () => { limit = STEP; render(); });
+    more.addEventListener('click', () => { limit += STEP; render(); });
+    $('#ch-reset')?.addEventListener('click', () => { q.value = ''; cat = 'all'; limit = STEP; chips.forEach((x, i) => { x.classList.toggle('is-on', i === 0); x.setAttribute('aria-pressed', i === 0); }); render(); });
+    render();
+  }
+
   // ---- Careers: department accordion (open positions) ----
   $$('.ca-dept').forEach((d) => {
     const bar = $('.ca-dept-bar', d);

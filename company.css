@@ -1215,3 +1215,15 @@ a.pk-tile:hover { translate: 0 -5px; border-color: rgba(201, 139, 255, .5); }
 .jb-more { margin-top: clamp(56px, 7vw, 96px); }
 .jb-more .ca-pos { max-width: 980px; }
 .jb-more .ca-dept-panel > ul { padding-top: 0; }
+
+/* ---- Community Hub (community-hub.html, scripts/build_community.py) ---- */
+.ch-tools { max-width: 1100px; margin: 0 auto; display: grid; gap: 18px; justify-items: center; }
+.ch-search { position: relative; width: min(560px, 100%); }
+.ch-search svg { position: absolute; left: 18px; top: 50%; translate: 0 -50%; width: 20px; height: 20px; color: #8f8aa6; pointer-events: none; }
+.ch-search input { width: 100%; padding: 15px 20px 15px 50px; border-radius: 999px; background: #0d0b1c; color: #fff; border: 1px solid rgba(255, 255, 255, .14); font: 400 16px "DM Sans", sans-serif; }
+.ch-search input::placeholder { color: #6f6c7d; }
+.ch-search input:focus { outline: none; border-color: #ab24f2; }
+.ch-count { margin: 0; font-size: 14px; color: #8f8aa6; }
+.ch-band { margin-top: clamp(24px, 3vw, 40px); background: none; padding: 0; }
+.ch-band .ss-faq { padding-top: 0; }
+.ch-sec [hidden] { display: none !important; }
