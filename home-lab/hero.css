@@ -419,3 +419,29 @@
 @media (max-width: 380px) {
   .hero-badge { font-size: 10px; letter-spacing: 0; }
 }
+
+/* ---------- Static hero (home-lab) ----------
+   No video and no pinned scroll zoom. The stage is one screen tall: copy on the left, service
+   index on the right, on the dark brand background with the faint column lines. The rules above
+   for the video, TV-glass static, dust, CRT screen and noise are no longer used here. */
+.hero {
+  --zoom-length: 0px;
+  height: auto;
+  min-height: calc(100svh - var(--header-h));
+  background: var(--page, #070511);
+}
+.hero-stage {
+  position: relative; top: auto;
+  height: auto; min-height: calc(100svh - var(--header-h));
+  display: grid; align-items: center;
+  background:
+    radial-gradient(60% 55% at 78% 36%, rgba(98, 29, 208, .38), transparent 70%),
+    radial-gradient(45% 45% at 14% 88%, rgba(171, 36, 242, .16), transparent 70%),
+    var(--page, #070511);
+}
+.hero-grid { height: 100%; -webkit-mask-image: none; mask-image: none; }
+.hero-inner { align-items: center; padding: calc(60 * var(--u)) 0 calc(80 * var(--u)); }
+.hero-services { margin-top: 0; }
+@media (max-width: 900px) {
+  .hero-inner { padding: clamp(40px, 9svh, 80px) 20px clamp(48px, 8svh, 80px); }
+}

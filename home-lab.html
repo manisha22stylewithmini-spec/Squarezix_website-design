@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="home-lab/styles.css?v=20261009a" />
-  <link rel="stylesheet" href="home-lab/hero.css?v=20261009a" />
+  <link rel="stylesheet" href="home-lab/hero.css?v=lab1" />
   <link rel="stylesheet" href="home-lab/services.css?v=20261009a" />
   <link rel="stylesheet" href="home-lab/bento.css?v=20261012b" />
   <link rel="stylesheet" href="home-lab/sections.css?v=20261009a" />
@@ -48,24 +48,10 @@
     </div>
   </header>
 
-  <!-- Hero: looping TV-in-meadow video anchored to the bottom, copy on the black sky,
-       5-column double-line grid, service index in the last column. Styles in hero.css.
-       The section is tall; .hero-stage sticks while hero-zoom.js scrubs a push-in
-       through the TV screen into the "inside of Squarezix" frame. -->
+  <!-- Hero (lab version): static, one screen tall. No video and no scroll animation; copy on the left,
+       service index in the last column of the 5-column line grid. Styles in home-lab/hero.css. -->
   <section class="hero" id="hero">
     <div class="hero-stage" id="hero-stage">
-      <div class="hero-media" aria-hidden="true">
-        <video class="hero-video" id="hero-video" src="assets/hero/hero-video.mp4" poster="assets/hero/hero-poster.jpg"
-               autoplay muted loop playsinline preload="auto"></video>
-        <!-- Static that lives on the TV glass itself — zooms with the video -->
-        <div class="hero-screen" aria-hidden="true">
-          <canvas class="hero-screen-noise"></canvas>
-        </div>
-        <canvas class="hero-fg"></canvas>
-      </div>
-
-      <canvas class="hero-dust" aria-hidden="true"></canvas>
-
       <div class="hero-grid" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
 
       <div class="hero-inner">
@@ -88,26 +74,6 @@
         </nav>
       </div>
 
-      <div class="hero-crt">
-        <div class="crt-screen">
-          <canvas class="crt-stars" aria-hidden="true"></canvas>
-          <div class="crt-content">
-            <h2 class="crt-title">
-              <span class="crt-line"><span>Welcome to the <em>inside</em></span></span>
-              <span class="crt-line"><span>of Squarezix<sup>®</sup></span></span>
-            </h2>
-          </div>
-          <div class="crt-ui" aria-hidden="true">
-            <span class="crt-corner tl"></span><span class="crt-corner tr"></span>
-            <span class="crt-corner bl"></span><span class="crt-corner br"></span>
-            <p class="crt-meta tl"><i class="crt-rec"></i>Rec · CH 01</p>
-            <p class="crt-meta tr" id="crt-timecode">00:00:00:00</p>
-            <p class="crt-meta bl">Squarezix — Dubai · GCC · Global</p>
-            <p class="crt-meta br">Scroll to explore ↓</p>
-          </div>
-        </div>
-      </div>
-      <canvas class="hero-noise" aria-hidden="true"></canvas>
     </div>
   </section>
 
@@ -974,7 +940,6 @@
   </footer>
 
 
-  <script src="home-lab/hero-zoom.js?v=20261009a"></script>
   <script src="home-lab/site.js?v=20261009a"></script>
   <script src="home-lab/menu.js?v=20261043a"></script>
   <script src="home-lab/services.js?v=20261009a"></script>
