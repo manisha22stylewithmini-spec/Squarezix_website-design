@@ -444,4 +444,7 @@
 .hero-services { margin-top: 0; }
 @media (max-width: 900px) {
   .hero-inner { padding: clamp(40px, 9svh, 80px) 20px clamp(48px, 8svh, 80px); }
+  /* Slightly smaller title so it clears the floating contact buttons on the right edge */
+  .hero-title-main { font-size: clamp(44px, 14vw, 120px); }
+  .hero-title-sub { font-size: clamp(30px, 8.6vw, 82px); }
 }
