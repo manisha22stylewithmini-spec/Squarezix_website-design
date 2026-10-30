@@ -14,10 +14,14 @@
 
 /* ----- arc lines (drawn in by the first scroll) ----- */
 .ar-lines { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; overflow: visible; }
-.ar-line { fill: none; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: var(--draw, 1); }
+.ar-line { fill: none; stroke-linecap: butt; stroke-dasharray: 1; stroke-dashoffset: var(--draw, 1); }
 .ar-line.l-main { stroke: url(#ar-line-g); stroke-width: 1.5; opacity: .7; }
 .ar-line.l-in  { stroke: rgba(201, 139, 255, .26); stroke-width: 1; }
 .ar-line.l-out { stroke: rgba(201, 139, 255, .14); stroke-width: 1; }
+
+/* ----- bottom of the stage: a minimal fade into the page background, so the ring melts away at the foot ----- */
+.ar-stage::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 24%; z-index: 2; pointer-events: none;
+  background: linear-gradient(to top, #070511 4%, rgba(7, 5, 17, .75) 40%, rgba(7, 5, 17, 0) 100%); }
 
 /* ----- cards ----- */
 .ar-ring { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; pointer-events: none; z-index: 1; }

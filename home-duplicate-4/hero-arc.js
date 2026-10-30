@@ -47,11 +47,12 @@
     return total > 0 ? clamp(-r.top / total) : 0;
   }
 
-  function arcPath(c, radius) {
-    var a0 = 200 * Math.PI / 180, a1 = -20 * Math.PI / 180;
+  // one half of an arc: from an end angle up to the top (90deg); left half sweeps clockwise, right half counter-clockwise
+  function halfPath(c, radius, fromDeg, left) {
+    var a0 = fromDeg * Math.PI / 180, a1 = Math.PI / 2;
     var x0 = cx + radius * Math.cos(a0), y0 = c - radius * Math.sin(a0);
-    var x1 = cx + radius * Math.cos(a1), y1 = c - radius * Math.sin(a1);
-    return 'M' + x0.toFixed(1) + ' ' + y0.toFixed(1) + ' A' + radius.toFixed(1) + ' ' + radius.toFixed(1) + ' 0 1 1 ' + x1.toFixed(1) + ' ' + y1.toFixed(1);
+    var x1 = cx, y1 = c - radius;
+    return 'M' + x0.toFixed(1) + ' ' + y0.toFixed(1) + ' A' + radius.toFixed(1) + ' ' + radius.toFixed(1) + ' 0 0 ' + (left ? 1 : 0) + ' ' + x1.toFixed(1) + ' ' + y1.toFixed(1);
   }
 
   function render() {
@@ -87,9 +88,14 @@
       el.style.setProperty('--k', lerp(fk, 1, t1).toFixed(3));
     }
 
+    // outlines grow from both ends at once and meet at the top
+    var d = (1 - t1).toFixed(3), hide = t1 < .005 ? 'hidden' : 'visible';
     for (var k = 0; k < lines.length; k++) {
-      lines[k].setAttribute('d', arcPath(c, R * LINE_SCALE[k]));
-      lines[k].style.setProperty('--draw', (1 - t1).toFixed(3));
+      var left = lines[k].classList.contains('side-l');
+      var radius = R * LINE_SCALE[Math.floor(k / 2)];
+      lines[k].setAttribute('d', halfPath(c, radius, left ? 200 : -20, left));
+      lines[k].style.setProperty('--draw', d);
+      lines[k].style.visibility = hide;
     }
   }
 

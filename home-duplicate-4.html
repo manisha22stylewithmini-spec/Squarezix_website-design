@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="home-duplicate-4/styles.css?v=20261009a" />
-  <link rel="stylesheet" href="home-duplicate-4/hero-arc.css?v=ar11" />
+  <link rel="stylesheet" href="home-duplicate-4/hero-arc.css?v=ar12" />
   <link rel="stylesheet" href="home-duplicate-4/services.css?v=20261009a" />
   <link rel="stylesheet" href="home-duplicate-4/bento.css?v=20261012b" />
   <link rel="stylesheet" href="home-duplicate-4/sections.css?v=20261009a" />
@@ -55,12 +55,15 @@
     <div class="ar-stage">
       <div class="ar-glow" aria-hidden="true"></div>
 
-      <!-- arc lines; hero-arc.js sets the path and draws it in with the first scroll -->
+      <!-- arc lines: each line is two halves that grow from the left and right ends at the same time and meet at the top -->
       <svg class="ar-lines" aria-hidden="true">
         <defs><linearGradient id="ar-line-g" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#621dd0" /><stop offset=".5" stop-color="#d58bff" /><stop offset="1" stop-color="#ab24f2" /></linearGradient></defs>
-        <path class="ar-line l-main" pathLength="1" />
-        <path class="ar-line l-in" pathLength="1" />
-        <path class="ar-line l-out" pathLength="1" />
+        <path class="ar-line l-main side-l" pathLength="1" />
+        <path class="ar-line l-main side-r" pathLength="1" />
+        <path class="ar-line l-in side-l" pathLength="1" />
+        <path class="ar-line l-in side-r" pathLength="1" />
+        <path class="ar-line l-out side-l" pathLength="1" />
+        <path class="ar-line l-out side-r" pathLength="1" />
       </svg>
 
       <!-- the one content block: it starts split (title on top, CTA at the bottom, card fan between) and
@@ -969,7 +972,7 @@
   <script src="home-duplicate-4/sections.js?v=20261009a"></script>
   <script src="home-duplicate-4/amethyst-wash.js?v=20261009a"></script>
   <script src="home-duplicate-4/outro.js?v=20261009a"></script>
-  <script src="home-duplicate-4/hero-arc.js?v=ar11"></script>
+  <script src="home-duplicate-4/hero-arc.js?v=ar12"></script>
   <script src="home-duplicate-4/whyus.js?v=20261009a"></script>
   <script src="home-duplicate-4/site-ui.js?v=20261072g"></script>
 </body>
