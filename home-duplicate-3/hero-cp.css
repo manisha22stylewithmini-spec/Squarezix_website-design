@@ -34,14 +34,14 @@
 .cp-floor { position: absolute; z-index: 5; inset: 0; pointer-events: none; clip-path: var(--floor); background: #070511; }
 
 /* ----- tools: white tiles with each tool's own logo colour (Simple Icons SVG used as a mask) ----------
-   A tidy two-row lattice on the left of the strip that follows its slope (column --c-i, row --r-i).
+   A tidy lattice lying on the strip, parallel to its slope (column --c-i, row --r-i). The lowest rows straddle the strip's lower edge and sink behind the dark floor; tiles left of it are cut by the hero's foot.
    Same size and angle for every tile. On load they rise from below the bottom edge, one after another;
    after that they only drift a few pixels with the pointer (hero-cp.js sets --px/--py). */
 .cp-tools { --t: clamp(38px, 3.4vw, 47px); position: absolute; inset: 0; z-index: 3; pointer-events: none; }
 .cp-tool {
   --dp: calc(18 - var(--r-i) * 6);                                   /* front row moves more than the back row */
   position: absolute; width: var(--t); height: var(--t); border-radius: 26%;
-  left: calc(14% + var(--c-i) * 5.2%); bottom: calc(7% + var(--c-i) * 3.7% + var(--r-i) * 8%);
+  left: calc(14% + var(--c-i) * 5.2%); bottom: calc(var(--r-i) * 8.4% + var(--c-i) * 3.7% - 16.6%);   /* row 0 straddles the floor line, so it sinks behind the dark base like the cards */
   background: linear-gradient(160deg, #ffffff, #ebe4fb); box-shadow: 0 20px 24px -12px rgba(0, 0, 0, .7), inset 0 -4px 0 rgba(98, 29, 208, .14), inset 0 1px 0 #fff;
   transform: translate3d(calc(var(--px, 0) * var(--dp) * 1px), calc(var(--py, 0) * var(--dp) * 1px), 0) perspective(600px) rotateX(24deg) rotateZ(-8deg);
   transition: transform .8s cubic-bezier(.2, .7, .2, 1);
