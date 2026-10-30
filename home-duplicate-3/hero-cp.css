@@ -9,7 +9,7 @@
   background: radial-gradient(55% 60% at 12% 8%, rgba(98, 29, 208, .22), transparent 70%), #070511;
   color: #fff;
 }
-.cp-glow { position: absolute; inset: 0; z-index: -2; pointer-events: none; background: radial-gradient(40% 45% at 85% 40%, rgba(171, 36, 242, .16), transparent 70%); }
+.cp-glow { position: absolute; inset: 0; z-index: -2; pointer-events: none; background: radial-gradient(30% 30% at 78% 12%, rgba(171, 36, 242, .14), transparent 70%); }
 
 /* ----- copy ----- */
 .cp-copy { position: relative; z-index: 6; max-width: 840px; padding: clamp(32px, 6vh, 72px) clamp(20px, 5vw, 72px) 0; }
@@ -23,16 +23,18 @@
 .cp-ghost:hover { background: rgba(255, 255, 255, .12); transform: translateY(-1px); }
 .cp-ghost:focus-visible { outline: 2px solid #e2b8ff; outline-offset: 3px; }
 
-/* ----- slanted band ----- */
-.cp-band { position: absolute; z-index: 5; inset: 0; pointer-events: none;
-  clip-path: polygon(14% 100%, 100% 28%, 100% 58%, 50% 100%);
-  background: linear-gradient(155deg, #8a22e0 0%, #621dd0 38%, #3a1396 75%, #24106a 100%); }
-/* light lip along the band's top edge: the "frame" the work rises out of */
-.cp-band::before { content: ""; position: absolute; inset: 0; clip-path: polygon(14% 100%, 100% 28%, 100% 31%, 17.6% 100%); background: linear-gradient(90deg, rgba(226, 184, 255, .25), rgba(240, 220, 255, .75)); }
-.cp-band::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(64deg, rgba(255, 255, 255, .05) 0 1px, transparent 1px 70px); }
+/* ----- the slot: layers, back to front ----------------------------------------------------------
+   base background (top)  ->  brand strip  ->  tool tiles + work cards  ->  base background again (.cp-floor)
+   The strip is a flat cut in the page. The cards stand in it and the tools slide into it; the floor below
+   the strip is the same base colour and sits in FRONT, so anything crossing the strip's lower edge disappears
+   into the page. No fake 3D on the strip itself: the depth comes only from this layer order. */
+.cp { --strip: polygon(6% 100%, 100% 24%, 100% 56%, 46% 100%); --floor: polygon(46% 100%, 100% 56%, 100% 100%); }
+.cp-band { position: absolute; z-index: 1; inset: 0; pointer-events: none; clip-path: var(--strip);
+  background: linear-gradient(120deg, #3a1396 0%, #621dd0 45%, #8a22e0 100%); }
+.cp-floor { position: absolute; z-index: 5; inset: 0; pointer-events: none; clip-path: var(--floor); background: #070511; }
 
 /* ----- tools: white 3D tiles with each tool's own logo colour (Simple Icons SVG used as a mask).
-   Each tile drifts down-right along the band's slope and slips underneath it (the band sits above this layer). ----- */
+   Each tile sits above the strip and drifts down-right into it; the floor in front hides it as it crosses the strip's lower edge. ----- */
 .cp-tools { position: absolute; inset: 0; z-index: 3; pointer-events: none; perspective: 900px; }
 .cp-tool {
   position: absolute; left: var(--l); bottom: var(--b); width: var(--s); height: var(--s); border-radius: 26%;
@@ -41,15 +43,16 @@
 }
 .cp-tool::before { content: ""; position: absolute; inset: 24%; background: var(--c); -webkit-mask: var(--i) center / contain no-repeat; mask: var(--i) center / contain no-repeat; }
 @keyframes cp-pour {
-  0%   { translate: -40px -70px; opacity: 0; }
+  0%   { translate: -60px -30px; opacity: 0; }
   12%  { opacity: 1; }
-  100% { translate: 90px 150px; opacity: 1; }
+  80%  { opacity: 1; }
+  100% { translate: 200px 90px; opacity: 0; }
 }
 
 /* ----- 3D stack of UI cards ----- */
 /* full-hero layer, clipped at the band's lower edge so the cards only exist above and inside the band */
-.cp-stage { position: absolute; z-index: 4; inset: 0; perspective: 1500px; perspective-origin: 75% 45%; pointer-events: none; clip-path: polygon(0 0, 100% 0, 100% 58%, 50% 100%, 0 100%); }
-.cp-stack { position: absolute; right: 2%; top: 8%; width: min(52vw, 760px); height: 74%; transform-style: preserve-3d; transform: rotateY(-24deg) rotateX(7deg) rotateZ(-2deg); transition: transform .5s cubic-bezier(.2, .7, .2, 1); }
+.cp-stage { position: absolute; z-index: 4; inset: 0; perspective: 1500px; perspective-origin: 75% 45%; pointer-events: none; }
+.cp-stack { position: absolute; right: 2%; top: 17%; width: min(52vw, 760px); height: 74%; transform-style: preserve-3d; transform: rotateY(-24deg) rotateX(7deg) rotateZ(-2deg); transition: transform .5s cubic-bezier(.2, .7, .2, 1); }
 .cp-card {
   position: absolute; width: 58%; padding: 16px 18px 16px; border-radius: 20px; font-family: "DM Sans", sans-serif;
   background: linear-gradient(160deg, rgba(34, 24, 74, .9), rgba(16, 13, 38, .94)); border: 1px solid var(--edge);
@@ -93,8 +96,8 @@
   .cp-copy { max-width: none; }
   .cp-stage { position: relative; inset: auto; width: calc(100% - 40px); max-width: 620px; height: 440px; margin: 40px auto 0; clip-path: none; perspective-origin: 50% 50%; }
   .cp-stack { right: 0; top: 0; width: 100%; height: 100%; }
-  .cp-band { z-index: 1; clip-path: polygon(0 88%, 100% 52%, 100% 74%, 0 100%); }
-  .cp-band::before { clip-path: polygon(0 88%, 100% 52%, 100% 53.5%, 0 89.5%); }
+  .cp-band { clip-path: polygon(0 88%, 100% 52%, 100% 74%, 0 100%); }
+  .cp-floor { display: none; }
   .cp-tools { display: none; }
   .cp-row { position: relative; bottom: auto; margin: 24px 0 28px; }
 }
