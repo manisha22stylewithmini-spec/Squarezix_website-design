@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="home-duplicate-3/styles.css?v=20261009a" />
-  <link rel="stylesheet" href="home-duplicate-3/hero-cp.css?v=cp9" />
+  <link rel="stylesheet" href="home-duplicate-3/hero-cp.css?v=cp11" />
   <link rel="stylesheet" href="home-duplicate-3/services.css?v=20261009a" />
   <link rel="stylesheet" href="home-duplicate-3/bento.css?v=20261012b" />
   <link rel="stylesheet" href="home-duplicate-3/sections.css?v=20261009a" />
@@ -65,31 +65,26 @@
     <div class="cp-band" aria-hidden="true"></div>
     <div class="cp-floor" aria-hidden="true"></div>
 
-    <!-- The tools we create with: they drift down-right and slip under the band; the work comes out of it on the right -->
+    <!-- The tools we make the work with: a tidy lattice on the left of the strip, following its slope.
+         On load they rise up from the bottom, like the cards; after that they only drift slightly with the pointer. -->
     <div class="cp-tools" aria-hidden="true">
-      <span class="cp-tool" style="--l:3%;--b:30%;--s:78px;--r:-12deg;--d:11s;--dl:0s;--c:#F24E1E;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/figma.svg)" title="figma"></span>
-      <span class="cp-tool" style="--l:13%;--b:30%;--s:64px;--r:10deg;--d:13s;--dl:-4s;--c:#31A8FF;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/adobephotoshop.svg)" title="adobephotoshop"></span>
-      <span class="cp-tool" style="--l:24%;--b:30%;--s:70px;--r:-6deg;--d:12s;--dl:-7s;--c:#00C4CC;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/canva.svg)" title="canva"></span>
-      <span class="cp-tool" style="--l:7%;--b:25%;--s:60px;--r:14deg;--d:10s;--dl:-2s;--c:#FF9A00;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/adobeillustrator.svg)" title="adobeillustrator"></span>
-      <span class="cp-tool" style="--l:18%;--b:26%;--s:74px;--r:-14deg;--d:14s;--dl:-9s;--c:#146EF5;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/webflow.svg)" title="webflow"></span>
-      <span class="cp-tool" style="--l:31%;--b:25%;--s:58px;--r:8deg;--d:11s;--dl:-5s;--c:#0b0b12;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/openai.svg)" title="openai"></span>
-      <span class="cp-tool" style="--l:1%;--b:19%;--s:66px;--r:-8deg;--d:12s;--dl:-6s;--c:#9999FF;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/adobeaftereffects.svg)" title="adobeaftereffects"></span>
-      <span class="cp-tool" style="--l:12%;--b:17%;--s:60px;--r:12deg;--d:13s;--dl:-1s;--c:#21759B;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/wordpress.svg)" title="wordpress"></span>
-      <span class="cp-tool" style="--l:23%;--b:19%;--s:72px;--r:-10deg;--d:10s;--dl:-8s;--c:#E37400;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/googleanalytics.svg)" title="googleanalytics"></span>
-      <span class="cp-tool" style="--l:34%;--b:17%;--s:62px;--r:6deg;--d:12s;--dl:-3s;--c:#7AB55C;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/shopify.svg)" title="shopify"></span>
-      <span class="cp-tool" style="--l:5%;--b:11%;--s:70px;--r:-12deg;--d:14s;--dl:-10s;--c:#0467DF;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/meta.svg)" title="meta"></span>
-      <span class="cp-tool" style="--l:17%;--b:10%;--s:58px;--r:9deg;--d:11s;--dl:-6s;--c:#FF7A59;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/hubspot.svg)" title="hubspot"></span>
-      <span class="cp-tool" style="--l:28%;--b:11%;--s:64px;--r:-7deg;--d:13s;--dl:-2s;--c:#FF642D;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/semrush.svg)" title="semrush"></span>
-      <span class="cp-tool" style="--l:38%;--b:29%;--s:56px;--r:13deg;--d:12s;--dl:-11s;--c:#0055FF;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/framer.svg)" title="framer"></span>
-      <span class="cp-tool" style="--l:40%;--b:21%;--s:60px;--r:-9deg;--d:10s;--dl:-7s;--c:#9999FF;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/adobepremierepro.svg)" title="adobepremierepro"></span>
-      <span class="cp-tool" style="--l:30%;--b:30%;--s:54px;--r:7deg;--d:14s;--dl:-3s;--c:#0b0b12;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/notion.svg)" title="notion"></span>
+      <span class="cp-tool" style="--c-i:0;--r-i:0;--n:0;--c:#F24E1E;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/figma.svg)" title="figma"></span>
+      <span class="cp-tool" style="--c-i:1;--r-i:0;--n:1;--c:#31A8FF;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/adobephotoshop.svg)" title="adobephotoshop"></span>
+      <span class="cp-tool" style="--c-i:2;--r-i:0;--n:2;--c:#FF9A00;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/adobeillustrator.svg)" title="adobeillustrator"></span>
+      <span class="cp-tool" style="--c-i:3;--r-i:0;--n:3;--c:#00C4CC;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/canva.svg)" title="canva"></span>
+      <span class="cp-tool" style="--c-i:4;--r-i:0;--n:4;--c:#146EF5;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/webflow.svg)" title="webflow"></span>
+      <span class="cp-tool" style="--c-i:0.5;--r-i:1;--n:5;--c:#9999FF;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/adobeaftereffects.svg)" title="adobeaftereffects"></span>
+      <span class="cp-tool" style="--c-i:1.5;--r-i:1;--n:6;--c:#21759B;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/wordpress.svg)" title="wordpress"></span>
+      <span class="cp-tool" style="--c-i:2.5;--r-i:1;--n:7;--c:#E37400;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/googleanalytics.svg)" title="googleanalytics"></span>
+      <span class="cp-tool" style="--c-i:3.5;--r-i:1;--n:8;--c:#FF642D;--i:url(https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/semrush.svg)" title="semrush"></span>
     </div>
 
     <div class="cp-stage" aria-hidden="true">
       <div class="cp-stack">
-        <article class="cp-card c-ai">
-          <header><i></i><b>AI search visibility</b></header>
-          <p>Your brand is now cited in <strong>4 answer engines</strong> for 12 priority queries.</p>
+        <article class="cp-card c-web">
+          <header><i></i><b>Website launch</b><span>Shipped</span></header>
+          <img src="assets/work/project-2.png" alt="" loading="eager" />
+          <footer><div><small>Load time</small><strong>0.9s</strong></div><div><small>Conversions</small><strong>+27%</strong></div><div><small>Pages</small><strong>48</strong></div></footer>
         </article>
         <article class="cp-card c-camp">
           <header><i></i><b>Campaign performance</b><span>Live</span></header>
@@ -984,7 +979,7 @@
   <script src="home-duplicate-3/sections.js?v=20261009a"></script>
   <script src="home-duplicate-3/amethyst-wash.js?v=20261009a"></script>
   <script src="home-duplicate-3/outro.js?v=20261009a"></script>
-  <script src="home-duplicate-3/hero-cp.js?v=cp9"></script>
+  <script src="home-duplicate-3/hero-cp.js?v=cp11"></script>
   <script src="home-duplicate-3/whyus.js?v=20261009a"></script>
   <script src="home-duplicate-3/site-ui.js?v=20261072g"></script>
 </body>

@@ -1,6 +1,6 @@
 /* ---------- Hero (copilot lab): headline left, diagonal band with a stack of tilted UI cards right ----------
    Concept after a product-hero layout: big headline + two buttons, a slanted band across the lower half,
-   floating tool chips on the left and a 3D stack of marketing "screens" riding the band.
+   tool-logo tiles on the left and a stack of marketing "screens" rising out of the strip.
    Brand pair #621DD0 / #AB24F2 on #070511, dark shadows only. Sora titles, DM Sans body, Instrument Serif italic accent. */
 .cp {
   --purple: #621dd0; --pink: #ab24f2; --edge: rgba(201, 139, 255, .26);
@@ -25,85 +25,84 @@
 
 /* ----- the slot: layers, back to front ----------------------------------------------------------
    base background (top)  ->  brand strip  ->  tool tiles + work cards  ->  base background again (.cp-floor)
-   The strip is a flat cut in the page. The cards stand in it and the tools slide into it; the floor below
-   the strip is the same base colour and sits in FRONT, so anything crossing the strip's lower edge disappears
-   into the page. No fake 3D on the strip itself: the depth comes only from this layer order. */
-.cp { --strip: polygon(6% 100%, 100% 24%, 100% 56%, 46% 100%); --floor: polygon(46% 100%, 100% 56%, 100% 100%); }
+   The strip is a flat cut in the page. The cards stand in it; the floor below the strip is the same base
+   colour and sits in FRONT, so the cards' lower halves disappear into the page. No fake 3D on the strip:
+   the depth comes only from this layer order. The strip is kept fairly thin so the brand colour stays balanced. */
+.cp { --strip: polygon(2% 100%, 100% 30%, 100% 52%, 33% 100%); --floor: polygon(33% 100%, 100% 52%, 100% 100%); }
 .cp-band { position: absolute; z-index: 1; inset: 0; pointer-events: none; clip-path: var(--strip);
-  background: linear-gradient(120deg, #3a1396 0%, #621dd0 45%, #8a22e0 100%); }
+  background: linear-gradient(120deg, #3a1396 0%, #621dd0 50%, #7e20db 100%); }
 .cp-floor { position: absolute; z-index: 5; inset: 0; pointer-events: none; clip-path: var(--floor); background: #070511; }
 
-/* ----- tools: white 3D tiles with each tool's own logo colour (Simple Icons SVG used as a mask).
-   Each tile sits above the strip and drifts down-right into it; the floor in front hides it as it crosses the strip's lower edge. ----- */
-.cp-tools { position: absolute; inset: 0; z-index: 3; pointer-events: none; perspective: 900px; }
+/* ----- tools: white tiles with each tool's own logo colour (Simple Icons SVG used as a mask) ----------
+   A tidy two-row lattice on the left of the strip that follows its slope (column --c-i, row --r-i).
+   Same size and angle for every tile. On load they rise from below the bottom edge, one after another;
+   after that they only drift a few pixels with the pointer (hero-cp.js sets --px/--py). */
+.cp-tools { --t: clamp(52px, 4.6vw, 66px); position: absolute; inset: 0; z-index: 3; pointer-events: none; }
 .cp-tool {
-  position: absolute; left: var(--l); bottom: var(--b); width: var(--s); height: var(--s); border-radius: 26%;
-  background: linear-gradient(160deg, #ffffff, #ebe4fb); box-shadow: 0 22px 26px -12px rgba(0, 0, 0, .7), inset 0 -4px 0 rgba(98, 29, 208, .14), inset 0 1px 0 #fff;
-  transform: rotateX(30deg) rotateZ(var(--r)); animation: cp-pour var(--d) linear var(--dl) infinite;
+  --dp: calc(16 - var(--r-i) * 8);                                   /* front row moves more than the back row */
+  position: absolute; width: var(--t); height: var(--t); border-radius: 26%;
+  left: calc(9% + var(--c-i) * 7%); bottom: calc(1% + var(--c-i) * 3.6% + var(--r-i) * 13%);
+  background: linear-gradient(160deg, #ffffff, #ebe4fb); box-shadow: 0 20px 24px -12px rgba(0, 0, 0, .7), inset 0 -4px 0 rgba(98, 29, 208, .14), inset 0 1px 0 #fff;
+  transform: translate3d(calc(var(--px, 0) * var(--dp) * 1px), calc(var(--py, 0) * var(--dp) * 1px), 0) perspective(600px) rotateX(24deg) rotateZ(-8deg);
+  transition: transform .8s cubic-bezier(.2, .7, .2, 1);
+  animation: cp-rise 1.1s cubic-bezier(.2, .8, .2, 1) calc(.25s + var(--n) * .08s) both, cp-drift 7s ease-in-out calc(1.6s + var(--n) * .4s) infinite;
 }
 .cp-tool::before { content: ""; position: absolute; inset: 24%; background: var(--c); -webkit-mask: var(--i) center / contain no-repeat; mask: var(--i) center / contain no-repeat; }
-@keyframes cp-pour {
-  0%   { translate: -60px -30px; opacity: 0; }
-  12%  { opacity: 1; }
-  80%  { opacity: 1; }
-  100% { translate: 200px 90px; opacity: 0; }
-}
+@keyframes cp-rise { from { translate: 0 60vh; } to { translate: 0 0; } }
+@keyframes cp-drift { 0%, 100% { translate: 0 0; } 50% { translate: 0 -5px; } }
 
-/* ----- 3D stack of UI cards ----- */
-/* full-hero layer, clipped at the band's lower edge so the cards only exist above and inside the band */
+/* ----- stack of UI cards, standing in the strip ----- */
 .cp-stage { position: absolute; z-index: 4; inset: 0; perspective: 1500px; perspective-origin: 75% 45%; pointer-events: none; }
-.cp-stack { position: absolute; right: 2%; top: 17%; width: min(52vw, 760px); height: 74%; transform-style: preserve-3d; transform: rotateY(-24deg) rotateX(7deg) rotateZ(-2deg); transition: transform .5s cubic-bezier(.2, .7, .2, 1); }
+.cp-stack { position: absolute; right: 2%; top: 15%; width: min(52vw, 760px); height: 76%; transform-style: preserve-3d; transform: rotateY(-24deg) rotateX(7deg) rotateZ(-2deg); transition: transform .8s cubic-bezier(.2, .7, .2, 1); }
 .cp-card {
-  position: absolute; width: 58%; padding: 16px 18px 16px; border-radius: 20px; font-family: "DM Sans", sans-serif;
-  background: linear-gradient(160deg, rgba(34, 24, 74, .9), rgba(16, 13, 38, .94)); border: 1px solid var(--edge);
-  box-shadow: 0 40px 60px -26px rgba(0, 0, 0, .8), inset 0 1px 0 rgba(255, 255, 255, .1); backdrop-filter: blur(10px);
-  animation: cp-bob 8s ease-in-out infinite;
+  position: absolute; width: 58%; padding: 16px 18px 18px; border-radius: 20px; font-family: "DM Sans", sans-serif; pointer-events: auto;
+  background: linear-gradient(160deg, rgba(34, 24, 74, .96), rgba(16, 13, 38, .98)); border: 1px solid var(--edge);
+  box-shadow: 0 40px 60px -26px rgba(0, 0, 0, .8), inset 0 1px 0 rgba(255, 255, 255, .1);
+  transition: translate .45s cubic-bezier(.2, .7, .2, 1), border-color .3s ease;
 }
+.cp-card:hover { translate: 0 -16px; border-color: rgba(201, 139, 255, .5); }      /* lifts a little out of the slot */
 .cp-card header { display: flex; align-items: center; gap: 9px; margin-bottom: 12px; font-size: 12.5px; color: #d9d2ee; }
 .cp-card header i { width: 18px; height: 18px; border-radius: 6px; background: linear-gradient(135deg, #621dd0, #ab24f2); flex: none; }
 .cp-card header b { font-weight: 600; letter-spacing: .01em; }
 .cp-card header span { margin-left: auto; padding: 3px 9px; border-radius: 999px; font-size: 11px; background: rgba(171, 36, 242, .22); color: #e2b8ff; }
-.cp-card img { display: block; width: 100%; height: 100px; object-fit: cover; border-radius: 12px; }
-.cp-card footer { display: flex; align-items: center; gap: 22px; margin-top: 12px; }
+.cp-card img { display: block; width: 100%; height: clamp(120px, 11vw, 160px); object-fit: cover; border-radius: 12px; }
+.cp-card footer { display: flex; align-items: center; gap: 22px; margin-top: 14px; }
 .cp-card footer small { display: block; font-size: 11px; color: #9d98bd; margin-bottom: 3px; }
 .cp-card footer strong { font: 600 18px/1 "Sora", sans-serif; letter-spacing: -.02em; }
-.cp-card p { margin: 0; font-size: 13.5px; line-height: 1.5; color: #f1ecff; }
-.cp-card p strong { color: #fff; }
 .cp-reels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.cp-reels img { height: 100px; border-radius: 10px; }
+.cp-reels img { border-radius: 10px; }
 .sw { width: 20px; height: 20px; border-radius: 50%; flex: none; margin-right: -12px; border: 2px solid #14142b; }
 .sw.s1 { background: #621dd0; } .sw.s2 { background: #ab24f2; } .sw.s3 { background: #070511; box-shadow: 0 0 0 1px rgba(255, 255, 255, .25); }
 .cp-card footer .sw + small { margin: 0 0 0 20px; }
 
-/* each card sits at its own depth, stepping up and to the right */
-.c-ai    { top: 0;   left: 42%; transform: translateZ(60px);  width: 54%; background: linear-gradient(135deg, #621dd0, #ab24f2); border-color: rgba(255, 255, 255, .25); animation-delay: -1s; }
-.c-camp  { top: 19%; left: 30%; transform: translateZ(30px);  animation-delay: -3s; }
-.c-soc   { top: 37%; left: 16%; transform: translateZ(0);     animation-delay: -5s; }
-.c-brand { top: 55%; left: 2%; transform: translateZ(-30px); animation-delay: -7s; }
-.c-ai header span, .c-ai header b { color: #fff; }
-.c-ai header i { background: rgba(255, 255, 255, .28); }
+/* each card a step further down-left and further back, so the lower ones sink deeper into the slot */
+.c-web   { top: 0;   left: 42%; transform: translateZ(45px); }
+.c-camp  { top: 18%; left: 29%; transform: translateZ(15px); }
+.c-soc   { top: 36%; left: 15%; transform: translateZ(-15px); }
+.c-brand { top: 54%; left: 1%;  transform: translateZ(-45px); }
 
-/* ----- service row along the foot ----- */
-.cp-row { position: absolute; z-index: 6; left: 0; right: 0; bottom: 28px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px 44px; padding-right: clamp(20px, 5vw, 72px); margin: 0; list-style: none; font: 500 clamp(14px, 1.3vw, 18px)/1 "Sora", sans-serif; letter-spacing: -.01em; color: rgba(255, 255, 255, .55); }
+/* ----- service row, sitting on the floor (right of the strip's lower edge) ----- */
+.cp-row { position: absolute; z-index: 6; left: auto; right: 0; bottom: 32px; display: flex; flex-wrap: nowrap; justify-content: flex-end; gap: 0 40px; padding-right: clamp(20px, 5vw, 72px); margin: 0; list-style: none; font: 500 clamp(13px, 1.15vw, 17px)/1 "Sora", sans-serif; letter-spacing: -.01em; color: rgba(255, 255, 255, .6); white-space: nowrap; }
 .cp-row li { position: relative; }
-.cp-row li + li::before { content: ""; position: absolute; left: -24px; top: 50%; width: 5px; height: 5px; margin-top: -2.5px; border-radius: 50%; background: #ab24f2; }
+.cp-row li + li::before { content: ""; position: absolute; left: -22px; top: 50%; width: 4px; height: 4px; margin-top: -2px; border-radius: 50%; background: #ab24f2; }
 
-@keyframes cp-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -12px; } }
-@keyframes cp-bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
+/* ----- services marquee right under this hero: calmer, so it reads as a continuation, not a second banner ----- */
+.marquee { background: #0a0a15; border-top: 1px solid rgba(255, 255, 255, .07); border-bottom: 1px solid rgba(255, 255, 255, .07); padding: 18px 0; }
+.marquee-group li { font-weight: 600; font-size: clamp(15px, 1.25vw, 19px); letter-spacing: -.01em; color: rgba(255, 255, 255, .82); }
+.marquee-group li::after { width: .7em; height: .7em; margin: 0 clamp(24px, 2.6vw, 40px); background: #ab24f2; }
 
 @media (max-width: 1000px) {
   .cp { padding-bottom: 0; }
   .cp-copy { max-width: none; }
-  .cp-stage { position: relative; inset: auto; width: calc(100% - 40px); max-width: 620px; height: 440px; margin: 40px auto 0; clip-path: none; perspective-origin: 50% 50%; }
+  .cp-stage { position: relative; inset: auto; width: calc(100% - 40px); max-width: 620px; height: 460px; margin: 40px auto 0; perspective-origin: 50% 50%; }
   .cp-stack { right: 0; top: 0; width: 100%; height: 100%; }
-  .cp-band { clip-path: polygon(0 88%, 100% 52%, 100% 74%, 0 100%); }
-  .cp-floor { display: none; }
-  .cp-tools { display: none; }
-  .cp-row { position: relative; bottom: auto; margin: 24px 0 28px; }
+  .cp-band { clip-path: polygon(0 86%, 100% 56%, 100% 72%, 0 100%); }
+  .cp-floor, .cp-tools { display: none; }
+  .cp-row { position: relative; right: auto; bottom: auto; flex-wrap: wrap; justify-content: center; gap: 10px 40px; padding: 0 20px; margin: 24px 0 28px; white-space: normal; }
 }
 @media (max-width: 560px) {
-  .cp-stage { height: 400px; }
-  .cp-card { width: 70%; }
-  .cp-card img, .cp-reels img { height: 100px; }
+  .cp-stage { height: 420px; }
+  .cp-card { width: 72%; }
+  .cp-card img { height: 100px; }
 }
-@media (prefers-reduced-motion: reduce) { .cp-tool, .cp-card { animation: none; } .cp-stack { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .cp-tool { animation: none; transition: none; } .cp-card, .cp-stack { transition: none; } }
