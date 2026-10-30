@@ -1,0 +1,125 @@
+/* ---------- Hero (lab): big editorial type on a dark silk background ----------
+   Inspired by synchronized.studio's layout: a ticker across the top, a huge high-contrast
+   serif set in staggered lines that overlap, thin diagonal hairlines crossing the letters,
+   a small intro block, a radiating starburst and one link. The page header stays the
+   site's own. Everything is sized from --fs so it scales as one composition. */
+.hx {
+  --fs: min(15.4vw, 25svh);
+  --ink: #d8d2ea;
+  --px: 0; --py: 0;
+  position: relative; isolation: isolate; overflow: hidden;
+  margin-top: var(--header-h);
+  min-height: calc(100svh - var(--header-h));
+  background: #050309;
+  color: var(--ink);
+  font-family: "DM Sans", sans-serif;
+}
+/* Wave shader (waves-bg.js) kept faint, so it reads as dark folds of silk */
+.hx-waves { position: absolute; inset: 0; z-index: -3; width: 100%; height: 100%; display: block; opacity: .32; }
+.hx::before {                                 /* vignette */
+  content: ""; position: absolute; inset: 0; z-index: -2; pointer-events: none;
+  background: radial-gradient(85% 75% at 50% 45%, rgba(5, 3, 9, 0), rgba(5, 3, 9, .78) 100%);
+}
+.hx::after {                                  /* film grain */
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  opacity: .2; mix-blend-mode: overlay; background-size: 180px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .6 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ----- Ticker ----- */
+.hx-ticker { overflow: hidden; white-space: nowrap; padding: 9px 0 8px; border-bottom: 1px solid rgba(255, 255, 255, .08); }
+.hx-ticker-track { display: inline-flex; animation: hx-ticker 52s linear infinite; }
+.hx-ticker-group { display: inline-flex; flex: none; }
+.hx-ticker-group span {
+  padding-right: .55em; color: #fff;
+  font-size: clamp(13px, 1.05vw, 17px); letter-spacing: .01em; text-transform: uppercase;
+}
+.hx-ticker-group span:nth-child(even) { color: #d9b8ff; }
+@keyframes hx-ticker { to { transform: translateX(-50%); } }
+
+/* ----- Stage: title plus everything placed around it ----- */
+.hx-stage { position: relative; margin-top: clamp(10px, 2.4svh, 28px); min-height: calc(var(--fs) * 3.05); }
+.hx-title {
+  position: relative; z-index: 2; margin: 0;
+  font-family: "Instrument Serif", serif; font-weight: 400;
+  font-size: var(--fs); line-height: .8; letter-spacing: -0.018em; color: var(--ink);
+}
+.hx-line { display: block; white-space: nowrap; translate: calc(var(--px) * var(--d, 0) * 1px) calc(var(--py) * var(--d, 0) * .45px); }
+.hx-line > span { display: inline-block; animation: hx-rise 1.15s cubic-bezier(.2, .7, .2, 1) var(--t, 0s) backwards; }
+.hx-line.l1 { margin-left: 29vw; --d: 10; --t: .1s; }
+.hx-line.l2 { margin-left: 5vw;  --d: -14; --t: .26s; }
+.hx-line.l3 { margin-left: 37vw; --d: 18; --t: .42s; }
+.hx-title sup { position: relative; top: .42em; margin-left: .07em; font-size: .15em; line-height: 1; vertical-align: top; }
+@keyframes hx-rise { from { opacity: 0; transform: translateY(.16em); filter: blur(14px); } to { opacity: 1; transform: none; filter: none; } }
+
+/* Thin diagonal hairlines that cut across the letters */
+.hx-lines {
+  position: absolute; inset: -4% 0; z-index: 3; width: 100%; height: 108%; pointer-events: none;
+  mix-blend-mode: difference; translate: calc(var(--px) * -9px) 0;
+}
+.hx-lines line { stroke: rgba(255, 255, 255, .6); stroke-width: 1; vector-effect: non-scaling-stroke; }
+
+/* ----- Intro block ----- */
+.hx-intro { position: absolute; z-index: 3; left: 5.5vw; top: calc(var(--fs) * 1.78); width: min(24vw, 360px); animation: hx-fade 1.2s ease .8s backwards; }
+.hx-kicker { font-size: clamp(14px, 1.05vw, 18px); line-height: 1.16; letter-spacing: .01em; text-transform: uppercase; color: #fff; }
+.hx-kicker b { font-weight: 400; color: #d9b8ff; }
+.hx-sub { margin-top: 1.1em; font-size: clamp(13px, .98vw, 16px); line-height: 1.5; color: rgba(255, 255, 255, .5); }
+
+/* ----- Starburst ----- */
+.hx-burst { position: absolute; z-index: 1; left: 56vw; top: calc(var(--fs) * .55); width: 26vw; aspect-ratio: 1; pointer-events: none; animation: hx-fade 1.6s ease .6s backwards; }
+.hx-burst canvas { display: block; width: 100%; height: 100%; }
+.hx-spark {
+  position: absolute; z-index: 3; left: 66.5vw; top: calc(var(--fs) * .6); width: 2px; height: calc(var(--fs) * .2);
+  border-radius: 2px; background: linear-gradient(180deg, #e3c6ff, #ab24f2); rotate: 8deg;
+  animation: hx-spark 3.4s ease-in-out infinite;
+}
+@keyframes hx-spark { 0%, 100% { rotate: 8deg; opacity: 1; } 50% { rotate: -6deg; opacity: .55; } }
+@keyframes hx-fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* ----- One link ----- */
+.hx-cta {
+  position: absolute; z-index: 4; left: 78vw; top: calc(var(--fs) * 1.1);
+  display: grid; gap: .05em; color: #fff; text-decoration: none;
+  font-family: "Instrument Serif", serif; font-size: clamp(20px, 2.1vw, 34px); line-height: .95; text-transform: uppercase;
+  animation: hx-fade 1.2s ease 1s backwards;
+}
+.hx-cta span:last-child { padding-left: 1em; }
+.hx-cta em { font-style: italic; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; transition: text-underline-offset .3s ease, color .3s ease; }
+.hx-cta:hover em, .hx-cta:focus-visible em { text-underline-offset: .32em; color: #d9b8ff; }
+.hx-cta:focus-visible { outline: 2px solid #b57bff; outline-offset: 6px; border-radius: 6px; }
+
+/* ----- Oval badge ----- */
+.hx-badge {
+  position: absolute; z-index: 3; left: 29vw; top: calc(var(--fs) * 2.42); width: 10.5vw; aspect-ratio: .82;
+  display: grid; place-items: center; align-content: center; gap: .35em; padding: 6% 4% 12%;
+  border: 1px solid rgba(255, 255, 255, .45); border-radius: 50%;
+  color: #fff; text-align: center; text-decoration: none; text-transform: uppercase;
+  font-size: clamp(8px, .66vw, 11px); letter-spacing: .06em; line-height: 1.2;
+  transition: rotate .6s cubic-bezier(.22, 1, .36, 1), border-color .3s ease;
+  animation: hx-fade 1.2s ease 1.1s backwards;
+}
+.hx-badge:hover, .hx-badge:focus-visible { rotate: -5deg; border-color: #d9b8ff; }
+.hx-badge-ring { display: grid; place-items: center; width: 2.9vw; min-width: 28px; aspect-ratio: 1; border: 1px solid rgba(255, 255, 255, .5); border-radius: 50%; }
+.hx-badge-name { font-size: clamp(11px, 1.05vw, 17px); letter-spacing: .02em; line-height: 1.15; }
+
+/* ----- Tablet and phone: the composition stacks ----- */
+@media (max-width: 860px) {
+  .hx { --fs: 21.5vw; min-height: 0; padding-bottom: clamp(48px, 9svh, 80px); }
+  .hx-stage { min-height: 0; }
+  .hx-title { padding-bottom: .12em; }
+  .hx-line.l1 { margin-left: 8vw; }
+  .hx-line.l2 { margin-left: 2.5vw; }
+  .hx-line.l3 { margin-left: 22vw; }
+  .hx-intro { position: static; width: auto; margin: clamp(26px, 5svh, 44px) 20px 0; max-width: 28em; }
+  .hx-kicker { font-size: 15px; }
+  .hx-sub { font-size: 14.5px; }
+  .hx-cta { position: static; display: inline-grid; margin: 26px 20px 0; font-size: 26px; }
+  .hx-burst { left: auto; right: -14vw; top: calc(var(--fs) * .2); width: 62vw; opacity: .55; }
+  .hx-spark, .hx-badge { display: none; }
+  /* keep the hairlines on the title, off the intro text below it */
+  .hx-lines { inset: 0 0 auto 0; height: calc(var(--fs) * 2.6); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hx-ticker-track, .hx-spark { animation: none; }
+  .hx-line > span, .hx-intro, .hx-burst, .hx-cta, .hx-badge { animation: none; }
+}

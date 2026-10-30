@@ -7,9 +7,9 @@
   <meta name="robots" content="noindex, nofollow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="home-lab/styles.css?v=20261009a" />
-  <link rel="stylesheet" href="home-lab/hero.css?v=lab2" />
+  <link rel="stylesheet" href="home-lab/hero-x.css?v=hx2" />
   <link rel="stylesheet" href="home-lab/services.css?v=20261009a" />
   <link rel="stylesheet" href="home-lab/bento.css?v=20261012b" />
   <link rel="stylesheet" href="home-lab/sections.css?v=20261009a" />
@@ -48,32 +48,46 @@
     </div>
   </header>
 
-  <!-- Hero (lab version): static, one screen tall. No video and no scroll animation; copy on the left,
-       service index in the last column of the 5-column line grid. Styles in home-lab/hero.css. -->
-  <section class="hero" id="hero">
-    <div class="hero-stage" id="hero-stage">
-      <div class="hero-grid" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+  <!-- Hero (lab version): editorial type on dark silk, after synchronized.studio's layout. Ticker, staggered
+       serif title, diagonal hairlines, intro block, starburst, one link. Styles home-lab/hero-x.css, script hero-x.js. -->
+  <section class="hx" id="hero" aria-label="Squarezix — Creative Agency">
+    <canvas class="svh-waves hx-waves" aria-hidden="true"></canvas>
 
-      <div class="hero-inner">
-        <div class="hero-copy">
-          <p class="hero-badge">Digital Growth Partner · Dubai · GCC · Global</p>
-          <h1 class="hero-title">
-            <span class="hero-title-main">Squarezix<sup>®</sup></span>
-            <span class="hero-title-sub">Creative Agency</span>
-          </h1>
-          <p class="hero-lead">Building what’s next for ambitious brands.</p>
-          <p class="hero-text">SquareZix combines brand, digital experience, growth and AI to help ambitious businesses become more visible, more relevant, more valuable.</p>
-          <a href="#contact" class="zx-btn hero-cta" data-contact-open>Start a Project</a>
-        </div>
+    <div class="hx-ticker" aria-hidden="true">
+      <div class="hx-ticker-track">
+        <div class="hx-ticker-group"><span>Squarezix</span><span>Creative Agency</span><span>Dubai · GCC · Global</span><span>Squarezix</span><span>Creative Agency</span><span>Dubai · GCC · Global</span><span>Squarezix</span><span>Creative Agency</span><span>Dubai · GCC · Global</span><span>Squarezix</span><span>Creative Agency</span><span>Dubai · GCC · Global</span></div>
+        <div class="hx-ticker-group"><span>Squarezix</span><span>Creative Agency</span><span>Dubai · GCC · Global</span><span>Squarezix</span><span>Creative Agency</span><span>Dubai · GCC · Global</span><span>Squarezix</span><span>Creative Agency</span><span>Dubai · GCC · Global</span><span>Squarezix</span><span>Creative Agency</span><span>Dubai · GCC · Global</span></div>
+      </div>
+    </div>
 
-        <nav class="hero-services" aria-label="Services">
-          <a href="#services"><span>Development</span><span class="num">01</span></a>
-          <a href="#services"><span>Design</span><span class="num">02</span></a>
-          <a href="#services"><span>Marketing</span><span class="num">03</span></a>
-          <a href="#services"><span>Seo</span><span class="num">04</span></a>
-        </nav>
+    <div class="hx-stage">
+      <div class="hx-burst" aria-hidden="true"><canvas></canvas></div>
+      <span class="hx-spark" aria-hidden="true"></span>
+
+      <h1 class="hx-title">
+        <span class="hx-line l1"><span>Squarezix<sup>®</sup></span></span>
+        <span class="hx-line l2"><span>Creative</span></span>
+        <span class="hx-line l3"><span>Agency</span></span>
+      </h1>
+
+      <svg class="hx-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <line x1="40" y1="8" x2="44.5" y2="97" />
+        <line x1="70.5" y1="6" x2="64" y2="92" />
+        <line x1="25.5" y1="34" x2="28" y2="68" />
+      </svg>
+
+      <div class="hx-intro">
+        <p class="hx-kicker"><b>Squarezix</b> is a full-service creative agency in Dubai, crafting brands, websites and growth.</p>
+        <p class="hx-sub">We combine brand, digital experience, growth and AI to help ambitious businesses become more visible, more relevant and more valuable.</p>
       </div>
 
+      <a href="#contact" class="hx-cta" data-contact-open><span>Start a</span><span>new <em>project</em></span></a>
+
+      <a href="#why" class="hx-badge" aria-label="Scroll to what we do">
+        <span>We</span><span class="hx-badge-ring">Are</span>
+        <span class="hx-badge-name">Square<br />zix</span>
+        <span>Creative<br />Agency</span>
+      </a>
     </div>
   </section>
 
@@ -947,6 +961,8 @@
   <script src="home-lab/sections.js?v=20261009a"></script>
   <script src="home-lab/amethyst-wash.js?v=20261009a"></script>
   <script src="home-lab/outro.js?v=20261009a"></script>
+  <script src="home-lab/waves-bg.js?v=hx1"></script>
+  <script src="home-lab/hero-x.js?v=hx2"></script>
   <script src="home-lab/whyus.js?v=20261009a"></script>
   <script src="home-lab/site-ui.js?v=20261072g"></script>
 </body>
