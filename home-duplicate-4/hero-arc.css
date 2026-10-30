@@ -26,22 +26,40 @@
 .ar-stage::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 24%; z-index: 2; pointer-events: none;
   background: linear-gradient(to top, #070511 4%, rgba(7, 5, 17, .75) 40%, rgba(7, 5, 17, 0) 100%); }
 
-/* ----- cards ----- */
+/* ----- cards -----
+   Each card is a framed print: a brand-gradient rim, the work inset inside it (the work leads), a glass label chip with
+   its number and category on the lower edge, and a small arrow badge in the top corner. Gradient cards carry a big
+   serif-less title over concentric rings instead of an image. */
 .ar-ring { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; pointer-events: none; z-index: 1; }
 .ar-card {
-  --s: clamp(84px, 9.6vw, 148px);
+  --s: clamp(84px, 9.6vw, 148px); --rad: calc(var(--s) * .16);
   position: absolute; left: 0; top: 0; width: var(--s); height: calc(var(--s) * 1.12); margin: calc(var(--s) * -.56) 0 0 calc(var(--s) * -.5);
-  border-radius: calc(var(--s) * .14); overflow: hidden;
+  border-radius: var(--rad); padding: 5px; box-sizing: border-box;
+  background: linear-gradient(145deg, rgba(226, 184, 255, .85), rgba(98, 29, 208, .45) 38%, rgba(171, 36, 242, .75) 100%);
   transform: translate3d(var(--x, 0px), var(--y, 0px), 0) rotate(var(--r, 0deg)) scale(var(--k, 1)); will-change: transform;
-  border: 1px solid rgba(201, 139, 255, .28); background: #14142b;
-  box-shadow: 0 26px 44px -20px rgba(0, 0, 0, .85), inset 0 1px 0 rgba(255, 255, 255, .12);
+  box-shadow: 0 26px 44px -20px rgba(0, 0, 0, .9), 0 0 0 1px rgba(255, 255, 255, .06);
 }
-.ar-card img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.ar-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(160deg, rgba(255, 255, 255, .1), transparent 40%, rgba(7, 5, 17, .25)); pointer-events: none; }
-.ar-grad { display: flex; align-items: flex-end; padding: 12px; background: linear-gradient(135deg, #621dd0, #ab24f2); }
-.ar-grad.g1 { background: linear-gradient(135deg, #3a1396, #8a22e0); }
-.ar-grad.g2 { background: linear-gradient(135deg, #ab24f2, #621dd0 80%); }
-.ar-grad span { position: relative; z-index: 1; font: 600 clamp(13px, 1.25vw, 18px)/1 "Sora", sans-serif; letter-spacing: -.02em; }
+.ar-frame { position: absolute; inset: 5px; border-radius: calc(var(--rad) - 5px); overflow: hidden; background: #14142b; }
+.ar-frame img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.ar-frame::after { content: ""; position: absolute; inset: 0; background: linear-gradient(155deg, rgba(255, 255, 255, .16), transparent 34%), linear-gradient(to top, rgba(7, 5, 17, .55), transparent 38%); pointer-events: none; }
+
+/* label chip (number + category) */
+.ar-chip { position: absolute; left: 11px; bottom: 11px; z-index: 2; display: inline-flex; align-items: center; gap: 6px; max-width: calc(100% - 22px); padding: 4px 9px 4px 4px; border-radius: 999px; white-space: nowrap;
+  background: rgba(7, 5, 17, .55); border: 1px solid rgba(255, 255, 255, .2); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  font: 500 clamp(9px, .78vw, 11.5px)/1 "DM Sans", sans-serif; color: #fff; }
+.ar-chip i { display: grid; place-items: center; min-width: 1.9em; height: 1.9em; border-radius: 50%; font: 600 .9em/1 "Sora", sans-serif; font-style: normal; background: linear-gradient(135deg, #621dd0, #ab24f2); }
+/* arrow badge */
+.ar-go { position: absolute; right: 11px; top: 11px; z-index: 2; display: grid; place-items: center; width: clamp(18px, 1.7vw, 25px); height: clamp(18px, 1.7vw, 25px); border-radius: 50%;
+  background: rgba(255, 255, 255, .92); color: #070511; font: 600 clamp(10px, .95vw, 14px)/1 "Sora", sans-serif; box-shadow: 0 6px 12px -4px rgba(0, 0, 0, .6); }
+
+/* gradient cards: a type-led card with concentric rings */
+.ar-grad { background: linear-gradient(145deg, rgba(226, 184, 255, .9), rgba(138, 34, 224, .6) 45%, rgba(226, 184, 255, .7)); }
+.ar-grad .ar-frame { background: linear-gradient(135deg, #621dd0, #ab24f2); }
+.ar-grad.g1 .ar-frame { background: linear-gradient(135deg, #3a1396, #8a22e0); }
+.ar-grad.g2 .ar-frame { background: linear-gradient(135deg, #ab24f2, #621dd0 85%); }
+.ar-grad .ar-frame::before { content: ""; position: absolute; right: -35%; top: -25%; width: 120%; aspect-ratio: 1; border-radius: 50%;
+  background: repeating-radial-gradient(circle at center, transparent 0 9px, rgba(255, 255, 255, .16) 9px 10px); }
+.ar-big { position: absolute; left: 12px; top: 40%; z-index: 1; font: 700 clamp(18px, 2vw, 30px)/1 "Sora", sans-serif; letter-spacing: -.04em; color: #fff; text-shadow: 0 6px 18px rgba(0, 0, 0, .35); }
 
 /* ----- the content block (positioned by hero-arc.js: translate + scale) ----- */
 .ar-head, .ar-cta { position: absolute; left: 50%; top: 0; z-index: 3; text-align: center; transform-origin: 50% 0; will-change: transform; }
@@ -54,7 +72,10 @@
 .ar-intro-sub { margin: 16px auto 0; max-width: 420px; font: 400 clamp(14px, 1.1vw, 16px)/1.6 "DM Sans", sans-serif; color: #b8b8d1; }
 
 @media (max-width: 700px) {
-  .ar-card { --s: 66px; }
+  .ar-card { --s: 66px; padding: 3px; }
+  .ar-frame { inset: 3px; }
+  .ar-chip, .ar-go { display: none; }
+  .ar-big { font-size: 15px; left: 8px; }
   .ar-hero-title { font-size: clamp(34px, 10.5vw, 44px); }
   .ar-intro-sub { max-width: 290px; }
 }
