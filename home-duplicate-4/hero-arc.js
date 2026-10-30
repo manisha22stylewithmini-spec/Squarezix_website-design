@@ -16,7 +16,7 @@
   var N = cards.length, STEP = 360 / N;
   var TURN = STEP * 4;                          // how far the ring turns after it has formed
   var FAN = [2, 3, 7, 8];                       // the cards on show in the first frame, left to right
-  var FAN_K = .92;                              // fan card scale
+  var FAN_PX = 17, ARC_PX = 6;                  // cards grow by this many px: +17 in the first-frame fan, +6 on the arc
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   var w, h, phone, cx, cy, R, s, lift, headH, ctaH, headY0, ctaY0, rowY, hsF;
 
@@ -78,14 +78,15 @@
 
       // fan pose: the 4 fan cards in a tilted row; every other card waits exactly behind one of them
       var j = FAN.indexOf(i), slot = j > -1 ? j : i % 4, off = slot - 1.5;
-      var fx = cx + off * s * .84, fy = rowY + Math.abs(off) * s * .06, fr = off * 6;
-      var fk = j > -1 ? FAN_K : FAN_K * .96;
+      var fanK = (s + FAN_PX) / s, arcK = (s + ARC_PX) / s;
+      var fx = cx + off * (s + FAN_PX) * .8, fy = rowY + Math.abs(off) * s * .06, fr = off * 6;
+      var fk = j > -1 ? fanK : fanK * .96;
 
       var el = cards[i];
       el.style.setProperty('--x', lerp(fx, ax, t1).toFixed(1) + 'px');
       el.style.setProperty('--y', lerp(fy, ay, t1).toFixed(1) + 'px');
       el.style.setProperty('--r', lerp(fr, ar, t1).toFixed(1) + 'deg');
-      el.style.setProperty('--k', lerp(fk, 1, t1).toFixed(3));
+      el.style.setProperty('--k', lerp(fk, arcK, t1).toFixed(3));
     }
 
     // outlines grow from both ends at once and meet at the top
