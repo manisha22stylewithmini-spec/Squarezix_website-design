@@ -9,6 +9,21 @@
       "source": "/web-and-app-design.html",
       "destination": "/website-design.html",
       "permanent": true
+    },
+    {
+      "source": "/home-lab.html",
+      "destination": "/home-duplicate-1.html",
+      "permanent": false
+    },
+    {
+      "source": "/home-lab-3d.html",
+      "destination": "/home-duplicate-2.html",
+      "permanent": false
+    },
+    {
+      "source": "/home-lab-copilot.html",
+      "destination": "/home-duplicate-3.html",
+      "permanent": false
     }
   ]
 }
