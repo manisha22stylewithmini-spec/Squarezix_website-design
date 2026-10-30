@@ -50,9 +50,9 @@
   var fit = hero.querySelector('.h3-fit');
   function resize() {
     var vw = fit.clientWidth, vh = fit.clientHeight;
-    var s = Math.min(vw / 1000, vh / 562);
-    if (vw < 700) s = Math.min(vh / 562, (vw / 1000) * 1.9);   // phones: crop the sides, keep the text legible
-    s = Math.max(.3, Math.min(s, 1.35));
+    var s = Math.max(vw / 1000, vh / 562) * 1.04;   // cover the whole hero, edge to edge
+    if (vw < 700) s = (vw / 1000) * 2.5;            // phones: keep several words readable, the room still bleeds off both sides
+    s = Math.max(.6, Math.min(s, 2.4));
     hero.style.setProperty('--s', s.toFixed(3));
   }
   resize();
