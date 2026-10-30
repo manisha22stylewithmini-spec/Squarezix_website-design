@@ -41,7 +41,7 @@
 .cp-tool {
   --dp: calc(18 - var(--r-i) * 6);                                   /* front row moves more than the back row */
   position: absolute; width: var(--t); height: var(--t); border-radius: 26%;
-  left: calc(14% + var(--c-i) * 5.2%); bottom: calc(var(--r-i) * 8.4% + var(--c-i) * 3.7% - 16.6%);   /* row 0 straddles the floor line, so it sinks behind the dark base like the cards */
+  left: calc(15% + var(--c-i) * 5%); bottom: calc(var(--r-i) * 8.4% + var(--c-i) * 3.58% - 14.7%);   /* row 0 straddles the floor line, so it sinks behind the dark base like the cards */
   background: linear-gradient(160deg, #ffffff, #ebe4fb); box-shadow: 0 20px 24px -12px rgba(0, 0, 0, .7), inset 0 -4px 0 rgba(98, 29, 208, .14), inset 0 1px 0 #fff;
   transform: translate3d(calc(var(--px, 0) * var(--dp) * 1px), calc(var(--py, 0) * var(--dp) * 1px), 0) perspective(600px) rotateX(24deg) rotateZ(-8deg);
   transition: transform .8s cubic-bezier(.2, .7, .2, 1);
@@ -59,7 +59,7 @@
 
 /* ----- stack of UI cards, standing in the strip ----- */
 .cp-stage { position: absolute; z-index: 4; inset: 0; perspective: 1500px; perspective-origin: 75% 45%; pointer-events: none; }
-.cp-stack { position: absolute; right: 2%; top: 15%; width: min(52vw, 760px); height: 76%; transform-style: preserve-3d; transform: rotateY(-24deg) rotateX(7deg) rotateZ(-2deg); transition: transform .8s cubic-bezier(.2, .7, .2, 1); }
+.cp-stack { position: absolute; right: clamp(140px, 9vw, 210px); top: 30%; width: min(43vw, 660px); height: 65%; transform-style: preserve-3d; transform: rotateY(-24deg) rotateX(7deg) rotateZ(-2deg); transition: transform .8s cubic-bezier(.2, .7, .2, 1); }
 .cp-card {
   position: absolute; width: 58%; padding: 16px 18px 18px; border-radius: 20px; font-family: "DM Sans", sans-serif; pointer-events: auto;
   background: linear-gradient(160deg, rgba(34, 24, 74, .96), rgba(16, 13, 38, .98)); border: 1px solid var(--edge);
@@ -71,7 +71,7 @@
 .cp-card header i { width: 18px; height: 18px; border-radius: 6px; background: linear-gradient(135deg, #621dd0, #ab24f2); flex: none; }
 .cp-card header b { font-weight: 600; letter-spacing: .01em; }
 .cp-card header span { margin-left: auto; padding: 3px 9px; border-radius: 999px; font-size: 11px; background: rgba(171, 36, 242, .22); color: #e2b8ff; }
-.cp-card img { display: block; width: 100%; height: clamp(120px, 11vw, 160px); object-fit: cover; border-radius: 12px; }
+.cp-card img { display: block; width: 100%; height: clamp(96px, 8.6vw, 132px); object-fit: cover; border-radius: 12px; }
 .cp-card footer { display: flex; align-items: center; gap: 22px; margin-top: 14px; }
 .cp-card footer small { display: block; font-size: 11px; color: #9d98bd; margin-bottom: 3px; }
 .cp-card footer strong { font: 600 18px/1 "Sora", sans-serif; letter-spacing: -.02em; }
