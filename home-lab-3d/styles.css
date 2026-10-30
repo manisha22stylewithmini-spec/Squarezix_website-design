@@ -1,0 +1,204 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* ---- Squarezix brand colours ---- */
+  --sqz-max-width: 92.1875em;
+  --brand-purple: #621DD0;
+  --brand-pink: #AB24F2;
+  --brand-gradient: linear-gradient(135deg, #621DD0 0%, #AB24F2 100%);
+  --brand-gradient-hover: linear-gradient(135deg, #AB24F2 0%, #621DD0 100%);
+  --bg-dark: #070511;
+  --header-dark: #0a0a15;
+  --header-dark-2: #14142b;
+  --text-light: #ffffff;
+  --text-muted: #b8b8d1;
+
+  --bg: #000;                            /* hero only: its video sky is pure black */
+  /* Page colour for every section after the hero's "inside of Squarezix" dive */
+  --page: var(--bg-dark);
+  --fg: #f5f5f7;
+  --muted: rgba(245, 245, 247, 0.7);
+  --accent: var(--brand-pink);
+  --purple: var(--brand-purple);         /* header states, focus rings */
+  --ink: #111114;             /* header text */
+  --header-h: 80px;
+}
+
+html { background: var(--bg); }
+/* Never let the page scroll sideways (wide loops and transformed sections can poke past
+   the screen edges). `clip` (not `hidden`) keeps position: sticky working. */
+html, body { overflow-x: clip; }
+body {
+  font-family: "DM Sans", sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  position: fixed; inset: 0 0 auto 0; z-index: 20;
+  height: var(--header-h);
+  color: var(--ink);
+}
+/* Frosted glass. The blur lives on a pseudo-element, not the header itself: a
+   backdrop-filter on the header would stop the dropdown panels blurring the page
+   behind them, and would squash the fixed mobile sheet into the header bar. */
+.site-header::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  /* Bright glass: mostly-white so it never greys out over the dark page, with a faint
+     brand tint at the edges so it glows rather than looking flat. */
+  background:
+    radial-gradient(120% 160% at 0% 0%, rgba(171, 36, 242, .10), transparent 55%), radial-gradient(120% 160% at 100% 100%, rgba(98, 29, 208, .10), transparent 55%),
+    linear-gradient(180deg, rgba(255, 255, 255, .92), rgba(250, 246, 255, .84));
+  -webkit-backdrop-filter: blur(22px) saturate(200%);
+          backdrop-filter: blur(22px) saturate(200%);
+  border-bottom: 1px solid rgba(255, 255, 255, .9);
+  box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgba(171, 36, 242, .12);
+  transition: background .35s ease, box-shadow .35s ease;
+}
+/* A touch clearer once the page is moving under it (class set in site.js) */
+.site-header.is-scrolled::before {
+  background:
+    radial-gradient(120% 160% at 0% 0%, rgba(171, 36, 242, .10), transparent 55%), radial-gradient(120% 160% at 100% 100%, rgba(98, 29, 208, .10), transparent 55%),
+    linear-gradient(180deg, rgba(255, 255, 255, .88), rgba(250, 246, 255, .78));
+  box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 rgba(171, 36, 242, .12), 0 8px 32px rgba(0, 0, 0, .28);
+}
+/* Mobile sheet open: solid white so the sheet and bar read as one surface */
+.site-header.menu-open::before {
+  background: #fff;
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+.header-inner {
+  height: 100%;
+  max-width: 1600px; margin: 0 auto;
+  padding: 0 clamp(16px, 5.5vw, 92px);
+  display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+}
+
+/* Brand mark (assets/brand/sz-logo.png) */
+.logo {
+  justify-self: start;
+  display: block; flex: none;
+  width: 50px; height: 50px;
+  text-decoration: none;
+}
+.logo img { display: block; width: 100%; height: 100%; }
+
+/* Nav triggers + mega-menu panels live in menu.css */
+.main-nav { display: flex; gap: clamp(20px, 2.2vw, 30px); height: 100%; }
+
+/* Five nav items + the Contact button: tighten between tablet and wide desktop */
+@media (min-width: 1081px) and (max-width: 1320px) {
+  .header-inner { column-gap: 16px; }
+  .main-nav { gap: 18px; }
+}
+
+.btn-contact {
+  justify-self: end;
+  display: inline-flex; align-items: center; gap: 6px;
+  white-space: nowrap;
+  padding: 11px 22px;
+  border-radius: 999px;
+  background: var(--brand-gradient);
+  color: #fff; text-decoration: none;
+  font-size: 14px; font-weight: 500;
+  /* Grey outer ring + soft inner depth, as in the reference */
+  box-shadow:
+    0 0 0 3px #cfcfd6,
+    0 0 0 4px #b9b9c2,
+    inset 0 -2px 6px rgba(0, 0, 0, .3),
+    inset 0 1px 0 rgba(255, 255, 255, .25);
+  transition: transform .2s ease, filter .2s ease;
+}
+.btn-contact:hover { transform: translateY(-1px); background: var(--brand-gradient-hover); }
+
+.menu-toggle {
+  display: none;
+  justify-self: end;
+  width: 40px; height: 40px;
+  background: none; border: 0; cursor: pointer;
+  position: relative;
+}
+.menu-toggle span {
+  position: absolute; left: 10px; right: 10px; height: 2px; background: var(--ink);
+  transition: transform .3s ease, top .3s ease;
+}
+.menu-toggle span:first-child { top: 15px; }
+.menu-toggle span:last-child { top: 23px; }
+.menu-open .menu-toggle span:first-child { top: 19px; transform: rotate(45deg); }
+.menu-open .menu-toggle span:last-child { top: 19px; transform: rotate(-45deg); }
+
+.site-header a:focus-visible, .menu-toggle:focus-visible {
+  outline: 2px solid var(--purple); outline-offset: 3px;
+}
+
+/* ---------- Hero ---------- */
+/* Lives in hero.css */
+
+/* ---------- Services marquee ---------- */
+.marquee {
+  position: relative; z-index: 1;
+  background: #201E3E;             /* deep indigo band (was the brand purple #621dd0) */
+  overflow: hidden;
+  padding: 14px 0;
+}
+.marquee-track {
+  display: flex; width: max-content;
+  animation: marquee var(--marquee-duration, 30s) linear infinite;
+}
+.marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee-group { display: flex; list-style: none; }
+.marquee-group li {
+  display: flex; align-items: center;
+  font-family: "Sora", sans-serif;
+  font-weight: 700; font-size: clamp(18px, 1.6vw, 24px);
+  color: #fff; white-space: nowrap;
+}
+/* 4-point sparkle between items */
+.marquee-group li::after {
+  content: "";
+  width: 0.95em; height: 0.95em;
+  margin: 0 clamp(28px, 3.2vw, 50px);
+  background: #fff;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0C12.6 6.6 17.4 11.4 24 12 17.4 12.6 12.6 17.4 12 24 11.4 17.4 6.6 12.6 0 12 6.6 11.4 11.4 6.6 12 0Z'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0C12.6 6.6 17.4 11.4 24 12 17.4 12.6 12.6 17.4 12 24 11.4 17.4 6.6 12.6 0 12 6.6 11.4 11.4 6.6 12 0Z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+@keyframes marquee {
+  to { transform: translateX(calc(-1 * var(--group-width, 50%))); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation-duration: 120s; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1080px) {
+  :root { --header-h: 68px; }
+  .header-inner { grid-template-columns: 1fr auto auto; gap: 12px; }
+  .logo { width: 44px; height: 44px; }
+  .menu-toggle { display: block; }
+  .btn-contact { padding: 9px 16px; font-size: 13px; }
+  /* Full-height sheet; the nav items become accordions (menu.css) */
+  .main-nav {
+    position: fixed; top: var(--header-h); left: 0; right: 0; bottom: 0; height: auto;
+    flex-direction: column; gap: 0;
+    background: #fff; border-top: 1px solid rgba(0,0,0,.06);
+    padding: 8px 16px 32px;
+    overflow-y: auto; overscroll-behavior: contain;
+    visibility: hidden; opacity: 0; transform: translateY(-8px);
+    transition: opacity .25s ease, transform .25s ease, visibility .25s;
+  }
+  .menu-open .main-nav { visibility: visible; opacity: 1; transform: none; }
+}
+
+@media (max-width: 420px) {
+  .btn-contact svg { display: none; }
+}
+
+/* ---------- Typography roles ----------
+   Three families only: Sora for titles, DM Sans for body and UI text, Instrument Serif
+   italic for the accent word inside a title. These rules settle the few places where a
+   title or a UI label would otherwise inherit the wrong one. */
+h1, h2, h3, h4 { font-family: "Sora", sans-serif; }
+/* Display text that isn't a heading tag: bento title lines, footer letter tiles */
+.b-grow-title p, .szf-tiles span { font-family: "Sora", sans-serif; }
