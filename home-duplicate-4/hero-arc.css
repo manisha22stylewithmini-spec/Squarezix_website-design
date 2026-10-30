@@ -1,75 +1,54 @@
-/* ---------- Hero (card arc): work cards on a big arc around a centred headline ----------
-   The section is tall and its stage sticks; hero-arc.js turns the ring as you scroll (sets --x/--y/--r/--o per card).
+/* ---------- Hero (card arc) ----------
+   One continuous scroll scene while the stage sticks (hero-arc.js drives every position):
+   first frame: title block on top, a fan of 4 cards, CTA at the bottom. The other cards wait, stacked
+   exactly behind the fan. Scrolling slides every card out onto a curve (arc lines draw in), while the
+   title block moves down and the CTA moves up so they meet in the middle of the arc. Then the ring turns.
+   Nothing fades or blurs: cards stay solid and travel; the ring continues off the bottom of the screen.
    Brand pair #621DD0 / #AB24F2 on #070511; dark shadows; Sora titles, DM Sans body, Instrument Serif italic accent. */
-.ar { position: relative; margin-top: var(--header-h); height: 420svh; background: #070511; color: #fff; }
+.ar { position: relative; margin-top: var(--header-h); height: 360svh; background: #070511; color: #fff; }
 .ar-stage {
   position: sticky; top: var(--header-h); height: calc(100svh - var(--header-h)); overflow: hidden; isolation: isolate;
-  background: radial-gradient(60% 60% at 50% 62%, rgba(98, 29, 208, .24), transparent 70%), radial-gradient(40% 40% at 50% 100%, rgba(171, 36, 242, .14), transparent 70%), #070511;
+  background: radial-gradient(55% 55% at 50% 58%, rgba(98, 29, 208, .2), transparent 70%), #070511;
 }
-.ar-glow { position: absolute; inset: 0; z-index: -1; pointer-events: none; background: repeating-linear-gradient(90deg, rgba(255, 255, 255, .025) 0 1px, transparent 1px 96px); -webkit-mask-image: radial-gradient(70% 70% at 50% 60%, #000, transparent); mask-image: radial-gradient(70% 70% at 50% 60%, #000, transparent); }
-
-/* ----- ring ----- */
-.ar-ring { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; pointer-events: none; }
-.ar-card {
-  --s: clamp(96px, 12.5vw, 200px);
-  position: absolute; left: 0; top: 0; width: var(--s); height: calc(var(--s) * 1.12); margin: calc(var(--s) * -.56) 0 0 calc(var(--s) * -.5);
-  border-radius: calc(var(--s) * .14); overflow: hidden; opacity: var(--o, 0);
-  transform: translate3d(var(--x, 0px), var(--y, 0px), 0) rotate(var(--r, 0deg)) scale(var(--k, 1)); will-change: transform, opacity;
-  border: 1px solid rgba(201, 139, 255, .28); background: #14142b;
-  box-shadow: 0 30px 50px -22px rgba(0, 0, 0, .85), inset 0 1px 0 rgba(255, 255, 255, .12);
-}
-.ar-card img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.ar-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(160deg, rgba(255, 255, 255, .1), transparent 40%, rgba(7, 5, 17, .25)); pointer-events: none; }
-.ar-grad { display: flex; align-items: flex-end; padding: 14px; background: linear-gradient(135deg, #621dd0, #ab24f2); }
-.ar-grad.g1 { background: linear-gradient(135deg, #3a1396, #8a22e0); }
-.ar-grad.g2 { background: linear-gradient(135deg, #ab24f2, #621dd0 80%); }
-.ar-grad span { position: relative; z-index: 1; font: 600 clamp(14px, 1.5vw, 22px)/1 "Sora", sans-serif; letter-spacing: -.02em; }
+.ar-glow { position: absolute; inset: 0; z-index: -1; pointer-events: none; background: repeating-linear-gradient(90deg, rgba(255, 255, 255, .02) 0 1px, transparent 1px 96px); -webkit-mask-image: radial-gradient(70% 70% at 50% 60%, #000, transparent); mask-image: radial-gradient(70% 70% at 50% 60%, #000, transparent); }
 
 /* ----- arc lines (drawn in by the first scroll) ----- */
 .ar-lines { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; overflow: visible; }
 .ar-line { fill: none; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: var(--draw, 1); }
-.ar-line.l-main { stroke: url(#ar-line-g); stroke-width: 1.6; opacity: .75; filter: drop-shadow(0 0 6px rgba(171, 36, 242, .55)); }
-.ar-line.l-in  { stroke: rgba(201, 139, 255, .3); stroke-width: 1; }
-.ar-line.l-out { stroke: rgba(201, 139, 255, .16); stroke-width: 1; }
+.ar-line.l-main { stroke: url(#ar-line-g); stroke-width: 1.5; opacity: .7; }
+.ar-line.l-in  { stroke: rgba(201, 139, 255, .26); stroke-width: 1; }
+.ar-line.l-out { stroke: rgba(201, 139, 255, .14); stroke-width: 1; }
 
-/* ----- opening screen: highlighted title, 4-card fan (cards come from the ring), CTA ----- */
-.ar-intro { position: absolute; inset: 0; z-index: 4; pointer-events: none; opacity: var(--intro, 1); transform: translateY(calc((1 - var(--intro, 1)) * -40px)); }
-.ar-intro a { pointer-events: auto; }
-.ar-intro-head { position: absolute; left: 50%; top: clamp(20px, 6%, 64px); width: min(980px, calc(100% - 32px)); transform: translateX(-50%); text-align: center; }
-.ar-hero-title { margin: 6px auto 4px; max-width: 8.6em; font: 700 clamp(44px, 6.4vw, 100px)/.98 "Sora", sans-serif; letter-spacing: -.045em; text-shadow: 0 10px 40px rgba(0, 0, 0, .55); }
+/* ----- cards ----- */
+.ar-ring { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; pointer-events: none; z-index: 1; }
+.ar-card {
+  --s: clamp(84px, 9.6vw, 148px);
+  position: absolute; left: 0; top: 0; width: var(--s); height: calc(var(--s) * 1.12); margin: calc(var(--s) * -.56) 0 0 calc(var(--s) * -.5);
+  border-radius: calc(var(--s) * .14); overflow: hidden;
+  transform: translate3d(var(--x, 0px), var(--y, 0px), 0) rotate(var(--r, 0deg)) scale(var(--k, 1)); will-change: transform;
+  border: 1px solid rgba(201, 139, 255, .28); background: #14142b;
+  box-shadow: 0 26px 44px -20px rgba(0, 0, 0, .85), inset 0 1px 0 rgba(255, 255, 255, .12);
+}
+.ar-card img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.ar-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(160deg, rgba(255, 255, 255, .1), transparent 40%, rgba(7, 5, 17, .25)); pointer-events: none; }
+.ar-grad { display: flex; align-items: flex-end; padding: 12px; background: linear-gradient(135deg, #621dd0, #ab24f2); }
+.ar-grad.g1 { background: linear-gradient(135deg, #3a1396, #8a22e0); }
+.ar-grad.g2 { background: linear-gradient(135deg, #ab24f2, #621dd0 80%); }
+.ar-grad span { position: relative; z-index: 1; font: 600 clamp(13px, 1.25vw, 18px)/1 "Sora", sans-serif; letter-spacing: -.02em; }
+
+/* ----- the content block (positioned by hero-arc.js: translate + scale) ----- */
+.ar-head, .ar-cta { position: absolute; left: 50%; top: 0; z-index: 3; text-align: center; transform-origin: 50% 0; will-change: transform; }
+.ar-head { width: min(760px, calc(100% - 32px)); transform: translate(-50%, var(--hy, 40px)) scale(var(--hs, 1)); pointer-events: none; }
+.ar-cta { transform: translate(-50%, var(--ctay, 80vh)); }
+.ar-kick { margin: 0; font: 500 clamp(15px, 1.35vw, 20px)/1.2 "Sora", sans-serif; letter-spacing: -.01em; color: #fff; }
+.ar-kick--below { margin-top: 10px; }
+.ar-hero-title { margin: 10px auto 0; max-width: 8.6em; font: 700 clamp(40px, 5.4vw, 80px)/1 "Sora", sans-serif; letter-spacing: -.045em; text-wrap: balance; }
 .ar-hero-title em { font: italic 400 1.12em/1 "Instrument Serif", serif; letter-spacing: -.01em; background: linear-gradient(135deg, #9a5cf5, #e2b8ff 75%); -webkit-background-clip: text; background-clip: text; color: transparent; padding: 0 .06em; }
-.ar-intro-sub { margin: 18px auto 0; max-width: 470px; font: 400 clamp(14px, 1.15vw, 16.5px)/1.6 "DM Sans", sans-serif; color: #b8b8d1; }
-/* highlight tag: the brand version of a marker highlight */
-.ar-tag { display: inline-block; padding: .28em .55em .32em; border-radius: 6px; font: 600 clamp(15px, 1.7vw, 26px)/1 "Sora", sans-serif; letter-spacing: -.02em; color: #fff;
-  background: linear-gradient(135deg, #621dd0, #ab24f2); box-shadow: 0 10px 22px -10px rgba(0, 0, 0, .7), inset 0 1px 0 rgba(255, 255, 255, .25); }
-.ar-tag.tg-top { transform: rotate(-2deg); }
-.ar-tag.tg-bottom { transform: rotate(1.5deg); }
-.ar-tag.tg-small, .ar-note { font-size: 13px; padding: 6px 10px; }
-.ar-note { position: absolute; z-index: 5; }
-.ar-note.n1 { left: calc(50% - var(--s-fan, 180px) * 1.95); top: calc(var(--row, 60%) - var(--s-fan, 180px) * .5); transform: rotate(-4deg); }
-.ar-note.n2 { left: calc(50% + var(--s-fan, 180px) * 1.15); top: calc(var(--row, 60%) + var(--s-fan, 180px) * .32); transform: rotate(3deg); }
-.ar-intro-foot { position: absolute; left: 50%; bottom: clamp(16px, 4%, 44px); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 12px; }
-.ar-intro-foot small { font: 400 12.5px/1 "DM Sans", sans-serif; color: #9d98bd; }
+.ar-intro-sub { margin: 16px auto 0; max-width: 420px; font: 400 clamp(14px, 1.1vw, 16px)/1.6 "DM Sans", sans-serif; color: #b8b8d1; }
 
-/* ----- centred copy (fades in after the arc forms) ----- */
-.ar-copy { position: absolute; left: 50%; top: 66%; width: min(560px, calc(100% - 40px)); transform: translate(-50%, calc(-50% + (1 - var(--main, 0)) * 30px)); opacity: var(--main, 0); text-align: center; z-index: 3; }
-.ar-copy a { pointer-events: var(--main-pe, none); }
-.ar-eyebrow { margin: 0 0 18px; font: 500 12.5px/1 "DM Sans", sans-serif; letter-spacing: .16em; text-transform: uppercase; color: #c9a8ff; }
-.ar-title { margin: 0; font: 600 clamp(28px, 3.5vw, 52px)/1.1 "Sora", sans-serif; letter-spacing: -.03em; text-wrap: balance; }
-.ar-title em { font: italic 400 1.14em/1 "Instrument Serif", serif; letter-spacing: -.01em; background: linear-gradient(135deg, #8c4ff0, #d58bff 75%); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .05em; }
-.ar-sub { margin: 18px auto 26px; max-width: 460px; font: 400 clamp(14px, 1.15vw, 16.5px)/1.6 "DM Sans", sans-serif; color: #b8b8d1; }
-
-/* ----- three points ----- */
-.ar-points { position: absolute; left: 50%; bottom: clamp(18px, 3.5vh, 40px); width: min(820px, calc(100% - 48px)); transform: translateX(-50%); opacity: var(--main, 0); display: grid; grid-template-columns: repeat(3, 1fr); margin: 0; padding: 0; list-style: none; z-index: 3; }
-.ar-points li { padding: 0 24px; text-align: center; }
-.ar-points li + li { border-left: 1px solid rgba(255, 255, 255, .14); }
-.ar-points b { display: block; margin-bottom: 8px; font: 600 14px/1.2 "Sora", sans-serif; letter-spacing: -.01em; }
-.ar-points span { display: block; font: 400 12.5px/1.5 "DM Sans", sans-serif; color: #9d98bd; }
-
-@media (max-width: 900px) { .ar-points { display: none; } .ar-copy { top: 66%; } }
 @media (max-width: 700px) {
-  .ar-copy { top: 72%; } .ar-card { --s: 88px; }
-  .ar-note { display: none; }
-  .ar-hero-title { font-size: clamp(40px, 12vw, 56px); }
+  .ar-card { --s: 66px; }
+  .ar-hero-title { font-size: clamp(34px, 10.5vw, 44px); }
+  .ar-intro-sub { max-width: 290px; }
 }
 @media (prefers-reduced-motion: reduce) { .ar { height: auto; } .ar-stage { position: relative; top: 0; height: calc(100svh - var(--header-h)); } }

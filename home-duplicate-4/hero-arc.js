@@ -1,23 +1,26 @@
-/* Hero (card arc), scroll-driven in three stages while the stage sticks:
-   1. opening screen: highlighted title + a fan of 4 cards + CTA (all other cards hidden behind the fan)
-   2. first scroll: the intro fades, every card travels from the fan onto a curved arc and the arc lines draw in
-   3. further scroll: the ring turns and rises, and the main copy + three points fade in mid-screen
-   Cards wrap round a full circle; the lower half fades out below the horizon. */
+/* Hero (card arc): one connected scroll scene while the stage sticks.
+   First frame: title block on top, a fan of 4 cards, CTA at the bottom; the other cards sit stacked exactly
+   behind the fan cards. Scrolling slides every card out from behind the fan onto a curve (arc lines draw in)
+   while the title block travels down and the CTA travels up to meet in the middle of the arc. Then the ring
+   keeps turning. Nothing fades: the ring is a full circle whose lower half runs off the bottom of the screen. */
 (function () {
   var hero = document.getElementById('hero');
   var stage = hero && hero.querySelector('.ar-stage');
+  var head = document.getElementById('ar-head');
+  var cta = document.getElementById('ar-cta');
   var cards = hero ? Array.prototype.slice.call(hero.querySelectorAll('.ar-card')) : [];
-  if (!stage || !cards.length) return;
+  if (!stage || !head || !cta || !cards.length) return;
   var lines = Array.prototype.slice.call(stage.querySelectorAll('.ar-line'));
-  var LINE_SCALE = [1, .72, 1.22];             // main line through the cards, an inner and an outer echo
+  var LINE_SCALE = [1, .74, 1.2];               // line through the cards, an inner and an outer echo
 
   var N = cards.length, STEP = 360 / N;
-  var TURN = STEP * 5;                          // how far the ring turns during stage 3
-  var FAN = [2, 3, 7, 8];                       // cards shown in the opening fan, left to right
+  var TURN = STEP * 4;                          // how far the ring turns after it has formed
+  var FAN = [2, 3, 7, 8];                       // the cards on show in the first frame, left to right
+  var FAN_K = .92;                              // fan card scale
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var w = 0, h = 0, cx = 0, cy = 0, R = 0, s = 160, rowY = 0, lift = 0, phone = false;
+  var w, h, phone, cx, cy, R, s, lift, headH, ctaH, headY0, ctaY0, rowY, hsF;
 
-  FAN.forEach(function (i) { if (cards[i]) cards[i].style.zIndex = 2; });
+  cards.forEach(function (el, i) { el.style.zIndex = FAN.indexOf(i) > -1 ? 2 : 1; });
 
   function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
   function ease(t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
@@ -25,13 +28,17 @@
 
   function measure() {
     w = stage.clientWidth; h = stage.clientHeight; phone = w < 700;
-    cx = w / 2; cy = h * (phone ? .47 : .68);
-    R = Math.min(w * (phone ? .5 : .43), h * .5);
-    s = cards[0].offsetWidth || 160;
-    rowY = h * (phone ? .52 : .64);
-    lift = h * (phone ? .1 : .14);
-    stage.style.setProperty('--s-fan', s + 'px');
-    stage.style.setProperty('--row', rowY + 'px');
+    s = cards[0].offsetWidth || 130;
+    headH = head.offsetHeight; ctaH = cta.offsetHeight;
+    var pad = h * (phone ? .06 : .07);
+    headY0 = pad;                                 // first frame: title block at the top ...
+    ctaY0 = h - pad - ctaH;                       // ... CTA at the bottom ...
+    rowY = (headY0 + headH + ctaY0) / 2;          // ... and the fan centred between them
+    cx = w / 2;
+    cy = h * (phone ? .56 : .74);
+    R = phone ? w * .66 : Math.min(w * .42, h * .6);
+    lift = h * .05;
+    hsF = phone ? .86 : .72;                       // title block scale once it sits inside the arc
   }
 
   function progress() {
@@ -48,43 +55,36 @@
   }
 
   function render() {
-    var p = reduce ? .62 : progress();
-    var intro = 1 - clamp((p - .02) / .16);           // opening screen fades out first
-    var t1 = ease(clamp((p - .04) / .30));            // fan -> arc
-    var t2 = clamp((p - .34) / .66);                  // ring turns and rises
-    var main = clamp((p - .38) / .2);                 // main copy fades in
+    var p = reduce ? .42 : progress();
+    var t1 = ease(clamp((p - .03) / .37));      // fan -> arc, content -> middle (one motion)
+    var t2 = clamp((p - .42) / .58);            // ring turns and rises a little
     var c = cy - t2 * lift;
 
-    stage.style.setProperty('--intro', intro.toFixed(3));
-    stage.style.setProperty('--main', main.toFixed(3));
-    stage.style.setProperty('--main-pe', main > .6 ? 'auto' : 'none');
+    // content: both halves travel to meet inside the arc
+    var gap = phone ? 18 : 22;
+    var total = headH * hsF + gap + ctaH;
+    var topF = phone ? c - R * .55 : c - R * .64;
+    stage.style.setProperty('--hy', lerp(headY0, topF, t1).toFixed(1) + 'px');
+    stage.style.setProperty('--hs', lerp(1, hsF, t1).toFixed(3));
+    stage.style.setProperty('--ctay', lerp(ctaY0, topF + total - ctaH, t1).toFixed(1) + 'px');
 
     for (var i = 0; i < N; i++) {
       // arc pose: angle from the right, counter-clockwise; scrolling moves cards left to right
       var a = 196 - i * STEP - t2 * TURN;
-      a = ((a + 60) % 360 + 360) % 360 - 60;
       var rad = a * Math.PI / 180;
       var ax = cx + R * Math.cos(rad), ay = c - R * Math.sin(rad);
       var ar = 90 - a;
-      var ao = clamp(Math.min((a + 12) / 28, (192 - a) / 28));
-      var ak = .86 + .14 * Math.sin(Math.max(0, Math.min(Math.PI, rad)));
 
-      // fan pose: 4 tilted cards in a row; the rest wait, hidden, behind the middle of the fan
-      var j = FAN.indexOf(i), fx, fy, fr, fk, fo;
-      if (j > -1) {
-        var off = j - 1.5;
-        fx = cx + off * s * .8; fy = rowY + Math.abs(off) * s * .06;
-        fr = off * 6; fk = .86; fo = 1;
-      } else {
-        fx = cx; fy = rowY; fr = 0; fk = .7; fo = 0;
-      }
+      // fan pose: the 4 fan cards in a tilted row; every other card waits exactly behind one of them
+      var j = FAN.indexOf(i), slot = j > -1 ? j : i % 4, off = slot - 1.5;
+      var fx = cx + off * s * .84, fy = rowY + Math.abs(off) * s * .06, fr = off * 6;
+      var fk = j > -1 ? FAN_K : FAN_K * .96;
 
       var el = cards[i];
       el.style.setProperty('--x', lerp(fx, ax, t1).toFixed(1) + 'px');
       el.style.setProperty('--y', lerp(fy, ay, t1).toFixed(1) + 'px');
       el.style.setProperty('--r', lerp(fr, ar, t1).toFixed(1) + 'deg');
-      el.style.setProperty('--k', lerp(fk, ak, t1).toFixed(3));
-      el.style.setProperty('--o', lerp(fo, ao, t1).toFixed(3));
+      el.style.setProperty('--k', lerp(fk, 1, t1).toFixed(3));
     }
 
     for (var k = 0; k < lines.length; k++) {
@@ -103,4 +103,5 @@
   measure(); render();
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', function () { measure(); render(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measure(); render(); });
 })();

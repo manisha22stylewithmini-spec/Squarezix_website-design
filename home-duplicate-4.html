@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="home-duplicate-4/styles.css?v=20261009a" />
-  <link rel="stylesheet" href="home-duplicate-4/hero-arc.css?v=ar8" />
+  <link rel="stylesheet" href="home-duplicate-4/hero-arc.css?v=ar11" />
   <link rel="stylesheet" href="home-duplicate-4/services.css?v=20261009a" />
   <link rel="stylesheet" href="home-duplicate-4/bento.css?v=20261012b" />
   <link rel="stylesheet" href="home-duplicate-4/sections.css?v=20261009a" />
@@ -63,21 +63,18 @@
         <path class="ar-line l-out" pathLength="1" />
       </svg>
 
-      <!-- opening screen -->
-      <div class="ar-intro">
-        <div class="ar-intro-head">
-          <span class="ar-tag tg-top">Dubai&rsquo;s premium</span>
-          <h1 class="ar-hero-title">Digital <em>Growth</em> Studio</h1>
-          <span class="ar-tag tg-bottom">For brands that lead</span>
-          <p class="ar-intro-sub">Brand, websites, SEO and AI under one roof, from first strategy to launch and growth.</p>
-        </div>
-        <span class="ar-tag ar-note n1" aria-hidden="true">Real client work</span>
-        <span class="ar-tag ar-note n2" aria-hidden="true">Brand-led creative</span>
-        <div class="ar-intro-foot">
-          <span class="ar-tag tg-small">Strategy · Design · Growth</span>
-          <a href="#contact" class="zx-btn" data-contact-open>Start a project</a>
-          <small>Scroll to explore our work</small>
-        </div>
+      <!-- the one content block: it starts split (title on top, CTA at the bottom, card fan between) and
+           hero-arc.js moves both halves into the middle of the arc as the cards spread -->
+      <div class="ar-head" id="ar-head">
+        <p class="ar-kick">Dubai&rsquo;s premium</p>
+        <h1 class="ar-hero-title">Digital <em>Growth</em> Studio</h1>
+        <p class="ar-kick ar-kick--below">For brands that lead</p>
+        <p class="ar-intro-sub">Brand, websites, SEO and AI under one roof, from first strategy to launch and growth.</p>
+      </div>
+      <div class="ar-cta" id="ar-cta">
+        <a href="#contact" class="zx-btn" data-contact-open>Start a project
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+        </a>
       </div>
 
       <ul class="ar-ring" aria-hidden="true">
@@ -99,20 +96,6 @@
         <li class="ar-card"><img src="assets/portfolio/timeline-laptop.jpg" alt="" loading="eager" /></li>
       </ul>
 
-      <div class="ar-copy">
-        <p class="ar-eyebrow">Digital marketing · Dubai &amp; GCC</p>
-        <h2 class="ar-title">Marketing that scales, <em>engineered</em> in Dubai.</h2>
-        <p class="ar-sub">Brand, websites, SEO and AI-led growth from one premium partner, built for ambitious businesses across the Gulf.</p>
-        <a href="#contact" class="zx-btn" data-contact-open>Start a project
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-        </a>
-      </div>
-
-      <ul class="ar-points">
-        <li><b>Brand-led creative</b><span>Strategy and design crafted for premium positioning.</span></li>
-        <li><b>Performance built in</b><span>SEO, social and paid tuned to real business results.</span></li>
-        <li><b>Regional insight</b><span>Campaigns shaped for the Dubai and GCC market.</span></li>
-      </ul>
     </div>
   </section>
 
@@ -986,7 +969,7 @@
   <script src="home-duplicate-4/sections.js?v=20261009a"></script>
   <script src="home-duplicate-4/amethyst-wash.js?v=20261009a"></script>
   <script src="home-duplicate-4/outro.js?v=20261009a"></script>
-  <script src="home-duplicate-4/hero-arc.js?v=ar8"></script>
+  <script src="home-duplicate-4/hero-arc.js?v=ar11"></script>
   <script src="home-duplicate-4/whyus.js?v=20261009a"></script>
   <script src="home-duplicate-4/site-ui.js?v=20261072g"></script>
 </body>
