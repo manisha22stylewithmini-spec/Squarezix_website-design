@@ -64,7 +64,7 @@
     // content: both halves travel to meet inside the arc
     var gap = phone ? 18 : 22;
     var total = headH * hsF + gap + ctaH;
-    var topF = phone ? c - R * .55 : c - R * .64;
+    var topF = c - total / 2;                   // the whole block is centred on the circle's centre
     stage.style.setProperty('--hy', lerp(headY0, topF, t1).toFixed(1) + 'px');
     stage.style.setProperty('--hs', lerp(1, hsF, t1).toFixed(3));
     stage.style.setProperty('--ctay', lerp(ctaY0, topF + total - ctaH, t1).toFixed(1) + 'px');
