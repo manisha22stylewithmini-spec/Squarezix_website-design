@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="home-duplicate-4/styles.css?v=20261009a" />
-  <link rel="stylesheet" href="home-duplicate-4/hero-arc.css?v=ar3" />
+  <link rel="stylesheet" href="home-duplicate-4/hero-arc.css?v=ar8" />
   <link rel="stylesheet" href="home-duplicate-4/services.css?v=20261009a" />
   <link rel="stylesheet" href="home-duplicate-4/bento.css?v=20261012b" />
   <link rel="stylesheet" href="home-duplicate-4/sections.css?v=20261009a" />
@@ -48,11 +48,38 @@
     </div>
   </header>
 
-  <!-- Hero (card arc): a ring of work cards around a centred headline; scrolling turns the ring.
+  <!-- Hero (card arc): opens on a title screen with a fan of 4 cards; the first scroll spreads every card
+       onto a curved arc (with a drawn arc line), then the ring turns and rises while the main copy fades in.
        Styles hero-arc.css, script hero-arc.js. -->
   <section class="ar" id="hero" aria-label="Squarezix — Creative Agency">
     <div class="ar-stage">
       <div class="ar-glow" aria-hidden="true"></div>
+
+      <!-- arc lines; hero-arc.js sets the path and draws it in with the first scroll -->
+      <svg class="ar-lines" aria-hidden="true">
+        <defs><linearGradient id="ar-line-g" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#621dd0" /><stop offset=".5" stop-color="#d58bff" /><stop offset="1" stop-color="#ab24f2" /></linearGradient></defs>
+        <path class="ar-line l-main" pathLength="1" />
+        <path class="ar-line l-in" pathLength="1" />
+        <path class="ar-line l-out" pathLength="1" />
+      </svg>
+
+      <!-- opening screen -->
+      <div class="ar-intro">
+        <div class="ar-intro-head">
+          <span class="ar-tag tg-top">Dubai&rsquo;s premium</span>
+          <h1 class="ar-hero-title">Digital <em>Growth</em> Studio</h1>
+          <span class="ar-tag tg-bottom">For brands that lead</span>
+          <p class="ar-intro-sub">Brand, websites, SEO and AI under one roof, from first strategy to launch and growth.</p>
+        </div>
+        <span class="ar-tag ar-note n1" aria-hidden="true">Real client work</span>
+        <span class="ar-tag ar-note n2" aria-hidden="true">Brand-led creative</span>
+        <div class="ar-intro-foot">
+          <span class="ar-tag tg-small">Strategy · Design · Growth</span>
+          <a href="#contact" class="zx-btn" data-contact-open>Start a project</a>
+          <small>Scroll to explore our work</small>
+        </div>
+      </div>
+
       <ul class="ar-ring" aria-hidden="true">
         <li class="ar-card"><img src="assets/reels/reel-1.jpg" alt="" loading="eager" /></li>
         <li class="ar-card ar-grad g1"><span>Branding</span></li>
@@ -74,7 +101,7 @@
 
       <div class="ar-copy">
         <p class="ar-eyebrow">Digital marketing · Dubai &amp; GCC</p>
-        <h1 class="ar-title">Marketing that scales, <em>engineered</em> in Dubai.</h1>
+        <h2 class="ar-title">Marketing that scales, <em>engineered</em> in Dubai.</h2>
         <p class="ar-sub">Brand, websites, SEO and AI-led growth from one premium partner, built for ambitious businesses across the Gulf.</p>
         <a href="#contact" class="zx-btn" data-contact-open>Start a project
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
@@ -959,7 +986,7 @@
   <script src="home-duplicate-4/sections.js?v=20261009a"></script>
   <script src="home-duplicate-4/amethyst-wash.js?v=20261009a"></script>
   <script src="home-duplicate-4/outro.js?v=20261009a"></script>
-  <script src="home-duplicate-4/hero-arc.js?v=ar3"></script>
+  <script src="home-duplicate-4/hero-arc.js?v=ar8"></script>
   <script src="home-duplicate-4/whyus.js?v=20261009a"></script>
   <script src="home-duplicate-4/site-ui.js?v=20261072g"></script>
 </body>
