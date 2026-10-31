@@ -29,12 +29,15 @@
   background: #000;
 }
 
-/* Video: full width at its own 16:9, pinned to the bottom */
+@media (min-width: 900px) { .hero-media { --mb: 0; } }
+/* Video: covers the whole stage. It keeps its own 16:9 and is pinned to the bottom, but is never narrower
+   than the stage width nor shorter than the stage height (on tall screens it grows wider and is centred,
+   so the sides crop). On desktop it is anchored to the left edge, which puts the portal right of centre,
+   clear of the headline; on narrow screens it is centred. */
 .hero-media {
-  position: absolute; left: 0; right: 0; bottom: 0; z-index: 0;
-  aspect-ratio: 16 / 9;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 14%);
-          mask-image: linear-gradient(to bottom, transparent 0, #000 14%);
+  --mw: max(100%, calc(var(--stage-h) * 16 / 9));
+  position: absolute; left: calc((100% - var(--mw)) * var(--mb, .5)); bottom: 0; z-index: 0;
+  width: var(--mw); aspect-ratio: 16 / 9;
 }
 .hero-media, .hero-grid { will-change: transform, opacity; }
 .hero-video { display: block; width: 100%; height: 100%; object-fit: cover; }
