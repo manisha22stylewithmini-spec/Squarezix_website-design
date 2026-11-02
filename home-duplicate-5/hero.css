@@ -205,6 +205,15 @@
   visibility: hidden;
   pointer-events: none;
 }
+/* Script-writing line on the sign, below the baked "SquareZix WORLD." (sized from the plate width) */
+.hero-media { container-type: inline-size; }
+.sign-type {
+  position: absolute; left: calc(592 / 1280 * 100%); top: calc(280.5 / 720 * 100%); margin: 0;
+  font: 400 calc(9.6 / 1280 * 100cqw)/1.25 "DM Sans", sans-serif; letter-spacing: -.01em; color: #fff;
+  white-space: pre; pointer-events: none;
+}
+.sign-type::after { content: ""; display: inline-block; width: .09em; height: 1em; margin-left: .12em; vertical-align: -.12em; background: #e2b8ff; animation: sign-caret 1s steps(1) infinite; }
+@keyframes sign-caret { 50% { opacity: 0; } }
 .hero-screen-noise { position: absolute; inset: 0; width: 100%; height: 100%; }
 
 /* Foreground grass: a live copy of the video, masked to the bottom band, that
