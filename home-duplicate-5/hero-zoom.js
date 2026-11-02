@@ -59,6 +59,9 @@
     return (a << 24) | (b << 16) | (g << 8) | r;
   };
 
+  // The sweeping foreground copy was for the old plate's grass. This plate has none, and the copy ghosted the sign's base, so it stays off.
+  const FG_LAYER = false;
+
   const clamp01 = (v) => Math.min(Math.max(v, 0), 1);
   const seg = (p, a, b) => clamp01((p - a) / (b - a));
   const easeInOut = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
@@ -200,7 +203,7 @@
 
     // Foreground grass: extra scale + drop so it sweeps past below the lens, defocusing
     const ft = seg(p, 0.005, 0.45);
-    const fgOn = ft > 0 && ft < 1;
+    const fgOn = FG_LAYER && ft > 0 && ft < 1;
     fg.style.visibility = fgOn ? 'visible' : 'hidden';
     if (fgOn) {
       const e = easeIn(ft);
