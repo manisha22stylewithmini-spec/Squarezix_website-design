@@ -43,13 +43,13 @@
     ['.hero-services a:nth-child(3)', 1.1], ['.hero-services a:nth-child(4)', 0.9],
   ].map(([sel, depth]) => ({ el: $(sel), depth })).filter((d) => d.el);
 
-  // Portal glass outline in plate px relative to the .hero-screen box (124×208, which starts
+  // Portal glass outline in plate px relative to the .hero-screen box (128×291, which starts
   // 6px left / 4px above the glass): a flat, softly rounded rectangle
-  const GLASS = new Path2D('M12 4H112Q118 4 118 10V198Q118 204 112 204H12Q6 204 6 198V10Q6 4 12 4Z');   // flat portal glass: 112×200 with softly rounded corners
+  const GLASS = new Path2D('M12 4H116Q122 4 122 10V281Q122 287 116 287H12Q6 287 6 281V10Q6 4 12 4Z');   // flat portal glass: 116×283 with softly rounded corners
 
-  // Portal glass inside the 1280x720 video frame (x 585–696, y 210–410)
-  const SCREEN = { cx: 640.5 / 1280, cy: 310 / 720, w: 112 / 1280, h: 200 / 720 };
-  const BOX_W = 124, BOX_H = 208;                 // the .hero-screen element, in plate px
+  // Portal glass inside the 1280x720 video frame (x 583–699, y 219–502)
+  const SCREEN = { cx: 641 / 1280, cy: 360.5 / 720, w: 116 / 1280, h: 283 / 720 };
+  const BOX_W = 128, BOX_H = 291;                 // the .hero-screen element, in plate px
 
   // One tone for every static layer: violet-grey, close to the brand. Returns ABGR.
   const tone = (v, a) => {
@@ -291,7 +291,7 @@
     const want = Math.round(Math.min(460, Math.max(90, (geo.screenW * zoom) / 2.2)));
     if (!screenImg || Math.abs(want / screenCanvas.width - 1) > 0.3) {
       screenCanvas.width = want;
-      screenCanvas.height = Math.round(want * BOX_H / BOX_W);     // element box is 124×208 plate px
+      screenCanvas.height = Math.round(want * BOX_H / BOX_W);     // element box is 128×291 plate px
       screenImg = screenCtx.createImageData(screenCanvas.width, screenCanvas.height);
       colTilt = new Float32Array(want);
       colBulge = new Float32Array(want);

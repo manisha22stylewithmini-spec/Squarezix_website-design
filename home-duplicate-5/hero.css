@@ -200,8 +200,8 @@
    (hero-zoom.js) — a CSS mask here gets tiled when zoomed and shows seams. */
 .hero-screen {
   position: absolute;
-  left: calc(579 / 1280 * 100%); top: calc(206 / 720 * 100%);
-  width: calc(124 / 1280 * 100%); height: calc(208 / 720 * 100%);
+  left: calc(577 / 1280 * 100%); top: calc(215 / 720 * 100%);
+  width: calc(128 / 1280 * 100%); height: calc(291 / 720 * 100%);
   visibility: hidden;
   pointer-events: none;
 }
