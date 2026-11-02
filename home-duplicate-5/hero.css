@@ -29,7 +29,15 @@
   background: #000;
 }
 
-@media (min-width: 900px) { .hero-media { --mb: 0; } }
+/* Desktop: the stage is exactly the viewport and pins from the first pixel of scroll, so the copy never scrolls
+   away or gets cut before the push-in starts. --u also shrinks on short screens so the copy always fits. */
+@media (min-width: 900px) {
+  .hero {
+    --u: clamp(0.45px, min(calc(100vw / 1686), calc((100svh - var(--header-h)) / 900)), 1.2px);
+    --stage-h: calc(100svh - var(--header-h));
+  }
+  .hero-media { --mb: 0; }
+}
 /* Video: covers the whole stage. It keeps its own 16:9 and is pinned to the bottom, but is never narrower
    than the stage width nor shorter than the stage height (on tall screens it grows wider and is centred,
    so the sides crop). On desktop it is anchored to the left edge, which puts the portal right of centre,
