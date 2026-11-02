@@ -196,20 +196,20 @@
 .hero a:focus-visible { outline: 2px solid var(--hero-violet); outline-offset: 3px; }
 
 /* ----- Depth layers for the push-in (driven by hero-zoom.js) ----- */
-/* Portal glass in the 1280×720 plate: glass x 585–696, y 210–410, plus a 6/4px margin. The curved glass outline is cut out inside the canvas itself
+/* Portal glass in the 1280×720 plate: glass x 585–697, y 210–479, plus a 6/4px margin. The curved glass outline is cut out inside the canvas itself
    (hero-zoom.js) — a CSS mask here gets tiled when zoomed and shows seams. */
 .hero-screen {
   position: absolute;
-  left: calc(577 / 1280 * 100%); top: calc(215 / 720 * 100%);
-  width: calc(128 / 1280 * 100%); height: calc(291 / 720 * 100%);
+  left: calc(579 / 1280 * 100%); top: calc(206 / 720 * 100%);
+  width: calc(124 / 1280 * 100%); height: calc(277 / 720 * 100%);
   visibility: hidden;
   pointer-events: none;
 }
 /* Script-writing line on the sign, below the baked "SquareZix WORLD." (sized from the plate width) */
 .hero-media { container-type: inline-size; }
 .sign-type {
-  position: absolute; left: calc(592 / 1280 * 100%); top: calc(280.5 / 720 * 100%); margin: 0;
-  font: 400 calc(9.6 / 1280 * 100cqw)/1.25 "DM Sans", sans-serif; letter-spacing: -.01em; color: #fff;
+  position: absolute; left: calc(595 / 1280 * 100%); top: calc(270.5 / 720 * 100%); margin: 0;
+  font: 400 calc(9.1 / 1280 * 100cqw)/1.25 "DM Sans", sans-serif; letter-spacing: -.01em; color: #fff;
   white-space: pre; pointer-events: none;
 }
 .sign-type::after { content: ""; display: inline-block; width: .09em; height: 1em; margin-left: .12em; vertical-align: -.12em; background: #e2b8ff; animation: sign-caret 1s steps(1) infinite; }
