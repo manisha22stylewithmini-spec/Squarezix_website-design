@@ -57,6 +57,10 @@
   border-left: 1px solid var(--hero-line);
   border-right: 1px solid var(--hero-line);
 }
+/* The two middle boundaries (40% and 60%) run through the headline and the sign: no lines there */
+.hero-grid span:nth-child(2) { border-right: 0; }
+.hero-grid span:nth-child(3) { border-left: 0; border-right: 0; }
+.hero-grid span:nth-child(4) { border-left: 0; }
 
 .hero-inner {
   position: relative; z-index: 2;
