@@ -220,7 +220,6 @@
 /* Script-writing line on the sign, below the baked "SquareZix WORLD." (sized from the plate width) */
 .hero-media { container-type: inline-size; }
 .sign-rule { position: absolute; left: calc(596 / 1280 * 100%); top: calc(270 / 720 * 100%); width: calc(34 / 1280 * 100%); height: calc(1.6 / 1280 * 100cqw); border-radius: 2px; background: linear-gradient(90deg, #e2b8ff, #ab24f2); pointer-events: none; }
-.sign-rule.end { top: calc(338 / 720 * 100%); background: linear-gradient(90deg, #fff, #e2b8ff); opacity: .9; }
 .sign-type {
   position: absolute; left: calc(596 / 1280 * 100%); top: calc(279 / 720 * 100%); margin: 0;
   font: 500 calc(14.5 / 1280 * 100cqw)/1.3 "DM Sans", sans-serif; letter-spacing: -.005em; color: #fff; text-shadow: 0 1px 8px rgba(7, 5, 17, .35);
