@@ -219,10 +219,6 @@
 }
 /* Script-writing line on the sign, below the baked "SquareZix WORLD." (sized from the plate width) */
 .hero-media { container-type: inline-size; }
-.sign-brand { position: absolute; left: calc(594 / 1280 * 100%); top: calc(237.2 / 720 * 100%); margin: 0; color: #fff; pointer-events: none; font-family: "DM Sans", sans-serif; }
-.sign-brand b { display: block; font: 700 calc(20 / 1280 * 100cqw)/calc(17 / 1280 * 100cqw) "DM Sans", sans-serif; letter-spacing: -.035em; }
-.sign-brand i { font-style: normal; color: #b865f5; }
-.sign-brand span { display: block; margin-top: calc(1.8 / 1280 * 100cqw); font: 400 calc(14.5 / 1280 * 100cqw)/calc(17 / 1280 * 100cqw) "DM Sans", sans-serif; letter-spacing: -.01em; }
 .sign-type {
   position: absolute; left: calc(594 / 1280 * 100%); top: calc(277.5 / 720 * 100%); margin: 0;
   font: 400 calc(9.1 / 1280 * 100cqw)/1.25 "DM Sans", sans-serif; letter-spacing: -.01em; color: #fff;

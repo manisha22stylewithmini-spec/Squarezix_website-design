@@ -3,7 +3,7 @@
 (() => {
   const el = document.querySelector('.sign-type');
   if (!el) return;
-  const lines = ['Scroll to see how.', 'And you still looked.', 'An ad in the middle\nof nowhere.'];
+  const lines = ['And you still looked.', 'An ad in the middle\nof nowhere.'];
   const TYPE = 58, ERASE = 22, HOLD = 1900, GAP = 320;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) { el.textContent = lines[0]; return; }
   let i = 0;
