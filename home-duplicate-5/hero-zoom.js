@@ -16,7 +16,6 @@
   const header = document.querySelector('.site-header');
   const media = $('.hero-media');
   const video = $('.hero-video');
-  const fg = $('.hero-fg');
   const dust = $('.hero-dust');
   const grid = $('.hero-grid');
   const inner = $('.hero-inner');
@@ -28,7 +27,6 @@
   const lines = [...stage.querySelectorAll('.crt-line > span')];
   const ui = $('.crt-ui');
   const timecode = document.getElementById('crt-timecode');
-  const fgCtx = fg.getContext('2d');
   const dustCtx = dust.getContext('2d');
   const noiseCtx = noise.getContext('2d', { alpha: true });
   const stars = $('.crt-stars');
@@ -58,9 +56,6 @@
     const b = Math.min(255, v * 0.98 + 20) | 0;
     return (a << 24) | (b << 16) | (g << 8) | r;
   };
-
-  // The sweeping foreground copy was for the old plate's grass. This plate has none, and the copy ghosted the sign's base, so it stays off.
-  const FG_LAYER = false;
 
   const clamp01 = (v) => Math.min(Math.max(v, 0), 1);
   const seg = (p, a, b) => clamp01((p - a) / (b - a));
@@ -100,7 +95,6 @@
     const py = m.top - s.top + SCREEN.cy * m.height;
     const origin = `${SCREEN.cx * 100}% ${SCREEN.cy * 100}%`;
     media.style.transformOrigin = origin;
-    fg.style.transformOrigin = origin;
 
     geo = {
       stickyTop, visTop, visH,
@@ -113,10 +107,6 @@
       screenW: SCREEN.w * m.width,              // glass width on screen at zoom 1
     };
     stage.style.setProperty('--vis-top', `${visTop}px`);
-
-    // Foreground copy only needs to be as sharp as it'll ever look (it blurs)
-    fg.width = Math.min(1280, Math.round(m.width));
-    fg.height = Math.round(fg.width * (m.height / m.width));
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     dust.width = Math.round(s.width * dpr);
@@ -200,18 +190,6 @@
     const shakeY = (Math.random() - 0.5) * shake * 4;
     media.style.transform =
       `translate3d(${(geo.dx * centre + shakeX).toFixed(2)}px, ${(geo.dy * centre + shakeY).toFixed(2)}px, 0) scale(${zoom.toFixed(4)})`;
-
-    // Foreground grass: extra scale + drop so it sweeps past below the lens, defocusing
-    const ft = seg(p, 0.005, 0.45);
-    const fgOn = FG_LAYER && ft > 0 && ft < 1;
-    fg.style.visibility = fgOn ? 'visible' : 'hidden';
-    if (fgOn) {
-      const e = easeIn(ft);
-      fg.style.transform = `translate3d(0, ${(e * 22).toFixed(2)}%, 0) scale(${(1 + e * 1.6).toFixed(4)})`;
-      fg.style.filter = `blur(${(e * 14).toFixed(1)}px)`;
-      fg.style.opacity = (1 - seg(p, 0.3, 0.45)).toFixed(3);
-      if (video.readyState >= 2) fgCtx.drawImage(video, 0, 0, fg.width, fg.height);
-    }
 
     // Static on the TV glass: none until the screen is ~1.9× (about a fifth of the
     // viewport wide), then it thickens gradually with every step closer, reaching

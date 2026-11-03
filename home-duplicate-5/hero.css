@@ -232,15 +232,6 @@
 @keyframes sign-caret { 50% { opacity: 0; } }
 .hero-screen-noise { position: absolute; inset: 0; width: 100%; height: 100%; }
 
-/* Foreground grass: a live copy of the video, masked to the bottom band, that
-   scales faster than the plate so it rushes past the camera */
-.hero-fg {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  visibility: hidden;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 60%, #000 78%);
-          mask-image: linear-gradient(to bottom, transparent 60%, #000 78%);
-}
 /* Floating dust in front of the scene */
 .hero-dust {
   position: absolute; inset: 0; z-index: 1;
