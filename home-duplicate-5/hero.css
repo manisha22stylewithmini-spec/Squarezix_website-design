@@ -208,19 +208,23 @@
 .hero a:focus-visible { outline: 2px solid var(--hero-violet); outline-offset: 3px; }
 
 /* ----- Depth layers for the push-in (driven by hero-zoom.js) ----- */
-/* Portal glass in the 1280×720 plate: glass x 585–697, y 210–479, plus a 6/4px margin. The curved glass outline is cut out inside the canvas itself
+/* Portal glass in the 1280×720 plate: glass x 585–698, y 217–500, plus a 6/4px margin. The curved glass outline is cut out inside the canvas itself
    (hero-zoom.js) — a CSS mask here gets tiled when zoomed and shows seams. */
 .hero-screen {
   position: absolute;
-  left: calc(579 / 1280 * 100%); top: calc(206 / 720 * 100%);
-  width: calc(124 / 1280 * 100%); height: calc(277 / 720 * 100%);
+  left: calc(579 / 1280 * 100%); top: calc(213 / 720 * 100%);
+  width: calc(125 / 1280 * 100%); height: calc(291 / 720 * 100%);
   visibility: hidden;
   pointer-events: none;
 }
 /* Script-writing line on the sign, below the baked "SquareZix WORLD." (sized from the plate width) */
 .hero-media { container-type: inline-size; }
+.sign-brand { position: absolute; left: calc(594 / 1280 * 100%); top: calc(237.2 / 720 * 100%); margin: 0; color: #fff; pointer-events: none; font-family: "DM Sans", sans-serif; }
+.sign-brand b { display: block; font: 700 calc(20 / 1280 * 100cqw)/calc(17 / 1280 * 100cqw) "DM Sans", sans-serif; letter-spacing: -.035em; }
+.sign-brand i { font-style: normal; color: #b865f5; }
+.sign-brand span { display: block; margin-top: calc(1.8 / 1280 * 100cqw); font: 400 calc(14.5 / 1280 * 100cqw)/calc(17 / 1280 * 100cqw) "DM Sans", sans-serif; letter-spacing: -.01em; }
 .sign-type {
-  position: absolute; left: calc(595 / 1280 * 100%); top: calc(270.5 / 720 * 100%); margin: 0;
+  position: absolute; left: calc(594 / 1280 * 100%); top: calc(277.5 / 720 * 100%); margin: 0;
   font: 400 calc(9.1 / 1280 * 100cqw)/1.25 "DM Sans", sans-serif; letter-spacing: -.01em; color: #fff;
   white-space: pre; pointer-events: none;
 }
