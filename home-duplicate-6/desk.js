@@ -14,8 +14,8 @@
   if (!media || !screen || !feed) return;
 
   // Where the phone's screen sits in the photo, as fractions of the image (TL, TR, BR, BL).
-  // Retune these four points when the final shot replaces assets/hero/desk-shot.jpg.
-  const QUAD = [[.628, .246], [.708, .263], [.675, .615], [.600, .585]];
+  // Retune these four points when the final shot replaces assets/hero/bench-shot.jpg.
+  const QUAD = [[.5263, .4568], [.5341, .4586], [.5253, .4784], [.5171, .4821]];
   const SW = 390, SH = 844;                       // the page inside the phone, in its own px
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -37,7 +37,7 @@
     wq = (dist(corners[0], corners[1]) + dist(corners[3], corners[2])) / 2;
     zEnd = W * 1.04 / wq;                         // flat screen ends up a touch wider than the stage
     feedMax = Math.max(0, feed.offsetHeight - SH * .66);   // runs far enough that the closing line reaches the middle band
-    N = W < 700 ? [W * .56, H * .4] : [ml + sc[0], mt + sc[1]];   // where the screen rests before scrolling
+    N = W < 700 ? [W * .56, H * .4] : [ml + sc[0] + W * .09, mt + sc[1]];   // on desktop the shot sits a little right, clear of the copy   // where the screen rests before scrolling
     render(progress());
   }
 
