@@ -10,8 +10,9 @@
 .ds-media { position: absolute; z-index: 0; width: max(100%, calc(var(--stage-h, 100svh) * 16 / 9)); aspect-ratio: 16 / 9; left: 50%; top: 50%; translate: -50% -50%; transform-origin: 0 0; will-change: transform; }
 .ds-media img { display: block; width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; }
 /* soft vignette so the copy on the left always reads and the edges settle into the page */
+.ds-dim { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: #070511; opacity: 0; }
 .ds-shade { position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  background: linear-gradient(90deg, rgba(7, 5, 17, .86) 0%, rgba(7, 5, 17, .55) 34%, rgba(7, 5, 17, 0) 62%), linear-gradient(0deg, rgba(7, 5, 17, .6), rgba(7, 5, 17, 0) 30%); }
+  background: linear-gradient(90deg, #070511 0%, #070511 8%, rgba(7, 5, 17, .86) 14%, rgba(7, 5, 17, .55) 36%, rgba(7, 5, 17, 0) 62%), linear-gradient(0deg, rgba(7, 5, 17, .6), rgba(7, 5, 17, 0) 30%); }
 
 /* ----- copy (left) ----- */
 .ds-copy { position: absolute; z-index: 3; left: clamp(20px, 8.5vw, 150px); top: 50%; translate: 0 -50%; width: min(560px, calc(100% - 40px)); will-change: transform, opacity; }
@@ -28,7 +29,7 @@
 
 /* ----- the phone screen: a 390x844 page, mapped onto the photo's screen by desk.js ----- */
 .ds-screen { position: absolute; left: 0; top: 0; z-index: 2; width: 390px; height: 844px; overflow: hidden; transform-origin: 0 0; background: #070511; border-radius: 28px;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, .06); will-change: transform; visibility: hidden; }
+  box-shadow: 0 0 34px 3px rgba(171, 36, 242, .5); will-change: transform; visibility: hidden; }
 .ds-feed { position: absolute; left: 0; top: 0; width: 100%; will-change: transform; }
 .ds-glow { position: absolute; left: 50%; top: -180px; width: 620px; height: 620px; margin-left: -310px; border-radius: 50%; pointer-events: none;
   background: radial-gradient(closest-side, rgba(171, 36, 242, .55), rgba(98, 29, 208, .22) 55%, transparent 100%); }

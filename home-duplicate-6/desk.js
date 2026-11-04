@@ -11,11 +11,15 @@
   const feed = stage && stage.querySelector('.ds-feed');
   const copy = stage && stage.querySelector('.ds-copy');
   const shade = stage && stage.querySelector('.ds-shade');
+  const dim = stage && stage.querySelector('.ds-dim');
   if (!media || !screen || !feed) return;
 
   // Where the phone's screen sits in the photo, as fractions of the image (TL, TR, BR, BL).
   // Retune these four points when the final shot replaces assets/hero/bench-shot.jpg.
-  const QUAD = [[.5263, .4568], [.5341, .4586], [.5253, .4784], [.5171, .4821]];
+  const QUAD = [[.5205, .4571], [.5298, .4595], [.5217, .4786], [.5128, .4749]];
+  // The thumb covers the lower part of the real screen, so QUAD is only the part you can see. VIS says how much of
+  // the page (top to bottom) that part shows; the rest of the page is clipped away and comes back as the screen flattens.
+  const VIS = 530 / 844;
   const SW = 390, SH = 844;                       // the page inside the phone, in its own px
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -92,16 +96,22 @@
     const ty = lerp(N[1], H / 2, pan) - mt - z * sc[1];
     media.style.transform = `translate3d(${tx.toFixed(2)}px,${ty.toFixed(2)}px,0) scale(${z.toFixed(4)})`;
 
-    // screen quad on stage, easing toward a flat, upright rectangle (same width, page proportions)
-    const P = corners.map(([x, y]) => [ml + tx + z * x, mt + ty + z * y]);
+    // screen quad on stage: the visible part, extended down to the full page, then eased toward a flat upright rectangle
+    const Pv = corners.map(([x, y]) => [ml + tx + z * x, mt + ty + z * y]);
+    const k = 1 / VIS;
+    const P = [Pv[0], Pv[1],
+      [Pv[1][0] + k * (Pv[2][0] - Pv[1][0]), Pv[1][1] + k * (Pv[2][1] - Pv[1][1])],
+      [Pv[0][0] + k * (Pv[3][0] - Pv[0][0]), Pv[0][1] + k * (Pv[3][1] - Pv[0][1])]];
     const wp = (dist(P[0], P[1]) + dist(P[3], P[2])) / 2;
-    const cx = P.reduce((s, c) => s + c[0], 0) / 4, cy = P.reduce((s, c) => s + c[1], 0) / 4;
+    const flat = ease(seg(pp, .26, .68));
+    const cx = lerp(P.reduce((s, c) => s + c[0], 0) / 4, W / 2, flat), cy = lerp(P.reduce((s, c) => s + c[1], 0) / 4, H / 2, flat);
     const fw = wp, fh = wp * SH / SW;
     const F = [[cx - fw / 2, cy - fh / 2], [cx + fw / 2, cy - fh / 2], [cx + fw / 2, cy + fh / 2], [cx - fw / 2, cy + fh / 2]];
-    const flat = ease(seg(pp, .26, .68));
     const Q = P.map((c, i) => [lerp(c[0], F[i][0], flat), lerp(c[1], F[i][1], flat)]);
     screen.style.transform = matrixFor(Q);
-    screen.style.borderRadius = lerp(34, 0, ease(seg(pp, .5, .72))).toFixed(1) + 'px';
+    screen.style.clipPath = `inset(-120px -120px ${((1 - lerp(VIS, 1, flat)) * 100).toFixed(2)}% -120px)`;
+    screen.style.borderRadius = lerp(16, 0, ease(seg(pp, .5, .72))).toFixed(1) + 'px';
+    if (dim) dim.style.opacity = (.92 * ease(seg(pp, .1, .5))).toFixed(3);
     screen.style.visibility = 'visible';
 
     // the page inside keeps scrolling the whole way
