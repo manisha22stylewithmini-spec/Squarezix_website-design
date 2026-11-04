@@ -16,10 +16,10 @@
 
   // Where the phone's screen sits in the photo, as fractions of the image (TL, TR, BR, BL).
   // Retune these four points when the final shot replaces assets/hero/bench-shot.jpg.
-  const QUAD = [[.5205, .4571], [.5298, .4595], [.5217, .4786], [.5128, .4749]];
+  const QUAD = [[.5250, .4559], [.5340, .4576], [.5260, .4783], [.5177, .4764]];
   // The thumb covers the lower part of the real screen, so QUAD is only the part you can see. VIS says how much of
   // the page (top to bottom) that part shows; the rest of the page is clipped away and comes back as the screen flattens.
-  const VIS = 530 / 844;
+  const VIS = 585 / 844;
   const SW = 390, SH = 844;                       // the page inside the phone, in its own px
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
