@@ -1,0 +1,119 @@
+/* ---------- Hero (campaign poster) ----------
+   A paper poster: a giant word, a puppet with a TV for a head in front of it, flowers around the chair.
+   Scrolling steps through the four parts of a campaign; poster.js drives the word, TV screen, stamp, note and arms.
+   Brand pair #621DD0 / #AB24F2; dark ground #0a0a15 so the poster lands in the dark page; Sora / DM Sans / Instrument Serif italic. */
+.pz { position: relative; margin-top: var(--header-h); height: 440svh; background: #070511; color: #fff; }
+.pz-stage { position: sticky; top: var(--header-h); height: calc(100svh - var(--header-h)); overflow: hidden; isolation: isolate; background: #ebe5f7; }
+.pz-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* paper: lilac-white sheet with soft creases and grain */
+.pz-paper { position: absolute; inset: 0; z-index: 0; background:
+  radial-gradient(120% 90% at 50% 28%, #fdfbff 0%, #f0eafa 55%, #ded4f1 100%); }
+.pz-paper::before { content: ""; position: absolute; inset: 0; opacity: .5; mix-blend-mode: multiply;
+  background:
+    linear-gradient(112deg, transparent 18%, rgba(110, 80, 170, .16) 18.2%, transparent 18.9%),
+    linear-gradient(64deg, transparent 52%, rgba(110, 80, 170, .12) 52.2%, transparent 53%),
+    linear-gradient(98deg, transparent 71%, rgba(110, 80, 170, .14) 71.2%, transparent 72%),
+    linear-gradient(31deg, transparent 30%, rgba(255, 255, 255, .9) 30.2%, transparent 31%); }
+.pz-paper::after { content: ""; position: absolute; inset: 0; opacity: .22; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .4 0 0 0 0 .3 0 0 0 0 .55 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+/* small poster chips */
+.pz-chip { position: absolute; z-index: 5; top: 4.5%; display: flex; align-items: center; gap: 10px; color: #7a2bd0; pointer-events: none; }
+.pz-chip--l { left: 3.5%; } .pz-chip--l img { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; box-shadow: 0 6px 14px -6px rgba(60, 20, 120, .6); }
+.pz-chip--l span { font: 700 clamp(13px, 1.05vw, 16px)/1 "Sora", sans-serif; letter-spacing: -.01em; }
+.pz-chip--r { right: 3.5%; flex-direction: column; align-items: flex-end; gap: 4px; }
+.pz-chip--r b { font: 700 clamp(14px, 1.2vw, 19px)/1 "Sora", sans-serif; letter-spacing: -.02em; background: linear-gradient(135deg, #621dd0, #ab24f2); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.pz-chip--r span { font: 500 clamp(10px, .8vw, 12px)/1 "DM Sans", sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #8a6cc0; }
+
+/* tag + giant word, behind the puppet */
+.pz-head { position: absolute; z-index: 1; left: 0; right: 0; top: 9.5%; text-align: center; will-change: transform; }
+.pz-tag { margin: 0; display: block; }
+.pz-tag span { display: inline-block; padding: .55em 1.8em; border-radius: 5px; font: 500 clamp(12px, 1.35vw, 20px)/1 "Sora", sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #fff;
+  background: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, .55) 0 1px, transparent 2px) 0 0 / 11px 9px, radial-gradient(circle at 70% 70%, rgba(255, 255, 255, .4) 0 1px, transparent 2px) 0 0 / 7px 8px, linear-gradient(90deg, #a77cec, #8a4fe0, #a77cec);
+  box-shadow: 0 8px 18px -10px rgba(60, 20, 120, .7); }
+.pz-tag span.in { animation: pz-tagin .5s cubic-bezier(.2, .9, .2, 1) both; }
+@keyframes pz-tagin { from { opacity: 0; transform: translateY(-14px) scale(.9); } to { opacity: 1; transform: none; } }
+.pz-word { width: fit-content; margin: .08em auto 0; font: 700 100px/.9 "Sora", sans-serif; letter-spacing: -.035em; text-transform: uppercase; white-space: nowrap; }
+.pz-wi { display: inline-block; }
+.pz-l { display: inline-block; background-image: linear-gradient(90deg, #cf4dff 0%, #9a2ee6 45%, #3d1079 100%); background-repeat: no-repeat;
+  background-size: calc(var(--n) * 100%) 100%; background-position: calc(var(--i) / (var(--n) - 1) * 100%) 0; -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: pz-drop .75s cubic-bezier(.2, .9, .25, 1) both; animation-delay: calc(var(--i) * 45ms); }
+@keyframes pz-drop { from { opacity: 0; transform: translateY(-.7em) rotate(-7deg) scale(1.18); } to { opacity: 1; transform: none; } }
+
+/* strings (lines are set in px by poster.js) */
+.pz-strings { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.pz-s { stroke: rgba(70, 48, 105, .55); stroke-width: 1.3; }
+
+/* the puppet */
+.pz-fig { position: absolute; z-index: 3; left: 50%; bottom: -1%; translate: -50% 0; height: min(90%, calc(96vw * 830 / 600)); aspect-ratio: 600 / 830; }
+.pz-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.pz-tv { position: absolute; left: 33.33%; top: 10.6%; width: 33.34%; aspect-ratio: 200 / 168; container-type: inline-size; transform-origin: 50% 100%; will-change: transform; }
+.pz-tv-body { position: absolute; inset: 0; border-radius: 12cqw; background: linear-gradient(145deg, #b883ff 0%, #8b42ee 45%, #5a1fc2 100%);
+  box-shadow: inset 0 0 0 1.2cqw rgba(255, 255, 255, .14), inset 0 -3cqw 6cqw rgba(30, 0, 80, .45), 0 4cqw 8cqw -2cqw rgba(30, 0, 80, .5); }
+.pz-ant { position: absolute; left: 50%; bottom: 96%; width: .9cqw; height: 34cqw; background: #3a2a55; transform-origin: 50% 100%; z-index: -1; }
+.pz-ant::after { content: ""; position: absolute; left: 50%; top: -2cqw; width: 4cqw; height: 4cqw; margin-left: -2cqw; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff, #b9bccb 60%, #6b6f80); }
+.pz-ant--l { transform: translateX(-12cqw) rotate(-26deg); } .pz-ant--r { transform: translateX(10cqw) rotate(22deg); }
+.pz-tv-screen { position: absolute; left: 6cqw; top: 8cqw; width: 68cqw; height: 68cqw; border-radius: 9cqw / 8cqw; overflow: hidden;
+  background: radial-gradient(circle at 50% 40%, #fff3fc, #f4c6ff 45%, #c27bff 100%);
+  box-shadow: inset 0 0 0 1.4cqw #2b0f55, inset 0 0 6cqw rgba(60, 0, 120, .5), 0 0 9cqw rgba(255, 150, 255, .5); }
+.pz-tv-side { position: absolute; right: 3.5cqw; top: 8cqw; width: 14cqw; height: 68cqw; }
+.pz-tv-side i { position: absolute; left: 1.5cqw; width: 11cqw; height: 11cqw; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #f2f3f8, #9a9eb0 60%, #5a5e70); box-shadow: 0 1cqw 2cqw rgba(0, 0, 0, .35); }
+.pz-tv-side .k1 { top: 2cqw; } .pz-tv-side .k2 { top: 18cqw; }
+.pz-tv-side span { position: absolute; left: 1cqw; width: 12cqw; height: 1.2cqw; border-radius: 1cqw; background: rgba(30, 0, 80, .55); }
+.pz-tv-side span:nth-of-type(1) { top: 42cqw; } .pz-tv-side span:nth-of-type(2) { top: 46cqw; } .pz-tv-side span:nth-of-type(3) { top: 50cqw; }
+
+/* TV slides (one per campaign part) */
+.pz-slide { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 2.4cqw; opacity: 0; transform: scale(.9); transition: opacity .35s ease, transform .35s ease; }
+.pz-slide.is-on { opacity: 1; transform: none; }
+.sl-logo { font: 700 24cqw/1 "Sora", sans-serif; letter-spacing: -.05em; background: linear-gradient(135deg, #4a15a8, #ab24f2); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.sl-sub { font: 600 5cqw/1 "DM Sans", sans-serif; letter-spacing: .02em; color: #5a1fc2; }
+.sl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.2cqw; width: 52cqw; }
+.sl-grid i { aspect-ratio: 1; border-radius: 3cqw; background: linear-gradient(135deg, #621dd0, #ab24f2); }
+.sl-grid i:nth-child(2n) { background: linear-gradient(135deg, #ff9be8, #ab24f2); } .sl-grid i:nth-child(3n) { background: linear-gradient(135deg, #2a0b52, #621dd0); }
+.sl-kick { font: 600 4.6cqw/1 "Sora", sans-serif; letter-spacing: .12em; text-transform: uppercase; color: #6b2fcf; }
+.sl-big { font: 700 18cqw/1 "Sora", sans-serif; letter-spacing: -.05em; background: linear-gradient(135deg, #4a15a8, #ab24f2); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.sl-pill { padding: 2.4cqw 6cqw; border-radius: 99cqw; background: linear-gradient(135deg, #621dd0, #ab24f2); font: 600 4.8cqw/1 "DM Sans", sans-serif; color: #fff; }
+.sl-bars { display: flex; align-items: flex-end; gap: 2.6cqw; width: 50cqw; height: 32cqw; }
+.sl-bars i { flex: 1; height: var(--h); border-radius: 2cqw 2cqw 0 0; background: linear-gradient(180deg, #ab24f2, #4a15a8); }
+.sl-up { font: 700 15cqw/1 "Sora", sans-serif; letter-spacing: -.04em; color: #4a15a8; }
+.pz-scan { position: absolute; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(40, 0, 90, .1) 0 2px, transparent 2px 4px); animation: pz-flick 3.2s steps(1) infinite; }
+@keyframes pz-flick { 0%, 100% { opacity: .9; } 46% { opacity: .5; } 50% { opacity: 1; } 78% { opacity: .65; } }
+
+/* flowers + ground (generated by poster.js) */
+.pz-flowers { position: absolute; left: 0; right: 0; bottom: 0; pointer-events: none; }
+.pz-flowers svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.pz-flowers--back { z-index: 2; height: 30%; }
+.pz-flowers--front { z-index: 4; height: 19%; }
+.pz-fw { transform-box: fill-box; transform-origin: 50% 100%; animation: pz-sway 4.5s ease-in-out infinite alternate; }
+@keyframes pz-sway { from { transform: rotate(-2.2deg); } to { transform: rotate(2.2deg); } }
+
+/* stamp + note + footer */
+/* dark strip under the footer text so it reads over the flowers */
+.pz-stage::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 17%; z-index: 5; pointer-events: none; background: linear-gradient(to top, rgba(10, 10, 21, .92) 8%, rgba(10, 10, 21, .55) 55%, rgba(10, 10, 21, 0) 100%); }
+.pz-stamp { position: absolute; z-index: 5; left: 69%; top: 47%; padding: 11px 20px; border: 3px solid #8a2be2; border-radius: 6px; color: #8a2be2; background: rgba(255, 255, 255, .35); box-shadow: inset 0 0 0 3px rgba(255, 255, 255, .5), inset 0 0 0 4px #8a2be2; transform: rotate(-9deg); pointer-events: none; }
+.pz-stamp span { display: block; font: 700 clamp(12px, 1.2vw, 18px)/1 "Sora", sans-serif; letter-spacing: .06em; text-transform: uppercase; }
+.pz-stamp.slam { animation: pz-slam .5s cubic-bezier(.2, .9, .2, 1) both; }
+@keyframes pz-slam { 0% { opacity: 0; transform: rotate(-3deg) scale(2.4); } 55% { opacity: 1; transform: rotate(-11deg) scale(.94); } 100% { opacity: 1; transform: rotate(-9deg) scale(1); } }
+.pz-note { position: absolute; z-index: 5; left: 5.5%; top: 52%; width: min(250px, 22vw); color: #7a2bd0; pointer-events: none; }
+.pz-note p { margin: 0 0 6px; font: italic 400 clamp(20px, 1.9vw, 30px)/1.1 "Instrument Serif", serif; white-space: pre-line; }
+.pz-note.in p, .pz-note.in svg { animation: pz-notein .6s ease both; }
+.pz-note.in svg { animation-delay: .12s; }
+@keyframes pz-notein { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.pz-foot { position: absolute; z-index: 6; left: 3.5%; bottom: 4.5%; display: grid; gap: 14px; justify-items: start; }
+.pz-lead { margin: 0; font: 400 clamp(14px, 1.15vw, 17px)/1.4 "DM Sans", sans-serif; color: #e9e2ff; }
+.pz-steps { position: absolute; z-index: 6; right: 3.5%; bottom: 4.5%; display: flex; align-items: baseline; gap: 6px; color: #fff; }
+.pz-steps b { font: 700 clamp(26px, 2.4vw, 38px)/1 "Sora", sans-serif; letter-spacing: -.04em; }
+.pz-steps span { font: 500 14px/1 "DM Sans", sans-serif; color: #b8b8d1; }
+.pz-steps em { margin-left: 14px; font: 500 13px/1 "DM Sans", sans-serif; font-style: normal; letter-spacing: .12em; text-transform: uppercase; color: #e2b8ff; }
+
+@media (max-width: 700px) {
+  .pz-head { top: 13.5%; }
+  .pz-note { display: none; }
+  .pz-chip--l img { width: 34px; height: 34px; }
+  .pz-stamp { left: 5%; top: auto; bottom: 15.5%; padding: 7px 12px; }
+  .pz-lead { display: none; }
+  .pz-steps em { display: none; }
+  .pz-foot { bottom: 3.5%; } .pz-steps { bottom: 3.5%; }
+}
+@media (prefers-reduced-motion: reduce) { .pz { height: auto; } .pz-stage { position: relative; top: 0; } .pz-fw, .pz-scan { animation: none; } }
