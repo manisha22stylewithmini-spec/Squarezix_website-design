@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css?v=20261009a" />
-  <link rel="stylesheet" href="hero.css?v=20261009a" />
+  <link rel="stylesheet" href="desk.css?v=d3" />
   <link rel="stylesheet" href="services.css?v=20261009a" />
   <link rel="stylesheet" href="bento.css?v=20261012b" />
   <link rel="stylesheet" href="sections.css?v=20261009a" />
@@ -47,66 +47,53 @@
     </div>
   </header>
 
-  <!-- Hero: looping TV-in-meadow video anchored to the bottom, copy on the black sky,
-       5-column double-line grid, service index in the last column. Styles in hero.css.
-       The section is tall; .hero-stage sticks while hero-zoom.js scrubs a push-in
-       through the TV screen into the "inside of Squarezix" frame. -->
-  <section class="hero" id="hero">
-    <div class="hero-stage" id="hero-stage">
-      <div class="hero-media" aria-hidden="true">
-        <video class="hero-video" id="hero-video" src="assets/hero/hero-video.mp4" poster="assets/hero/hero-poster.jpg"
-               autoplay muted loop playsinline preload="auto"></video>
-        <!-- Static that lives on the TV glass itself — zooms with the video -->
-        <div class="hero-screen" aria-hidden="true">
-          <canvas class="hero-screen-noise"></canvas>
-        </div>
-        <canvas class="hero-fg"></canvas>
+  <!-- Hero (desk scene): an over-the-shoulder shot of a man on a hilltop bench over Dubai at night, looking at his phone. Scrolling pushes the camera
+       into the phone; its screen (a real page, mapped onto the photo by desk.js) fills the view and keeps scrolling.
+       Styles in desk.css. The shot is assets/hero/bench-shot.jpg; its screen corners are QUAD in desk.js. -->
+  <section class="ds" id="hero">
+    <div class="ds-stage">
+      <div class="ds-media" aria-hidden="true">
+        <img src="assets/hero/bench-shot.jpg?v=1" alt="" width="1984" height="1116" decoding="async" fetchpriority="high" />
       </div>
+      <div class="ds-dim" aria-hidden="true"></div>
+      <div class="ds-shade" aria-hidden="true"></div>
 
-      <canvas class="hero-dust" aria-hidden="true"></canvas>
-
-      <div class="hero-grid" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
-
-      <div class="hero-inner">
-        <div class="hero-copy">
-          <p class="hero-badge">Digital Growth Partner · Dubai · GCC · Global</p>
-          <h1 class="hero-title">
-            <span class="hero-title-main">Squarezix<sup>®</sup></span>
-            <span class="hero-title-sub">Creative Agency</span>
-          </h1>
-          <p class="hero-lead">Building what’s next for ambitious brands.</p>
-          <p class="hero-text">SquareZix combines brand, digital experience, growth and AI to help ambitious businesses become more visible, more relevant, more valuable.</p>
-          <a href="#contact" class="zx-btn hero-cta" data-contact-open>Start a Project</a>
-        </div>
-
-        <nav class="hero-services" aria-label="Services">
-          <a href="#services"><span>Development</span><span class="num">01</span></a>
-          <a href="#services"><span>Design</span><span class="num">02</span></a>
-          <a href="#services"><span>Marketing</span><span class="num">03</span></a>
-          <a href="#services"><span>Seo</span><span class="num">04</span></a>
-        </nav>
-      </div>
-
-      <div class="hero-crt">
-        <div class="crt-screen">
-          <canvas class="crt-stars" aria-hidden="true"></canvas>
-          <div class="crt-content">
-            <h2 class="crt-title">
-              <span class="crt-line"><span>Welcome to the <em>inside</em></span></span>
-              <span class="crt-line"><span>of Squarezix<sup>®</sup></span></span>
-            </h2>
+      <div class="ds-screen" aria-hidden="true">
+        <div class="ds-feed">
+          <i class="ds-glow"></i>
+          <div class="m-bar"><img src="assets/brand/sz-logo.png" alt="" /><span><i></i><i></i></span></div>
+          <div class="m-hero">
+            <p class="m-kick">Dubai · GCC · Global</p>
+            <h2 class="m-h1">Marketing that <em>moves</em> brands.</h2>
+            <p class="m-p">Brand, digital experience, growth and AI, built by one team.</p>
+            <span class="m-btn">Start a project</span>
           </div>
-          <div class="crt-ui" aria-hidden="true">
-            <span class="crt-corner tl"></span><span class="crt-corner tr"></span>
-            <span class="crt-corner bl"></span><span class="crt-corner br"></span>
-            <p class="crt-meta tl"><i class="crt-rec"></i>Rec · CH 01</p>
-            <p class="crt-meta tr" id="crt-timecode">00:00:00:00</p>
-            <p class="crt-meta bl">Squarezix — Dubai · GCC · Global</p>
-            <p class="crt-meta br">Scroll to explore ↓</p>
+          <div class="m-sec">
+            <h2>What we <em>do</em></h2>
+            <ul class="m-list">
+              <li>Development <b>01</b></li><li>Design <b>02</b></li><li>Marketing <b>03</b></li><li>SEO <b>04</b></li>
+            </ul>
           </div>
+          <div class="m-sec">
+            <h2>Results that <em>show</em></h2>
+            <div class="m-stats">
+              <div><strong>120+</strong><span>brands launched</span></div>
+              <div><strong>3.4x</strong><span>average growth</span></div>
+            </div>
+          </div>
+          <div class="m-end"><h2>Be the brand they <em>stop</em> for.</h2></div>
         </div>
       </div>
-      <canvas class="hero-noise" aria-hidden="true"></canvas>
+
+      <div class="ds-copy">
+        <p class="ds-badge">Digital Growth Partner · Dubai · GCC · Global</p>
+        <h1 class="ds-title">Squarezix<em>Creative Agency</em></h1>
+        <p class="ds-lead">Building what’s next for ambitious brands. Brand, digital experience, growth and AI, made to be seen.</p>
+        <div class="ds-cta">
+          <a href="#contact" class="zx-btn" data-contact-open>Start a Project</a>
+          <span class="ds-hint"><i></i>Scroll into the phone</span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -973,7 +960,7 @@
   </footer>
 
 
-  <script src="hero-zoom.js?v=20261009a"></script>
+  <script src="desk.js?v=d7"></script>
   <script src="site.js?v=20261009a"></script>
   <script src="menu.js?v=20261043a"></script>
   <script src="services.js?v=20261009a"></script>
