@@ -230,3 +230,4 @@ body.qc-hide .qc { opacity: 0 !important; transform: translateX(24px); pointer-e
 .hx-title-main { font-weight: 700 !important; letter-spacing: -.045em !important; }
 .hx-title-sub { font-weight: 400 !important; }
 .hx-lead { max-width: 30em; line-height: 1.6 !important; }
+.hx-lead { font-size: clamp(13px, 1.05vw, 15.5px) !important; line-height: 1.45 !important; max-width: 27em; margin: clamp(8px, 1.4svh, 14px) 0 clamp(14px, 2.4svh, 22px) !important; color: #bdb5dc; }
