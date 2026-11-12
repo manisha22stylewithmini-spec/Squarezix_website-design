@@ -1,0 +1,75 @@
+/* ---------- Hero: dark blueprint grid + robot loop ----------
+   Hairline grid, giant looping type, a 3D robot standing in the middle on a stand that runs down behind the partner strip
+   and on as a chrome column below it. rb.js plays the robot's loop: it rises, an arm brings a chip down and slots it into
+   its head, it boots and turns to face you, then sinks back. Brand purple/pink on #070511. */
+.hx { --line: rgba(255, 255, 255, .12); --ink: #fff; --paper: #070511; --cell: #0b0818; --a1: #621dd0; --a2: #ab24f2;
+  position: relative; margin-top: var(--header-h); background: var(--paper); color: var(--ink); font-family: "Space Mono", ui-monospace, monospace; }
+.hx-frame { position: relative; margin: 0 73px; border-left: 1px solid var(--line); border-right: 1px solid var(--line);
+  background: radial-gradient(40% 45% at 50% 55%, rgba(98, 29, 208, .16), transparent 70%),
+  linear-gradient(90deg, transparent calc(25% - 1px), var(--line) calc(25% - 1px) 25%, transparent 25%, transparent calc(50% - 1px), var(--line) calc(50% - 1px) 50%, transparent 50%, transparent calc(75% - 1px), var(--line) calc(75% - 1px) 75%, transparent 75%); }
+.rb-gl { position: absolute; left: 22%; width: 56%; top: 0; height: 100%; z-index: 3; pointer-events: none; display: block; }
+.hx-row { position: relative; border-bottom: 1px solid var(--line); }
+.hx-top { height: clamp(44px, 7svh, 80px); }
+.hx-foot { height: clamp(70px, 11svh, 120px); border-bottom: 0; }
+
+/* side rails */
+.hx-rail { position: absolute; top: clamp(44px, 7svh, 80px); z-index: 5; width: 73px; display: grid; justify-items: center; background: var(--cell); border: 1px solid var(--line); }
+.hx-rail a { display: grid; place-items: center; width: 100%; height: 66px; color: #fff; border-bottom: 1px solid var(--line); transition: background .25s; }
+.hx-rail a:last-child { border-bottom: 0; }
+.hx-rail a:hover { background: linear-gradient(135deg, var(--a1), var(--a2)); }
+.hx-rail-l { left: -74px; } .hx-rail-r { right: -74px; }
+.hx-dot { width: 100%; height: 66px; display: grid; place-items: center; border-bottom: 1px solid var(--line); }
+.hx-dot::before { content: ""; width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .35); background: radial-gradient(circle, #cfc4ff 0 4px, transparent 5px); }
+
+/* giant type */
+.hx-type { height: clamp(220px, 33svh, 330px); overflow: hidden; }
+.hx-band { position: absolute; left: 0; right: 0; top: 45%; translate: 0 -50%; overflow: hidden; }
+.hx-bandtrack { display: flex; width: max-content; will-change: transform; }
+.hx-bandtrack span { flex: none; padding-right: .5em; font: 800 clamp(84px, 13vw, 240px)/.95 "Sora", sans-serif; letter-spacing: -.02em; text-transform: uppercase; white-space: nowrap; color: #fff; }
+.hx-sq { position: absolute; z-index: 2; width: 18px; height: 18px; background: linear-gradient(135deg, var(--a1), var(--a2)); box-shadow: 0 0 16px rgba(171, 36, 242, .55); }
+.hx-sq.a { left: 22px; top: 22px; } .hx-sq.b { right: 22px; top: 22px; } .hx-sq.c { left: 22px; bottom: 22px; } .hx-sq.d { right: 22px; bottom: 22px; }
+.hx-tags { position: absolute; left: 70px; bottom: 17px; z-index: 2; display: flex; gap: 28px; margin: 0; font-size: clamp(11px, 1.05vw, 14px); letter-spacing: .02em; color: #e9e2ff; }
+.hx-tags b { font-weight: 400; }
+
+/* middle row: copy | robot | robot | box + stack bar */
+.hx-mid { display: grid; grid-template-columns: repeat(4, 1fr); height: clamp(300px, 40svh, 400px); }
+.hx-copy { grid-column: 1; position: relative; z-index: 4; padding: clamp(20px, 2.6vw, 38px); display: flex; flex-direction: column; justify-content: space-between; gap: 20px; }
+.hx-copy h1 { margin: 0; font: 400 clamp(14px, 1.25vw, 18px)/1.55 "Space Mono", monospace; letter-spacing: -.01em; max-width: 21em; color: #f2eefc; }
+.hx-btn { align-self: flex-start; display: inline-flex; align-items: center; height: 54px; padding: 0 46px; white-space: nowrap; color: #fff; text-decoration: none; text-transform: uppercase; font: 400 14px/1 "Space Mono", monospace; letter-spacing: .02em;
+  background: linear-gradient(135deg, var(--a1), var(--a2)); clip-path: polygon(0 0, 100% 0, 100% calc(100% - 13px), calc(100% - 13px) 100%, 0 100%); transition: filter .25s, transform .25s; }
+.hx-btn:hover { filter: brightness(1.15); transform: translateX(4px); }
+.hx-cell { pointer-events: none; }
+.hx-3d { grid-column: 4; position: relative; z-index: 4; display: flex; flex-direction: column; justify-content: space-between; }
+.hx-box { position: relative; width: min(52%, 240px); aspect-ratio: 1; background: #000; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.hx-box canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.hx-box .k { position: absolute; width: 12px; height: 12px; border: 0 solid rgba(255, 255, 255, .85); }
+.hx-box .tl { left: 18px; top: 18px; border-top-width: 2px; border-left-width: 2px; } .hx-box .tr { right: 18px; top: 18px; border-top-width: 2px; border-right-width: 2px; }
+.hx-box .bl { left: 18px; bottom: 18px; border-bottom-width: 2px; border-left-width: 2px; } .hx-box .br { right: 18px; bottom: 18px; border-bottom-width: 2px; border-right-width: 2px; }
+.hx-pbar { display: grid; grid-template-columns: 1.3fr 1fr 1fr; align-items: center; height: 64px; border-top: 1px solid var(--line); background: var(--cell); font-size: 14px; letter-spacing: .02em; }
+.hx-pbar span { padding-left: 22px; white-space: nowrap; }
+.hx-pbar button { height: 100%; border: 0; border-left: 1px solid var(--line); background: transparent; font: 400 30px/1 "Space Mono", monospace; cursor: pointer; color: #fff; transition: background .25s; }
+.hx-pbar button:hover { background: linear-gradient(135deg, var(--a1), var(--a2)); }
+
+/* partner strip: sits in front of the robot's stand */
+.hx-logos { position: relative; z-index: 4; overflow: hidden; background: #0d0a1c; }
+.hx-logotrack { display: flex; width: max-content; margin: 0; padding: 0; list-style: none; transition: transform .6s cubic-bezier(.2, .8, .2, 1); }
+.hx-logotrack li { position: relative; flex: none; width: calc((100vw - 148px) / 4); height: clamp(84px, 12svh, 140px); display: grid; place-items: center; border-right: 1px solid var(--line); cursor: pointer; transition: background .35s ease; }
+.hx-logotrack span { position: relative; font: 700 clamp(18px, 2.1vw, 30px)/1 "Sora", sans-serif; letter-spacing: -.04em; color: #e9e2ff; transition: color .35s ease; }
+.hx-corner { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity .35s ease; }
+.hx-corner path { fill: none; stroke: rgba(255, 255, 255, .7); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+.hx-logotrack li:hover { background: linear-gradient(135deg, var(--a1), var(--a2)); }
+.hx-logotrack li:hover span { color: #fff; }
+.hx-logotrack li:hover .hx-corner { opacity: 1; }
+
+@media (max-width: 900px) {
+  .hx-frame { margin: 0; border: 0; }
+  .hx-rail { display: none; }
+  .rb-gl { left: 0; width: 100%; }
+  .hx-type { height: 190px; }
+  .hx-mid { display: block; height: 560px; }
+  .hx-copy { padding: 24px 20px; } .hx-cell { display: none; }
+  .hx-3d { position: absolute; right: 0; left: 0; bottom: 0; } .hx-box { display: none; }
+  .hx-logotrack li { width: 50vw; }
+  .hx-tags { left: 56px; gap: 18px; }
+}
+@media (prefers-reduced-motion: reduce) { .hx-logotrack { transition: none; } }
