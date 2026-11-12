@@ -14,6 +14,9 @@
   if (!hero || !track) return;
   const frame = hero.querySelector('.hx-frame');
   const strip = hero.querySelector('.hx-logos');
+  const pin = hero.querySelector('.hx-pin');
+  const endEl = document.getElementById('hx-end');
+  const fades = hero.querySelectorAll('.hx-row, .hx-rail');
 
   // ---------- 1. type band + partner strip ----------
   let x = 0, vel = 0, lastY = scrollY, tw = 0, inView = true;
@@ -61,6 +64,8 @@
   const cv = document.getElementById('rb-gl');
   const renderer = new T.WebGLRenderer({ canvas: cv, antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.localClippingEnabled = true;
+  const clipPlane = new T.Plane(new T.Vector3(0, 1, 0), 0);
   const scene = new T.Scene();
   const cam = new T.OrthographicCamera(-1, 1, 1, -1, -6000, 6000); cam.position.z = 2000;
   scene.add(new T.HemisphereLight(0xc9c4e8, 0x140b2a, .75));
@@ -73,11 +78,11 @@
   const world = new T.Group(); world.rotation.set(.16, -.16, 0); rig.add(world);
 
   // stand: a cap block, then a chrome column that runs down out of the hero
-  const cap = box(2.7, .85, 2.3, .14, .05, mat(C.body, .55, .15)); cap.position.y = -.425; world.add(cap);
-  const capTop = new T.Mesh(new T.BoxGeometry(2.2, .02, 1.8), mat(C.socket, .7)); capTop.position.y = .002; world.add(capTop);
+  const cap = box(3.0, .85, 2.6, .16, .05, mat(C.body, .55, .15)); cap.position.y = -.425; world.add(cap);
+  const capTop = new T.Mesh(new T.BoxGeometry(2.6, .02, 2.25), mat(C.socket, .7)); capTop.position.y = .002; world.add(capTop);
   const chrome = tex(512, 4, (c, w) => { const g = c.createLinearGradient(0, 0, w, 0); [['#15141d', 0], ['#5c5a72', .12], ['#24232f', .22], ['#cfc9ea', .36], ['#3b3a4c', .48], ['#8e89a8', .6], ['#1d1c27', .72], ['#6a6684', .86], ['#15141d', 1]].forEach(([k, o]) => g.addColorStop(o, k)); c.fillStyle = g; c.fillRect(0, 0, w, 4); });
-  const column = new T.Mesh(new T.CylinderGeometry(1.25, 1.25, 14, 64, 1, true), new T.MeshBasicMaterial({ map: chrome })); column.position.y = -.85 - 7; world.add(column);
-  const collar = new T.Mesh(new T.CylinderGeometry(1.3, 1.3, .06, 64), new T.MeshBasicMaterial({ color: 0xab24f2 })); collar.position.y = -.88; world.add(collar);
+  const column = new T.Mesh(new T.CylinderGeometry(1.35, 1.35, 14, 64, 1, true), new T.MeshBasicMaterial({ map: chrome })); column.position.y = -.85 - 7; world.add(column);
+  const collar = new T.Mesh(new T.CylinderGeometry(1.4, 1.4, .06, 64), new T.MeshBasicMaterial({ color: 0xab24f2 })); collar.position.y = -.88; world.add(collar);
 
   // the robot itself (origin at the stand top)
   const bot = new T.Group(); world.add(bot);
@@ -136,6 +141,11 @@
   const joint = new T.Mesh(new T.CylinderGeometry(.14, .14, 1.26, 20), mat(C.dark, .35, .6)); joint.rotation.z = Math.PI / 2; joint.position.y = .5; arm.add(joint);
   [-1, 1].forEach((s) => { const p = box(.16, .95, .42, .06, .03, mat(C.shell, .45, .12)); p.position.set(s * .58, .08, 0); arm.add(p); });
 
+  // everything that belongs to the robot is cut off at the top of the stand, so it sinks into it cleanly
+  bot.traverse((o) => { if (o.material) { o.material = o.material.clone(); o.material.clippingPlanes = [clipPlane]; } });
+  const ringM2 = ring.material, slotM2 = slotGlow.material;
+  const _q = new T.Quaternion(), _n = new T.Vector3(), _p = new T.Vector3(), _s = new T.Vector3();
+
   // the face: off / booting / eyes / mark
   const drawScreen = (t, power, eyes, mark, ex, ey, blink) => {
     const c = sx; c.clearRect(0, 0, SW, SH); c.save(); c.beginPath(); c.roundRect(0, 0, SW, SH, 96); c.clip();
@@ -168,6 +178,7 @@
   hero.addEventListener('pointermove', (ev) => { const r = hero.getBoundingClientRect(); px = (ev.clientX - r.left) / r.width * 2 - 1; py = Math.max(-1, Math.min(1, (ev.clientY - r.top) / r.height * 2 - 1)); });
 
   const L = 11, PROF = 1.25, t0 = performance.now();
+  const FIX = (() => { const v = new URLSearchParams(location.search).get('rbt'); return v == null ? null : +v; })();   // ?rbt=5 freezes the loop at 5 s (for reviewing a pose)
   const ARM_HIGH = 9;
   (function loop(now) {
     const dt = Math.min(now - last, 50); last = now;
@@ -179,36 +190,65 @@
       const T0 = (now - t0) / 1000;
       if (jack) { jack.rotation.y = .6 + T0 * .5 + cx * .4; jack.rotation.x = .5 + T0 * .3 + cy * .3; jr.render(js, jcam); }
 
+      // scroll: the stage is pinned; scrolling first brings the robot to attention (up, facing you, showing the mark),
+      // then the camera dives into its screen and the end frame takes over
+      const small = innerWidth <= 900;
+      const hr = hero.getBoundingClientRect(), total = hero.offsetHeight - pin.offsetHeight;
+      const p = small || reduce ? 0 : Math.min(Math.max(-hr.top / Math.max(total, 1), 0), 1);
+      const sE = ease(seg(p, 0, .1)), z = ease(seg(p, .1, .62));
+      const mix = (a, b) => a + (b - a) * sE;
+
       // robot timeline (reduced motion: stand still, facing front, eyes on)
-      const t = reduce ? 6.0 : T0 % L;
-      const up = ease(seg(t, .2, 1.4)) * (1 - ease(seg(t, 9.7, 10.85)));
-      bot.position.y = -(1 - up) * 3.1;
+      const t = FIX != null ? FIX : reduce ? 6.0 : T0 % L;
+      const up = mix(ease(seg(t, .2, 1.4)) * (1 - ease(seg(t, 9.7, 10.85))), 1);
+      bot.position.y = -(1 - up) * 3.3;
       bot.visible = up > .002;
-      // arm + chip
-      const headTop = bot.position.y + head.position.y + .95;
-      const d1 = out(seg(t, 1.3, 2.5)), ins = ease(seg(t, 2.6, 3.2)), lift = ease(seg(t, 3.5, 4.6));
-      const high = headTop + ARM_HIGH, hover = headTop + 1.0, seated = headTop - .2;
-      const chipY = high + (hover - high) * d1 + (seated - hover) * ins;
-      const armY = t < 3.35 ? chipY : seated + (high + 2 - seated) * lift;
-      arm.position.y = armY; arm.visible = t > 1.2 && t < 4.7;
-      chip.position.set(0, chipY, .1); chip.visible = t > 1.2 && t < 3.35;
-      // reaction: the head jolts as the chip seats
-      const jolt = Math.sin(seg(t, 3.15, 3.75) * Math.PI);
-      const powerOn = ease(seg(t, 4.4, 5.0)) * (1 - ease(seg(t, 8.9, 9.5)));
+      const powerOn = mix(ease(seg(t, 4.4, 5.0)) * (1 - ease(seg(t, 8.9, 9.5))), 1);
       const turnIn = back(seg(t, 4.8, 5.8)), turnOut = ease(seg(t, 8.9, 9.7));
-      head.rotation.y = PROF * (1 - turnIn) + PROF * turnOut + cx * .14 * powerOn;
-      head.rotation.x = cy * .06 * powerOn;
+      const rLoop = PROF * (1 - turnIn) + PROF * turnOut;
+      const rH = mix(rLoop, 0) + cx * .14 * powerOn * (1 - z);
+      const jolt = Math.sin(seg(t, 3.15, 3.75) * Math.PI) * (1 - sE);
+      head.rotation.y = rH;
+      head.rotation.x = cy * .06 * powerOn * (1 - z);
       head.rotation.z = jolt * .05;
       head.position.y = 1.06 + .95 - jolt * .1;
-      ringMat.emissiveIntensity = .05 + powerOn * 1.6;
-      slotGlowMat.opacity = ease(seg(t, 3.2, 3.6)) * (1 - ease(seg(t, 9.5, 10))) * (.7 + .3 * Math.sin(T0 * 6));
+      world.rotation.set(.16 * (1 - z), -.16 * (1 - z), 0);
+
+      // arm + chip: the chip comes down facing front, then twists to line up with the slot and drops in
+      const headTop = bot.position.y + head.position.y + .95;
+      const d1 = out(seg(t, 1.3, 2.4)), tw2 = ease(seg(t, 2.25, 2.75)), ins = ease(seg(t, 2.75, 3.25)), lift = ease(seg(t, 3.5, 4.6));
+      const high = headTop + ARM_HIGH, hover = headTop + 1.0, seated = headTop - .2;
+      let chipY = high + (hover - high) * d1 + (seated - hover) * ins;
+      let armY = t < 3.35 ? chipY : seated + (high + 2 - seated) * lift;
+      armY += (high + 4 - armY) * sE; if (t < 3.35) chipY = armY;
+      const rC = rLoop * tw2;                                  // chip/arm turn to the head's angle before inserting
+      const ox = Math.sin(rLoop) * .1 * tw2, oz = Math.cos(rLoop) * .1 * tw2 + .1 * (1 - tw2);
+      chip.position.set(ox, chipY, oz); chip.rotation.y = rC; chip.visible = t > 1.2 && t < 3.35;
+      arm.position.set(ox, armY, oz); arm.rotation.y = rC; arm.visible = t > 1.2 && t < 4.7 && sE < .99;
+
+      ringM2.emissiveIntensity = .05 + powerOn * 1.6;
+      slotM2.opacity = Math.max(ease(seg(t, 3.2, 3.6)) * (1 - ease(seg(t, 9.5, 10))), sE) * (.7 + .3 * Math.sin(T0 * 6));
       glowLight.intensity = powerOn * 1.6;
       // face
-      const eyesOn = ease(seg(t, 5.0, 5.4)) * (1 - ease(seg(t, 6.6, 6.9))) + ease(seg(t, 7.8, 8.1)) * (1 - ease(seg(t, 8.8, 9.1)));
-      const mark = ease(seg(t, 6.8, 7.1)) * (1 - ease(seg(t, 7.7, 8.0)));
+      const eyesOn = mix(ease(seg(t, 5.0, 5.4)) * (1 - ease(seg(t, 6.6, 6.9))) + ease(seg(t, 7.8, 8.1)) * (1 - ease(seg(t, 8.8, 9.1))), 0);
+      const mark = mix(ease(seg(t, 6.8, 7.1)) * (1 - ease(seg(t, 7.7, 8.0))), 1);
       const look = t < 6.6 ? Math.sin((t - 5) * 2.2) * .5 : 0;
       const blinkT = [5.9, 8.4].reduce((b, bt) => Math.max(b, Math.sin(seg(t, bt, bt + .22) * Math.PI)), 0);
-      drawScreen(T0, powerOn < 1 && powerOn > 0 ? powerOn : powerOn, eyesOn, mark, look + cx * .4, cy * .3, blinkT);
+      drawScreen(T0, powerOn, eyesOn, mark, look + cx * .4, cy * .3, blinkT);
+
+      // clip plane = the top of the stand, in camera space
+      scene.updateMatrixWorld();
+      world.getWorldQuaternion(_q); _n.set(0, 1, 0).applyQuaternion(_q); world.localToWorld(_p.set(0, 0, 0));
+      clipPlane.setFromNormalAndCoplanarPoint(_n, _p);
+
+      // camera dive into the screen
+      screen.getWorldPosition(_s);
+      const zEnd = Math.max(cw / (1.26 * k), ch / (1.1 * k)) * 1.3;
+      cam.zoom = Math.pow(zEnd, z); cam.position.set(_s.x * z, _s.y * z, 2000); cam.updateProjectionMatrix();
+      hero.classList.toggle('is-zoom', z > .001);
+      const fo = (1 - seg(p, .12, .45)).toFixed(3);
+      fades.forEach((el) => { el.style.opacity = fo; });
+      if (endEl) { const e = ease(seg(p, .62, .74)); endEl.style.opacity = e.toFixed(3); endEl.style.visibility = e > .01 ? 'visible' : 'hidden'; endEl.style.pointerEvents = e > .9 ? 'auto' : 'none'; }
       renderer.render(scene, cam);
     }
     requestAnimationFrame(loop);
