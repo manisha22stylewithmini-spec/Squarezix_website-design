@@ -5,7 +5,7 @@
 .hx { --line: rgba(255, 255, 255, .12); --ink: #fff; --paper: #070511; --cell: #0b0818; --a1: #621dd0; --a2: #ab24f2;
   position: relative; margin-top: var(--header-h); height: 400svh; background: var(--paper); color: var(--ink); font-family: "Space Mono", ui-monospace, monospace; }
 .hx-pin { position: sticky; top: var(--header-h); height: calc(100svh - var(--header-h)); min-height: 600px; overflow: hidden; isolation: isolate; }
-.hx-frame { position: relative; height: 100%; display: flex; flex-direction: column; margin: 0 73px; border-left: 1px solid var(--line); border-right: 1px solid var(--line);
+.hx-frame { position: relative; height: 100%; display: flex; flex-direction: column; margin: 0;
   background: radial-gradient(40% 45% at 50% 55%, rgba(98, 29, 208, .16), transparent 70%),
   linear-gradient(90deg, transparent calc(25% - 1px), var(--line) calc(25% - 1px) 25%, transparent 25%, transparent calc(50% - 1px), var(--line) calc(50% - 1px) 50%, transparent 50%, transparent calc(75% - 1px), var(--line) calc(75% - 1px) 75%, transparent 75%); }
 .rb-gl { position: absolute; left: 0; width: 100%; top: 0; height: 100%; z-index: 3; pointer-events: none; display: block; }
@@ -56,7 +56,7 @@
 .hx-logotrack { display: flex; width: max-content; margin: 0; padding: 0; list-style: none; transition: transform .6s cubic-bezier(.2, .8, .2, 1); }
 .hx-logos { flex: 0 0 13%; }
 .hx-logotrack { height: 100%; }
-.hx-logotrack li { position: relative; flex: none; width: calc((100vw - 148px) / 4); height: 100%; display: grid; place-items: center; border-right: 1px solid var(--line); cursor: pointer; transition: background .35s ease; }
+.hx-logotrack li { position: relative; flex: none; width: var(--cellw, 25vw); height: 100%; display: grid; place-items: center; border-right: 1px solid var(--line); cursor: pointer; transition: background .35s ease; }
 .hx-logotrack span { position: relative; font: 700 clamp(18px, 2.1vw, 30px)/1 "Sora", sans-serif; letter-spacing: -.04em; color: #e9e2ff; transition: color .35s ease; }
 .hx-corner { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity .35s ease; }
 .hx-corner path { fill: none; stroke: rgba(255, 255, 255, .7); stroke-width: 1.2; vector-effect: non-scaling-stroke; }

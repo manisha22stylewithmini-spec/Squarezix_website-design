@@ -164,6 +164,7 @@
   let k = 100, cw = 1, ch = 1;
   const layout = () => {
     cw = cv.clientWidth; ch = cv.clientHeight; renderer.setSize(cw, ch, false);
+    strip.style.setProperty('--cellw', (strip.clientWidth / (innerWidth <= 900 ? 2 : 4)) + 'px');
     cam.left = -cw / 2; cam.right = cw / 2; cam.top = ch / 2; cam.bottom = -ch / 2; cam.updateProjectionMatrix();
     const fw = frame.clientWidth, small = innerWidth <= 900;
     const headPx = Math.min(Math.max(fw * (small ? .44 : .16), 150), 250);
