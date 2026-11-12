@@ -188,3 +188,9 @@ body.qc-hide .qc { opacity: 0 !important; transform: translateX(24px); pointer-e
 .hx-logotrack li:hover span { color: #fff !important; }
 .hx-corner path { stroke: rgba(255, 255, 255, .35); }
 .hx-foot { display: block !important; flex: 0 0 clamp(48px, 8svh, 80px) !important; }
+
+/* strip: slim, but a solid filled band so it reads as sitting in front of the robot's stand */
+.hx-logos { background: #0e0b1e !important; box-shadow: 0 -18px 40px -24px rgba(0, 0, 0, .9), inset 0 1px 0 rgba(255, 255, 255, .06); }
+.hx-logotrack li { background: #0e0b1e; }
+.hx-logotrack span { color: #e9e2ff !important; }
+.hx-logotrack li:hover { background: linear-gradient(135deg, #621dd0, #ab24f2); }
