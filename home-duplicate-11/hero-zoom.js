@@ -36,7 +36,7 @@
   // Copy elements and how "close to camera" each is — closer ones move further
   const depthEls = [
     ['.hero-badge', 0.55], ['.hero-title-main', 1.25], ['.hero-title-sub', 1.0],
-    ['.hero-lead', 0.8], ['.hero-text', 0.65], ['.hero-cta', 0.9],
+    ['.hero-lead', 0.8], ['.hero-text', 0.65], ['.hero-cta', 0.9], ['.hero-ghost', 0.9],
     ['.hero-services a:nth-child(1)', 1.5], ['.hero-services a:nth-child(2)', 1.3],
     ['.hero-services a:nth-child(3)', 1.1], ['.hero-services a:nth-child(4)', 0.9],
   ].map(([sel, depth]) => ({ el: $(sel), depth })).filter((d) => d.el);
