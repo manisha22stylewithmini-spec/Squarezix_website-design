@@ -153,17 +153,17 @@
   const drawChip = () => {
     const c = chipC.getContext('2d'), w = 320, h = 240; c.clearRect(0, 0, w, h);
     const g = c.createLinearGradient(0, 0, w, h); g.addColorStop(0, '#16131f'); g.addColorStop(1, '#0b0a10'); c.fillStyle = g; c.beginPath(); c.roundRect(4, 4, w - 8, h - 8, 18); c.fill();
-    c.strokeStyle = 'rgba(190,160,255,.35)'; c.lineWidth = 1.2;
+    c.strokeStyle = 'rgba(200,170,255,.7)'; c.lineWidth = 1.6;
     for (let i = 0; i < 16; i++) { const y = 30 + i * 11.5; c.beginPath(); c.moveTo(16, y); c.lineTo(48 + (i * 23) % 40, y); c.lineTo(58 + (i * 23) % 40, y + 6); c.stroke(); c.beginPath(); c.moveTo(w - 16, y); c.lineTo(w - 48 - (i * 17) % 40, y); c.stroke(); }
-    c.fillStyle = '#0f0d16'; c.strokeStyle = 'rgba(200,170,255,.55)'; c.lineWidth = 1.5; c.beginPath(); c.roundRect(w / 2 - 70, h / 2 - 62, 140, 124, 10); c.fill(); c.stroke();
+    c.fillStyle = '#1a0f33'; c.strokeStyle = 'rgba(214,186,255,.95)'; c.lineWidth = 2.5; c.beginPath(); c.roundRect(w / 2 - 70, h / 2 - 62, 140, 124, 10); c.fill(); c.stroke();
     c.fillStyle = 'rgba(214,196,255,.85)'; for (let i = 0; i < 10; i++) { c.fillRect(70 + i * 19, 6, 6, 10); c.fillRect(70 + i * 19, h - 16, 6, 10); }
-    c.shadowColor = 'rgba(180,140,255,.9)'; c.shadowBlur = 10;
-    if (logoW) c.drawImage(logoW, 0, 114, 241, 127, w / 2 - 50, h / 2 - 26, 100, 53);
+    c.shadowColor = 'rgba(190,150,255,1)'; c.shadowBlur = 16;
+    if (logoW) c.drawImage(logoW, 0, 114, 241, 127, w / 2 - 56, h / 2 - 30, 112, 59);
   };
   drawChip();
   const chip = new T.Group();
-  chip.add(box(.92, .7, .12, .1, .03, mat(0x121018, .35, .6, { emissive: 0x4a2a9a, emissiveIntensity: .18 })));
-  const chipFace = new T.Mesh(new T.PlaneGeometry(.86, .64), new T.MeshBasicMaterial({ map: chipTex, transparent: true })); chipFace.position.z = .07; chip.add(chipFace);
+  chip.add(box(.92, .7, .12, .1, .03, mat(0x1a1030, .3, .5, { emissive: 0x7a32ff, emissiveIntensity: .55 })));
+  const chipFace = new T.Mesh(new T.PlaneGeometry(.86, .64), new T.MeshBasicMaterial({ map: chipTex, transparent: true, toneMapped: false })); chipFace.position.z = .07; chip.add(chipFace);
   world.add(chip);
 
   // the arm: a column with a ribbon cable and a yoke whose two prongs hold the chip
@@ -216,7 +216,7 @@
     strip.style.setProperty('--cellw', (strip.clientWidth / (innerWidth <= 900 ? 2 : 4)) + 'px');
     cam.left = -cw / 2; cam.right = cw / 2; cam.top = ch / 2; cam.bottom = -ch / 2; cam.updateProjectionMatrix();
     const fw = frame.clientWidth, small = innerWidth <= 900;
-    const headPx = Math.min(Math.max(fw * (small ? .44 : .16), 150), 250);
+    const headPx = Math.min(Math.max(fw * (small ? .36 : .118), 128), 190);
     k = headPx / 2.1; rig.scale.setScalar(k);
     const top = strip.offsetTop - headPx * .3;
     rig.position.set(0, ch / 2 - top, 0);
@@ -227,7 +227,8 @@
   let px = 0, py = 0, cx = 0, cy = 0, last = performance.now();
   hero.addEventListener('pointermove', (ev) => { const r = hero.getBoundingClientRect(); px = (ev.clientX - r.left) / r.width * 2 - 1; py = Math.max(-1, Math.min(1, (ev.clientY - r.top) / r.height * 2 - 1)); });
 
-  const L = 11, PROF = 1.25, t0 = performance.now();
+  const L = 14, PROF = 1.25, t0 = performance.now();
+  let LT = 0;                                          // loop clock: it only runs while nobody is scrolling the hero
   const FIX = (() => { const v = new URLSearchParams(location.search).get('rbt'); return v == null ? null : +v; })();   // ?rbt=5 freezes the loop at 5 s (for reviewing a pose)
   const ARM_HIGH = 9;
   (function loop(now) {
@@ -249,12 +250,13 @@
       const mix = (a, b) => a + (b - a) * sE;
 
       // robot timeline (reduced motion: stand still, facing front, eyes on)
-      const t = FIX != null ? FIX : reduce ? 6.0 : T0 % L;
-      const up = mix(ease(seg(t, .2, 1.4)) * (1 - ease(seg(t, 9.7, 10.85))), 1);
+      if (p <= .001) LT += dt / 1000;
+      const t = FIX != null ? FIX : reduce ? 7.0 : LT % L;
+      const up = mix(ease(seg(t, .2, 1.4)) * (1 - ease(seg(t, 12.7, 13.85))), 1);
       bot.position.y = -(1 - up) * 3.3;
       bot.visible = up > .002;
-      const powerOn = mix(ease(seg(t, 4.4, 5.0)) * (1 - ease(seg(t, 8.9, 9.5))), 1);
-      const turnIn = back(seg(t, 4.8, 5.8)), turnOut = ease(seg(t, 8.9, 9.7));
+      const powerOn = mix(ease(seg(t, 4.4, 5.0)) * (1 - ease(seg(t, 11.9, 12.5))), 1);
+      const turnIn = back(seg(t, 4.8, 5.8)), turnOut = ease(seg(t, 11.9, 12.7));
       const rLoop = PROF * (1 - turnIn) + PROF * turnOut;
       const rH = mix(rLoop, 0) + cx * .14 * powerOn * (1 - z);
       const jolt = Math.sin(seg(t, 3.15, 3.75) * Math.PI) * (1 - sE);
@@ -262,7 +264,6 @@
       head.rotation.x = cy * .06 * powerOn * (1 - z);
       head.rotation.z = jolt * .05;
       head.position.y = 1.06 + .95 - jolt * .1;
-      world.rotation.set(.16 * (1 - z), -.16 * (1 - z), 0);
 
       // arm + chip: the chip comes down facing front, then twists to line up with the slot and drops in
       const headTop = bot.position.y + head.position.y + .95;
@@ -277,13 +278,13 @@
       arm.position.set(ox, armY, oz); arm.rotation.y = rC; arm.visible = t > 1.2 && t < 4.7 && sE < .99;
 
       ringM2.emissiveIntensity = .03 + powerOn * 1.05;
-      slotM2.opacity = Math.max(ease(seg(t, 3.2, 3.6)) * (1 - ease(seg(t, 9.5, 10))), sE) * (.7 + .3 * Math.sin(T0 * 6));
+      slotM2.opacity = Math.max(ease(seg(t, 3.2, 3.6)) * (1 - ease(seg(t, 12.5, 13))), sE) * (.7 + .3 * Math.sin(T0 * 6));
       glowLight.intensity = powerOn * 1.6;
       // face
-      const eyesOn = mix(ease(seg(t, 5.0, 5.4)) * (1 - ease(seg(t, 6.6, 6.9))) + ease(seg(t, 7.8, 8.1)) * (1 - ease(seg(t, 8.8, 9.1))), 0);
+      const eyesOn = mix(ease(seg(t, 5.0, 5.4)) * (1 - ease(seg(t, 6.6, 6.9))) + ease(seg(t, 7.8, 8.1)) * (1 - ease(seg(t, 11.8, 12.1))), 0);
       const mark = mix(ease(seg(t, 6.8, 7.1)) * (1 - ease(seg(t, 7.7, 8.0))), 1);
-      const look = t < 6.6 ? Math.sin((t - 5) * 2.2) * .5 : 0;
-      const blinkT = [5.9, 8.4].reduce((b, bt) => Math.max(b, Math.sin(seg(t, bt, bt + .22) * Math.PI)), 0);
+      const look = t > 5 && t < 11.8 ? Math.sin((t - 5) * 1.6) * .5 : 0;
+      const blinkT = [5.9, 8.6, 10.7].reduce((b, bt) => Math.max(b, Math.sin(seg(t, bt, bt + .22) * Math.PI)), 0);
       drawScreen(T0, powerOn, eyesOn, mark, look + cx * .4, cy * .3, blinkT, ease(seg(p, .34, .6)));
 
       // clip plane = the top of the stand, in camera space

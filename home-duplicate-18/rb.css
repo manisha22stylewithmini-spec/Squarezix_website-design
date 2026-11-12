@@ -143,3 +143,11 @@
 
 /* static that the end frame resolves out of */
 .hx-end-noise { position: absolute !important; inset: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; opacity: 0; image-rendering: pixelated; mix-blend-mode: normal; }
+
+/* clean grid: no hairlines, type band sits higher to leave room for the robot */
+.hx-frame { background: radial-gradient(38% 46% at 50% 62%, rgba(98, 29, 208, .16), transparent 70%) !important; }
+.hx-row { border-bottom: 0 !important; }
+.hx-svc > a { border-bottom: 0 !important; }
+.hx-logotrack li { border-right: 0 !important; }
+.hx-top { flex-basis: 2% !important; }
+.hx-band { top: 38% !important; }
