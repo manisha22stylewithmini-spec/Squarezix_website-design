@@ -140,3 +140,6 @@
   .hx-copy { justify-content: flex-start; }
   .hx-svc { display: none; }
 }
+
+/* static that the end frame resolves out of */
+.hx-end-noise { position: absolute !important; inset: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; opacity: 0; image-rendering: pixelated; mix-blend-mode: normal; }

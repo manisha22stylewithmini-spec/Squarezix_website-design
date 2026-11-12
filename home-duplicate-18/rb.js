@@ -16,6 +16,7 @@
   const strip = hero.querySelector('.hx-logos');
   const pin = hero.querySelector('.hx-pin');
   const endEl = document.getElementById('hx-end');
+  const endNoise = document.getElementById('hx-end-noise');
   const fades = hero.querySelectorAll('.hx-row, .hx-rail');
 
   // ---------- 1. type band + partner strip ----------
@@ -50,9 +51,9 @@
   // shared geometry helpers
   const rr = (w, h, r) => { const s = new T.Shape(), a = -w / 2, b = -h / 2; s.moveTo(a + r, b); s.lineTo(-a - r, b); s.quadraticCurveTo(-a, b, -a, b + r); s.lineTo(-a, -b - r); s.quadraticCurveTo(-a, -b, -a - r, -b); s.lineTo(a + r, -b); s.quadraticCurveTo(a, -b, a, -b - r); s.lineTo(a, b + r); s.quadraticCurveTo(a, b, a + r, b); return s; };
   const ext = (shape, d, bev) => { const g = new T.ExtrudeGeometry(shape, { depth: d, bevelEnabled: true, bevelThickness: bev, bevelSize: bev, bevelSegments: 4, curveSegments: 10 }); g.translate(0, 0, -d / 2); return g; };
-  const mat = (color, rough = .5, metal = .1, extra = {}) => new T.MeshStandardMaterial(Object.assign({ color, roughness: rough, metalness: metal }, extra));
+  const mat = (color, rough = .5, metal = .1, extra = {}) => new T.MeshPhysicalMaterial(Object.assign({ color, roughness: rough, metalness: metal, clearcoat: .35, clearcoatRoughness: .3, envMapIntensity: .6 }, extra));
   const box = (w, h, d, r, bev, m) => new T.Mesh(ext(rr(w - 2 * bev, h - 2 * bev, Math.max(r - bev, .01)), d - 2 * bev, bev), m);
-  const tex = (w, h, draw) => { const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h); const t = new T.CanvasTexture(c); t.anisotropy = 4; return t; };
+  const tex = (w, h, draw) => { const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h); const t = new T.CanvasTexture(c); t.anisotropy = 4; t.encoding = T.sRGBEncoding; return t; };
   const ease = (t) => t * t * (3 - 2 * t);
   const out = (t) => 1 - Math.pow(1 - t, 3);
   const back = (t) => { const c1 = 1.5, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); };
@@ -80,15 +81,26 @@
   const renderer = new T.WebGLRenderer({ canvas: cv, antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   renderer.localClippingEnabled = true;
+  renderer.outputEncoding = T.sRGBEncoding; renderer.toneMapping = T.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
   const clipPlane = new T.Plane(new T.Vector3(0, 1, 0), 0);
   const scene = new T.Scene();
   const cam = new T.OrthographicCamera(-1, 1, 1, -1, -6000, 6000); cam.position.z = 2000;
-  scene.add(new T.HemisphereLight(0xc9c4e8, 0x140b2a, .75));
-  const key = new T.DirectionalLight(0xe6e2ff, 1.05); key.position.set(-.6, 1, .9); scene.add(key);
-  const fill = new T.DirectionalLight(0xab24f2, .9); fill.position.set(1, -.2, .4); scene.add(fill);
-  const rimL = new T.DirectionalLight(0x8c5cff, .7); rimL.position.set(-1, .3, -1); scene.add(rimL);
+  // studio reflections: a small softbox room baked into an environment map, so the surfaces read as real materials
+  {
+    const env = new T.Scene(), basic = (c) => new T.MeshBasicMaterial({ color: c, side: T.BackSide });
+    env.add(new T.Mesh(new T.BoxGeometry(20, 20, 20), basic(0x07060c)));
+    const panel = (w, h, c, x, y, z, ry = 0, rx = 0) => { const m = new T.Mesh(new T.PlaneGeometry(w, h), new T.MeshBasicMaterial({ color: c, side: T.DoubleSide })); m.position.set(x, y, z); m.rotation.set(rx, ry, 0); env.add(m); };
+    panel(9, 4, 0x8c87a6, -3, 6, 4, 0, Math.PI / 2.6);          // big soft key, top left
+    panel(1.2, 12, 0x7a3cff, 8, 0, 0, -Math.PI / 2);           // tall violet strip, right
+    panel(1.2, 12, 0x6b5cff, -8, 0, -2, Math.PI / 2);          // cool strip, left
+    panel(10, 1, 0x5c4f8a, 0, -6, 6, 0, -Math.PI / 3);         // low rim
+    const pm = new T.PMREMGenerator(renderer); scene.environment = pm.fromScene(env, .035).texture; pm.dispose();
+  }
+  scene.add(new T.HemisphereLight(0xc9c4e8, 0x0e0818, .35));
+  const key = new T.DirectionalLight(0xf2eeff, .75); key.position.set(-.6, 1, .9); scene.add(key);
+  const fill = new T.DirectionalLight(0x9a5cff, .45); fill.position.set(1, -.2, .4); scene.add(fill);
 
-  const C = { shell: 0x4a4959, body: 0x3c3b4a, dark: 0x22212c, mid: 0x5d5c70, socket: 0x121118 };
+  const C = { shell: 0x2e2d36, body: 0x24232b, dark: 0x141319, mid: 0x4a4954, socket: 0x0b0a0f };
   const rig = new T.Group(); scene.add(rig);           // scaled to pixels; origin = top of the stand
   const world = new T.Group(); world.rotation.set(.16, -.16, 0); rig.add(world);
 
@@ -105,19 +117,24 @@
   const seam = new T.Mesh(new T.BoxGeometry(1.92, .02, 1.62), mat(C.dark, .8)); seam.position.y = .62; bot.add(seam);
   const head = new T.Group(); head.position.y = 1.06 + .95; bot.add(head);
   head.add(box(2.1, 1.9, 1.8, .42, .1, mat(C.shell, .45, .12)));
-  const ringShape = rr(1.78, 1.6, .36); ringShape.holes.push(new T.Path(rr(1.5, 1.32, .26).getPoints(14).reverse()));
-  const ringMat = mat(0x6b2bd6, .35, .1, { emissive: 0xab24f2, emissiveIntensity: .05 });
+  const ringShape = rr(1.7, 1.52, .34); ringShape.holes.push(new T.Path(rr(1.56, 1.38, .28).getPoints(16).reverse()));
+  const ringMat = mat(0x17121f, .3, .1, { emissive: 0x8a3dff, emissiveIntensity: .03, clearcoat: 1, clearcoatRoughness: .1 }); ringMat.toneMapped = false;
   const ring = new T.Mesh(ext(ringShape, .08, .04), ringMat); ring.position.z = .93; head.add(ring);
   const gap = box(.3, .5, .16, .1, .04, mat(C.shell, .45, .12)); gap.position.set(.8, -.02, .96); head.add(gap);
   const bezel = box(1.5, 1.32, .16, .26, .04, mat(C.dark, .6)); bezel.position.z = .95; head.add(bezel);
   const SW = 640, SH = 560, sc = document.createElement('canvas'); sc.width = SW; sc.height = SH; const sx = sc.getContext('2d');
-  const screenTex = new T.CanvasTexture(sc); screenTex.anisotropy = 4;
-  const screen = new T.Mesh(new T.PlaneGeometry(1.26, 1.1), new T.MeshBasicMaterial({ map: screenTex, transparent: true })); screen.position.z = 1.04; head.add(screen);
+  const screenTex = new T.CanvasTexture(sc); screenTex.anisotropy = 8; screenTex.encoding = T.sRGBEncoding;
+  // a curved (convex) display with a glass layer over it
+  const bulge = (w, h, d) => { const g = new T.PlaneGeometry(w, h, 40, 36), a = g.attributes.position; for (let i = 0; i < a.count; i++) { const u = a.getX(i) / (w / 2), v = a.getY(i) / (h / 2); a.setZ(i, d * (1 - .55 * u * u - .45 * v * v)); } g.computeVertexNormals(); return g; };
+  const screen = new T.Mesh(bulge(1.26, 1.1, .05), new T.MeshBasicMaterial({ map: screenTex, transparent: true, toneMapped: false })); screen.position.z = 1.02; head.add(screen);
+  const maskTex = tex(256, 224, (c, w, h) => { c.fillStyle = '#000'; c.fillRect(0, 0, w, h); c.fillStyle = '#fff'; c.beginPath(); c.roundRect(0, 0, w, h, 38); c.fill(); });
+  const glass = new T.Mesh(bulge(1.26, 1.1, .05), mat(0x0a0812, .06, 0, { transparent: true, opacity: .28, alphaMap: maskTex, clearcoat: 1, clearcoatRoughness: .04, envMapIntensity: 2.4, depthWrite: false }));
+  glass.position.z = 1.034; head.add(glass);
   [-1, 1].forEach((s) => { const e = new T.Mesh(new T.CylinderGeometry(.22, .22, .3, 28), mat(C.mid, .45, .2)); e.rotation.z = Math.PI / 2; e.position.set(s * 1.12, -.1, 0); head.add(e); });
   // side camera (seen in profile)
   const post = new T.Mesh(new T.CylinderGeometry(.07, .07, .5, 16), mat(C.mid, .4, .4)); post.position.set(-1.25, .3, .35); head.add(post);
   const cambox = box(.32, .3, .62, .07, .03, mat(C.body, .45, .2)); cambox.position.set(-1.25, .62, .35); head.add(cambox);
-  const lens = new T.Mesh(new T.CylinderGeometry(.09, .09, .05, 20), new T.MeshBasicMaterial({ color: 0xc58bff })); lens.rotation.x = Math.PI / 2; lens.position.set(-1.25, .62, .67); head.add(lens);
+  const lens = new T.Mesh(new T.CylinderGeometry(.09, .09, .05, 24), mat(0x07060b, .05, .2, { emissive: 0x6b4fd0, emissiveIntensity: .35, clearcoat: 1 })); lens.rotation.x = Math.PI / 2; lens.position.set(-1.25, .62, .67); head.add(lens);
   // back module with a dark circuit panel
   const mod = box(.9, 1.7, .7, .2, .05, mat(C.shell, .45, .12)); mod.position.set(.6, .05, -1.12); head.add(mod);
   const panelTex = tex(128, 256, (c, w, h) => { c.fillStyle = '#100d18'; c.fillRect(0, 0, w, h); c.strokeStyle = 'rgba(190,160,255,.55)'; c.lineWidth = 2; for (let i = 0; i < 14; i++) { const y = 14 + i * 17; c.beginPath(); c.moveTo(12, y); c.lineTo(28 + (i * 37) % 80, y); c.stroke(); } for (let i = 0; i < 5; i++) c.strokeRect(18 + i * 19, 28 + (i * 41) % 120, 13, 44); });
@@ -130,20 +147,22 @@
 
   // the chip: a little card with the Squarezix mark, glowing
   let logoW = null; const logo = new Image();
-  logo.onload = () => { const o = document.createElement('canvas'); o.width = o.height = 241; const c = o.getContext('2d'); c.drawImage(logo, 0, 0); c.globalCompositeOperation = 'source-in'; c.fillStyle = '#fff'; c.fillRect(0, 0, 241, 241); logoW = o; drawChip(); };
+  logo.onload = () => { const o = document.createElement('canvas'); o.width = o.height = 241; const c = o.getContext('2d'); c.drawImage(logo, 0, 0); c.globalCompositeOperation = 'source-in'; c.fillStyle = '#fff'; c.fillRect(0, 0, 241, 241); c.clearRect(0, 0, 3, 241); c.clearRect(238, 0, 3, 241); logoW = o; drawChip(); };
   logo.src = 'assets/brand/sz-logo-on-dark.png';
-  const chipC = document.createElement('canvas'); chipC.width = 320; chipC.height = 240; const chipTex = new T.CanvasTexture(chipC);
+  const chipC = document.createElement('canvas'); chipC.width = 320; chipC.height = 240; const chipTex = new T.CanvasTexture(chipC); chipTex.encoding = T.sRGBEncoding;
   const drawChip = () => {
     const c = chipC.getContext('2d'), w = 320, h = 240; c.clearRect(0, 0, w, h);
-    const g = c.createLinearGradient(0, 0, w, h); g.addColorStop(0, '#3b0f94'); g.addColorStop(1, '#8a1fd8'); c.fillStyle = g; c.beginPath(); c.roundRect(4, 4, w - 8, h - 8, 26); c.fill();
-    c.strokeStyle = 'rgba(255,220,255,.75)'; c.lineWidth = 3; c.beginPath(); c.roundRect(26, 26, w - 52, h - 52, 14); c.stroke();
-    c.fillStyle = 'rgba(255,230,255,.8)'; for (let i = 0; i < 9; i++) { c.fillRect(46 + i * 26, 8, 8, 14); c.fillRect(46 + i * 26, h - 22, 8, 14); }
-    c.shadowColor = '#fff'; c.shadowBlur = 18;
-    if (logoW) c.drawImage(logoW, 0, 114, 241, 127, w / 2 - 92, h / 2 - 50, 184, 97);
+    const g = c.createLinearGradient(0, 0, w, h); g.addColorStop(0, '#16131f'); g.addColorStop(1, '#0b0a10'); c.fillStyle = g; c.beginPath(); c.roundRect(4, 4, w - 8, h - 8, 18); c.fill();
+    c.strokeStyle = 'rgba(190,160,255,.35)'; c.lineWidth = 1.2;
+    for (let i = 0; i < 16; i++) { const y = 30 + i * 11.5; c.beginPath(); c.moveTo(16, y); c.lineTo(48 + (i * 23) % 40, y); c.lineTo(58 + (i * 23) % 40, y + 6); c.stroke(); c.beginPath(); c.moveTo(w - 16, y); c.lineTo(w - 48 - (i * 17) % 40, y); c.stroke(); }
+    c.fillStyle = '#0f0d16'; c.strokeStyle = 'rgba(200,170,255,.55)'; c.lineWidth = 1.5; c.beginPath(); c.roundRect(w / 2 - 70, h / 2 - 62, 140, 124, 10); c.fill(); c.stroke();
+    c.fillStyle = 'rgba(214,196,255,.85)'; for (let i = 0; i < 10; i++) { c.fillRect(70 + i * 19, 6, 6, 10); c.fillRect(70 + i * 19, h - 16, 6, 10); }
+    c.shadowColor = 'rgba(180,140,255,.9)'; c.shadowBlur = 10;
+    if (logoW) c.drawImage(logoW, 0, 114, 241, 127, w / 2 - 50, h / 2 - 26, 100, 53);
   };
   drawChip();
   const chip = new T.Group();
-  chip.add(box(.92, .7, .12, .1, .03, mat(0x2a0d5c, .4, .3, { emissive: 0x6b1fd0, emissiveIntensity: .7 })));
+  chip.add(box(.92, .7, .12, .1, .03, mat(0x121018, .35, .6, { emissive: 0x4a2a9a, emissiveIntensity: .18 })));
   const chipFace = new T.Mesh(new T.PlaneGeometry(.86, .64), new T.MeshBasicMaterial({ map: chipTex, transparent: true })); chipFace.position.z = .07; chip.add(chipFace);
   world.add(chip);
 
@@ -162,16 +181,31 @@
   const _q = new T.Quaternion(), _n = new T.Vector3(), _p = new T.Vector3(), _s = new T.Vector3();
 
   // the face: off / booting / eyes / mark
-  const drawScreen = (t, power, eyes, mark, ex, ey, blink) => {
-    const c = sx; c.clearRect(0, 0, SW, SH); c.save(); c.beginPath(); c.roundRect(0, 0, SW, SH, 96); c.clip();
-    const g = c.createLinearGradient(0, 0, 0, SH); g.addColorStop(0, '#170a24'); g.addColorStop(1, '#09060f'); c.fillStyle = g; c.fillRect(0, 0, SW, SH);
-    c.globalAlpha = .12 + power * .55; c.strokeStyle = '#c792ff'; c.lineWidth = 2;
-    for (let i = 1; i < 6; i++) { const a = i * SW / 6, b = i * SH / 6; c.beginPath(); c.moveTo(a, 0); c.lineTo(a, SH); c.stroke(); c.beginPath(); c.moveTo(0, b); c.lineTo(SW, b); c.stroke(); }
-    c.globalAlpha = 1;
-    if (power > 0 && power < 1) { for (let i = 0; i < 6; i++) { c.fillStyle = `rgba(210,160,255,${Math.random() * .35})`; c.fillRect(0, Math.random() * SH, SW, 2 + Math.random() * 6); } }
-    c.shadowColor = '#e9c8ff'; c.shadowBlur = 26; c.fillStyle = '#fff';
-    if (eyes > 0) { c.globalAlpha = eyes; const open = 1 - blink; [-1, 1].forEach((s) => { c.beginPath(); c.ellipse(SW / 2 + s * 92 + ex * 60, SH / 2 + ey * 40, 40, Math.max(3, 44 * open), 0, 0, 7); c.fill(); }); }
-    if (mark > 0 && logoW) { c.globalAlpha = mark; const w = 420, h = w * 127 / 241; c.drawImage(logoW, 0, 114, 241, 127, (SW - w) / 2, (SH - h) / 2 + 16, w, h); c.font = '700 40px Sora, sans-serif'; c.textAlign = 'center'; c.fillText('MARKETING AGENCY.', SW / 2, SH / 2 - h / 2 - 12); }
+  // static tiles (reused for the grain on the display, the dive-in static and the end frame)
+  const NOISE = Array.from({ length: 5 }, () => { const c = document.createElement('canvas'); c.width = 200; c.height = 176; const x = c.getContext('2d'), d = x.createImageData(200, 176);
+    for (let i = 0; i < d.data.length; i += 4) { const v = Math.random() * 255; d.data[i] = v * .92; d.data[i + 1] = v * .86; d.data[i + 2] = v; d.data[i + 3] = 255; } x.putImageData(d, 0, 0); return c; });
+  const noiseTile = () => NOISE[(Math.random() * NOISE.length) | 0];
+  const drawScreen = (t, power, eyes, mark, ex, ey, blink, stat) => {
+    const c = sx; c.clearRect(0, 0, SW, SH); c.save(); c.beginPath(); c.roundRect(0, 0, SW, SH, 92); c.clip();
+    const g = c.createRadialGradient(SW / 2, SH * .45, 20, SW / 2, SH / 2, SW * .7); g.addColorStop(0, `rgb(${18 + power * 8},${12 + power * 4},${30 + power * 10})`); g.addColorStop(1, '#040307'); c.fillStyle = g; c.fillRect(0, 0, SW, SH);
+    // phosphor content
+    c.save(); c.shadowColor = 'rgba(176,140,255,.85)'; c.shadowBlur = 16; c.fillStyle = '#efe7ff';
+    if (eyes > 0) { c.globalAlpha = eyes; const open = Math.max(.08, 1 - blink); [-1, 1].forEach((s) => { const w = 92, h = 150 * open; c.beginPath(); c.roundRect(SW / 2 + s * 118 - w / 2 + ex * 46, SH / 2 - h / 2 + ey * 30, w, h, 46 * Math.min(1, open * 1.6)); c.fill(); }); }
+    if (mark > 0 && logoW) { c.globalAlpha = mark; const w = 400, h = w * 127 / 241; c.drawImage(logoW, 0, 114, 241, 127, (SW - w) / 2, (SH - h) / 2 + 22, w, h);
+      c.shadowBlur = 6; c.font = '400 27px "Space Mono", monospace'; c.textAlign = 'center'; if ('letterSpacing' in c) c.letterSpacing = '7px'; c.fillText('MARKETING AGENCY', SW / 2 + 3, (SH - h) / 2 - 8); if ('letterSpacing' in c) c.letterSpacing = '0px'; }
+    c.restore();
+    // boot flicker
+    if (power > 0 && power < 1) { for (let i = 0; i < 5; i++) { c.fillStyle = `rgba(210,180,255,${Math.random() * .25})`; c.fillRect(0, Math.random() * SH, SW, 1 + Math.random() * 5); } }
+    // scanlines, grain, rolling band
+    c.fillStyle = 'rgba(0,0,0,.22)'; for (let y = 0; y < SH; y += 3) c.fillRect(0, y, SW, 1);
+    c.imageSmoothingEnabled = false;
+    c.globalCompositeOperation = 'lighter'; c.globalAlpha = .05 + power * .03; c.drawImage(noiseTile(), 0, 0, SW, SH);
+    const by = ((t * 90) % (SH + 160)) - 80; const bg = c.createLinearGradient(0, by - 60, 0, by + 60); bg.addColorStop(0, 'rgba(160,130,255,0)'); bg.addColorStop(.5, `rgba(160,130,255,${.05 + power * .04})`); bg.addColorStop(1, 'rgba(160,130,255,0)'); c.globalAlpha = 1; c.fillStyle = bg; c.fillRect(0, by - 60, SW, 120);
+    c.globalCompositeOperation = 'source-over';
+    // the dive-in: static takes over the display
+    if (stat > 0) { c.globalAlpha = Math.min(1, stat); c.drawImage(noiseTile(), 0, 0, SW, SH); c.globalAlpha = stat * .5; for (let i = 0; i < 6; i++) { c.fillStyle = Math.random() > .5 ? '#000' : '#cbb8ff'; c.fillRect(0, Math.random() * SH, SW, 2 + Math.random() * 10); } c.globalAlpha = 1; }
+    // curvature vignette
+    const v = c.createRadialGradient(SW / 2, SH / 2, SW * .28, SW / 2, SH / 2, SW * .62); v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,0,0,.6)'); c.fillStyle = v; c.fillRect(0, 0, SW, SH);
     c.restore(); screenTex.needsUpdate = true;
   };
 
@@ -242,7 +276,7 @@
       chip.position.set(ox, chipY, oz); chip.rotation.y = rC; chip.visible = t > 1.2 && t < 3.35;
       arm.position.set(ox, armY, oz); arm.rotation.y = rC; arm.visible = t > 1.2 && t < 4.7 && sE < .99;
 
-      ringM2.emissiveIntensity = .05 + powerOn * 1.6;
+      ringM2.emissiveIntensity = .03 + powerOn * 1.05;
       slotM2.opacity = Math.max(ease(seg(t, 3.2, 3.6)) * (1 - ease(seg(t, 9.5, 10))), sE) * (.7 + .3 * Math.sin(T0 * 6));
       glowLight.intensity = powerOn * 1.6;
       // face
@@ -250,7 +284,7 @@
       const mark = mix(ease(seg(t, 6.8, 7.1)) * (1 - ease(seg(t, 7.7, 8.0))), 1);
       const look = t < 6.6 ? Math.sin((t - 5) * 2.2) * .5 : 0;
       const blinkT = [5.9, 8.4].reduce((b, bt) => Math.max(b, Math.sin(seg(t, bt, bt + .22) * Math.PI)), 0);
-      drawScreen(T0, powerOn, eyesOn, mark, look + cx * .4, cy * .3, blinkT);
+      drawScreen(T0, powerOn, eyesOn, mark, look + cx * .4, cy * .3, blinkT, ease(seg(p, .34, .6)));
 
       // clip plane = the top of the stand, in camera space
       scene.updateMatrixWorld();
@@ -264,7 +298,8 @@
       hero.classList.toggle('is-zoom', z > .001);
       const fo = (1 - seg(p, .12, .45)).toFixed(3);
       fades.forEach((el) => { el.style.opacity = fo; });
-      if (endEl) { const e = ease(seg(p, .62, .74)); endEl.style.opacity = e.toFixed(3); endEl.style.visibility = e > .01 ? 'visible' : 'hidden'; endEl.style.pointerEvents = e > .9 ? 'auto' : 'none'; }
+      if (endNoise) { const nv = seg(p, .6, .64) * (1 - seg(p, .68, .84)); endNoise.style.opacity = nv.toFixed(3); if (nv > 0) { const x2 = endNoise.getContext('2d'); x2.imageSmoothingEnabled = false; x2.drawImage(noiseTile(), 0, 0, endNoise.width, endNoise.height); } }
+      if (endEl) { const e = ease(seg(p, .6, .66)); endEl.style.opacity = e.toFixed(3); endEl.style.visibility = e > .01 ? 'visible' : 'hidden'; endEl.style.pointerEvents = e > .9 ? 'auto' : 'none'; }
       renderer.render(scene, cam);
     }
     requestAnimationFrame(loop);
