@@ -86,7 +86,7 @@
 .hx-copy h1 { font-size: clamp(13px, 1.15vw, 17px); }
 
 /* while the camera dives into the face, the robot canvas rides above the grid */
-.hx.is-zoom .rb-gl { z-index: 6; }
+/* the robot stays in its place behind the partner strip and copy; only the camera moves */
 
 /* the end frame: the robot's screen, grown to fill the stage */
 .hx-end { position: absolute; inset: 0; z-index: 7; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 18px; padding: 0 24px; opacity: 0; visibility: hidden; pointer-events: none;

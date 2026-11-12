@@ -298,8 +298,8 @@
       cam.zoom = Math.pow(zEnd, z); cam.position.set(_s.x * z, _s.y * z, 2000); cam.updateProjectionMatrix();
       hero.classList.toggle('is-zoom', z > .001);
       document.body.classList.toggle('qc-hide', p < .64 && hr.bottom > innerHeight * .5);   // quick-contact dock appears once you're inside
-      const fo = (1 - seg(p, .12, .45)).toFixed(3);
-      fades.forEach((el) => { el.style.opacity = fo; });
+      const fo = (1 - seg(p, .12, .45)).toFixed(3), fs = (1 - seg(p, .42, .58)).toFixed(3);
+      fades.forEach((el) => { el.style.opacity = el === strip ? fs : fo; });
       if (endNoise) { const nv = seg(p, .6, .64) * (1 - seg(p, .68, .84)); endNoise.style.opacity = nv.toFixed(3); if (nv > 0) { const x2 = endNoise.getContext('2d'); x2.imageSmoothingEnabled = false; x2.drawImage(noiseTile(), 0, 0, endNoise.width, endNoise.height); } }
       if (endEl) { const e = ease(seg(p, .6, .66)); endEl.style.opacity = e.toFixed(3); endEl.style.visibility = e > .01 ? 'visible' : 'hidden'; endEl.style.pointerEvents = e > .9 ? 'auto' : 'none'; }
       renderer.render(scene, cam);
