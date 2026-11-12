@@ -98,3 +98,45 @@
 .hx-end h2 { max-width: 13em; font: 700 clamp(34px, 6vw, 92px)/1.02 "Sora", sans-serif; letter-spacing: -.045em; color: #fff; }
 .hx-end h2 em { font: italic 400 1.06em/1 "Instrument Serif", serif; letter-spacing: -.01em; background: linear-gradient(135deg, #9a5cf5, #e2b8ff 75%); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .06em; }
 .hx-end-s { font: 400 clamp(14px, 1.4vw, 19px)/1.5 "DM Sans", sans-serif; color: #cfc8ea; }
+
+/* left cell: the main page's title, scaled to the cell */
+.hx-copy { justify-content: center; gap: 0; }
+.hx-title { margin: 0; font-family: "Sora", sans-serif; font-weight: 400; }
+.hx-title > span { display: block; white-space: nowrap; }
+.hx-title-main { font-size: clamp(40px, 4.3vw, 70px); line-height: .98; letter-spacing: -.035em; color: #fff; }
+.hx-title-main sup { display: inline-block; margin-left: .12em; font-size: .32em; vertical-align: top; line-height: 1; transform: translateY(.35em); letter-spacing: 0; }
+.hx-title-sub { margin-top: .12em; padding-bottom: .14em; font-size: clamp(25px, 2.55vw, 42px); line-height: 1.05; letter-spacing: -.03em;
+  background: linear-gradient(90deg, #e3d7ff 0%, #c4a6fb 12%, #8f4df0 30%, #ab24f2 62%, #ab24f2 82%, #cdb6ff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hx-lead { margin: clamp(8px, 1.4svh, 14px) 0 clamp(16px, 2.6svh, 26px); font: 400 clamp(13px, 1.05vw, 16px)/1.5 "DM Sans", sans-serif; color: #cfc8ea; }
+
+/* right cell: the services list; hovering a row slides a small card out beside it */
+.hx-svc { grid-column: 4; position: relative; z-index: 4; display: flex; flex-direction: column; }
+.hx-svc > a { flex: 1 1 0; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 clamp(16px, 1.6vw, 26px) clamp(12px, 1.6svh, 18px);
+  border-bottom: 1px solid var(--line); color: #fff; text-decoration: none; font: 400 clamp(15px, 1.25vw, 19px)/1 "DM Sans", sans-serif; position: relative; overflow: hidden; transition: color .3s ease; }
+.hx-svc > a:last-of-type { border-bottom: 0; }
+.hx-svc > a::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(98, 29, 208, .0), rgba(171, 36, 242, .22)); transform: scaleX(0); transform-origin: right; transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
+.hx-svc > a > span { position: relative; }
+.hx-svc > a span:first-child { transition: transform .35s cubic-bezier(.2, .8, .2, 1); }
+.hx-svc .num { font-size: clamp(11px, .95vw, 14px); font-variant-numeric: tabular-nums; color: rgba(255, 255, 255, .6); transition: color .3s ease; }
+.hx-svc > a:hover::before, .hx-svc > a.on::before { transform: scaleX(1); }
+.hx-svc > a:hover span:first-child, .hx-svc > a.on span:first-child { transform: translateX(8px); }
+.hx-svc > a:hover .num, .hx-svc > a.on .num { color: #d3a9ff; }
+
+.hx-card { position: absolute; right: calc(100% + 14px); top: var(--cy, 0px); width: clamp(200px, 15vw, 250px); border-radius: 16px; overflow: hidden; pointer-events: none;
+  background: rgba(16, 12, 32, .82); border: 1px solid rgba(255, 255, 255, .12); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  box-shadow: 0 24px 50px -20px rgba(0, 0, 0, .9), 0 0 0 1px rgba(171, 36, 242, .12);
+  opacity: 0; transform: translateX(14px) scale(.96); transition: opacity .3s ease, transform .45s cubic-bezier(.2, .8, .2, 1), top .45s cubic-bezier(.2, .8, .2, 1); }
+.hx-card.show { opacity: 1; transform: none; }
+.hx-card-img { aspect-ratio: 16 / 9; overflow: hidden; background: #120d22; }
+.hx-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.08); transition: transform .8s cubic-bezier(.2, .8, .2, 1); }
+.hx-card.show .hx-card-img img { transform: scale(1); }
+.hx-card-body { padding: 12px 14px 14px; }
+.hx-card-body p { margin: 0; }
+.hx-card-k { font: 400 10.5px/1 "Space Mono", monospace; letter-spacing: .1em; text-transform: uppercase; color: #c79bff; }
+.hx-card-t { margin-top: 6px !important; font: 600 16px/1.2 "Sora", sans-serif; letter-spacing: -.02em; color: #fff; }
+.hx-card-d { margin-top: 5px !important; font: 400 12.5px/1.45 "DM Sans", sans-serif; color: #c9c3e2; }
+
+@media (max-width: 900px) {
+  .hx-copy { justify-content: flex-start; }
+  .hx-svc { display: none; }
+}

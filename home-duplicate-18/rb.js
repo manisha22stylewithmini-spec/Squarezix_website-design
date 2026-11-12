@@ -30,6 +30,21 @@
   let hoverStrip = false; if (lt) { lt.addEventListener('pointerenter', () => { hoverStrip = true; }); lt.addEventListener('pointerleave', () => { hoverStrip = false; }); }
   if (lt && !reduce) setInterval(() => inView && !hoverStrip && step(1), 3600);
   new IntersectionObserver(([en]) => { inView = en.isIntersecting; }).observe(hero);
+  // services list: one card that slides to whichever row is hovered
+  const svc = document.getElementById('hx-svc'), card = document.getElementById('hx-card');
+  if (svc && card) {
+    const img = card.querySelector('img'), kEl = card.querySelector('.hx-card-k'), tEl = card.querySelector('.hx-card-t'), dEl = card.querySelector('.hx-card-d');
+    svc.querySelectorAll('a').forEach((a, i) => {
+      a.addEventListener('pointerenter', () => {
+        svc.querySelectorAll('a').forEach((b) => b.classList.toggle('on', b === a));
+        if (img.getAttribute('src') !== a.dataset.img) img.src = a.dataset.img;
+        kEl.textContent = `Service ${a.querySelector('.num').textContent}`; tEl.textContent = a.firstElementChild.textContent; dEl.textContent = a.dataset.desc;
+        const top = Math.min(a.offsetTop + a.offsetHeight / 2 - card.offsetHeight / 2, svc.clientHeight - card.offsetHeight);
+        card.style.setProperty('--cy', Math.max(0, top) + 'px'); card.classList.add('show');
+      });
+    });
+    svc.addEventListener('pointerleave', () => { card.classList.remove('show'); svc.querySelectorAll('a').forEach((b) => b.classList.remove('on')); });
+  }
   if (!T) return;
 
   // shared geometry helpers
