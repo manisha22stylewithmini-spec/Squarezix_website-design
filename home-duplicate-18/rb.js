@@ -208,7 +208,7 @@
     // phosphor content
     c.save(); c.shadowColor = 'rgba(176,140,255,.85)'; c.shadowBlur = 16; c.fillStyle = '#efe7ff';
     if (eyes > 0) { c.globalAlpha = eyes; const open = Math.max(.08, 1 - blink); [-1, 1].forEach((s) => { const w = 92, h = 150 * open; c.beginPath(); c.roundRect(SW / 2 + s * 118 - w / 2 + ex * 46, SH / 2 - h / 2 + ey * 30, w, h, 46 * Math.min(1, open * 1.6)); c.fill(); }); }
-    if (mark > 0 && logoW) { c.globalAlpha = mark; const w = 400, h = w * 127 / 241; c.drawImage(logoW, 0, 114, 241, 127, (SW - w) / 2, (SH - h) / 2 + 22, w, h);
+    if (mark > 0 && logoW) { c.globalAlpha = mark; const w = 400, h = w * 127 / 241; c.drawImage(logoW, 0, 114, 241, 127, (SW - w) / 2 + ex * 26, (SH - h) / 2 + 22 + ey * 18, w, h);
       c.shadowBlur = 6; c.font = '400 27px "Space Mono", monospace'; c.textAlign = 'center'; if ('letterSpacing' in c) c.letterSpacing = '7px'; c.fillText('MARKETING AGENCY', SW / 2 + 3, (SH - h) / 2 - 8); if ('letterSpacing' in c) c.letterSpacing = '0px'; }
     c.restore();
     // boot flicker
@@ -245,7 +245,10 @@
   hero.addEventListener('pointermove', (ev) => { const r = hero.getBoundingClientRect(); px = (ev.clientX - r.left) / r.width * 2 - 1; py = Math.max(-1, Math.min(1, (ev.clientY - r.top) / r.height * 2 - 1)); });
 
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';   // always open at the top, with the loop playing
-  const L = 14, PROF = 1.25, t0 = performance.now();
+  const L = 11, PROF = 1.25, t0 = performance.now();
+  // loop (11 s): rise out of the stand facing you, screen = black + wave gradient + grain -> turn side-on as the arm brings the
+  // chip down -> chip twists into line and drops into the slot -> arm lifts -> screen boots to the SZ mark, head turns back to you
+  // -> mark holds (follows the cursor a little) -> screen resets to the gradient -> sinks into the stand -> again
   let LT = 0;                                          // loop clock: it only runs while nobody is scrolling the hero
   const FIX = (() => { const v = new URLSearchParams(location.search).get('rbt'); return v == null ? null : +v; })();   // ?rbt=5 freezes the loop at 5 s (for reviewing a pose)
   const ARM_HIGH = 9;
@@ -269,13 +272,13 @@
 
       // robot timeline (reduced motion: stand still, facing front, eyes on)
       if (p < .03) LT += dt / 1000;                          // loop runs unless the camera is actually diving in
-      const t = FIX != null ? FIX : reduce ? 7.0 : LT % L;
-      const up = mix(ease(seg(t, .2, 1.4)) * (1 - ease(seg(t, 12.7, 13.85))), 1);
+      const t = FIX != null ? FIX : reduce ? 6.5 : LT % L;
+      const up = mix(ease(seg(t, 0, 1.1)) * (1 - ease(seg(t, 9.3, 10.4))), 1);
       bot.position.y = -(1 - up) * 3.3;
       bot.visible = up > .002;
-      const powerOn = mix(ease(seg(t, 4.4, 5.0)) * (1 - ease(seg(t, 11.9, 12.5))), 1);
-      const turnIn = back(seg(t, 4.8, 5.8)), turnOut = ease(seg(t, 11.9, 12.7));
-      const rLoop = PROF * (1 - turnIn) + PROF * turnOut;
+      const powerOn = mix(ease(seg(t, 3.6, 4.2)) * (1 - ease(seg(t, 8.6, 9.1))), 1);
+      const turnSide = ease(seg(t, 1.1, 1.8)), turnFront = back(seg(t, 4.0, 5.0));
+      const rLoop = PROF * turnSide * (1 - turnFront);
       const rH = mix(rLoop, 0) + cx * .14 * powerOn * (1 - z);
       const jolt = Math.sin(seg(t, 3.15, 3.75) * Math.PI) * (1 - sE);
       head.rotation.y = rH;
@@ -285,24 +288,24 @@
 
       // arm + chip: the chip comes down facing front, then twists to line up with the slot and drops in
       const headTop = bot.position.y + head.position.y + .95;
-      const d1 = out(seg(t, 1.3, 2.4)), tw2 = ease(seg(t, 2.25, 2.75)), ins = ease(seg(t, 2.75, 3.25)), lift = ease(seg(t, 3.5, 4.6));
+      const d1 = out(seg(t, 1.2, 2.4)), tw2 = ease(seg(t, 2.2, 2.7)), ins = ease(seg(t, 2.75, 3.25)), lift = ease(seg(t, 3.45, 4.4));
       const high = headTop + ARM_HIGH, hover = headTop + 1.0, seated = headTop - .2;
       let chipY = high + (hover - high) * d1 + (seated - hover) * ins;
       let armY = t < 3.35 ? chipY : seated + (high + 2 - seated) * lift;
       armY += (high + 4 - armY) * sE; if (t < 3.35) chipY = armY;
       const rC = rLoop * tw2;                                  // chip/arm turn to the head's angle before inserting
       const ox = Math.sin(rLoop) * .1 * tw2, oz = Math.cos(rLoop) * .1 * tw2 + .1 * (1 - tw2);
-      chip.position.set(ox, chipY, oz); chip.rotation.y = rC; chip.visible = t > 1.2 && t < 3.35;
-      arm.position.set(ox, armY, oz); arm.rotation.y = rC; arm.visible = t > 1.2 && t < 4.7 && sE < .99;
+      chip.position.set(ox, chipY, oz); chip.rotation.y = rC; chip.visible = t > 1.1 && t < 3.35;
+      arm.position.set(ox, armY, oz); arm.rotation.y = rC; arm.visible = t > 1.1 && t < 4.5 && sE < .99;
 
-      ringM2.emissiveIntensity = .03 + powerOn * 1.05;
-      slotM2.opacity = Math.max(ease(seg(t, 3.2, 3.6)) * (1 - ease(seg(t, 12.5, 13))), sE) * (.7 + .3 * Math.sin(T0 * 6));
+      ringM2.emissiveIntensity = .25 + powerOn * .8;
+      slotM2.opacity = Math.max(ease(seg(t, 3.2, 3.6)) * (1 - ease(seg(t, 8.8, 9.3))), sE) * (.7 + .3 * Math.sin(T0 * 6));
       glowLight.intensity = powerOn * 1.6;
       // face
-      const eyesOn = mix(ease(seg(t, 5.0, 5.4)) * (1 - ease(seg(t, 6.6, 6.9))) + ease(seg(t, 7.8, 8.1)) * (1 - ease(seg(t, 11.8, 12.1))), 0);
-      const mark = mix(ease(seg(t, 6.8, 7.1)) * (1 - ease(seg(t, 7.7, 8.0))), 1);
-      const look = t > 5 && t < 11.8 ? Math.sin((t - 5) * 1.6) * .5 : 0;
-      const blinkT = [5.9, 8.6, 10.7].reduce((b, bt) => Math.max(b, Math.sin(seg(t, bt, bt + .22) * Math.PI)), 0);
+      const eyesOn = 0;
+      const mark = powerOn;
+      const look = 0;
+      const blinkT = 0;
       drawScreen(T0, powerOn, eyesOn, mark, look + cx * .4, cy * .3, blinkT, ease(seg(p, .34, .6)), 1 - powerOn);   // no chip = wave gradient; chip in = boots to the mark
 
       // clip plane = the top of the stand, in camera space
