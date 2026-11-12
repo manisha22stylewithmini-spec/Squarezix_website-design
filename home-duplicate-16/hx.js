@@ -37,15 +37,15 @@
     renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
     scene = new T.Scene();
     cam = new T.PerspectiveCamera(32, 1, .05, 60); cam.position.set(0, 0, 10.5);
-    scene.add(new T.HemisphereLight(0xffffff, 0x3a2a66, .8));
-    const key = new T.DirectionalLight(0xffffff, 1.4); key.position.set(3, 4, 6); scene.add(key);
+    scene.add(new T.HemisphereLight(0xb8b4d8, 0x1a1030, .7));
+    const key = new T.DirectionalLight(0xdcd8f2, 1.1); key.position.set(3, 4, 6); scene.add(key);
     const rim = new T.DirectionalLight(0xab24f2, 1.4); rim.position.set(-5, 1, -4); scene.add(rim);
     const glow = new T.PointLight(0xc061ff, 1.5, 7); glow.position.set(0, -.2, 2.4); scene.add(glow);
 
     const rr = (w, h, r) => { const s = new T.Shape(), a = -w / 2, b = -h / 2; s.moveTo(a + r, b); s.lineTo(-a - r, b); s.quadraticCurveTo(-a, b, -a, b + r); s.lineTo(-a, -b - r); s.quadraticCurveTo(-a, -b, -a - r, -b); s.lineTo(a + r, -b); s.quadraticCurveTo(a, -b, a, -b - r); s.lineTo(a, b + r); s.quadraticCurveTo(a, b, a + r, b); return s; };
     const ext = (shape, d, bev) => { const g = new T.ExtrudeGeometry(shape, { depth: d, bevelEnabled: true, bevelThickness: bev, bevelSize: bev, bevelSegments: 4, curveSegments: 10 }); g.translate(0, 0, -d / 2); return g; };
     const box = (w, h, d, r, bev, color, rough = .45) => new T.Mesh(ext(rr(w - 2 * bev, h - 2 * bev, Math.max(r - bev, .01)), d - 2 * bev, bev), new T.MeshStandardMaterial({ color, roughness: rough, metalness: .05 }));
-    const white = 0xf3f2f7, grey = 0xd6d4de;
+    const white = 0x3b3a48, grey = 0x55546a;
 
     bot = new T.Group();
     bot.add(box(2.2, 2.0, 1.7, .4, .1, white));
@@ -53,7 +53,7 @@
     const ring = new T.Mesh(ext(ringShape, .08, .04), new T.MeshStandardMaterial({ color: 0xab24f2, emissive: 0x9a2cf0, emissiveIntensity: 1.3, roughness: .35 }));
     ring.position.z = .9; bot.add(ring);
     const gap = box(.34, .56, .16, .1, .04, white); gap.position.set(.9, -.02, .94); bot.add(gap);
-    const bezel = box(1.72, 1.52, .16, .3, .04, 0xe9e7f0); bezel.position.z = .93; bot.add(bezel);
+    const bezel = box(1.72, 1.52, .16, .3, .04, 0x2a2935); bezel.position.z = .93; bot.add(bezel);
     const sc = document.createElement('canvas'); sc.width = SW; sc.height = SH; screenCtx = sc.getContext('2d');
     screenTex = new T.CanvasTexture(sc); screenTex.anisotropy = 8;
     const screen = new T.Mesh(new T.PlaneGeometry(1.44, 1.3), new T.MeshBasicMaterial({ map: screenTex, transparent: true }));
@@ -67,9 +67,9 @@
     const ptex = new T.CanvasTexture(pc);
     const panel = new T.Mesh(new T.PlaneGeometry(.62, 1.4), new T.MeshBasicMaterial({ map: ptex })); panel.rotation.y = Math.PI / 2; panel.position.set(1.25, .05, -1.2); bot.add(panel);
     const panelL = panel.clone(); panelL.rotation.y = -Math.PI / 2; panelL.position.x = .25; bot.add(panelL);
-    const body = box(1.9, 1.3, 1.55, .32, .08, 0xe2e0ea); body.position.y = -1.65; bot.add(body);
-    const base = box(2.8, .38, 2.1, .16, .05, 0xcdcad8); base.position.y = -2.5; bot.add(base);
-    const cable = new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3([new T.Vector3(.3, 1.0, -1.1), new T.Vector3(-.2, .5, -1.55), new T.Vector3(-.3, -.6, -1.5), new T.Vector3(0, -1.5, -1.1)]), 40, .055, 8), new T.MeshStandardMaterial({ color: 0xdedce6, roughness: .5 }));
+    const body = box(1.9, 1.3, 1.55, .32, .08, 0x302f3d); body.position.y = -1.65; bot.add(body);
+    const base = box(2.8, .38, 2.1, .16, .05, 0x24232e); base.position.y = -2.5; bot.add(base);
+    const cable = new T.Mesh(new T.TubeGeometry(new T.CatmullRomCurve3([new T.Vector3(.3, 1.0, -1.1), new T.Vector3(-.2, .5, -1.55), new T.Vector3(-.3, -.6, -1.5), new T.Vector3(0, -1.5, -1.1)]), 40, .055, 8), new T.MeshStandardMaterial({ color: 0x6a6980, roughness: .5 }));
     bot.add(cable);
     bot.position.y = .75;
     rig = new T.Group(); rig.add(bot); scene.add(rig);
@@ -77,8 +77,8 @@
     // the arm: a tall column with a ribbon cable, ending in a yoke that grips the top of the head
     arm = new T.Group();
     const col = box(.78, 7, .78, .2, .06, white); col.position.y = 3.9; arm.add(col);
-    const cap = box(.9, .5, .9, .18, .05, 0xdad8e2); cap.position.y = .35; arm.add(cap);
-    for (let i = 0; i < 7; i++) { const rb = new T.Mesh(new T.CylinderGeometry(.018, .018, 5.6, 6), new T.MeshStandardMaterial({ color: 0xcfcdd9, roughness: .6 })); rb.position.set(-.27 + i * .09, 4.4, .4); arm.add(rb); }
+    const cap = box(.9, .5, .9, .18, .05, 0x2a2935); cap.position.y = .35; arm.add(cap);
+    for (let i = 0; i < 7; i++) { const rb = new T.Mesh(new T.CylinderGeometry(.018, .018, 5.6, 6), new T.MeshStandardMaterial({ color: 0x6a6980, roughness: .6 })); rb.position.set(-.27 + i * .09, 4.4, .4); arm.add(rb); }
     const yokeL = box(.2, .55, .9, .08, .03, white), yokeR = yokeL.clone(); yokeL.position.set(-.55, .0, 0); yokeR.position.set(.55, .0, 0); arm.add(yokeL, yokeR);
     const pin = new T.Mesh(new T.CylinderGeometry(.16, .16, 1.3, 20), new T.MeshStandardMaterial({ color: 0x4a4658, roughness: .4, metalness: .4 })); pin.rotation.z = Math.PI / 2; arm.add(pin);
     scene.add(arm);
