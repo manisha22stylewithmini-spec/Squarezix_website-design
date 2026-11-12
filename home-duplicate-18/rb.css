@@ -253,3 +253,16 @@ body.qc-hide .qc { opacity: 0 !important; transform: translateX(24px); pointer-e
 .hx-band { position: relative !important; top: auto !important; translate: none !important; }
 .hx-mid { align-items: center; }
 .hx-copy, .hx-svc { align-self: stretch; }
+
+/* depth behind the robot: a layered violet aura with a soft floor glow, plus a fine grain texture over the whole hero background */
+.hx-frame { background:
+  radial-gradient(24% 34% at 50% 60%, rgba(171, 36, 242, .26), transparent 70%),
+  radial-gradient(46% 58% at 50% 66%, rgba(98, 29, 208, .2), transparent 74%),
+  radial-gradient(20% 5% at 50% 84%, rgba(171, 36, 242, .32), transparent 72%),
+  radial-gradient(120% 80% at 50% 0%, rgba(32, 18, 58, .55), transparent 60%),
+  #070511 !important; }
+.hx-frame::before { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .09; mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.2 -.1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px; }
+.hx-frame::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(130% 100% at 50% 55%, transparent 55%, rgba(0, 0, 0, .55) 100%); }
