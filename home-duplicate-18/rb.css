@@ -245,3 +245,11 @@ body.qc-hide .qc { opacity: 0 !important; transform: translateX(24px); pointer-e
 /* gradient mapped to the letters themselves (cap top sits at ~7% of the line box, baseline at ~86%):
    solid over the top 60% of the letters, fading to fully clear right at the baseline */
 .hx-bandtrack span { background: linear-gradient(180deg, rgba(255, 255, 255, var(--type-a, .2)) 0%, rgba(255, 255, 255, var(--type-a, .2)) 54%, rgba(255, 255, 255, 0) 86%, rgba(255, 255, 255, 0) 100%) !important; -webkit-background-clip: text !important; background-clip: text !important; }
+
+/* type band hugs the headline, so the middle row is exactly the open area between the headline and the strip
+   and the copy + services centre in it */
+.hx-top { flex-basis: 0 !important; }
+.hx-type { flex: 0 0 auto !important; height: auto !important; padding-top: clamp(6px, 1.4svh, 16px); }
+.hx-band { position: relative !important; top: auto !important; translate: none !important; }
+.hx-mid { align-items: center; }
+.hx-copy, .hx-svc { align-self: stretch; }
