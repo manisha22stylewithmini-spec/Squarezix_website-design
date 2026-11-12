@@ -195,9 +195,16 @@
   const NOISE = Array.from({ length: 5 }, () => { const c = document.createElement('canvas'); c.width = 200; c.height = 176; const x = c.getContext('2d'), d = x.createImageData(200, 176);
     for (let i = 0; i < d.data.length; i += 4) { const v = Math.random() * 255; d.data[i] = v * .92; d.data[i + 1] = v * .86; d.data[i + 2] = v; d.data[i + 3] = 255; } x.putImageData(d, 0, 0); return c; });
   const noiseTile = () => NOISE[(Math.random() * NOISE.length) | 0];
-  const drawScreen = (t, power, eyes, mark, ex, ey, blink, stat) => {
+  // idle face: the same animated wave gradient as the inner-page heroes (waves-bg.js mounts on this canvas; we pre-create its
+  // context with preserveDrawingBuffer so the frames can be copied onto the robot's display)
+  const waves = document.createElement('canvas'); waves.className = 'svh-waves rb-waves'; waves.setAttribute('aria-hidden', 'true');
+  waves.style.cssText = 'position:absolute;left:0;top:0;width:320px;height:280px;opacity:0;pointer-events:none;z-index:-1';
+  pin.appendChild(waves);
+  try { waves.getContext('webgl', { preserveDrawingBuffer: true, alpha: false, antialias: false }); } catch (e) { /* falls back to the dark face */ }
+  const drawScreen = (t, power, eyes, mark, ex, ey, blink, stat, idle) => {
     const c = sx; c.clearRect(0, 0, SW, SH); c.save(); c.beginPath(); c.roundRect(0, 0, SW, SH, 92); c.clip();
     const g = c.createRadialGradient(SW / 2, SH * .45, 20, SW / 2, SH / 2, SW * .7); g.addColorStop(0, `rgb(${18 + power * 8},${12 + power * 4},${30 + power * 10})`); g.addColorStop(1, '#040307'); c.fillStyle = g; c.fillRect(0, 0, SW, SH);
+    if (idle > 0 && waves.width > 2) { c.globalAlpha = idle; c.drawImage(waves, 0, 0, SW, SH); c.fillStyle = 'rgba(4,3,8,.25)'; c.fillRect(0, 0, SW, SH); c.globalAlpha = 1; }
     // phosphor content
     c.save(); c.shadowColor = 'rgba(176,140,255,.85)'; c.shadowBlur = 16; c.fillStyle = '#efe7ff';
     if (eyes > 0) { c.globalAlpha = eyes; const open = Math.max(.08, 1 - blink); [-1, 1].forEach((s) => { const w = 92, h = 150 * open; c.beginPath(); c.roundRect(SW / 2 + s * 118 - w / 2 + ex * 46, SH / 2 - h / 2 + ey * 30, w, h, 46 * Math.min(1, open * 1.6)); c.fill(); }); }
@@ -296,7 +303,7 @@
       const mark = mix(ease(seg(t, 6.8, 7.1)) * (1 - ease(seg(t, 7.7, 8.0))), 1);
       const look = t > 5 && t < 11.8 ? Math.sin((t - 5) * 1.6) * .5 : 0;
       const blinkT = [5.9, 8.6, 10.7].reduce((b, bt) => Math.max(b, Math.sin(seg(t, bt, bt + .22) * Math.PI)), 0);
-      drawScreen(T0, powerOn, eyesOn, mark, look + cx * .4, cy * .3, blinkT, ease(seg(p, .34, .6)));
+      drawScreen(T0, powerOn, eyesOn, mark, look + cx * .4, cy * .3, blinkT, ease(seg(p, .34, .6)), 1 - powerOn);   // no chip = wave gradient; chip in = boots to the mark
 
       // clip plane = the top of the stand, in camera space
       scene.updateMatrixWorld();
