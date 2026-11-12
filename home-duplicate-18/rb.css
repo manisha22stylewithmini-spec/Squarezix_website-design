@@ -151,3 +151,7 @@
 .hx-logotrack li { border-right: 0 !important; }
 .hx-top { flex-basis: 2% !important; }
 .hx-band { top: 38% !important; }
+
+/* the quick-contact dock stays out of the hero; it slides in once you're inside the robot's screen */
+.qc { transition: opacity .4s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+body.qc-hide .qc { opacity: 0 !important; transform: translateX(24px); pointer-events: none; visibility: hidden; transition: opacity .4s ease, transform .5s cubic-bezier(.2, .8, .2, 1), visibility 0s .5s; }

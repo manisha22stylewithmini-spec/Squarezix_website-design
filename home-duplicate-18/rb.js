@@ -30,7 +30,7 @@
   if (pv) pv.onclick = () => step(-1); if (nx) nx.onclick = () => step(1);
   let hoverStrip = false; if (lt) { lt.addEventListener('pointerenter', () => { hoverStrip = true; }); lt.addEventListener('pointerleave', () => { hoverStrip = false; }); }
   if (lt && !reduce) setInterval(() => inView && !hoverStrip && step(1), 3600);
-  new IntersectionObserver(([en]) => { inView = en.isIntersecting; }).observe(hero);
+  new IntersectionObserver(([en]) => { inView = en.isIntersecting; if (!inView) document.body.classList.remove('qc-hide'); }).observe(hero);
   // services list: one card that slides to whichever row is hovered
   const svc = document.getElementById('hx-svc'), card = document.getElementById('hx-card');
   if (svc && card) {
@@ -297,6 +297,7 @@
       const zEnd = Math.max(cw / (1.26 * k), ch / (1.1 * k)) * 1.3;
       cam.zoom = Math.pow(zEnd, z); cam.position.set(_s.x * z, _s.y * z, 2000); cam.updateProjectionMatrix();
       hero.classList.toggle('is-zoom', z > .001);
+      document.body.classList.toggle('qc-hide', p < .64 && hr.bottom > innerHeight * .5);   // quick-contact dock appears once you're inside
       const fo = (1 - seg(p, .12, .45)).toFixed(3);
       fades.forEach((el) => { el.style.opacity = fo; });
       if (endNoise) { const nv = seg(p, .6, .64) * (1 - seg(p, .68, .84)); endNoise.style.opacity = nv.toFixed(3); if (nv > 0) { const x2 = endNoise.getContext('2d'); x2.imageSmoothingEnabled = false; x2.drawImage(noiseTile(), 0, 0, endNoise.width, endNoise.height); } }
