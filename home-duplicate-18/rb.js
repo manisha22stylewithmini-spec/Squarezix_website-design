@@ -51,7 +51,7 @@
   // shared geometry helpers
   const rr = (w, h, r) => { const s = new T.Shape(), a = -w / 2, b = -h / 2; s.moveTo(a + r, b); s.lineTo(-a - r, b); s.quadraticCurveTo(-a, b, -a, b + r); s.lineTo(-a, -b - r); s.quadraticCurveTo(-a, -b, -a - r, -b); s.lineTo(a + r, -b); s.quadraticCurveTo(a, -b, a, -b - r); s.lineTo(a, b + r); s.quadraticCurveTo(a, b, a + r, b); return s; };
   const ext = (shape, d, bev) => { const g = new T.ExtrudeGeometry(shape, { depth: d, bevelEnabled: true, bevelThickness: bev, bevelSize: bev, bevelSegments: 4, curveSegments: 10 }); g.translate(0, 0, -d / 2); return g; };
-  const mat = (color, rough = .5, metal = .1, extra = {}) => new T.MeshPhysicalMaterial(Object.assign({ color, roughness: rough, metalness: metal, clearcoat: .35, clearcoatRoughness: .3, envMapIntensity: .6 }, extra));
+  const mat = (color, rough = .5, metal = .1, extra = {}) => new T.MeshPhysicalMaterial(Object.assign({ color, roughness: rough, metalness: metal, clearcoat: .12, clearcoatRoughness: .45, envMapIntensity: .75 }, extra));
   const box = (w, h, d, r, bev, m) => new T.Mesh(ext(rr(w - 2 * bev, h - 2 * bev, Math.max(r - bev, .01)), d - 2 * bev, bev), m);
   const tex = (w, h, draw) => { const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h); const t = new T.CanvasTexture(c); t.anisotropy = 4; t.encoding = T.sRGBEncoding; return t; };
   const ease = (t) => t * t * (3 - 2 * t);
@@ -90,22 +90,23 @@
     const env = new T.Scene(), basic = (c) => new T.MeshBasicMaterial({ color: c, side: T.BackSide });
     env.add(new T.Mesh(new T.BoxGeometry(20, 20, 20), basic(0x07060c)));
     const panel = (w, h, c, x, y, z, ry = 0, rx = 0) => { const m = new T.Mesh(new T.PlaneGeometry(w, h), new T.MeshBasicMaterial({ color: c, side: T.DoubleSide })); m.position.set(x, y, z); m.rotation.set(rx, ry, 0); env.add(m); };
-    panel(9, 4, 0x8c87a6, -3, 6, 4, 0, Math.PI / 2.6);          // big soft key, top left
-    panel(1.2, 12, 0x7a3cff, 8, 0, 0, -Math.PI / 2);           // tall violet strip, right
-    panel(1.2, 12, 0x6b5cff, -8, 0, -2, Math.PI / 2);          // cool strip, left
-    panel(10, 1, 0x5c4f8a, 0, -6, 6, 0, -Math.PI / 3);         // low rim
+    panel(9, 4, 0xa9a7b6, -3, 6, 4, 0, Math.PI / 2.6);          // big soft key, top left
+    panel(1.6, 12, 0x5e5c70, 8, 0, 0, -Math.PI / 2);           // tall violet strip, right
+    panel(1.6, 12, 0x4d4b5e, -8, 0, -2, Math.PI / 2);          // cool strip, left
+    panel(10, 1, 0x3a3848, 0, -6, 6, 0, -Math.PI / 3);         // low rim
     const pm = new T.PMREMGenerator(renderer); scene.environment = pm.fromScene(env, .035).texture; pm.dispose();
   }
-  scene.add(new T.HemisphereLight(0xc9c4e8, 0x0e0818, .35));
+  scene.add(new T.HemisphereLight(0xd8d6e4, 0x0b0910, .45));
   const key = new T.DirectionalLight(0xf2eeff, .75); key.position.set(-.6, 1, .9); scene.add(key);
-  const fill = new T.DirectionalLight(0x9a5cff, .45); fill.position.set(1, -.2, .4); scene.add(fill);
+  const fill = new T.DirectionalLight(0xb9b6cc, .25); fill.position.set(1, -.2, .4); scene.add(fill);
+  const rimBack = new T.DirectionalLight(0xe6e3f5, .9); rimBack.position.set(.3, .8, -1); scene.add(rimBack);   // rim that lifts the silhouette off the dark background
 
-  const C = { shell: 0x2e2d36, body: 0x24232b, dark: 0x141319, mid: 0x4a4954, socket: 0x0b0a0f };
+  const C = { shell: 0x2b2a33, body: 0x211f28, dark: 0x111016, mid: 0x3f3e48, socket: 0x09080c };
   const rig = new T.Group(); scene.add(rig);           // scaled to pixels; origin = top of the stand
   const world = new T.Group(); world.rotation.set(.16, -.16, 0); rig.add(world);
 
   // stand: a cap block, then a chrome column that runs down out of the hero
-  const cap = box(3.0, .85, 2.6, .16, .05, mat(C.body, .55, .15)); cap.position.y = -.425; world.add(cap);
+  const cap = box(3.0, .85, 2.6, .24, .1, mat(C.body, .6, .1)); cap.position.y = -.425; world.add(cap);
   const capTop = new T.Mesh(new T.BoxGeometry(2.6, .02, 2.25), mat(C.socket, .7)); capTop.position.y = .002; world.add(capTop);
   const chrome = tex(512, 4, (c, w) => { const g = c.createLinearGradient(0, 0, w, 0); [['#15141d', 0], ['#5c5a72', .12], ['#24232f', .22], ['#cfc9ea', .36], ['#3b3a4c', .48], ['#8e89a8', .6], ['#1d1c27', .72], ['#6a6684', .86], ['#15141d', 1]].forEach(([k, o]) => g.addColorStop(o, k)); c.fillStyle = g; c.fillRect(0, 0, w, 4); });
   const column = new T.Mesh(new T.CylinderGeometry(1.35, 1.35, 14, 64, 1, true), new T.MeshBasicMaterial({ map: chrome })); column.position.y = -.85 - 7; world.add(column);
@@ -113,10 +114,10 @@
 
   // the robot itself (origin at the stand top)
   const bot = new T.Group(); world.add(bot);
-  const body = box(1.9, 1.0, 1.6, .26, .07, mat(C.body, .5, .12)); body.position.y = .5; bot.add(body);
+  const body = box(1.9, 1.0, 1.6, .34, .13, mat(C.body, .6, .08)); body.position.y = .5; bot.add(body);
   const seam = new T.Mesh(new T.BoxGeometry(1.92, .02, 1.62), mat(C.dark, .8)); seam.position.y = .62; bot.add(seam);
   const head = new T.Group(); head.position.y = 1.06 + .95; bot.add(head);
-  head.add(box(2.1, 1.9, 1.8, .42, .1, mat(C.shell, .45, .12)));
+  head.add(box(2.1, 1.9, 1.8, .5, .17, mat(C.shell, .58, .08)));
   const ringShape = rr(1.7, 1.52, .34); ringShape.holes.push(new T.Path(rr(1.56, 1.38, .28).getPoints(16).reverse()));
   const ringMat = mat(0x17121f, .3, .1, { emissive: 0x8a3dff, emissiveIntensity: .03, clearcoat: 1, clearcoatRoughness: .1 }); ringMat.toneMapped = false;
   const ring = new T.Mesh(ext(ringShape, .08, .04), ringMat); ring.position.z = .93; head.add(ring);
@@ -126,10 +127,10 @@
   const screenTex = new T.CanvasTexture(sc); screenTex.anisotropy = 8; screenTex.encoding = T.sRGBEncoding;
   // a curved (convex) display with a glass layer over it
   const bulge = (w, h, d) => { const g = new T.PlaneGeometry(w, h, 40, 36), a = g.attributes.position; for (let i = 0; i < a.count; i++) { const u = a.getX(i) / (w / 2), v = a.getY(i) / (h / 2); a.setZ(i, d * (1 - .55 * u * u - .45 * v * v)); } g.computeVertexNormals(); return g; };
-  const screen = new T.Mesh(bulge(1.26, 1.1, .05), new T.MeshBasicMaterial({ map: screenTex, transparent: true, toneMapped: false })); screen.position.z = 1.02; head.add(screen);
+  const screen = new T.Mesh(bulge(1.3, 1.14, .17), new T.MeshBasicMaterial({ map: screenTex, transparent: true, toneMapped: false })); screen.position.z = .99; head.add(screen);
   const maskTex = tex(256, 224, (c, w, h) => { c.fillStyle = '#000'; c.fillRect(0, 0, w, h); c.fillStyle = '#fff'; c.beginPath(); c.roundRect(0, 0, w, h, 38); c.fill(); });
-  const glass = new T.Mesh(bulge(1.26, 1.1, .05), mat(0x0a0812, .06, 0, { transparent: true, opacity: .28, alphaMap: maskTex, clearcoat: 1, clearcoatRoughness: .04, envMapIntensity: 2.4, depthWrite: false }));
-  glass.position.z = 1.034; head.add(glass);
+  const glass = new T.Mesh(bulge(1.3, 1.14, .17), mat(0x0a0812, .06, 0, { transparent: true, opacity: .28, alphaMap: maskTex, clearcoat: 1, clearcoatRoughness: .04, envMapIntensity: 2.4, depthWrite: false }));
+  glass.position.z = 1.004; head.add(glass);
   [-1, 1].forEach((s) => { const e = new T.Mesh(new T.CylinderGeometry(.22, .22, .3, 28), mat(C.mid, .45, .2)); e.rotation.z = Math.PI / 2; e.position.set(s * 1.12, -.1, 0); head.add(e); });
   // side camera (seen in profile)
   const post = new T.Mesh(new T.CylinderGeometry(.07, .07, .5, 16), mat(C.mid, .4, .4)); post.position.set(-1.25, .3, .35); head.add(post);
@@ -215,7 +216,7 @@
     strip.style.setProperty('--cellw', (strip.clientWidth / (innerWidth <= 900 ? 2 : 4)) + 'px');
     cam.left = -cw / 2; cam.right = cw / 2; cam.top = ch / 2; cam.bottom = -ch / 2; cam.updateProjectionMatrix();
     const fw = frame.clientWidth, small = innerWidth <= 900;
-    const headPx = Math.min(Math.max(fw * (small ? .36 : .118), 128), 190);
+    const headPx = Math.min(Math.max(fw * (small ? .36 : .132), 130), 210);
     k = headPx / 2.1; rig.scale.setScalar(k);
     const top = strip.offsetTop - headPx * .3;
     rig.position.set(0, ch / 2 - top, 0);
