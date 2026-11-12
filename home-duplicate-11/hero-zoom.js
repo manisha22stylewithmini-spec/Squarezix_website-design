@@ -36,18 +36,18 @@
   // Copy elements and how "close to camera" each is — closer ones move further
   const depthEls = [
     ['.hero-badge', 0.55], ['.hero-title-main', 1.25], ['.hero-title-sub', 1.0],
-    ['.hero-lead', 0.8], ['.hero-text', 0.65], ['.hero-cta', 0.9], ['.hero-ghost', 0.9],
+    ['.hero-lead', 0.8], ['.hero-text', 0.65], ['.hero-cta', 0.9],
     ['.hero-services a:nth-child(1)', 1.5], ['.hero-services a:nth-child(2)', 1.3],
     ['.hero-services a:nth-child(3)', 1.1], ['.hero-services a:nth-child(4)', 0.9],
   ].map(([sel, depth]) => ({ el: $(sel), depth })).filter((d) => d.el);
 
   // Portal glass outline in plate px relative to the .hero-screen box (125×291, which starts
   // 6px left / 4px above the glass): a flat, softly rounded rectangle
-  const GLASS = new Path2D('M16 10H147Q153 10 153 16V99.5Q153 105.5 147 105.5H16Q10 105.5 10 99.5V16Q10 10 16 10Z');   // the laptop glass: 143×95.5 in photo px, softly rounded
+  const GLASS = new Path2D('M9 6H78Q81 6 81 9V57Q81 60 78 60H9Q6 60 6 57V9Q6 6 9 6Z');   // the laptop glass: 75×54
 
   // Portal glass inside the 1280x720 video frame (x 585–698, y 217–500)
-  const SCREEN = { cx: 998.5 / 2000, cy: 776.3 / 1116, w: 143 / 2000, h: 95.5 / 1116 };
-  const BOX_W = 163, BOX_H = 115.5;                 // the .hero-screen element, in plate px
+  const SCREEN = { cx: 636 / 1280, cy: 415 / 720, w: 75 / 1280, h: 54 / 720 };
+  const BOX_W = 87, BOX_H = 66;                 // the .hero-screen element, in plate px
 
   // One tone for every static layer: violet-grey, close to the brand. Returns ABGR.
   const tone = (v, a) => {

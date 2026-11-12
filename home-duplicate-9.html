@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Squarezix — Home — Duplicate 9 (desert desk)</title>
+  <title>Squarezix — Home — Duplicate 9 (TV wall)</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="home-duplicate-9/styles.css?v=20261009a" />
-  <link rel="stylesheet" href="home-duplicate-9/hero.css?v=n1" />
+  <link rel="stylesheet" href="home-duplicate-9/hero.css?v=p4" />
   <link rel="stylesheet" href="home-duplicate-9/services.css?v=20261009a" />
   <link rel="stylesheet" href="home-duplicate-9/bento.css?v=20261012b" />
   <link rel="stylesheet" href="home-duplicate-9/sections.css?v=20261009a" />
@@ -51,125 +51,22 @@
   <!-- Hero: looping night-desert portal video anchored to the bottom, copy on the black sky,
        5-column double-line grid, service index in the last column. Styles in hero.css.
        The section is tall; .hero-stage sticks while hero-zoom.js scrubs a push-in
-       through the laptop screen into the "inside of Squarezix" frame. -->
+       through the middle TV screen into the "inside of Squarezix" frame. -->
   <section class="hero" id="hero">
     <div class="hero-stage" id="hero-stage">
       <div class="hero-media" aria-hidden="true">
-        <!-- Night-desert scene with a desk, chair and laptop whose screen shows the Squarezix logo (layers: scene.js) -->
-        <svg class="hero-scene" viewBox="0 0 1280 720" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
-          <defs>
-            <linearGradient id="hs-sky" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#04030f"/><stop offset=".38" stop-color="#120a31"/><stop offset=".58" stop-color="#2e1856"/>
-              <stop offset=".68" stop-color="#5b2d73"/><stop offset=".74" stop-color="#b0597a"/><stop offset=".78" stop-color="#e58b62"/>
-            </linearGradient>
-            <linearGradient id="hs-far" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a2257"/><stop offset="1" stop-color="#170d2c"/></linearGradient>
-            <linearGradient id="hs-mid" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a2c70"/><stop offset=".5" stop-color="#2b1a4a"/><stop offset="1" stop-color="#150c28"/></linearGradient>
-            <linearGradient id="hs-mound" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a62b0"/><stop offset=".35" stop-color="#4d3074"/><stop offset="1" stop-color="#1c1130"/></linearGradient>
-            <linearGradient id="hs-fore" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b1a45"/><stop offset="1" stop-color="#0c0717"/></linearGradient>
-            <linearGradient id="hs-leather" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#120c1c"/><stop offset=".7" stop-color="#241833"/><stop offset="1" stop-color="#3c2a52"/></linearGradient>
-            <linearGradient id="hs-wood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8b6a58"/><stop offset="1" stop-color="#4b3329"/></linearGradient>
-            <linearGradient id="hs-screen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7a3df0"/><stop offset=".55" stop-color="#4a1fa8"/><stop offset="1" stop-color="#2a0f6a"/></linearGradient>
-            <linearGradient id="hs-shine" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".28"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/></linearGradient>
-            <radialGradient id="hs-glow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#b86bff" stop-opacity=".7"/><stop offset="1" stop-color="#6a2cd8" stop-opacity="0"/></radialGradient>
-            <radialGradient id="hs-horizon" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ff9a5a" stop-opacity=".75"/><stop offset="1" stop-color="#ff9a5a" stop-opacity="0"/></radialGradient>
-            <linearGradient id="hs-haze" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7d4aa6" stop-opacity="0"/><stop offset="1" stop-color="#7d4aa6" stop-opacity=".28"/></linearGradient>
-            <pattern id="hs-ripple" width="70" height="16" patternUnits="userSpaceOnUse" patternTransform="skewX(-24)">
-              <path d="M0 8 Q17 3 35 8 T70 8" fill="none" stroke="#e5c8ff" stroke-opacity=".12" stroke-width="1.2"/>
-            </pattern>
-            <filter id="hs-b2" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="2"/></filter>
-            <filter id="hs-b8" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="8"/></filter>
-            <filter id="hs-b22" x="-40%" y="-60%" width="180%" height="220%"><feGaussianBlur stdDeviation="22"/></filter>
-            <mask id="hs-moon"><rect width="60" height="60" fill="#fff"/><circle cx="36" cy="26" r="17" fill="#000"/></mask>
-            <filter id="hs-grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .5 0"/></filter>
-          </defs>
-        
-          <g class="ly" style="--d:3">
-            <rect width="1280" height="720" fill="url(#hs-sky)"/>
-            <ellipse cx="760" cy="210" rx="560" ry="86" fill="#b8a4ff" opacity=".13" transform="rotate(-27 760 210)" filter="url(#hs-b22)"/>
-            <g id="hs-stars"></g>
-            <g transform="translate(1010 92)" opacity=".95"><circle cx="30" cy="30" r="26" fill="#ffe9d0" opacity=".12" filter="url(#hs-b8)"/><circle cx="30" cy="30" r="17" fill="#fff4e6" mask="url(#hs-moon)"/></g>
-          </g>
-        
-          <g class="ly" style="--d:7">
-            <ellipse cx="250" cy="480" rx="420" ry="64" fill="url(#hs-horizon)"/>
-            <g opacity=".5" filter="url(#hs-b8)"><ellipse cx="820" cy="456" rx="300" ry="9" fill="#ffb27a"/><ellipse cx="420" cy="440" rx="240" ry="7" fill="#d98aa8"/></g>
-            <g id="hs-skyline" fill="#150b27"></g>
-            <path d="M0 492 C150 470 280 484 430 474 S720 466 910 480 S1170 470 1280 482 L1280 720 L0 720 Z" fill="url(#hs-far)"/>
-            <path d="M0 492 C150 470 280 484 430 474 S720 466 910 480 S1170 470 1280 482" fill="none" stroke="#e1b6ff" stroke-opacity=".34" stroke-width="1.2"/>
-          </g>
-        
-          <g class="ly" style="--d:12">
-            <path d="M0 548 C170 512 350 530 520 546 S870 524 1050 534 S1215 526 1280 540 L1280 720 L0 720 Z" fill="url(#hs-mid)"/>
-            <path d="M0 548 C170 512 350 530 520 546 S870 524 1050 534 S1215 526 1280 540" fill="none" stroke="#e1b6ff" stroke-opacity=".42" stroke-width="1.4"/>
-          </g>
-        
-          <g class="ly" style="--d:20">
-            <path d="M200 706 C360 638 500 606 640 600 S900 604 1030 636 S1190 696 1280 708 L1280 720 L200 720 Z" fill="url(#hs-mound)"/>
-            <path d="M200 706 C360 638 500 606 640 600 S900 604 1030 636 S1190 696 1280 708" fill="none" stroke="#f0d2ff" stroke-opacity=".5" stroke-width="1.3"/>
-            <path d="M200 706 C360 638 500 606 640 600 S900 604 1030 636 S1190 696 1280 708 L1280 720 L200 720 Z" fill="url(#hs-ripple)" opacity=".8"/>
-        
-            <!-- soft light the screen throws on the desk and the sand -->
-            <ellipse cx="706" cy="640" rx="210" ry="40" fill="url(#hs-glow)" opacity=".5"/>
-            <ellipse cx="520" cy="696" rx="82" ry="10" fill="#05030c" opacity=".6" filter="url(#hs-b2)"/>
-            <ellipse cx="722" cy="698" rx="190" ry="12" fill="#05030c" opacity=".55" filter="url(#hs-b2)"/>
-        
-            <!-- office chair, seen from behind -->
-            <g id="hs-chair">
-              <path d="M467 598 q-16 4 -18 24" fill="none" stroke="#1f1530" stroke-width="5" stroke-linecap="round"/>
-              <path d="M545 598 q16 4 18 24" fill="none" stroke="#2a1d3d" stroke-width="5" stroke-linecap="round"/>
-              <rect x="503" y="624" width="7" height="44" rx="2" fill="#0c0813"/><rect x="508" y="624" width="2" height="44" fill="#6d5688" opacity=".5"/>
-              <g stroke="#120c1c" stroke-width="5" stroke-linecap="round"><path d="M506 668 L462 684"/><path d="M506 668 L488 692"/><path d="M506 668 L526 692"/><path d="M506 668 L550 684"/><path d="M506 668 L506 686"/></g>
-              <g fill="#0a0610"><circle cx="461" cy="686" r="3.6"/><circle cx="487" cy="694" r="3.6"/><circle cx="527" cy="694" r="3.6"/><circle cx="551" cy="686" r="3.6"/></g>
-              <ellipse cx="506" cy="618" rx="42" ry="9" fill="#150d20"/>
-              <path d="M468 544 Q468 522 488 520 H526 Q546 522 546 544 V598 Q546 610 534 611 H480 Q468 610 468 598 Z" fill="url(#hs-leather)"/>
-              <path d="M546 544 V598 Q546 610 534 611" fill="none" stroke="#d9b4ff" stroke-opacity=".5" stroke-width="1.6"/>
-              <path d="M476 534 H538" stroke="#4a3563" stroke-opacity=".7" stroke-width="2" stroke-linecap="round"/>
-              <path d="M476 566 H538" stroke="#000" stroke-opacity=".28" stroke-width="1.5"/>
-            </g>
-        
-            <!-- desk -->
-            <g id="hs-desk">
-              <rect x="600" y="598" width="4" height="52" fill="#0d0813"/><rect x="838" y="598" width="4" height="52" fill="#0d0813"/>
-              <polygon points="588,596 852,596 884,619 556,619" fill="url(#hs-wood)"/>
-              <polygon points="588,596 852,596 856,599 584,599" fill="#c7a38a" opacity=".38"/>
-              <rect x="556" y="619" width="328" height="7" fill="#2a1b16"/>
-              <path d="M884 619 L884 626" stroke="#f0d2ff" stroke-opacity=".45" stroke-width="1.2"/>
-              <rect x="561" y="626" width="6" height="66" fill="#120c18"/><rect x="873" y="626" width="6" height="66" fill="#120c18"/>
-              <rect x="566" y="626" width="1.6" height="66" fill="#e7c8ff" opacity=".4"/><rect x="878" y="626" width="1.6" height="66" fill="#e7c8ff" opacity=".5"/>
-              <rect x="778" y="626" width="94" height="64" fill="#3a2a22"/><rect x="782" y="630" width="86" height="56" fill="#5d4739"/>
-              <rect x="782" y="630" width="86" height="56" fill="url(#hs-glow)" opacity=".25"/>
-              <rect x="816" y="656" width="18" height="2.4" rx="1" fill="#d8b9a0"/>
-            </g>
-        
-            <!-- laptop: the screen shows the Squarezix logo -->
-            <g id="hs-laptop">
-              <polygon points="652,588 760,588 770,595 642,595" fill="#2a2640"/>
-              <rect x="642" y="595" width="128" height="2.4" fill="#15121f"/>
-              <rect x="690" y="591" width="32" height="2" rx="1" fill="#403a5e"/>
-              <rect x="660" y="530" width="92" height="58" rx="3.2" fill="#09080f" stroke="#3a3556" stroke-width=".8"/>
-              <rect id="hs-glass" x="664" y="534" width="84" height="48" rx="1.6" fill="url(#hs-screen)"/>
-              <ellipse cx="706" cy="558" rx="46" ry="26" fill="#b86bff" opacity=".28" filter="url(#hs-b8)"/>
-              <image href="assets/brand/sz-logo-on-dark.png" x="689" y="541" width="34" height="34" preserveAspectRatio="xMidYMid meet"/>
-              <rect x="664" y="534" width="84" height="48" rx="1.6" fill="url(#hs-shine)"/>
-              <circle cx="706" cy="532" r=".9" fill="#2e2a46"/>
-            </g>
-          </g>
-        
-          <g class="ly" style="--d:34">
-            <path d="M0 694 C200 668 380 686 560 698 S900 702 1100 688 S1240 680 1280 688 L1280 720 L0 720 Z" fill="url(#hs-fore)"/>
-            <path d="M0 694 C200 668 380 686 560 698 S900 702 1100 688 S1240 680 1280 688" fill="none" stroke="#c796ff" stroke-opacity=".3" stroke-width="1.2"/>
-            <path d="M0 694 C200 668 380 686 560 698 S900 702 1100 688 S1240 680 1280 688 L1280 720 L0 720 Z" fill="url(#hs-ripple)" opacity=".7"/>
-          </g>
-        
-          <rect y="470" width="1280" height="250" fill="url(#hs-haze)"/>
-          <g class="fog" opacity=".5"><ellipse cx="300" cy="590" rx="360" ry="22" fill="#a778d0" filter="url(#hs-b22)"/><ellipse cx="980" cy="614" rx="320" ry="18" fill="#a778d0" filter="url(#hs-b22)"/></g>
-          <rect width="1280" height="720" filter="url(#hs-grain)" opacity=".1" style="mix-blend-mode:overlay"/>
-        </svg>
-        <!-- Static that lives on the laptop glass itself — zooms with the scene -->
-        <div class="hero-screen" aria-hidden="true">
-          <canvas class="hero-screen-noise"></canvas>
+        <!-- One looping video plate: a wall of TVs, the middle one showing the Squarezix logo. The plate drifts with the
+             pointer (plate.js); scrolling pushes into the middle TV. -->
+        <div class="hero-plate">
+          <video class="hero-video" id="hero-video" src="assets/hero/tv-wall.mp4?v=1" poster="assets/hero/tv-wall-poster.jpg?v=1"
+                 autoplay muted loop playsinline preload="auto"></video>
+          <!-- Static that lives on the TV glass itself — zooms with the video -->
+          <div class="hero-screen" aria-hidden="true">
+            <canvas class="hero-screen-noise"></canvas>
+          </div>
         </div>
       </div>
+      <div class="hero-shade" aria-hidden="true"></div>
 
       <canvas class="hero-dust" aria-hidden="true"></canvas>
 
@@ -1081,8 +978,8 @@
   </footer>
 
 
-  <script src="home-duplicate-9/hero-zoom.js?v=n1"></script>
-  <script src="home-duplicate-9/scene.js?v=n2"></script>
+  <script src="home-duplicate-9/hero-zoom.js?v=p1"></script>
+  <script src="home-duplicate-9/plate.js?v=p1"></script>
   <script src="home-duplicate-9/site.js?v=20261009a"></script>
   <script src="home-duplicate-9/menu.js?v=20261043a"></script>
   <script src="home-duplicate-9/services.js?v=20261009a"></script>

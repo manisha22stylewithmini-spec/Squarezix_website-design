@@ -36,7 +36,7 @@
     --u: clamp(0.45px, min(calc(100vw / 1686), calc((100svh - var(--header-h)) / 900)), 1.2px);
     --stage-h: calc(100svh - var(--header-h));
   }
-  .hero-media { --mb: 0; }
+  .hero .hero-media { --mb: 0; translate: 9% -50%; }   /* the wall sits a little right of centre, clear of the headline */
 }
 /* Video: covers the whole stage. It keeps its own 16:9 and is pinned to the bottom, but is never narrower
    than the stage width nor shorter than the stage height (on tall screens it grows wider and is centred,
@@ -44,7 +44,7 @@
    clear of the headline; on narrow screens it is centred. */
 .hero-media {
   --mw: max(100%, calc(var(--stage-h) * 16 / 9));
-  position: absolute; left: calc((100% - var(--mw)) * var(--mb, .5)); bottom: 0; z-index: 0;
+  position: absolute; left: calc((100% - var(--mw)) * var(--mb, .5)); top: 50%; translate: 0 -50%; z-index: 0;
   width: var(--mw); aspect-ratio: 16 / 9;
 }
 .hero-media, .hero-grid { will-change: transform, opacity; }
@@ -211,24 +211,23 @@
    (hero-zoom.js) — a CSS mask here gets tiled when zoomed and shows seams. */
 .hero-screen {
   position: absolute;
-  left: calc(658 / 1280 * 100%); top: calc(528 / 720 * 100%);
-  width: calc(96 / 1280 * 100%); height: calc(60 / 720 * 100%);
+  left: calc(471 / 1280 * 100%); top: calc(299 / 720 * 100%);
+  width: calc(182 / 1280 * 100%); height: calc(140 / 720 * 100%);
   visibility: hidden;
   pointer-events: none;
 }
 /* Script-writing line on the sign, below the baked "SquareZix WORLD." (sized from the plate width) */
 .hero-media { container-type: inline-size; }
-/* Night-desert scene (scene.svg inline in the page): layers slide against each other with the pointer (scene.js sets --pxm/--pym) */
-.hero-scene { display: block; width: 100%; height: 100%; }
-.hero-scene .ly { transform: translate(calc(var(--pxm, 0) * var(--d) * -1px), calc(var(--pym, 0) * var(--d) * -.4px)); }
-.hero-scene .tw { animation: hs-tw 4.6s ease-in-out infinite; }
-@keyframes hs-tw { 50% { opacity: .15; } }
-.hero-scene .fog { animation: hs-fog 26s ease-in-out infinite alternate; }
-@keyframes hs-fog { to { transform: translateX(46px); } }
-#hs-laptop image, #hs-glass { animation: hs-screen 5.5s ease-in-out infinite; }
-@keyframes hs-screen { 50% { opacity: .9; } }
-/* the static on the laptop glass follows the near layer, so it stays on the glass */
-.hero-screen { translate: calc(var(--pxm, 0) * -20 / 1280 * 100cqw) calc(var(--pym, 0) * -8 / 1280 * 100cqw); }
+/* Hover parallax (plate.js sets --pxm/--pym on the stage): the plate (video + static on the glass) moves against the
+   pointer, the copy moves the other way. The plate is slightly oversized so its edges never show. */
+.hero-plate { position: absolute; inset: 0; transform-origin: 50% 50%;
+  transform: translate3d(calc(var(--pxm, 0) * -16px), calc(var(--pym, 0) * -9px), 0) scale(1.045); }
+.hero-plate .hero-video { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+/* the wall of TVs fills the right side, so the service index stays out of its way */
+.hero-services { display: none; }
+.hero-copy { translate: calc(var(--pxm, 0) * 9px) calc(var(--pym, 0) * 5px); }
+.hero-shade { position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(90deg, rgba(7, 5, 17, .88) 0%, rgba(7, 5, 17, .6) 30%, rgba(7, 5, 17, 0) 58%), linear-gradient(0deg, rgba(7, 5, 17, .55), rgba(7, 5, 17, 0) 24%); }
 .hero-screen-noise { position: absolute; inset: 0; width: 100%; height: 100%; }
 
 /* Floating dust in front of the scene */

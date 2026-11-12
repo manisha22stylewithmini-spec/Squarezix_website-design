@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Squarezix — Home — Duplicate 11 (studio set)</title>
+  <title>Squarezix — Home — Duplicate 11 (mountain desk)</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="home-duplicate-11/styles.css?v=20261009a" />
-  <link rel="stylesheet" href="home-duplicate-11/hero.css?v=u1" />
+  <link rel="stylesheet" href="home-duplicate-11/hero.css?v=m4" />
   <link rel="stylesheet" href="home-duplicate-11/services.css?v=20261009a" />
   <link rel="stylesheet" href="home-duplicate-11/bento.css?v=20261012b" />
   <link rel="stylesheet" href="home-duplicate-11/sections.css?v=20261009a" />
@@ -55,13 +55,11 @@
   <section class="hero" id="hero">
     <div class="hero-stage" id="hero-stage">
       <div class="hero-media" aria-hidden="true">
-        <!-- The studio photo (assets/hero/studio-stage.jpg) is the hero. It keeps its own proportions and is never cropped around the
-             green set; its laptop screen carries a looping retro-TV noise (plate.js) and is what the scroll pushes into. -->
+        <!-- One looping video plate: a desk on a mountain top at sunset, its laptop showing the Squarezix logo. Scrolling pushes into the middle TV. -->
         <div class="hero-plate">
-          <img class="hero-photo" src="assets/hero/studio-stage.jpg?v=1" alt="" width="2000" height="1116" decoding="async" fetchpriority="high" />
-          <!-- Ambient retro-TV noise on the laptop glass -->
-          <div class="hero-tv"><canvas class="hero-tv-noise" width="72" height="48"></canvas></div>
-          <!-- Static that builds on the laptop glass while scrolling in — zooms with the photo -->
+          <video class="hero-video" id="hero-video" src="assets/hero/mountain-desk-2.mp4?v=1" poster="assets/hero/mountain-desk-2-poster.jpg?v=1"
+                 autoplay muted loop playsinline preload="auto"></video>
+          <!-- Static that lives on the laptop glass itself — zooms with the video -->
           <div class="hero-screen" aria-hidden="true">
             <canvas class="hero-screen-noise"></canvas>
           </div>
@@ -78,14 +76,11 @@
           <p class="hero-badge">Digital Growth Partner · Dubai · GCC · Global</p>
           <h1 class="hero-title">
             <span class="hero-title-main">Squarezix<sup>®</sup></span>
-            <span class="hero-title-sub">Marketing Agency</span>
+            <span class="hero-title-sub">Creative Agency</span>
           </h1>
           <p class="hero-lead">Building what’s next for ambitious brands.</p>
           <p class="hero-text">SquareZix combines brand, digital experience, growth and AI to help ambitious businesses become more visible, more relevant, more valuable.</p>
-          <div class="hero-actions">
-            <a href="#contact" class="zx-btn hero-cta" data-contact-open>Start a Project</a>
-            <a href="#services" class="hero-ghost">Explore services</a>
-          </div>
+          <a href="#contact" class="zx-btn hero-cta" data-contact-open>Start a Project</a>
         </div>
 
         <nav class="hero-services" aria-label="Services">
@@ -982,8 +977,8 @@
   </footer>
 
 
-  <script src="home-duplicate-11/hero-zoom.js?v=u1"></script>
-  <script src="home-duplicate-11/plate.js?v=t1"></script>
+  <script src="home-duplicate-11/hero-zoom.js?v=m1"></script>
+  <script src="home-duplicate-11/plate.js?v=m3"></script>
   <script src="home-duplicate-11/site.js?v=20261009a"></script>
   <script src="home-duplicate-11/menu.js?v=20261043a"></script>
   <script src="home-duplicate-11/services.js?v=20261009a"></script>

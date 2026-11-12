@@ -36,7 +36,7 @@
     --u: clamp(0.45px, min(calc(100vw / 1686), calc((100svh - var(--header-h)) / 900)), 1.2px);
     --stage-h: calc(100svh - var(--header-h));
   }
-  .hero .hero-media { --mb: 0; }
+  .hero .hero-media { --mb: .5; }
 }
 /* Video: covers the whole stage. It keeps its own 16:9 and is pinned to the bottom, but is never narrower
    than the stage width nor shorter than the stage height (on tall screens it grows wider and is centred,
@@ -211,30 +211,20 @@
    (hero-zoom.js) — a CSS mask here gets tiled when zoomed and shows seams. */
 .hero-screen {
   position: absolute;
-  left: 42.5%; top: 57.857%;
-  width: 14.125%; height: 19.643%;
+  left: 46.289%; top: 53.056%;
+  width: 6.797%; height: 9.167%;
   visibility: hidden;
   pointer-events: none;
 }
-/* The hero: the studio photo, never cropped around the green set. Hover parallax (plate.js sets --pxm/--pym on the stage): the
-   whole plate drifts a little against the pointer, the copy the other way. The retro-TV noise and the static that builds on the
-   laptop glass live inside the plate, so they move with it. Measurements are fractions of the 2000x1116 photo. */
-.hero-plate { position: absolute; inset: 0; transform: translate3d(calc(var(--pxm, 0) * -10px), calc(var(--pym, 0) * -6px), 0); }
-.hero-photo { display: block; width: 100%; height: 100%; user-select: none; -webkit-user-drag: none; }
-.hero-plate::before, .hero-plate::after { content: ""; position: absolute; top: 0; bottom: 0; width: 7%; z-index: 1; pointer-events: none; }
-.hero-plate::before { left: 0; background: linear-gradient(90deg, #050505, transparent); }
-.hero-plate::after { right: 0; background: linear-gradient(270deg, #050505, transparent); }
-.hero-screen { position: absolute; left: 45.85%; top: 64.38%; width: 8.15%; height: 10.35%; visibility: hidden; pointer-events: none; }
-/* retro TV noise on the laptop glass: low-alpha grain redrawn ~14x a second, scanlines, a slow rolling band, a faint flicker */
-.hero-tv { position: absolute; z-index: 2; left: 46.35%; top: 65.28%; width: 7.15%; height: 8.56%; overflow: hidden; border-radius: 3% / 4%; pointer-events: none; animation: tv-flicker 3.4s steps(1) infinite; }
-.hero-tv-noise { display: block; width: 100%; height: 100%; image-rendering: pixelated; mix-blend-mode: screen; opacity: .55; }
-.hero-tv::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, rgba(0, 0, 0, .34) 0 1px, transparent 1px 3px); }
-.hero-tv::after { content: ""; position: absolute; left: 0; right: 0; height: 30%; top: -30%; background: linear-gradient(0deg, transparent, rgba(255, 255, 255, .13), transparent); animation: tv-roll 4.8s linear infinite; }
-@keyframes tv-roll { to { top: 110%; } }
-@keyframes tv-flicker { 0%, 100% { opacity: 1; } 46% { opacity: .82; } 48% { opacity: 1; } 71% { opacity: .9; } 73% { opacity: 1; } }
-.hero-copy { translate: calc(var(--pxm, 0) * 9px) calc(var(--pym, 0) * 5px); }
+/* Script-writing line on the sign, below the baked "SquareZix WORLD." (sized from the plate width) */
+.hero-media { container-type: inline-size; }
+/* The plate is static: the video stays put behind the copy until the scroll animation takes over. */
+.hero-plate { position: absolute; inset: 0; }
+.hero-plate .hero-video { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+/* the wall of TVs fills the right side, so the service index stays out of its way */
+.hero-services { display: none; }
 .hero-shade { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: var(--cp, 1);
-  background: linear-gradient(180deg, rgba(0, 0, 0, .92) 0%, rgba(0, 0, 0, .74) 24%, rgba(0, 0, 0, 0) 50%); }
+  background: linear-gradient(180deg, rgba(10, 5, 32, .62) 0%, rgba(10, 5, 32, .32) 26%, rgba(10, 5, 32, 0) 48%); }
 .hero-screen-noise { position: absolute; inset: 0; width: 100%; height: 100%; }
 
 /* Floating dust in front of the scene */
@@ -444,38 +434,22 @@
 }
 
 /* ===== Centred layout =====
-   Headline stack centred at the top, over the dark studio curtain; the photo sits under it and keeps its own proportions
-   (2000:1116, never stretched). Its width is whichever is smaller: wide enough that the green set takes 92% of the screen
-   width, or small enough that the set takes 52% of the stage height; it is pinned so the floor of the set sits 20px above
-   the bottom. Only the dark curtain and floor beyond the set can ever be cropped, never the set itself. */
+   Headline stack centred over the sunset sky; the video (16:9, covers the stage) keeps the desk, chair and laptop in the middle. */
 .hero .hero-media {
-  --mw: min(189.7%, calc(var(--stage-h) * 1.891));
-  width: var(--mw); height: auto; aspect-ratio: 2000 / 1116; right: auto; left: calc((100% - var(--mw)) / 2);
-  top: auto; bottom: 20px; translate: 0 14.87%;
+  --mw: max(100%, calc(var(--stage-h) * 16 / 9));
+  width: var(--mw); height: auto; aspect-ratio: 16 / 9; right: auto; left: calc((100% - var(--mw)) / 2); top: 50%; bottom: auto; translate: 0 -50%;
 }
 .hero-grid { display: none; }
-.hero { --mwL: min(calc(100vw * 1.897), calc(var(--stage-h) * 1.891)); }
-/* the headline block is centred in the dark space between the header and the top of the green set's back panel */
-.hero-inner { display: flex; flex-direction: column; align-items: center; justify-content: center; height: calc(var(--stage-h) - 20px - var(--mwL) * .2211); min-height: fit-content; padding: 0 20px; grid-template-columns: none; }
+.hero-inner { display: flex; flex-direction: column; align-items: center; padding: clamp(10px, 2.6svh, 30px) 20px 0; grid-template-columns: none; }
 .hero-copy { grid-column: auto; padding: 0; width: min(900px, 100%); text-align: center; position: relative; isolation: isolate; }
-.hero-copy::before { content: ""; position: absolute; z-index: -1; left: 50%; top: 40%; width: min(980px, 130%); height: 150%; translate: -50% -50%; pointer-events: none;
-  opacity: var(--cp, 1);
-  background: radial-gradient(closest-side, rgba(98, 29, 208, .5), rgba(171, 36, 242, .18) 52%, transparent 100%); }
-.hero-title { margin-top: clamp(8px, 1.5svh, 16px); }
-.hero-title-main { font-size: clamp(34px, min(6.2vw, calc(var(--stage-h) * .098)), 104px); }
+.hero-copy::before { content: ""; position: absolute; z-index: -1; left: 50%; top: 42%; width: min(980px, 130%); height: 140%; translate: -50% -50%; pointer-events: none;
+  opacity: var(--cp, 1); background: radial-gradient(closest-side, rgba(255, 255, 255, .16), rgba(171, 36, 242, .12) 55%, transparent 100%); }
+.hero-title { margin-top: clamp(8px, 1.6svh, 18px); }
+.hero-title-main { font-size: clamp(36px, min(6.4vw, calc(var(--stage-h) * .1)), 108px); text-shadow: 0 6px 30px rgba(20, 8, 60, .45); }
 .hero-title-main sup { margin-left: .08em; }
-.hero-title-sub { margin-top: clamp(2px, .5svh, 8px); padding: 0 0 .14em; font-size: clamp(22px, min(3.9vw, calc(var(--stage-h) * .062)), 66px); }
-.hero-lead { margin: clamp(6px, 1.2svh, 12px) auto 0; font-size: clamp(14px, min(1.4vw, 2.2svh), 19px); max-width: 30em; }
+.hero-title-sub { margin-top: clamp(2px, .5svh, 8px); padding: 0 0 .14em; font-size: clamp(22px, min(4vw, calc(var(--stage-h) * .064)), 68px);
+  background: linear-gradient(90deg, #fff, #f1dcff 40%, #e2b8ff 75%, #fff); -webkit-background-clip: text; background-clip: text; }
+.hero-lead { margin: clamp(6px, 1.3svh, 14px) auto 0; font-size: clamp(14px, min(1.45vw, 2.3svh), 20px); max-width: 30em; text-shadow: 0 2px 16px rgba(20, 8, 60, .55); }
 .hero-text { display: none; }
-.hero-actions { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: clamp(12px, 2.2svh, 24px); }
-.hero-actions .hero-cta { margin-top: 0; }
-.hero-ghost { display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; height: 48px; padding: 0 24px; border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, .22); background: rgba(20, 16, 36, .62); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
-  color: #fff; font: 500 15px/1 "DM Sans", sans-serif; text-decoration: none; transition: background .2s ease, border-color .2s ease, transform .2s ease; }
-.hero-ghost:hover { background: rgba(255, 255, 255, .14); border-color: rgba(255, 255, 255, .42); transform: translateY(-1px); }
-.hero-ghost:focus-visible { outline: 2px solid #e2b8ff; outline-offset: 3px; }
-/* "Marketing Agency" keeps the original lilac-to-violet gradient across the words (the gradient is stretched so it ends on violet, as before) */
-.hero-title > .hero-title-sub { display: inline-block; background-size: 155% 100%; background-repeat: no-repeat; }
-/* header "Contact us": same button, no outline */
-.site-header .zx-btn { border: 0; padding: 0 23px; }
+.hero-cta { margin-top: clamp(10px, 2svh, 22px); }
 .hero-services { display: none; }

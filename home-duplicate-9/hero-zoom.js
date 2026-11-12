@@ -43,11 +43,11 @@
 
   // Portal glass outline in plate px relative to the .hero-screen box (125×291, which starts
   // 6px left / 4px above the glass): a flat, softly rounded rectangle
-  const GLASS = new Path2D('M9 6H87Q90 6 90 9V51Q90 54 87 54H9Q6 54 6 51V9Q6 6 9 6Z');   // laptop glass: 84×48
+  const GLASS = new Path2D('M20 6.3H162Q175.6 6.3 175.6 20V120.3Q175.6 134.3 162 134.3H20Q6.3 134.3 6.3 120.3V20Q6.3 6.3 20 6.3Z');   // the middle TV's glass: 169×128, rounded like a CRT
 
   // Portal glass inside the 1280x720 video frame (x 585–698, y 217–500)
-  const SCREEN = { cx: 706 / 1280, cy: 558 / 720, w: 84 / 1280, h: 48 / 720 };
-  const BOX_W = 96, BOX_H = 60;                 // the .hero-screen element, in plate px
+  const SCREEN = { cx: 562 / 1280, cy: 369.3 / 720, w: 169.3 / 1280, h: 128 / 720 };
+  const BOX_W = 182, BOX_H = 140;                 // the .hero-screen element, in plate px
 
   // One tone for every static layer: violet-grey, close to the brand. Returns ABGR.
   const tone = (v, a) => {
