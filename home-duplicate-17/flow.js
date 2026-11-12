@@ -56,7 +56,7 @@
     const R = FS * .385, n = WORDS.length; for (let i = 0; i < n; i++) { f.save(); f.rotate(i / n * Math.PI * 2); f.translate(0, -R); f.fillText(WORDS[i], 0, 0); f.restore(); }
     f.restore();
     // the mark, in white
-    if (logoW) { const w = FS * .5, sh = 118 / 228; f.save(); f.shadowColor = 'rgba(255,255,255,.55)'; f.shadowBlur = 30; f.drawImage(logoW, 6, 108, 228, 118, (FS - w) / 2, FS / 2 - w * sh / 2 + FS * .015, w, w * sh); f.restore(); }
+    if (logoW) { const w = FS * .5, sh = 127 / 241; f.save(); f.shadowColor = 'rgba(255,255,255,.55)'; f.shadowBlur = 30; f.drawImage(logoW, 0, 114, 241, 127, (FS - w) / 2, FS / 2 - w * sh / 2 + FS * .015, w, w * sh); f.restore(); }
     f.restore(); faceTex.needsUpdate = true;
   };
 
