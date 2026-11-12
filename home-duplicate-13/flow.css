@@ -1,0 +1,47 @@
+/* ---------- Hero: brief -> collaboration -> output ----------
+   Left lane: your inputs drift toward the middle. Centre: the Squarezix tile (ring text turns slowly).
+   Right lane: finished work drifts out. Pure CSS. Brand #621DD0/#AB24F2 on #070511. */
+.fp { margin-top: var(--header-h); background: #050309; color: #fff; }
+.fp-stage { position: relative; min-height: calc(100svh - var(--header-h)); display: flex; flex-direction: column; justify-content: space-between; gap: 28px; padding: clamp(36px, 7svh, 76px) 0 clamp(20px, 4svh, 40px); overflow: hidden; isolation: isolate;
+  background: radial-gradient(60% 50% at 50% 38%, rgba(98, 29, 208, .16), transparent 70%), #050309; }
+.fp-head { text-align: center; padding: 0 20px; }
+.fp-badge { display: inline-block; margin: 0 0 18px; padding: 8px 16px; border-radius: 999px; font: 500 11px/1 "DM Sans", sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #e9e2ff;
+  border: 1px solid rgba(171, 36, 242, .55); background: rgba(98, 29, 208, .12); box-shadow: 0 0 28px rgba(171, 36, 242, .25); }
+.fp-title { margin: 0 auto; max-width: 15em; font: 700 clamp(34px, 5.6vw, 82px)/1.02 "Sora", sans-serif; letter-spacing: -.045em; }
+.fp-title em { font: italic 400 1.06em/1 "Instrument Serif", serif; letter-spacing: -.01em; background: linear-gradient(135deg, #9a5cf5, #e2b8ff 75%); -webkit-background-clip: text; background-clip: text; color: transparent; padding-right: .06em; }
+.fp-sub { margin: 18px 0 0; font: 400 clamp(15px, 1.4vw, 19px)/1.5 "DM Sans", sans-serif; color: #c9c6e0; }
+.fp-btn { display: inline-flex; align-items: center; height: 46px; margin-top: 22px; padding: 0 26px; border-radius: 999px; background: linear-gradient(135deg, #621dd0, #ab24f2); font: 500 15px/1 "DM Sans", sans-serif; color: #fff; text-decoration: none; box-shadow: 0 12px 28px -12px rgba(0, 0, 0, .9); }
+
+.fp-flow { --tile: clamp(190px, 21vw, 330px); --card-h: clamp(120px, 12.5vw, 190px); display: grid; grid-template-columns: 1fr var(--tile) 1fr; align-items: center; gap: clamp(8px, 1.4vw, 24px); }
+.fp-lane { position: relative; min-width: 0; padding-bottom: 44px; overflow: hidden; }
+.fp-left { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 22%, #000 100%); mask-image: linear-gradient(90deg, transparent 0, #000 22%, #000 100%); }
+.fp-right { -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 70%, transparent 100%); mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 70%, transparent 100%); }
+.fp-track { display: flex; gap: clamp(12px, 1.6vw, 24px); width: max-content; margin: 0; padding: 0; list-style: none; animation: fp-drift 38s linear infinite; }
+.fp-right .fp-track { animation-duration: 46s; }
+@keyframes fp-drift { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+.fp-cap { position: absolute; left: 0; right: 0; bottom: 0; margin: 0; text-align: center; font: 400 clamp(13px, 1.2vw, 17px)/1 "DM Sans", sans-serif; color: #d8d4ee; }
+.fp-left .fp-cap { left: 22%; } .fp-right .fp-cap { right: 30%; }
+
+.fp-in { flex: none; width: calc(var(--card-h) * .72); height: calc(var(--card-h) * .9); display: grid; place-items: center; align-content: center; gap: 12px; border: 1.5px solid rgba(255, 255, 255, .22); border-radius: 12px; background: #0b0814; }
+.fp-in svg { width: 52%; fill: none; stroke: rgba(255, 255, 255, .6); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.fp-in b { padding: 5px 12px; border: 1.5px solid rgba(255, 255, 255, .3); border-radius: 7px; font: 500 clamp(11px, 1.05vw, 15px)/1 "Sora", sans-serif; letter-spacing: .04em; color: rgba(255, 255, 255, .7); }
+.fp-out { flex: none; width: calc(var(--card-h) * 1.5); height: calc(var(--card-h) * 1.35); display: flex; flex-direction: column; border: 1px solid rgba(255, 255, 255, .14); border-radius: 14px; overflow: hidden; background: #0d0a1c; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08); }
+.fp-out img { flex: 1; min-height: 0; width: 100%; object-fit: cover; }
+.fp-out span { padding: 12px 8px; text-align: center; font: 500 clamp(12px, 1.15vw, 16px)/1 "Sora", sans-serif; letter-spacing: -.01em; }
+
+.fp-core { position: relative; padding-bottom: 44px; }
+.fp-plate { padding: clamp(14px, 1.9vw, 30px); border-radius: 22%; background: #0b0814; box-shadow: 0 30px 60px -24px rgba(0, 0, 0, .95), 0 0 80px -10px rgba(98, 29, 208, .45); }
+.fp-tile { position: relative; aspect-ratio: 1; border-radius: 26%; display: grid; place-items: center; background: linear-gradient(145deg, #621dd0, #ab24f2); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35); }
+.fp-tile > img { width: 34%; height: auto; }
+.fp-ring { position: absolute; inset: 6%; width: 88%; height: 88%; animation: fp-spin 36s linear infinite; }
+.fp-ring text { font: 600 13.5px "Sora", sans-serif; letter-spacing: .12em; fill: #fff; }
+@keyframes fp-spin { to { transform: rotate(360deg); } }
+.fp-cap-core { color: #fff; font-weight: 500; }
+
+@media (max-width: 700px) {
+  .fp-flow { --tile: 150px; }
+  .fp-stage { padding-top: 32px; }
+  .fp-left .fp-cap, .fp-right .fp-cap { left: 0; right: 0; }
+  .fp-cap-core { font-size: 11px; white-space: nowrap; left: -20px; right: -20px; }
+}
+@media (prefers-reduced-motion: reduce) { .fp-track, .fp-ring { animation: none; } }
