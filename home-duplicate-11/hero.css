@@ -224,7 +224,7 @@
 /* the wall of TVs fills the right side, so the service index stays out of its way */
 .hero-services { display: none; }
 .hero-shade { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: var(--cp, 1);
-  background: linear-gradient(180deg, rgba(10, 5, 32, .62) 0%, rgba(10, 5, 32, .32) 26%, rgba(10, 5, 32, 0) 48%); }
+  background: linear-gradient(180deg, rgba(10, 5, 32, .82) 0%, rgba(10, 5, 32, .58) 24%, rgba(10, 5, 32, .2) 42%, rgba(10, 5, 32, 0) 54%); }
 .hero-screen-noise { position: absolute; inset: 0; width: 100%; height: 100%; }
 
 /* Floating dust in front of the scene */
@@ -444,12 +444,13 @@
 .hero-copy { grid-column: auto; padding: 0; width: min(900px, 100%); text-align: center; position: relative; isolation: isolate; }
 .hero-copy::before { content: ""; position: absolute; z-index: -1; left: 50%; top: 42%; width: min(980px, 130%); height: 140%; translate: -50% -50%; pointer-events: none;
   opacity: var(--cp, 1); background: radial-gradient(closest-side, rgba(255, 255, 255, .16), rgba(171, 36, 242, .12) 55%, transparent 100%); }
-.hero-title { margin-top: clamp(8px, 1.6svh, 18px); }
-.hero-title-main { font-size: clamp(36px, min(6.4vw, calc(var(--stage-h) * .1)), 108px); text-shadow: 0 6px 30px rgba(20, 8, 60, .45); }
-.hero-title-main sup { margin-left: .08em; }
-.hero-title-sub { margin-top: clamp(2px, .5svh, 8px); padding: 0 0 .14em; font-size: clamp(22px, min(4vw, calc(var(--stage-h) * .064)), 68px);
-  background: linear-gradient(90deg, #fff, #f1dcff 40%, #e2b8ff 75%, #fff); -webkit-background-clip: text; background-clip: text; }
-.hero-lead { margin: clamp(6px, 1.3svh, 14px) auto 0; font-size: clamp(14px, min(1.45vw, 2.3svh), 20px); max-width: 30em; text-shadow: 0 2px 16px rgba(20, 8, 60, .55); }
+/* Typography is the main page's own (sizes, weights, gradient and spacing come from the rules above); only the alignment changes, to centred. */
+.hero-title-main { text-shadow: 0 6px 30px rgba(20, 8, 60, .45); }
+.hero-title > .hero-title-sub { display: inline-block; padding-left: 0; background-size: 155% 100%; background-repeat: no-repeat; filter: drop-shadow(0 3px 16px rgba(8, 3, 28, .6)); }   /* gradient stretched so it ends on violet, as on the main page */
+.hero-lead { text-shadow: 0 2px 16px rgba(20, 8, 60, .55); }
+/* eyebrow: a fully rounded pill with a soft violet radiance, like the rest of the site's rounded corners */
+.hero-badge { padding: calc(7 * var(--u)) calc(18 * var(--u)); border-radius: 999px; border: 1px solid rgba(190, 120, 255, .7); background: rgba(70, 26, 140, .34);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  box-shadow: 0 0 22px rgba(171, 36, 242, .45), 0 0 6px rgba(226, 184, 255, .35), inset 0 0 14px rgba(171, 36, 242, .22); }
 .hero-text { display: none; }
-.hero-cta { margin-top: clamp(10px, 2svh, 22px); }
 .hero-services { display: none; }
