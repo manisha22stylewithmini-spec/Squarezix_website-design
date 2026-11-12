@@ -17,7 +17,7 @@
   const pin = hero.querySelector('.hx-pin');
   const endEl = document.getElementById('hx-end');
   const endNoise = document.getElementById('hx-end-noise');
-  const fades = hero.querySelectorAll('.hx-row, .hx-rail');
+  const rows = hero.querySelectorAll('.hx-row');
 
   // ---------- 1. type band + partner strip ----------
   let x = 0, vel = 0, lastY = scrollY, tw = 0, inView = true;
@@ -292,14 +292,20 @@
       world.getWorldQuaternion(_q); _n.set(0, 1, 0).applyQuaternion(_q); world.localToWorld(_p.set(0, 0, 0));
       clipPlane.setFromNormalAndCoplanarPoint(_n, _p);
 
-      // camera dive into the screen
+      // scrolling = the camera moving in on the robot's screen. The whole hero (headline, copy, list, strip and the robot)
+      // scales together about that one point, so everything comes closer at once; the WebGL view uses the same zoom,
+      // so the robot stays sharp and stays exactly in its place in the layout.
       screen.getWorldPosition(_s);
-      const zEnd = Math.max(cw / (1.26 * k), ch / (1.1 * k)) * 1.3;
-      cam.zoom = Math.pow(zEnd, z); cam.position.set(_s.x * z, _s.y * z, 2000); cam.updateProjectionMatrix();
-      hero.classList.toggle('is-zoom', z > .001);
+      const zEnd = Math.max(cw / (1.3 * k), ch / (1.14 * k)) * 1.3;
+      const Z = Math.pow(zEnd, z);
+      cam.zoom = Z; cam.position.set(_s.x * (1 - 1 / Z), _s.y * (1 - 1 / Z), 2000); cam.updateProjectionMatrix();
+      const fx = cw / 2 + _s.x, fy = ch / 2 - _s.y;               // the screen's point in frame pixels
+      rows.forEach((el) => {
+        if (Z === 1) { el.style.transform = ''; return; }
+        el.style.transformOrigin = `${(fx - el.offsetLeft).toFixed(1)}px ${(fy - el.offsetTop).toFixed(1)}px`;
+        el.style.transform = `scale(${Z.toFixed(4)})`;
+      });
       document.body.classList.toggle('qc-hide', p < .64 && hr.bottom > innerHeight * .5);   // quick-contact dock appears once you're inside
-      const fo = (1 - seg(p, .12, .45)).toFixed(3), fs = (1 - seg(p, .42, .58)).toFixed(3);
-      fades.forEach((el) => { el.style.opacity = el === strip ? fs : fo; });
       if (endNoise) { const nv = seg(p, .6, .64) * (1 - seg(p, .68, .84)); endNoise.style.opacity = nv.toFixed(3); if (nv > 0) { const x2 = endNoise.getContext('2d'); x2.imageSmoothingEnabled = false; x2.drawImage(noiseTile(), 0, 0, endNoise.width, endNoise.height); } }
       if (endEl) { const e = ease(seg(p, .6, .66)); endEl.style.opacity = e.toFixed(3); endEl.style.visibility = e > .01 ? 'visible' : 'hidden'; endEl.style.pointerEvents = e > .9 ? 'auto' : 'none'; }
       renderer.render(scene, cam);
