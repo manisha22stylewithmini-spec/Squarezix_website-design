@@ -33,6 +33,28 @@
     });
     stage.addEventListener('pointerleave', () => { tx = 0; ty = 0; });
   }
+  // ---- retro TV noise on the laptop glass: a small canvas of grain redrawn ~14x a second, with an occasional torn line ----
+  const tv = document.querySelector('.hero-tv-noise');
+  if (tv && !reduce) {
+    const c = tv.getContext('2d'), W = tv.width, H = tv.height, img = c.createImageData(W, H), buf = new Uint32Array(img.data.buffer);
+    let last = 0;
+    const draw = (now) => {
+      requestAnimationFrame(draw);
+      if (now - last < 70 || !inView) return;
+      last = now;
+      const tear = Math.random() < .06 ? Math.floor(Math.random() * H) : -1;
+      for (let y = 0; y < H; y++) {
+        const shift = y === tear ? 1.5 : 1;
+        for (let x = 0; x < W; x++) {
+          const v = Math.random() * 255 * shift | 0;
+          buf[y * W + x] = ((20 + Math.random() * 70) << 24) | (v << 16) | (v << 8) | v;   // low alpha grey grain
+        }
+      }
+      c.putImageData(img, 0, 0);
+    };
+    requestAnimationFrame(draw);
+  }
+
   new IntersectionObserver(([en]) => { inView = en.isIntersecting; if (inView) start(); }).observe(hero);
   start();
 })();
