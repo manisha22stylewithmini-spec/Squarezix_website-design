@@ -271,7 +271,7 @@
       const mix = (a, b) => a + (b - a) * sE;
 
       // robot timeline (reduced motion: stand still, facing front, eyes on)
-      if (p < .03) LT += Math.min(now - lastLT, 250) / 1000;   // real time, so the loop keeps its pace even on a slow frame rate
+      if (p < .03) LT += Math.min(now - lastLT, 1000) / 1000;   // real time, so the loop keeps its pace even on a slow frame rate
       lastLT = now;                          // loop runs unless the camera is actually diving in
       const t = FIX != null ? FIX : reduce ? 6.5 : LT % L;
       const up = mix(ease(seg(t, 0, 1.1)) * (1 - ease(seg(t, 9.3, 10.4))), 1);
