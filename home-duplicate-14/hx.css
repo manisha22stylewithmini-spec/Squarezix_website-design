@@ -1,0 +1,66 @@
+/* ---------- Hero: blueprint grid ----------
+   Hairline grid, giant looping type, a 3D piece in a black cell, partner strip. Light "paper" hero; brand purple replaces the accent. */
+.hx { --line: #c4c4c4; --ink: #121212; --paper: #e6e6e8; --a1: #621dd0; --a2: #ab24f2;
+  margin-top: var(--header-h); background: var(--paper); color: var(--ink); font-family: "Space Mono", ui-monospace, monospace; }
+.hx-frame { position: relative; margin: 0 73px; border-left: 1px solid var(--line); border-right: 1px solid var(--line);
+  background: linear-gradient(90deg, transparent calc(25% - 1px), var(--line) calc(25% - 1px) 25%, transparent 25%, transparent calc(50% - 1px), var(--line) calc(50% - 1px) 50%, transparent 50%, transparent calc(75% - 1px), var(--line) calc(75% - 1px) 75%, transparent 75%); }
+.hx-row { position: relative; border-bottom: 1px solid var(--line); }
+.hx-top { height: clamp(40px, 9svh, 100px); }
+.hx-foot { height: clamp(40px, 8svh, 90px); border-bottom: 0; }
+
+/* side rails */
+.hx-rail { position: absolute; top: clamp(40px, 9svh, 100px); z-index: 4; width: 73px; display: grid; justify-items: center; background: var(--paper); border: 1px solid var(--line); }
+.hx-rail a { display: grid; place-items: center; width: 100%; height: 70px; color: var(--ink); border-bottom: 1px solid var(--line); transition: background .25s, color .25s; }
+.hx-rail a:last-child { border-bottom: 0; }
+.hx-rail a:hover { background: var(--ink); color: #fff; }
+.hx-rail-l { left: -74px; } .hx-rail-r { right: -74px; }
+.hx-dot { width: 100%; height: 70px; display: grid; place-items: center; border-bottom: 1px solid var(--line); }
+.hx-dot::before { content: ""; width: 34px; height: 34px; border-radius: 50%; border: 1px solid #aaa; background: radial-gradient(circle, #777 0 4px, transparent 5px); }
+
+/* giant type */
+.hx-type { height: clamp(210px, 38svh, 380px); overflow: hidden; }
+.hx-band { position: absolute; left: 0; right: 0; top: 46%; translate: 0 -50%; overflow: hidden; }
+.hx-bandtrack { display: flex; width: max-content; will-change: transform; }
+.hx-bandtrack span { flex: none; padding-right: .5em; font: 800 clamp(90px, 14.5vw, 270px)/.95 "Sora", sans-serif; letter-spacing: -.02em; text-transform: uppercase; white-space: nowrap; color: var(--ink); }
+.hx-bandtrack span:nth-child(even) { color: transparent; -webkit-text-stroke: 2px var(--ink); }
+.hx-sq { position: absolute; z-index: 2; width: 20px; height: 20px; background: linear-gradient(135deg, var(--a1), var(--a2)); }
+.hx-sq.a { left: 24px; top: 24px; } .hx-sq.b { right: 24px; top: 24px; } .hx-sq.c { left: 24px; bottom: 24px; } .hx-sq.d { right: 24px; bottom: 24px; }
+.hx-tags { position: absolute; left: 76px; bottom: 20px; z-index: 2; display: flex; gap: 30px; margin: 0; font-size: clamp(11px, 1.1vw, 15px); letter-spacing: .02em; }
+.hx-tags b { font-weight: 400; }
+
+/* middle row */
+.hx-mid { display: grid; grid-template-columns: repeat(4, 1fr); min-height: clamp(300px, 46svh, 430px); }
+.hx-copy { grid-column: 1; padding: clamp(24px, 3.5vw, 40px); display: flex; flex-direction: column; justify-content: space-between; gap: 30px; }
+.hx-copy h1 { margin: 0; font: 400 clamp(15px, 1.35vw, 19px)/1.5 "Space Mono", monospace; letter-spacing: -.01em; max-width: 21em; }
+.hx-btn { align-self: flex-start; display: inline-flex; align-items: center; height: 60px; padding: 0 56px 0 72px; color: #121212; text-decoration: none; text-transform: uppercase; font: 400 15px/1 "Space Mono", monospace; letter-spacing: .02em;
+  color: #fff; background: linear-gradient(135deg, var(--a1), var(--a2)); clip-path: polygon(0 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%); transition: filter .25s, transform .25s; }
+.hx-btn { padding: 0 52px; white-space: nowrap; }
+.hx-btn:hover { filter: brightness(1.12); transform: translateX(4px); }
+.hx-cell { border-left: 0; }
+.hx-3d { grid-column: 4; display: flex; flex-direction: column; justify-content: space-between; }
+.hx-box { position: relative; width: min(86%, 300px); aspect-ratio: 1; background: #0b0b0b; margin-top: 0; box-shadow: 0 30px 50px -28px rgba(0, 0, 0, .9); }
+.hx-box canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.hx-box .k { position: absolute; width: 12px; height: 12px; border: 0 solid #fff; opacity: .85; }
+.hx-box .tl { left: 22px; top: 22px; border-top-width: 2px; border-left-width: 2px; } .hx-box .tr { right: 22px; top: 22px; border-top-width: 2px; border-right-width: 2px; }
+.hx-box .bl { left: 22px; bottom: 22px; border-bottom-width: 2px; border-left-width: 2px; } .hx-box .br { right: 22px; bottom: 22px; border-bottom-width: 2px; border-right-width: 2px; }
+.hx-pbar { display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; height: 72px; border-top: 1px solid var(--line); background: var(--paper); font-size: 15px; letter-spacing: .02em; }
+.hx-pbar span { padding-left: 24px; white-space: nowrap; }
+.hx-pbar button { height: 100%; border: 0; border-left: 1px solid var(--line); background: transparent; font: 400 34px/1 "Space Mono", monospace; cursor: pointer; color: var(--ink); }
+.hx-pbar button:hover { background: var(--ink); color: #fff; }
+
+/* partner strip */
+.hx-logos { overflow: hidden; background: #f7f7f7; }
+.hx-logotrack { display: flex; width: max-content; margin: 0; padding: 0; list-style: none; transition: transform .6s cubic-bezier(.2, .8, .2, 1); }
+.hx-logotrack li { flex: none; width: calc((100vw - 148px) / 4); height: clamp(84px, 11svh, 150px); display: grid; place-items: center; border-right: 1px solid var(--line); }
+.hx-logotrack span { font: 700 clamp(20px, 2.2vw, 32px)/1 "Sora", sans-serif; letter-spacing: -.04em; color: #151515; }
+
+@media (max-width: 900px) {
+  .hx-frame { margin: 0; border: 0; }
+  .hx-rail { display: none; }
+  .hx-mid { grid-template-columns: 1fr; min-height: 0; }
+  .hx-copy { grid-column: 1; } .hx-cell { display: none; }
+  .hx-3d { grid-column: 1; align-items: center; } .hx-box { width: min(78%, 300px); margin: 10px 0 24px; } .hx-pbar { width: 100%; }
+  .hx-logotrack li { width: 50vw; }
+  .hx-tags { left: 56px; gap: 18px; }
+}
+@media (prefers-reduced-motion: reduce) { .hx-logotrack { transition: none; } }
