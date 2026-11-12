@@ -208,3 +208,19 @@ body.qc-hide .qc { opacity: 0 !important; transform: translateX(24px); pointer-e
 @media (max-width: 900px) { .hx-copy { max-width: none; } }
 .hx-title > span { width: max-content; }
 .hx-title-sub { font-size: clamp(30px, 3.2vw, 56px) !important; }
+
+/* end frame as the inside of the robot's curved screen: no grid, rounded tube corners, vignette, scanlines, glass glare, live grain */
+.hx-end { inset: clamp(6px, .8vw, 12px) !important; border-radius: clamp(22px, 3.2vw, 48px);
+  background: radial-gradient(120% 95% at 50% 46%, #1b0f2c 0%, #0f0819 55%, #06040a 100%) !important;
+  box-shadow: inset 0 0 clamp(60px, 9vw, 160px) rgba(0, 0, 0, .9), inset 0 0 0 1px rgba(199, 146, 255, .12); overflow: hidden; }
+.hx-end::before { opacity: 1 !important; z-index: 2; background:
+  repeating-linear-gradient(to bottom, rgba(0, 0, 0, .28) 0 1px, transparent 1px 3px) !important; mix-blend-mode: multiply; }
+.hx-end::after { content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none; border-radius: inherit;
+  background: radial-gradient(70% 45% at 28% 8%, rgba(255, 255, 255, .09), transparent 70%),
+              radial-gradient(140% 120% at 50% 50%, transparent 58%, rgba(0, 0, 0, .55) 100%); }
+.hx-end > *:not(.hx-end-noise) { transform: scale(1.02); text-shadow: 0 0 22px rgba(171, 36, 242, .35); }
+.hx-end-noise { z-index: 3 !important; mix-blend-mode: screen; }
+@keyframes hx-roll { from { transform: translateY(-30%); } to { transform: translateY(130%); } }
+.hx-end .hx-roll { position: absolute; left: 0; right: 0; top: 0; height: 30%; z-index: 3; pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(190, 150, 255, .05), transparent); animation: hx-roll 6s linear infinite; }
+.hx-end > p, .hx-end > h2, .hx-end > a { z-index: 5; }

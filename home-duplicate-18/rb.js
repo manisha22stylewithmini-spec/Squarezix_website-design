@@ -317,8 +317,8 @@
         el.style.transform = `scale(${Z.toFixed(4)})`;
       });
       document.body.classList.toggle('qc-hide', p < .64 && hr.bottom > innerHeight * .5);   // quick-contact dock appears once you're inside
-      if (endNoise) { const nv = seg(p, .6, .64) * (1 - seg(p, .68, .84)); endNoise.style.opacity = nv.toFixed(3); if (nv > 0) { const x2 = endNoise.getContext('2d'); x2.imageSmoothingEnabled = false; x2.drawImage(noiseTile(), 0, 0, endNoise.width, endNoise.height); } }
-      if (endEl) { const e = ease(seg(p, .6, .66)); endEl.style.opacity = e.toFixed(3); endEl.style.visibility = e > .01 ? 'visible' : 'hidden'; endEl.style.pointerEvents = e > .9 ? 'auto' : 'none'; }
+      if (endNoise) { const nv = Math.max(seg(p, .6, .64) * (1 - seg(p, .68, .84)), seg(p, .6, .66) * .075); endNoise.style.opacity = nv.toFixed(3); if (nv > 0) { const x2 = endNoise.getContext('2d'); x2.imageSmoothingEnabled = false; x2.drawImage(noiseTile(), 0, 0, endNoise.width, endNoise.height); } }
+      if (endEl) { const e = ease(seg(p, .6, .66)); endEl.style.opacity = e.toFixed(3); cv.style.visibility = e > .98 ? 'hidden' : 'visible'; endEl.style.visibility = e > .01 ? 'visible' : 'hidden'; endEl.style.pointerEvents = e > .9 ? 'auto' : 'none'; }
       renderer.render(scene, cam);
     }
     requestAnimationFrame(loop);
