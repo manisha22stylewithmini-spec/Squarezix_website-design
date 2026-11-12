@@ -236,6 +236,7 @@
   let px = 0, py = 0, cx = 0, cy = 0, last = performance.now();
   hero.addEventListener('pointermove', (ev) => { const r = hero.getBoundingClientRect(); px = (ev.clientX - r.left) / r.width * 2 - 1; py = Math.max(-1, Math.min(1, (ev.clientY - r.top) / r.height * 2 - 1)); });
 
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';   // always open at the top, with the loop playing
   const L = 14, PROF = 1.25, t0 = performance.now();
   let LT = 0;                                          // loop clock: it only runs while nobody is scrolling the hero
   const FIX = (() => { const v = new URLSearchParams(location.search).get('rbt'); return v == null ? null : +v; })();   // ?rbt=5 freezes the loop at 5 s (for reviewing a pose)
@@ -259,7 +260,7 @@
       const mix = (a, b) => a + (b - a) * sE;
 
       // robot timeline (reduced motion: stand still, facing front, eyes on)
-      if (p <= .001) LT += dt / 1000;
+      if (p < .03) LT += dt / 1000;                          // loop runs unless the camera is actually diving in
       const t = FIX != null ? FIX : reduce ? 7.0 : LT % L;
       const up = mix(ease(seg(t, .2, 1.4)) * (1 - ease(seg(t, 12.7, 13.85))), 1);
       bot.position.y = -(1 - up) * 3.3;
