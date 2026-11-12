@@ -1,0 +1,59 @@
+/* ---------- Hero: blueprint grid, dark, 3D robot ----------
+   Pinned stage. A hairline grid + giant looping type; one three.js robot rides the scroll: small in the right cell,
+   then it comes forward, turns and fills the screen in front of the type. Brand purple/pink on #070511. */
+.hx { --line: rgba(255, 255, 255, .13); --ink: #fff; --paper: #070511; --a1: #621dd0; --a2: #ab24f2;
+  position: relative; margin-top: var(--header-h); height: 400svh; background: var(--paper); color: var(--ink); font-family: "Space Mono", ui-monospace, monospace; }
+.hx-pin { position: sticky; top: var(--header-h); height: calc(100svh - var(--header-h)); min-height: 560px; overflow: hidden; isolation: isolate; }
+.hx-gl { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; display: block; }
+.hx-frame { position: relative; height: 100%; margin: 0 73px; display: flex; flex-direction: column; border-left: 1px solid var(--line); border-right: 1px solid var(--line);
+  background: radial-gradient(50% 55% at 50% 45%, rgba(98, 29, 208, .18), transparent 70%),
+  linear-gradient(90deg, transparent calc(25% - 1px), var(--line) calc(25% - 1px) 25%, transparent 25%, transparent calc(50% - 1px), var(--line) calc(50% - 1px) 50%, transparent 50%, transparent calc(75% - 1px), var(--line) calc(75% - 1px) 75%, transparent 75%); }
+.hx-row { position: relative; border-bottom: 1px solid var(--line); }
+.hx-top { flex: 0 0 9%; }
+.hx-type { flex: 0 0 37%; overflow: hidden; }
+.hx-mid { flex: 1 1 0; min-height: 0; display: grid; grid-template-columns: repeat(4, 1fr); }
+.hx-logos { flex: 0 0 clamp(66px, 11svh, 110px); overflow: hidden; background: #0d0a1c; border-bottom: 0; }
+
+.hx-rail { position: absolute; top: 9%; z-index: 4; width: 73px; display: grid; justify-items: center; background: #0b0818; border: 1px solid var(--line); }
+.hx-rail a { display: grid; place-items: center; width: 100%; height: 64px; color: #fff; border-bottom: 1px solid var(--line); transition: background .25s, color .25s; }
+.hx-rail a:last-child { border-bottom: 0; }
+.hx-rail a:hover { background: linear-gradient(135deg, var(--a1), var(--a2)); }
+.hx-rail-l { left: -74px; } .hx-rail-r { right: -74px; }
+.hx-dot { width: 100%; height: 64px; display: grid; place-items: center; border-bottom: 1px solid var(--line); }
+.hx-dot::before { content: ""; width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .35); background: radial-gradient(circle, #cfc4ff 0 4px, transparent 5px); }
+
+.hx-band { position: absolute; left: 0; right: 0; top: 46%; translate: 0 -50%; overflow: hidden; }
+.hx-bandtrack { display: flex; width: max-content; will-change: transform; }
+.hx-bandtrack span { flex: none; padding-right: .5em; font: 800 clamp(80px, 13.5vw, 250px)/.95 "Sora", sans-serif; letter-spacing: -.02em; text-transform: uppercase; white-space: nowrap; color: #fff; }
+.hx-bandtrack span:nth-child(even) { color: transparent; -webkit-text-stroke: 2px rgba(255, 255, 255, .85); }
+.hx-sq { position: absolute; z-index: 2; width: 18px; height: 18px; background: linear-gradient(135deg, var(--a1), var(--a2)); box-shadow: 0 0 16px rgba(171, 36, 242, .6); }
+.hx-sq.a { left: 22px; top: 22px; } .hx-sq.b { right: 22px; top: 22px; } .hx-sq.c { left: 22px; bottom: 22px; } .hx-sq.d { right: 22px; bottom: 22px; }
+.hx-tags { position: absolute; left: 70px; bottom: 16px; z-index: 2; display: flex; gap: 28px; margin: 0; font-size: clamp(11px, 1.05vw, 14px); letter-spacing: .02em; color: #e9e2ff; }
+.hx-tags b { font-weight: 400; }
+
+.hx-copy { grid-column: 1; padding: clamp(18px, 2.4vw, 34px); display: flex; flex-direction: column; justify-content: space-between; gap: 18px; position: relative; z-index: 4; }
+.hx-copy h1 { margin: 0; font: 400 clamp(13px, 1.2vw, 18px)/1.5 "Space Mono", monospace; letter-spacing: -.01em; max-width: 21em; color: #f2eefc; }
+.hx-btn { align-self: flex-start; display: inline-flex; align-items: center; height: 52px; padding: 0 44px; white-space: nowrap; color: #fff; text-decoration: none; text-transform: uppercase; font: 400 14px/1 "Space Mono", monospace; letter-spacing: .02em;
+  background: linear-gradient(135deg, var(--a1), var(--a2)); clip-path: polygon(0 0, 100% 0, 100% calc(100% - 13px), calc(100% - 13px) 100%, 0 100%); transition: filter .25s, transform .25s; }
+.hx-btn:hover { filter: brightness(1.15); transform: translateX(4px); }
+.hx-3d { grid-column: 4; display: flex; flex-direction: column; justify-content: flex-end; }
+.hx-pbar { position: relative; z-index: 4; display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; height: 60px; border-top: 1px solid var(--line); background: #0b0818; font-size: 14px; letter-spacing: .02em; }
+.hx-pbar span { padding-left: 22px; white-space: nowrap; }
+.hx-pbar button { height: 100%; border: 0; border-left: 1px solid var(--line); background: transparent; font: 400 30px/1 "Space Mono", monospace; cursor: pointer; color: #fff; }
+.hx-pbar button:hover { background: linear-gradient(135deg, var(--a1), var(--a2)); }
+
+.hx-logotrack { display: flex; width: max-content; height: 100%; margin: 0; padding: 0; list-style: none; transition: transform .6s cubic-bezier(.2, .8, .2, 1); }
+.hx-logotrack li { flex: none; width: calc((100vw - 148px) / 4); height: 100%; display: grid; place-items: center; border-right: 1px solid var(--line); }
+.hx-logotrack span { font: 700 clamp(18px, 2.1vw, 30px)/1 "Sora", sans-serif; letter-spacing: -.04em; color: #e9e2ff; }
+
+@media (max-width: 900px) {
+  .hx { height: auto; }
+  .hx-pin { position: relative; top: 0; height: auto; min-height: 0; overflow: visible; }
+  .hx-gl { height: 440px; top: auto; bottom: 150px; }
+  .hx-frame { height: auto; margin: 0; border: 0; }
+  .hx-rail { display: none; }
+  .hx-top { flex-basis: 40px; } .hx-type { flex-basis: 210px; }
+  .hx-mid { display: block; min-height: 560px; position: relative; }
+  .hx-copy { padding: 24px 20px; } .hx-3d { position: absolute; left: 0; right: 0; bottom: 0; }
+  .hx-logotrack li { width: 50vw; }
+}
