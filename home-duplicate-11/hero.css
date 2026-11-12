@@ -211,48 +211,19 @@
    (hero-zoom.js) — a CSS mask here gets tiled when zoomed and shows seams. */
 .hero-screen {
   position: absolute;
-  left: 42.56%; top: 57.98%;
-  width: 13.99%; height: 19.38%;
+  left: 42.5%; top: 57.857%;
+  width: 14.125%; height: 19.643%;
   visibility: hidden;
   pointer-events: none;
 }
-/* Script-writing line on the sign, below the baked "SquareZix WORLD." (sized from the plate width) */
-.hero-media { container-type: inline-size; }
-/* The hero: one cut-out studio set (assets/hero/studio-set.png) on a dark stage. Hover parallax (plate.js sets --pxm/--pym on
-   the stage): the set drifts against the pointer, its glow a touch less, the copy the other way. The static that builds on the
-   laptop glass lives inside .hero-set so it moves with it. */
+/* The hero: one cut-out studio set (assets/hero/studio-set.png) centred under a centred headline, on a plain dark stage.
+   Hover parallax (plate.js sets --pxm/--pym on the stage): the set drifts a little against the pointer, the copy the other
+   way. The static that builds on the laptop glass lives inside .hero-set so it moves with it. */
 .hero-plate { position: absolute; inset: 0; }
-.hero-glow { position: absolute; inset: -3%; transform: translate3d(calc(var(--pxm, 0) * -5px), calc(var(--pym, 0) * -3px), 0);
-  background:
-    radial-gradient(44% 52% at 71% 58%, rgba(98, 29, 208, .42), transparent 70%),
-    radial-gradient(36% 11% at 70.7% 86%, rgba(171, 36, 242, .38), transparent 72%),
-    radial-gradient(60% 60% at 50% 40%, rgba(40, 20, 80, .35), transparent 70%),
-    linear-gradient(180deg, #04030a, #070511 62%, #0b0618); }
-.hero-set { position: absolute; left: 43.75%; top: 37.5%; width: 54%; height: 50.4%;
+.hero-set { position: absolute; left: 25%; top: 40%; width: 50%; height: 46.6667%;
   transform: translate3d(calc(var(--pxm, 0) * -12px), calc(var(--pym, 0) * -6px), 0); rotate: calc(var(--pxm, 0) * .35deg); }
-.hero-set img { display: block; width: 100%; height: 100%; user-select: none; -webkit-user-drag: none; }
+.hero-set img { display: block; width: 100%; height: 100%; object-fit: contain; user-select: none; -webkit-user-drag: none; }
 .hero-copy { translate: calc(var(--pxm, 0) * 9px) calc(var(--pym, 0) * 5px); }
-/* the set fills the right side, so the service index stays out of its way */
-.hero-services { display: none; }
-.hero-screen {
-  position: absolute;
-  left: 42.56%; top: 57.98%;
-  width: 13.99%; height: 19.38%;
-  visibility: hidden;
-  pointer-events: none;
-}
-/* Script-writing line on the sign, below the baked "SquareZix WORLD." (sized from the plate width) */
-.hero-media { container-type: inline-size; }
-/* Hover parallax (plate.js sets --pxm/--pym on the stage): the plate (video + static on the glass) moves against the
-   pointer, the copy moves the other way. The plate is slightly oversized so its edges never show. */
-.hero-plate { position: absolute; inset: 0; transform-origin: 50% 50%;
-  transform: translate3d(calc(var(--pxm, 0) * -16px), calc(var(--pym, 0) * -9px), 0) scale(1.045); }
-.hero-plate .hero-video { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
-/* the wall of TVs fills the right side, so the service index stays out of its way */
-.hero-services { display: none; }
-.hero-copy { translate: calc(var(--pxm, 0) * 9px) calc(var(--pym, 0) * 5px); }
-.hero-shade { position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  background: linear-gradient(90deg, rgba(7, 5, 17, .88) 0%, rgba(7, 5, 17, .6) 30%, rgba(7, 5, 17, 0) 58%), linear-gradient(0deg, rgba(7, 5, 17, .55), rgba(7, 5, 17, 0) 24%); }
 .hero-screen-noise { position: absolute; inset: 0; width: 100%; height: 100%; }
 
 /* Floating dust in front of the scene */
@@ -460,3 +431,26 @@
 @media (max-width: 380px) {
   .hero-badge { font-size: 10px; letter-spacing: 0; }
 }
+
+/* ===== Centred layout =====
+   Headline stack on top, centred; the studio set below it, centred and never stretched or cropped: the 16:9 frame that holds it
+   is sized from the set (92% of the stage width, or the height left under the copy, whichever is smaller) and pinned to the
+   bottom, so the set keeps its own proportions on every screen. The glow lives behind the title only. */
+.hero .hero-media {
+  --mw: calc(min(92%, var(--stage-h) * .876) / .5);
+  width: var(--mw); height: auto; aspect-ratio: 16 / 9; right: auto; left: calc((100% - var(--mw)) / 2); top: auto; bottom: 24px; translate: 0 13.3333%;
+}
+.hero-grid { display: none; }
+.hero-inner { display: flex; flex-direction: column; align-items: center; padding: clamp(14px, 3.6svh, 40px) 20px 0; grid-template-columns: none; }
+.hero-copy { grid-column: auto; padding: 0; width: min(900px, 100%); text-align: center; position: relative; isolation: isolate; }
+.hero-copy::before { content: ""; position: absolute; z-index: -1; left: 50%; top: 42%; width: min(980px, 130%); height: 150%; translate: -50% -50%; pointer-events: none;
+  opacity: var(--cp, 1);
+  background: radial-gradient(closest-side, rgba(98, 29, 208, .55), rgba(171, 36, 242, .2) 52%, transparent 100%); }
+.hero-title { margin-top: clamp(12px, 2.2svh, 22px); }
+.hero-title-main { font-size: clamp(40px, min(7.4vw, 11svh), 112px); }
+.hero-title-main sup { margin-left: .08em; }
+.hero-title-sub { margin-top: clamp(4px, .8svh, 10px); padding: 0 0 .14em; font-size: clamp(26px, min(4.7vw, 7svh), 76px); }
+.hero-lead { margin: clamp(8px, 1.6svh, 16px) auto 0; font-size: clamp(15px, min(1.5vw, 2.4svh), 21px); max-width: 30em; }
+.hero-text { display: none; }
+.hero-cta { margin-top: clamp(14px, 2.6svh, 26px); }
+.hero-services { display: none; }

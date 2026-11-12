@@ -17,6 +17,7 @@
     const total = hero.offsetHeight - stage.offsetHeight;
     const p = total > 0 ? clamp(-r.top / total) : 0;
     const damp = 1 - ease(clamp(p / .06));
+    stage.style.setProperty('--cp', (1 - ease(clamp(p / .22))).toFixed(3));   // the glow behind the title leaves with the copy
     const idle = reduce ? 0 : 1;
     stage.style.setProperty('--pxm', ((cx + Math.sin(now * .00033) * .35 * idle) * damp).toFixed(3));
     stage.style.setProperty('--pym', ((cy + Math.cos(now * .00027) * .3 * idle) * damp).toFixed(3));
