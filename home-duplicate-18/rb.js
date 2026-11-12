@@ -152,17 +152,16 @@
   const chipC = document.createElement('canvas'); chipC.width = 320; chipC.height = 240; const chipTex = new T.CanvasTexture(chipC); chipTex.encoding = T.sRGBEncoding;
   const drawChip = () => {
     const c = chipC.getContext('2d'), w = 320, h = 240; c.clearRect(0, 0, w, h);
-    const g = c.createLinearGradient(0, 0, w, h); g.addColorStop(0, '#16131f'); g.addColorStop(1, '#0b0a10'); c.fillStyle = g; c.beginPath(); c.roundRect(4, 4, w - 8, h - 8, 18); c.fill();
-    c.strokeStyle = 'rgba(200,170,255,.7)'; c.lineWidth = 1.6;
-    for (let i = 0; i < 16; i++) { const y = 30 + i * 11.5; c.beginPath(); c.moveTo(16, y); c.lineTo(48 + (i * 23) % 40, y); c.lineTo(58 + (i * 23) % 40, y + 6); c.stroke(); c.beginPath(); c.moveTo(w - 16, y); c.lineTo(w - 48 - (i * 17) % 40, y); c.stroke(); }
-    c.fillStyle = '#1a0f33'; c.strokeStyle = 'rgba(214,186,255,.95)'; c.lineWidth = 2.5; c.beginPath(); c.roundRect(w / 2 - 70, h / 2 - 62, 140, 124, 10); c.fill(); c.stroke();
-    c.fillStyle = 'rgba(214,196,255,.85)'; for (let i = 0; i < 10; i++) { c.fillRect(70 + i * 19, 6, 6, 10); c.fillRect(70 + i * 19, h - 16, 6, 10); }
-    c.shadowColor = 'rgba(190,150,255,1)'; c.shadowBlur = 16;
-    if (logoW) c.drawImage(logoW, 0, 114, 241, 127, w / 2 - 56, h / 2 - 30, 112, 59);
+    const g = c.createLinearGradient(0, 0, w, h); g.addColorStop(0, '#3b0f94'); g.addColorStop(1, '#8a1fd8'); c.fillStyle = g; c.beginPath(); c.roundRect(4, 4, w - 8, h - 8, 26); c.fill();
+    c.strokeStyle = 'rgba(255,220,255,.75)'; c.lineWidth = 3; c.beginPath(); c.roundRect(26, 26, w - 52, h - 52, 14); c.stroke();
+    c.fillStyle = 'rgba(255,230,255,.8)'; for (let i = 0; i < 9; i++) { c.fillRect(46 + i * 26, 8, 8, 14); c.fillRect(46 + i * 26, h - 22, 8, 14); }
+    c.shadowColor = '#fff'; c.shadowBlur = 18;
+    if (logoW) c.drawImage(logoW, 0, 114, 241, 127, w / 2 - 92, h / 2 - 48, 184, 97);
+    if (typeof chipTex !== 'undefined') chipTex.needsUpdate = true;
   };
   drawChip();
   const chip = new T.Group();
-  chip.add(box(.92, .7, .12, .1, .03, mat(0x1a1030, .3, .5, { emissive: 0x7a32ff, emissiveIntensity: .55 })));
+  chip.add(box(.92, .7, .12, .1, .03, mat(0x2a0d5c, .4, .3, { emissive: 0x6b1fd0, emissiveIntensity: .7 })));
   const chipFace = new T.Mesh(new T.PlaneGeometry(.86, .64), new T.MeshBasicMaterial({ map: chipTex, transparent: true, toneMapped: false })); chipFace.position.z = .07; chip.add(chipFace);
   world.add(chip);
 
