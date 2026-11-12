@@ -266,3 +266,11 @@ body.qc-hide .qc { opacity: 0 !important; transform: translateX(24px); pointer-e
   background-size: 160px 160px; }
 .hx-frame::after { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
   background: radial-gradient(130% 100% at 50% 55%, transparent 55%, rgba(0, 0, 0, .55) 100%); }
+
+/* partner strip: frosted glass - the stand shows through blurred, cool indigo tint, light top edge */
+.hx-logos { background: linear-gradient(180deg, rgba(70, 64, 170, .2), rgba(28, 22, 70, .32)) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(140%); backdrop-filter: blur(18px) saturate(140%);
+  border-top: 1px solid rgba(190, 180, 255, .16) !important; border-bottom: 1px solid rgba(190, 180, 255, .08) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06), 0 -20px 40px -28px rgba(0, 0, 0, .9) !important; }
+.hx-logotrack li { background: transparent !important; }
+.hx-logotrack li:hover { background: linear-gradient(135deg, rgba(98, 29, 208, .55), rgba(171, 36, 242, .45)) !important; }
