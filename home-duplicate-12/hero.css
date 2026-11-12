@@ -218,14 +218,11 @@
 }
 /* Script-writing line on the sign, below the baked "SquareZix WORLD." (sized from the plate width) */
 .hero-media { container-type: inline-size; }
-/* Hover parallax (plate.js sets --pxm/--pym on the stage): the plate (video + static on the glass) moves against the
-   pointer, the copy moves the other way. The plate is slightly oversized so its edges never show. */
-.hero-plate { position: absolute; inset: 0; transform-origin: 50% 50%;
-  transform: translate3d(calc(var(--pxm, 0) * -16px), calc(var(--pym, 0) * -9px), 0) scale(1.045); }
+/* The plate is static: the video stays put behind the copy until the scroll animation takes over. */
+.hero-plate { position: absolute; inset: 0; }
 .hero-plate .hero-video { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
 /* the wall of TVs fills the right side, so the service index stays out of its way */
 .hero-services { display: none; }
-.hero-copy { translate: calc(var(--pxm, 0) * 9px) calc(var(--pym, 0) * 5px); }
 .hero-shade { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: var(--cp, 1);
   background: linear-gradient(180deg, rgba(10, 5, 32, .62) 0%, rgba(10, 5, 32, .32) 26%, rgba(10, 5, 32, 0) 48%); }
 .hero-screen-noise { position: absolute; inset: 0; width: 100%; height: 100%; }
