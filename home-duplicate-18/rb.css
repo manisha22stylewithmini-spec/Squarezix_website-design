@@ -224,3 +224,9 @@ body.qc-hide .qc { opacity: 0 !important; transform: translateX(24px); pointer-e
 .hx-end .hx-roll { position: absolute; left: 0; right: 0; top: 0; height: 30%; z-index: 3; pointer-events: none;
   background: linear-gradient(to bottom, transparent, rgba(190, 150, 255, .05), transparent); animation: hx-roll 6s linear infinite; }
 .hx-end > p, .hx-end > h2, .hx-end > a { z-index: 5; }
+
+/* title weights + softer headline band */
+.hx { --type-a: .2; }
+.hx-title-main { font-weight: 700 !important; letter-spacing: -.045em !important; }
+.hx-title-sub { font-weight: 400 !important; }
+.hx-lead { max-width: 30em; line-height: 1.6 !important; }
