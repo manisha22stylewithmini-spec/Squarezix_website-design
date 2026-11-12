@@ -231,3 +231,8 @@ body.qc-hide .qc { opacity: 0 !important; transform: translateX(24px); pointer-e
 .hx-title-sub { font-weight: 400 !important; }
 .hx-lead { max-width: 30em; line-height: 1.6 !important; }
 .hx-lead { font-size: clamp(13px, 1.05vw, 15.5px) !important; line-height: 1.45 !important; max-width: 27em; margin: clamp(8px, 1.4svh, 14px) 0 clamp(14px, 2.4svh, 22px) !important; color: #bdb5dc; }
+
+/* headline band: same tone over the top 80% of the letters, fading to nothing over the bottom 20% */
+.hx-bandtrack span { color: transparent !important; -webkit-text-fill-color: transparent;
+  background: linear-gradient(180deg, rgba(255, 255, 255, var(--type-a, .2)) 0%, rgba(255, 255, 255, var(--type-a, .2)) 80%, rgba(255, 255, 255, 0) 100%);
+  -webkit-background-clip: text; background-clip: text; }
