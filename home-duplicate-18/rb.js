@@ -249,7 +249,7 @@
   // loop (11 s): rise out of the stand facing you, screen = black + wave gradient + grain -> turn side-on as the arm brings the
   // chip down -> chip twists into line and drops into the slot -> arm lifts -> screen boots to the SZ mark, head turns back to you
   // -> mark holds (follows the cursor a little) -> screen resets to the gradient -> sinks into the stand -> again
-  let LT = 0;                                          // loop clock: it only runs while nobody is scrolling the hero
+  let LT = 0, lastLT = performance.now();                                          // loop clock: it only runs while nobody is scrolling the hero
   const FIX = (() => { const v = new URLSearchParams(location.search).get('rbt'); return v == null ? null : +v; })();   // ?rbt=5 freezes the loop at 5 s (for reviewing a pose)
   const ARM_HIGH = 9;
   (function loop(now) {
@@ -271,7 +271,8 @@
       const mix = (a, b) => a + (b - a) * sE;
 
       // robot timeline (reduced motion: stand still, facing front, eyes on)
-      if (p < .03) LT += dt / 1000;                          // loop runs unless the camera is actually diving in
+      if (p < .03) LT += Math.min(now - lastLT, 250) / 1000;   // real time, so the loop keeps its pace even on a slow frame rate
+      lastLT = now;                          // loop runs unless the camera is actually diving in
       const t = FIX != null ? FIX : reduce ? 6.5 : LT % L;
       const up = mix(ease(seg(t, 0, 1.1)) * (1 - ease(seg(t, 9.3, 10.4))), 1);
       bot.position.y = -(1 - up) * 3.3;
