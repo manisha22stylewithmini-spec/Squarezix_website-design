@@ -60,7 +60,7 @@
 
   // shared geometry helpers
   const rr = (w, h, r) => { const s = new T.Shape(), a = -w / 2, b = -h / 2; s.moveTo(a + r, b); s.lineTo(-a - r, b); s.quadraticCurveTo(-a, b, -a, b + r); s.lineTo(-a, -b - r); s.quadraticCurveTo(-a, -b, -a - r, -b); s.lineTo(a + r, -b); s.quadraticCurveTo(a, -b, a, -b - r); s.lineTo(a, b + r); s.quadraticCurveTo(a, b, a + r, b); return s; };
-  const ext = (shape, d, bev) => { const g = new T.ExtrudeGeometry(shape, { depth: d, bevelEnabled: true, bevelThickness: bev, bevelSize: bev, bevelSegments: 4, curveSegments: 10 }); g.translate(0, 0, -d / 2); return g; };
+  const ext = (shape, d, bev) => { const g = new T.ExtrudeGeometry(shape, { depth: d, bevelEnabled: true, bevelThickness: bev, bevelSize: bev, bevelSegments: 12, curveSegments: 32 }); g.translate(0, 0, -d / 2); return g; };
   const mat = (color, rough = .5, metal = .1, extra = {}) => new T.MeshPhysicalMaterial(Object.assign({ color, roughness: rough, metalness: metal, clearcoat: .12, clearcoatRoughness: .45, envMapIntensity: .75 }, extra));
   const box = (w, h, d, r, bev, m) => new T.Mesh(ext(rr(w - 2 * bev, h - 2 * bev, Math.max(r - bev, .01)), d - 2 * bev, bev), m);
   const tex = (w, h, draw) => { const c = document.createElement('canvas'); c.width = w; c.height = h; draw(c.getContext('2d'), w, h); const t = new T.CanvasTexture(c); t.anisotropy = 4; t.encoding = T.sRGBEncoding; return t; };
@@ -118,7 +118,7 @@
   // stand: a cap block, then a chrome column that runs down out of the hero
   const cap = box(3.0, .85, 2.6, .24, .1, mat(C.body, .6, .1)); cap.position.y = -.425; world.add(cap);
   const capTop = new T.Mesh(new T.BoxGeometry(2.6, .02, 2.25), mat(C.socket, .7)); capTop.position.y = .002; world.add(capTop);
-  const chrome = tex(512, 4, (c, w) => { const g = c.createLinearGradient(0, 0, w, 0); [['#15141d', 0], ['#5c5a72', .12], ['#24232f', .22], ['#cfc9ea', .36], ['#3b3a4c', .48], ['#8e89a8', .6], ['#1d1c27', .72], ['#6a6684', .86], ['#15141d', 1]].forEach(([k, o]) => g.addColorStop(o, k)); c.fillStyle = g; c.fillRect(0, 0, w, 4); });
+  const chrome = tex(512, 4, (c, w) => { const g = c.createLinearGradient(0, 0, w, 0); [['#141318', 0], ['#3a3942', .12], ['#232229', .22], ['#8a8992', .36], ['#2f2e36', .48], ['#5e5d66', .6], ['#1c1b21', .72], ['#4a4952', .86], ['#141318', 1]]   /* graphite, same family as the robot */.forEach(([k, o]) => g.addColorStop(o, k)); c.fillStyle = g; c.fillRect(0, 0, w, 4); });
   const column = new T.Mesh(new T.CylinderGeometry(1.35, 1.35, 14, 64, 1, true), new T.MeshBasicMaterial({ map: chrome })); column.position.y = -.85 - 7; world.add(column);
   const collar = new T.Mesh(new T.CylinderGeometry(1.4, 1.4, .06, 64), new T.MeshBasicMaterial({ color: 0xab24f2 })); collar.position.y = -.88; world.add(collar);
 
@@ -137,11 +137,11 @@
   const screenTex = new T.CanvasTexture(sc); screenTex.anisotropy = 8; screenTex.encoding = T.sRGBEncoding;
   // a curved (convex) display with a glass layer over it
   const bulge = (w, h, d) => { const g = new T.PlaneGeometry(w, h, 40, 36), a = g.attributes.position; for (let i = 0; i < a.count; i++) { const u = a.getX(i) / (w / 2), v = a.getY(i) / (h / 2); a.setZ(i, d * (1 - .55 * u * u - .45 * v * v)); } g.computeVertexNormals(); return g; };
-  const screen = new T.Mesh(bulge(1.3, 1.14, .17), new T.MeshBasicMaterial({ map: screenTex, transparent: true, toneMapped: false })); screen.position.z = .99; head.add(screen);
-  const maskTex = tex(256, 224, (c, w, h) => { c.fillStyle = '#000'; c.fillRect(0, 0, w, h); c.fillStyle = '#fff'; c.beginPath(); c.roundRect(0, 0, w, h, 38); c.fill(); });
-  const glass = new T.Mesh(bulge(1.3, 1.14, .17), mat(0x0a0812, .06, 0, { transparent: true, opacity: .28, alphaMap: maskTex, clearcoat: 1, clearcoatRoughness: .04, envMapIntensity: 2.4, depthWrite: false }));
-  glass.position.z = 1.004; head.add(glass);
-  [-1, 1].forEach((s) => { const e = new T.Mesh(new T.CylinderGeometry(.22, .22, .3, 28), mat(C.mid, .45, .2)); e.rotation.z = Math.PI / 2; e.position.set(s * 1.12, -.1, 0); head.add(e); });
+  const screen = new T.Mesh(bulge(1.3, 1.14, .09), new T.MeshBasicMaterial({ map: screenTex, transparent: true, toneMapped: false })); screen.position.z = 1.036; head.add(screen);   // edges sit just proud of the bezel, so nothing is clipped
+  const maskTex = tex(256, 224, (c, w, h) => { c.fillStyle = '#000'; c.fillRect(0, 0, w, h); c.fillStyle = '#fff'; c.beginPath(); c.roundRect(0, 0, w, h, 44); c.fill(); });
+  const glass = new T.Mesh(bulge(1.3, 1.14, .09), mat(0x0a0812, .06, 0, { transparent: true, opacity: .28, alphaMap: maskTex, clearcoat: 1, clearcoatRoughness: .04, envMapIntensity: 2.4, depthWrite: false }));
+  glass.position.z = 1.046; head.add(glass);
+  [-1, 1].forEach((s) => { const e = new T.Mesh(new T.CylinderGeometry(.22, .22, .3, 48), mat(C.mid, .45, .2)); e.rotation.z = Math.PI / 2; e.position.set(s * 1.12, -.1, 0); head.add(e); });
   // side camera (seen in profile)
   const post = new T.Mesh(new T.CylinderGeometry(.07, .07, .5, 16), mat(C.mid, .4, .4)); post.position.set(-1.25, .3, .35); head.add(post);
   const cambox = box(.32, .3, .62, .07, .03, mat(C.body, .45, .2)); cambox.position.set(-1.25, .62, .35); head.add(cambox);
@@ -202,7 +202,7 @@
   pin.appendChild(waves);
   try { waves.getContext('webgl', { preserveDrawingBuffer: true, alpha: false, antialias: false }); } catch (e) { /* falls back to the dark face */ }
   const drawScreen = (t, power, eyes, mark, ex, ey, blink, stat, idle) => {
-    const c = sx; c.clearRect(0, 0, SW, SH); c.save(); c.beginPath(); c.roundRect(0, 0, SW, SH, 92); c.clip();
+    const c = sx; c.clearRect(0, 0, SW, SH); c.save(); c.beginPath(); c.roundRect(0, 0, SW, SH, 110); c.clip();
     const g = c.createRadialGradient(SW / 2, SH * .45, 20, SW / 2, SH / 2, SW * .7); g.addColorStop(0, `rgb(${18 + power * 8},${12 + power * 4},${30 + power * 10})`); g.addColorStop(1, '#040307'); c.fillStyle = g; c.fillRect(0, 0, SW, SH);
     if (idle > 0 && waves.width > 2) { c.globalAlpha = idle; c.drawImage(waves, 0, 0, SW, SH); c.fillStyle = 'rgba(4,3,8,.25)'; c.fillRect(0, 0, SW, SH); c.globalAlpha = 1; }
     // phosphor content
