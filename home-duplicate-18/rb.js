@@ -31,20 +31,29 @@
   let hoverStrip = false; if (lt) { lt.addEventListener('pointerenter', () => { hoverStrip = true; }); lt.addEventListener('pointerleave', () => { hoverStrip = false; }); }
   if (lt && !reduce) setInterval(() => inView && !hoverStrip && step(1), 3600);
   new IntersectionObserver(([en]) => { inView = en.isIntersecting; if (!inView) document.body.classList.remove('qc-hide'); }).observe(hero);
-  // services list: one card that slides to whichever row is hovered
-  const svc = document.getElementById('hx-svc'), card = document.getElementById('hx-card');
-  if (svc && card) {
-    const img = card.querySelector('img'), kEl = card.querySelector('.hx-card-k'), tEl = card.querySelector('.hx-card-t'), dEl = card.querySelector('.hx-card-d');
-    svc.querySelectorAll('a').forEach((a, i) => {
-      a.addEventListener('pointerenter', () => {
-        svc.querySelectorAll('a').forEach((b) => b.classList.toggle('on', b === a));
-        if (img.getAttribute('src') !== a.dataset.img) img.src = a.dataset.img;
-        kEl.textContent = `Service ${a.querySelector('.num').textContent}`; tEl.textContent = a.firstElementChild.textContent; dEl.textContent = a.dataset.desc;
-        const top = Math.min(a.offsetTop + a.offsetHeight / 2 - card.offsetHeight / 2, svc.clientHeight - card.offsetHeight);
-        card.style.setProperty('--cy', Math.max(0, top) + 'px'); card.classList.add('show');
+  // services: the site's fold cards (same as the services section) - hover hinges the image panel up out of the card
+  const folds = [...document.querySelectorAll('#hx-svc .svc-card')].map((el) => ({ el, open: 0, vel: 0, target: 0, tx: 0, ty: 0, ptx: 0, pty: 0, hover: false }));
+  if (folds.length) {
+    let fr = 0, fl = 0;
+    const fstep = (now) => {
+      const dt = Math.min((now - fl) / 1000, .05); fl = now; let busy = false;
+      folds.forEach((c) => {
+        const acc = (c.target - c.open) * 190 - c.vel * 21; c.vel += acc * dt; c.open += c.vel * dt;
+        const k = 1 - Math.pow(.001, dt);
+        c.tx += ((c.hover ? c.ptx : 0) - c.tx) * k * .9; c.ty += ((c.hover ? c.pty : 0) - c.ty) * k * .9;
+        if (Math.abs(c.target - c.open) < .0005 && Math.abs(c.vel) < .0005 && Math.abs(c.tx) + Math.abs(c.ty) < .01 && !c.hover) { c.open = c.target; c.tx = 0; c.ty = 0; } else busy = true;
+        c.el.style.setProperty('--open', c.open.toFixed(4)); c.el.style.setProperty('--tx', c.tx.toFixed(3)); c.el.style.setProperty('--ty', c.ty.toFixed(3));
       });
+      fr = busy ? requestAnimationFrame(fstep) : 0;
+    };
+    const kick = () => { if (!fr) { fl = performance.now(); fr = requestAnimationFrame(fstep); } };
+    const set = (c, o) => { c.target = o ? 1 : 0; c.el.classList.toggle('is-open', o); kick(); };
+    folds.forEach((c) => {
+      c.el.addEventListener('pointerenter', () => { c.hover = true; set(c, true); });
+      c.el.addEventListener('pointerleave', () => { c.hover = false; set(c, false); });
+      c.el.addEventListener('pointermove', (e) => { const r = c.el.getBoundingClientRect(); c.pty = ((e.clientX - r.left) / r.width * 2 - 1) * 5; c.ptx = -((e.clientY - r.top) / r.height * 2 - 1) * 3; kick(); });
+      c.el.addEventListener('focus', () => set(c, true)); c.el.addEventListener('blur', () => { if (!c.hover) set(c, false); });
     });
-    svc.addEventListener('pointerleave', () => { card.classList.remove('show'); svc.querySelectorAll('a').forEach((b) => b.classList.remove('on')); });
   }
   if (!T) return;
 

@@ -170,3 +170,21 @@ body.qc-hide .qc { opacity: 0 !important; transform: translateX(24px); pointer-e
 .hx-mid > * { pointer-events: auto; }
 .hx-mid > .hx-cell { pointer-events: none; }
 .hx-logos { z-index: 4; }
+
+/* right cell: the site's fold cards, sized for the hero column */
+.hx-svc { --svc-purple: #621dd0; --svc-pink: #ab24f2; justify-content: center; gap: clamp(10px, 1.5svh, 14px); padding: 0 clamp(16px, 2vw, 30px); }
+.hx-svc .svc-card { flex: none; --h: clamp(50px, 6.4svh, 64px); --r: 10px; --b: 2px; perspective: calc(var(--h) * 8); border-bottom: 0 !important; overflow: visible; padding: 0; }
+.hx-svc .svc-card::before { display: block; }
+.hx-svc .svc-card .svc-front { padding: 0 16px; }
+.hx-svc .svc-card .svc-front h3 { margin: 0; font: 600 clamp(14px, 1.2vw, 19px)/1 "Sora", sans-serif; letter-spacing: -.02em; color: #0b0b0f; }
+.hx-svc .svc-card .svc-thumb { right: 12px; width: clamp(30px, 2.6vw, 40px); }
+.hx-svc .svc-card .svc-arrow { right: 12px; width: clamp(28px, 2.4vw, 36px); }
+
+/* partner strip: slimmer and quieter, with a strip of space under it where the robot's stand column shows */
+.hx-logos { flex: 0 0 clamp(52px, 7svh, 66px) !important; background: transparent !important; }
+.hx-logotrack span { font: 600 clamp(14px, 1.15vw, 17px)/1 "Sora", sans-serif !important; letter-spacing: -.02em; color: rgba(233, 226, 255, .55) !important; }
+.hx-logotrack li { background: transparent; }
+.hx-logotrack li:hover { background: rgba(171, 36, 242, .14); }
+.hx-logotrack li:hover span { color: #fff !important; }
+.hx-corner path { stroke: rgba(255, 255, 255, .35); }
+.hx-foot { display: block !important; flex: 0 0 clamp(48px, 8svh, 80px) !important; }
