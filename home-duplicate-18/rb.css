@@ -194,3 +194,17 @@ body.qc-hide .qc { opacity: 0 !important; transform: translateX(24px); pointer-e
 .hx-logotrack li { background: #0e0b1e; }
 .hx-logotrack span { color: #e9e2ff !important; }
 .hx-logotrack li:hover { background: linear-gradient(135deg, #621dd0, #ab24f2); }
+
+/* headline band: softened so the robot leads (opacity set from --type-a; try ?type=20 / 30 / 40 in the URL) */
+.hx-bandtrack span { color: rgba(255, 255, 255, var(--type-a, .3)) !important; }
+
+/* left block: bigger, more presence once the robot's loop has your attention */
+.hx-copy { grid-column: 1 / 3; max-width: 36vw; padding-left: clamp(24px, 3.2vw, 56px) !important; }
+.hx-mid > .hx-cell + .hx-cell { display: none; }
+.hx-title-main { font-size: clamp(52px, 6vw, 104px) !important; }
+.hx-title-sub { font-size: clamp(32px, 3.6vw, 62px) !important; }
+.hx-lead { font-size: clamp(15px, 1.3vw, 20px) !important; margin: clamp(10px, 1.8svh, 18px) 0 clamp(18px, 3svh, 30px) !important; }
+.hx-cta { height: 56px !important; padding: 0 30px !important; font-size: 17px !important; }
+@media (max-width: 900px) { .hx-copy { max-width: none; } }
+.hx-title > span { width: max-content; }
+.hx-title-sub { font-size: clamp(30px, 3.2vw, 56px) !important; }

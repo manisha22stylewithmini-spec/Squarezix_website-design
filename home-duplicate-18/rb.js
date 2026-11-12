@@ -55,6 +55,7 @@
       c.el.addEventListener('focus', () => set(c, true)); c.el.addEventListener('blur', () => { if (!c.hover) set(c, false); });
     });
   }
+  { const ta = +new URLSearchParams(location.search).get('type'); if (ta > 0 && ta <= 100) hero.style.setProperty('--type-a', (ta / 100).toString()); }
   if (!T) return;
 
   // shared geometry helpers
