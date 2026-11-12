@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="home-duplicate-11/styles.css?v=20261009a" />
-  <link rel="stylesheet" href="home-duplicate-11/hero.css?v=m6" />
+  <link rel="stylesheet" href="home-duplicate-11/hero.css?v=m7" />
   <link rel="stylesheet" href="home-duplicate-11/services.css?v=20261009a" />
   <link rel="stylesheet" href="home-duplicate-11/bento.css?v=20261012b" />
   <link rel="stylesheet" href="home-duplicate-11/sections.css?v=20261009a" />
@@ -59,6 +59,17 @@
         <div class="hero-plate">
           <video class="hero-video" id="hero-video" src="assets/hero/mountain-desk-2.mp4?v=1" poster="assets/hero/mountain-desk-2-poster.jpg?v=1"
                  autoplay muted loop playsinline preload="auto"></video>
+          <!-- The laptop screen, redrawn crisp (the video's own screen text is garbled): MARKETING AGENCY. and the SZ mark -->
+          <div class="hero-lap" aria-hidden="true">
+            <svg viewBox="0 0 75 54" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" focusable="false">
+              <rect width="75" height="54" rx=".8" fill="#050309"/>
+              <rect x=".35" y=".35" width="74.3" height="53.3" rx=".7" fill="none" stroke="#7a3df0" stroke-opacity=".55" stroke-width=".5"/>
+              <text x="7.5" y="11.2" fill="#fff" font-family="Sora, sans-serif" font-weight="700" font-size="5.5" letter-spacing=".1">MARKETING</text>
+              <text x="7.5" y="17.8" fill="#fff" font-family="Sora, sans-serif" font-weight="700" font-size="5.5" letter-spacing=".1">AGENCY.</text>
+              <svg x="7" y="21" width="61" height="31.9" viewBox="2 106 237 124" preserveAspectRatio="xMidYMid meet"><image href="assets/brand/sz-logo-on-dark.png" width="241" height="241"/></svg>
+              <path d="M0 0H75L50 54H0Z" fill="#fff" opacity=".035"/>
+            </svg>
+          </div>
           <!-- Static that lives on the laptop glass itself — zooms with the video -->
           <div class="hero-screen" aria-hidden="true">
             <canvas class="hero-screen-noise"></canvas>
