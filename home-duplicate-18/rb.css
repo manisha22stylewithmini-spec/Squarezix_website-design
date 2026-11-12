@@ -242,3 +242,6 @@ body.qc-hide .qc { opacity: 0 !important; transform: translateX(24px); pointer-e
 /* partner strip sits lower, near the bottom of the stage; only a short piece of the stand column shows under it */
 .hx-foot { flex: 0 0 clamp(26px, 4svh, 40px) !important; }
 .hx-logotrack li { display: grid; place-items: center; }
+/* gradient mapped to the letters themselves (cap top sits at ~7% of the line box, baseline at ~86%):
+   solid over the top 60% of the letters, fading to fully clear right at the baseline */
+.hx-bandtrack span { background: linear-gradient(180deg, rgba(255, 255, 255, var(--type-a, .2)) 0%, rgba(255, 255, 255, var(--type-a, .2)) 54%, rgba(255, 255, 255, 0) 86%, rgba(255, 255, 255, 0) 100%) !important; -webkit-background-clip: text !important; background-clip: text !important; }
