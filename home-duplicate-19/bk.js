@@ -343,6 +343,8 @@
       }
     }
 
+    // scrolling away from a hovered card never fires pointerleave: drop the chip once the wall has scattered
+    if ((hovered || chip.classList.contains('on')) && (G > .2 || hr.bottom < 0)) { hovered = null; overCard = false; hideChip(); }
     document.body.classList.toggle('qc-hide', hr.bottom > Y * .5);   // contact dock waits until the hero is done
     if (float && n > 1.7) {
       const on = floatOn ? hr.bottom < Y + 8 : hr.bottom < Y - 8;
