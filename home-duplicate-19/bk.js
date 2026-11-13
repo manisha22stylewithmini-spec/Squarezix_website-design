@@ -270,7 +270,7 @@
     const hr = hero.getBoundingClientRect();
     const sc = headH - hr.top;                                      // px scrolled into the hero
     const v = clamp(sc / (Y * .9));                                 // wall scatter progress
-    const E = clamp((sc - Y * 1.25) / (Y * .9));                    // end-screen progress
+    const EP = clamp((sc - Y * 1.25) / (Y * .9));                   // end-screen progress (E is the wall layout)
     G = reduce || Math.abs(v - G) < 5e-4 ? v : G + (v - G) * (1 - Math.exp(-dt / .1));
 
     if (hr.bottom > 0) {
@@ -324,7 +324,7 @@
       }
 
       // centre copy, CTA, case strip
-      const fade = clamp(E / .35), reveal = (1 - Math.pow(1 - clamp((G - .45) / .4), 3)) * (1 - fade);
+      const fade = clamp(EP / .35), reveal = (1 - Math.pow(1 - clamp((G - .45) / .4), 3)) * (1 - fade);
       center.style.opacity = reveal.toFixed(3);
       center.style.transform = `translate(-50%, calc(-50% + ${((1 - reveal) * 14).toFixed(1)}px))`;
       // at rest the opening copy + CTA sit as one centred block; the copy lifts away as the wall scatters
@@ -348,17 +348,17 @@
       // grain behind the wall: faint at rest, full once the cards have scattered
       if (bgNoise) {
         bgNoise.style.opacity = (.05 + G * .1).toFixed(3);
-        if (!still() && now - lastNoise > 70) { lastNoise = now; paintNoise(bgNoise); if (endNoise && E > 0) paintNoise(endNoise); }
+        if (!still() && now - lastNoise > 70) { lastNoise = now; paintNoise(bgNoise); if (endNoise && EP > 0) paintNoise(endNoise); }
       }
       // the end screen: a curved tube that grows in through a burst of static
       if (end) {
-        const eo = smooth(clamp((E - .12) / .4)), flash = Math.sin(Math.PI * clamp(E / .6)) * .5;
+        const eo = smooth(clamp((EP - .12) / .4)), flash = Math.sin(Math.PI * clamp(EP / .6)) * .5;
         end.style.opacity = eo.toFixed(3);
         end.style.visibility = eo > 0 ? 'visible' : 'hidden';
         end.style.transform = `scale(${(.9 + .1 * eo).toFixed(4)})`;
         end.style.pointerEvents = eo > .9 ? 'auto' : 'none';
         endNoise.style.opacity = Math.max(flash, .075 * eo).toFixed(3);
-        if (still() && E > 0) paintNoise(endNoise);
+        if (still() && EP > 0) paintNoise(endNoise);
       }
 
       if (reveal > 0) {
@@ -378,7 +378,7 @@
 
     // scrolling away from a hovered card never fires pointerleave: drop the chip once the wall has scattered
     if ((hovered || chip.classList.contains('on')) && (G > .2 || hr.bottom < 0)) { hovered = null; overCard = false; hideChip(); }
-    pauseBtn && pauseBtn.classList.toggle('gone', floatOn || E > .15);
+    pauseBtn && pauseBtn.classList.toggle('gone', floatOn || EP > .15);
     document.body.classList.toggle('qc-hide', hr.bottom > Y * .5);   // contact dock waits until the hero is done
     if (float && n > 1.7) {
       const on = floatOn ? hr.bottom < Y + 8 : hr.bottom < Y - 8;
