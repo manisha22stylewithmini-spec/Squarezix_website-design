@@ -164,3 +164,10 @@ body.qc-hide .qc { opacity: 0 !important; transform: translateX(24px); pointer-e
 .bk-end .zx-btn { margin-top: 10px; height: 54px; padding: 0 30px; font-size: 16px; }
 @media (max-width: 760px) { .bk-btns { gap: 8px; } .bk-book, .bk-alt { height: 48px; padding: 0 18px; font-size: 14px; } .bk-title-sub { font-size: clamp(32px, 10vw, 48px); } }
 @media (prefers-reduced-motion: reduce) { .bk-title-sub, .bk-end > .bk-roll { animation: none; } }
+
+/* eyebrow v3: no colour fill — clear frosted glass, the colour lives only in the gradient outline (masked ring) */
+.bk-badge { position: relative; border: 0; padding: 8px 17px; background: rgba(255, 255, 255, .04); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
+  -webkit-backdrop-filter: blur(14px) saturate(130%); backdrop-filter: blur(14px) saturate(130%); color: #f3eeff; }
+.bk-badge::before { content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1.5px; pointer-events: none;
+  background: linear-gradient(100deg, #e2b8ff 0%, #ab24f2 30%, #621dd0 55%, #ab24f2 78%, #ff9be6 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
