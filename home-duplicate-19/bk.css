@@ -202,3 +202,7 @@ body.qc-hide .qc { opacity: 0 !important; transform: translateX(24px); pointer-e
 
 /* services marquee lives on the welcome screen now, along the bottom where the case strip was */
 .bk-marquee { position: absolute; z-index: 6; left: 0; right: 0; bottom: 24px; margin: 0 !important; opacity: 0; visibility: hidden; }
+
+/* welcome copy: longer subtitle (2–3 lines), a little more air between the lines */
+.bk-center { gap: 20px; }
+.bk-s { max-width: 40em; line-height: 1.6; text-wrap: balance; }

@@ -202,10 +202,10 @@
   });
 
   // ---------- layout numbers ----------
-  let X = innerWidth, Y = innerHeight, introH = 0, centerH = 0, bookH = 56, bookW = 180, stageH = innerHeight, headH = 0;
+  let X = innerWidth, Y = innerHeight, stripH = 0, introH = 0, centerH = 0, bookH = 56, bookW = 180, stageH = innerHeight, headH = 0;
   function measure() {
     X = innerWidth; Y = innerHeight;
-    centerH = center.offsetHeight; introH = intro ? intro.offsetHeight : 0; bookH = bookMain.offsetHeight || 56; bookW = bookMain.offsetWidth || 180;
+    centerH = center.offsetHeight; introH = intro ? intro.offsetHeight : 0; stripH = strip ? strip.offsetHeight + 24 : 0; bookH = bookMain.offsetHeight || 56; bookW = bookMain.offsetWidth || 180;
     stageH = stage.offsetHeight || innerHeight;
     headH = parseFloat(getComputedStyle(hero).marginTop) || 0;
     if (float) { float.style.width = bookW + 'px'; float.style.height = bookH + 'px'; }
@@ -369,6 +369,9 @@
       // centre copy, CTA, case strip
       const fade = clamp(EP / .35), reveal = (1 - Math.pow(1 - clamp((G - .45) / .4), 3)) * (1 - fade);
       center.style.opacity = reveal.toFixed(3);
+      // welcome copy + CTA sit as one block, centred in the space between the top of the stage and the marquee
+      const BTN_GAP = 44, blockTop = Math.max(16, (stageH - stripH - (centerH + BTN_GAP + bookH)) / 2);
+      center.style.top = (blockTop + centerH / 2) + 'px';
       center.style.transform = `translate(-50%, calc(-50% + ${((1 - reveal) * 14).toFixed(1)}px))`;
       // at rest the opening copy + CTA sit as one centred block; the copy lifts away as the wall scatters
       const gap = introH ? 30 : 0, top0 = Math.max(16, (stageH - (introH + gap + bookH)) / 2);
@@ -378,7 +381,7 @@
         intro.style.transform = `translate(-50%, ${(top0 - ie * 60 + (1 - clamp((n - .5) / .7)) * 14).toFixed(1)}px) scale(${(1 - ie * .06).toFixed(4)})`;
         intro.style.visibility = io >= 1 ? 'hidden' : 'visible';
       }
-      const b0 = top0 + introH + gap, b1 = stageH / 2 - 90 + centerH / 2 + 36, bs = smooth(G);
+      const b0 = top0 + introH + gap, b1 = blockTop + centerH + BTN_GAP, bs = smooth(G);
       book.style.opacity = (clamp((n - 1.2) / .5) * (1 - fade)).toFixed(3);
       book.style.pointerEvents = fade > .5 ? 'none' : '';
       book.style.transform = `translate(-50%, ${(b0 + (b1 - b0) * bs).toFixed(1)}px)`;
