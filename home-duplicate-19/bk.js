@@ -270,7 +270,7 @@
     const hr = hero.getBoundingClientRect();
     const sc = headH - hr.top;                                      // px scrolled into the hero
     const v = clamp(sc / (Y * .9));                                 // wall scatter progress
-    const EP = clamp((sc - Y * 1.25) / (Y * .9));                   // end-screen progress (E is the wall layout)
+    const EP = end ? clamp((sc - Y * 1.25) / (Y * .9)) : 0;                   // end-screen progress (E is the wall layout)
     G = reduce || Math.abs(v - G) < 5e-4 ? v : G + (v - G) * (1 - Math.exp(-dt / .1));
 
     if (hr.bottom > 0) {
