@@ -11,7 +11,11 @@
   const world = hero.querySelector('.bk-world');
   const center = hero.querySelector('.bk-center');
   const intro = hero.querySelector('.bk-intro');
-  const book = hero.querySelector('.bk-book');
+  const book = hero.querySelector('.bk-btns');
+  const bookMain = hero.querySelector('.bk-book');
+  const end = document.getElementById('bk-end');
+  const endNoise = document.getElementById('bk-end-noise');
+  const bgNoise = document.getElementById('bk-noise');
   const casesNav = hero.querySelector('.bk-cases');
   const cases = Array.from(casesNav.querySelectorAll('.bk-case'));
   const hint = hero.querySelector('.bk-hint');
@@ -200,7 +204,7 @@
   let X = innerWidth, Y = innerHeight, introH = 0, centerH = 0, bookH = 56, bookW = 180, stageH = innerHeight, headH = 0;
   function measure() {
     X = innerWidth; Y = innerHeight;
-    centerH = center.offsetHeight; introH = intro ? intro.offsetHeight : 0; bookH = book.offsetHeight || 56; bookW = book.offsetWidth || 180;
+    centerH = center.offsetHeight; introH = intro ? intro.offsetHeight : 0; bookH = bookMain.offsetHeight || 56; bookW = bookMain.offsetWidth || 180;
     stageH = stage.offsetHeight || innerHeight;
     headH = parseFloat(getComputedStyle(hero).marginTop) || 0;
     if (float) { float.style.width = bookW + 'px'; float.style.height = bookH + 'px'; }
@@ -218,7 +222,7 @@
   function setFloat(on) {
     if (!float) return;
     if (floatAnim) floatAnim.cancel(); floatAnim = null;
-    const b = book.getBoundingClientRect();
+    const b = bookMain.getBoundingClientRect();
     if (on) {
       book.style.visibility = 'hidden'; float.classList.add('on');
       if (reduce) return;
@@ -243,6 +247,16 @@
     new IntersectionObserver(([en]) => float.classList.toggle('foot', en.isIntersecting)).observe(foot);
   }
 
+  // ---------- static (grain behind the wall, and the end screen) ----------
+  const NOISE = Array.from({ length: 5 }, () => {
+    const c = document.createElement('canvas'); c.width = 200; c.height = 176;
+    const x = c.getContext('2d'), d = x.createImageData(200, 176);
+    for (let i = 0; i < d.data.length; i += 4) { const v = Math.random() * 255; d.data[i] = v * .92; d.data[i + 1] = v * .86; d.data[i + 2] = v; d.data[i + 3] = 255; }
+    x.putImageData(d, 0, 0); return c;
+  });
+  const paintNoise = (cv) => { const x = cv.getContext('2d'); x.imageSmoothingEnabled = false; x.drawImage(NOISE[(Math.random() * NOISE.length) | 0], 0, 0, cv.width, cv.height); };
+  let lastNoise = 0;
+
   // ---------- frame ----------
   const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
   const smooth = (t) => t * t * (3 - 2 * t);
@@ -254,7 +268,9 @@
     const dt = Math.min(.05, (now - last) / 1000); last = now;
     const n = (now - t0) / 1000;                                    // seconds since load (intro)
     const hr = hero.getBoundingClientRect();
-    const v = clamp((headH - hr.top) / (Y * .9));                   // scroll progress through the hero
+    const sc = headH - hr.top;                                      // px scrolled into the hero
+    const v = clamp(sc / (Y * .9));                                 // wall scatter progress
+    const E = clamp((sc - Y * 1.25) / (Y * .9));                    // end-screen progress
     G = reduce || Math.abs(v - G) < 5e-4 ? v : G + (v - G) * (1 - Math.exp(-dt / .1));
 
     if (hr.bottom > 0) {
@@ -308,7 +324,7 @@
       }
 
       // centre copy, CTA, case strip
-      const reveal = 1 - Math.pow(1 - clamp((G - .45) / .4), 3);
+      const fade = clamp(E / .35), reveal = (1 - Math.pow(1 - clamp((G - .45) / .4), 3)) * (1 - fade);
       center.style.opacity = reveal.toFixed(3);
       center.style.transform = `translate(-50%, calc(-50% + ${((1 - reveal) * 14).toFixed(1)}px))`;
       // at rest the opening copy + CTA sit as one centred block; the copy lifts away as the wall scatters
@@ -320,13 +336,30 @@
         intro.style.visibility = io >= 1 ? 'hidden' : 'visible';
       }
       const b0 = top0 + introH + gap, b1 = stageH / 2 - 90 + centerH / 2 + 36, bs = smooth(G);
-      book.style.opacity = clamp((n - 1.2) / .5).toFixed(3);
+      book.style.opacity = (clamp((n - 1.2) / .5) * (1 - fade)).toFixed(3);
+      book.style.pointerEvents = fade > .5 ? 'none' : '';
       book.style.transform = `translate(-50%, ${(b0 + (b1 - b0) * bs).toFixed(1)}px)`;
       casesNav.style.opacity = reveal.toFixed(3);
       casesNav.style.transform = `translateY(${((1 - reveal) * 16).toFixed(1)}px)`;
       casesNav.style.pointerEvents = reveal > .5 ? 'auto' : 'none';
       if ((reveal > .5) === casesNav.inert) casesNav.inert = reveal <= .5;
       hint.style.opacity = n > 1.8 && G < .04 ? '1' : '0';
+
+      // grain behind the wall: faint at rest, full once the cards have scattered
+      if (bgNoise) {
+        bgNoise.style.opacity = (.05 + G * .1).toFixed(3);
+        if (!still() && now - lastNoise > 70) { lastNoise = now; paintNoise(bgNoise); if (endNoise && E > 0) paintNoise(endNoise); }
+      }
+      // the end screen: a curved tube that grows in through a burst of static
+      if (end) {
+        const eo = smooth(clamp((E - .12) / .4)), flash = Math.sin(Math.PI * clamp(E / .6)) * .5;
+        end.style.opacity = eo.toFixed(3);
+        end.style.visibility = eo > 0 ? 'visible' : 'hidden';
+        end.style.transform = `scale(${(.9 + .1 * eo).toFixed(4)})`;
+        end.style.pointerEvents = eo > .9 ? 'auto' : 'none';
+        endNoise.style.opacity = Math.max(flash, .075 * eo).toFixed(3);
+        if (still() && E > 0) paintNoise(endNoise);
+      }
 
       if (reveal > 0) {
         caseSlow += ((caseHover ? .1 : 1) - caseSlow) * (1 - Math.pow(.001, dt));
@@ -345,10 +378,11 @@
 
     // scrolling away from a hovered card never fires pointerleave: drop the chip once the wall has scattered
     if ((hovered || chip.classList.contains('on')) && (G > .2 || hr.bottom < 0)) { hovered = null; overCard = false; hideChip(); }
+    pauseBtn && pauseBtn.classList.toggle('gone', floatOn || E > .15);
     document.body.classList.toggle('qc-hide', hr.bottom > Y * .5);   // contact dock waits until the hero is done
     if (float && n > 1.7) {
       const on = floatOn ? hr.bottom < Y + 8 : hr.bottom < Y - 8;
-      if (on !== floatOn) { floatOn = on; setFloat(on); pauseBtn && pauseBtn.classList.toggle('gone', on); }
+      if (on !== floatOn) { floatOn = on; setFloat(on); }
     }
     requestAnimationFrame(frame);
   }
