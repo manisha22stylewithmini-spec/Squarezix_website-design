@@ -242,6 +242,48 @@
       floatAnim.onfinish = done;
     }
   }
+  // ---------- the floating CTA docks into the bento "Contact us" card ----------
+  // When the Contact us button scrolls up to the pill's level, the pill flies into that card and settles under Contact us
+  // (which turns outline-only); scrolling back above it sends the pill back to the bottom of the screen.
+  const dockCard = document.querySelector('.b-contact');
+  const dockBtn = dockCard && dockCard.querySelector('.bk-dock');
+  const dockContact = dockCard && dockCard.querySelector('.zx-btn:not(.bk-dock)');
+  let docked = false, ghost = null;
+  const floatRest = () => { const w = bookW, h = bookH; return { left: X / 2 - w / 2, top: Y - Math.max(20, 0) - h, width: w, height: h }; };
+  function flip(el, dy) { if (!reduce && dy) el.animate([{ transform: `translateY(${dy}px)` }, { transform: 'none' }], { duration: 520, easing: 'cubic-bezier(.2,.8,.2,1)' }); }
+  function fly(from, toFn, done) {
+    if (ghost) { ghost.el.remove(); ghost = null; }
+    if (reduce) { done(); return; }
+    const el = document.createElement('div'); el.className = 'bk-ghost'; el.textContent = 'Start a Project'; document.body.append(el);
+    ghost = { el, from, toFn, t0: performance.now(), dur: 620, done };
+  }
+  function stepGhost(now) {
+    if (!ghost) return;
+    const k = clamp((now - ghost.t0) / ghost.dur), e = 1 - Math.pow(1 - k, 3), a = ghost.from, b = ghost.toFn();
+    const lerp = (p, q) => p + (q - p) * e;
+    const s = ghost.el.style;
+    s.left = lerp(a.left, b.left) + 'px'; s.top = (lerp(a.top, b.top) - Math.sin(Math.PI * e) * 40) + 'px';
+    s.width = lerp(a.width, b.width) + 'px'; s.height = lerp(a.height, b.height) + 'px';
+    s.fontSize = lerp(16, 15) + 'px';
+    if (k >= 1) { const d = ghost.done; ghost.el.remove(); ghost = null; d(); }
+  }
+  function dock() {
+    docked = true;
+    const from = float.getBoundingClientRect(), c0 = dockContact.getBoundingClientRect().top;
+    float.classList.add('docked');
+    dockCard.classList.add('is-docked', 'dock-pending');
+    flip(dockContact, c0 - dockContact.getBoundingClientRect().top);
+    fly({ left: from.left, top: from.top, width: from.width, height: from.height }, () => dockBtn.getBoundingClientRect(), () => { if (docked) { dockCard.classList.remove('dock-pending'); dockBtn.tabIndex = 0; } });
+  }
+  function undock(instant) {
+    docked = false;
+    const from = dockBtn.getBoundingClientRect(), c0 = dockContact.getBoundingClientRect().top;
+    dockCard.classList.remove('is-docked', 'dock-pending'); dockBtn.tabIndex = -1;
+    if (instant) { if (ghost) { ghost.el.remove(); ghost = null; } float.classList.remove('docked'); return; }
+    flip(dockContact, c0 - dockContact.getBoundingClientRect().top);
+    fly({ left: from.left, top: from.top, width: from.width, height: from.height }, floatRest, () => { if (!docked) float.classList.remove('docked'); });
+  }
+
   const foot = document.querySelector('footer');
   if (foot && float && 'IntersectionObserver' in window) {
     new IntersectionObserver(([en]) => float.classList.toggle('foot', en.isIntersecting)).observe(foot);
@@ -380,6 +422,12 @@
     if ((hovered || chip.classList.contains('on')) && (G > .2 || hr.bottom < 0)) { hovered = null; overCard = false; hideChip(); }
     pauseBtn && pauseBtn.classList.toggle('gone', floatOn || EP > .15);
     document.body.classList.toggle('qc-hide', hr.bottom > Y * .5);   // contact dock waits until the hero is done
+    if (dockCard && dockBtn && dockContact && float) {
+      const ct = dockContact.getBoundingClientRect().top, ft = floatRest().top;
+      if (!docked && floatOn && ct <= ft) dock();
+      else if (docked && (!floatOn || ct > ft + 140)) undock(!floatOn);
+      stepGhost(now);
+    }
     if (float && n > 1.7) {
       const on = floatOn ? hr.bottom < Y + 8 : hr.bottom < Y - 8;
       if (on !== floatOn) { floatOn = on; setFloat(on); }
