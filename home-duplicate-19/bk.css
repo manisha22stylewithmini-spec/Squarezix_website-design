@@ -93,3 +93,20 @@
 /* contact dock stays hidden while the wall fills the screen */
 .qc { transition: opacity .4s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
 body.qc-hide .qc { opacity: 0 !important; transform: translateX(24px); pointer-events: none; visibility: hidden; transition: opacity .4s ease, transform .5s cubic-bezier(.2, .8, .2, 1), visibility 0s .5s; }
+
+/* opening copy: the site's hero content, centred over the wall above the CTA; fades as the wall scatters */
+.bk-intro { position: absolute; z-index: 6; left: 50%; top: 0; width: min(760px, 100% - 40px); display: flex; flex-direction: column; align-items: center; text-align: center;
+  pointer-events: none; font-family: "Sora", sans-serif; will-change: transform, opacity; }
+.bk-intro::before { content: ""; position: absolute; z-index: -1; inset: -90px -160px -150px; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(7, 5, 17, .9), rgba(7, 5, 17, .72) 55%, rgba(7, 5, 17, 0) 100%); }
+.bk-badge { margin: 0; padding: 6px 10px; border: 1px solid #ab24f2; border-radius: 11px; background: rgba(64, 22, 130, .32); color: #e6ddff;
+  font: 500 12.5px/1.3 "DM Sans", sans-serif; letter-spacing: .02em; text-transform: uppercase; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.bk-title { margin: 18px 0 0; font-weight: 400; }
+.bk-title > span { display: block; white-space: nowrap; }
+.bk-title-main { font-size: clamp(54px, 7.4vw, 112px); line-height: .98; letter-spacing: -.035em; color: #fff; text-shadow: 0 8px 40px rgba(7, 5, 17, .8); }
+.bk-title-main sup { display: inline-block; margin-left: .09em; font-size: .32em; vertical-align: top; line-height: 1; transform: translateY(.35em); letter-spacing: 0; }
+.bk-title-sub { margin-top: 6px; padding-bottom: .14em; font-size: clamp(34px, 4.6vw, 70px); line-height: 1.05; letter-spacing: -.03em;
+  background: linear-gradient(90deg, #e3d7ff 0%, #c4a6fb 12%, #9a5cf5 30%, #ab24f2 62%, #ab24f2 82%, #cdb6ff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.bk-intro-lead { margin: 6px 0 0; font-size: clamp(16px, 1.45vw, 20px); letter-spacing: .025em; color: #fff; }
+.bk-intro-text { margin: 14px 0 0; max-width: 34em; font: 400 clamp(13px, 1.05vw, 15px)/1.45 "DM Sans", sans-serif; letter-spacing: .012em; color: rgba(255, 255, 255, .84); }
+@media (max-width: 760px) { .bk-intro::before { inset: -60px -40px -110px; } .bk-badge { font-size: 10px; } }

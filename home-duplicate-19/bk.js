@@ -10,6 +10,7 @@
   const stage = hero.querySelector('.bk-stage');
   const world = hero.querySelector('.bk-world');
   const center = hero.querySelector('.bk-center');
+  const intro = hero.querySelector('.bk-intro');
   const book = hero.querySelector('.bk-book');
   const casesNav = hero.querySelector('.bk-cases');
   const cases = Array.from(casesNav.querySelectorAll('.bk-case'));
@@ -196,10 +197,10 @@
   });
 
   // ---------- layout numbers ----------
-  let X = innerWidth, Y = innerHeight, centerH = 0, bookH = 56, bookW = 180, stageH = innerHeight, headH = 0;
+  let X = innerWidth, Y = innerHeight, introH = 0, centerH = 0, bookH = 56, bookW = 180, stageH = innerHeight, headH = 0;
   function measure() {
     X = innerWidth; Y = innerHeight;
-    centerH = center.offsetHeight; bookH = book.offsetHeight || 56; bookW = book.offsetWidth || 180;
+    centerH = center.offsetHeight; introH = intro ? intro.offsetHeight : 0; bookH = book.offsetHeight || 56; bookW = book.offsetWidth || 180;
     stageH = stage.offsetHeight || innerHeight;
     headH = parseFloat(getComputedStyle(hero).marginTop) || 0;
     if (float) { float.style.width = bookW + 'px'; float.style.height = bookH + 'px'; }
@@ -310,7 +311,15 @@
       const reveal = 1 - Math.pow(1 - clamp((G - .45) / .4), 3);
       center.style.opacity = reveal.toFixed(3);
       center.style.transform = `translate(-50%, calc(-50% + ${((1 - reveal) * 14).toFixed(1)}px))`;
-      const b0 = stageH / 2 - bookH / 2, b1 = stageH / 2 - 90 + centerH / 2 + 36, bs = smooth(G);
+      // at rest the opening copy + CTA sit as one centred block; the copy lifts away as the wall scatters
+      const gap = introH ? 30 : 0, top0 = Math.max(16, (stageH - (introH + gap + bookH)) / 2);
+      if (intro) {
+        const io = clamp(G / .32), ie = io * io;
+        intro.style.opacity = (clamp((n - .5) / .7) * (1 - io)).toFixed(3);
+        intro.style.transform = `translate(-50%, ${(top0 - ie * 60 + (1 - clamp((n - .5) / .7)) * 14).toFixed(1)}px) scale(${(1 - ie * .06).toFixed(4)})`;
+        intro.style.visibility = io >= 1 ? 'hidden' : 'visible';
+      }
+      const b0 = top0 + introH + gap, b1 = stageH / 2 - 90 + centerH / 2 + 36, bs = smooth(G);
       book.style.opacity = clamp((n - 1.2) / .5).toFixed(3);
       book.style.transform = `translate(-50%, ${(b0 + (b1 - b0) * bs).toFixed(1)}px)`;
       casesNav.style.opacity = reveal.toFixed(3);
