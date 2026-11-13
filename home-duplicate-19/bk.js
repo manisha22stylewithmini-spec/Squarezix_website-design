@@ -19,6 +19,7 @@
   const casesNav = hero.querySelector('.bk-cases');
   const cases = Array.from(casesNav.querySelectorAll('.bk-case'));
   const hint = hero.querySelector('.bk-hint');
+  const strip = hero.querySelector('.bk-marquee');
   const pauseBtn = hero.querySelector('.bk-pause');
   const float = document.querySelector('.bk-float');
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -384,6 +385,7 @@
       casesNav.style.opacity = reveal.toFixed(3);
       casesNav.style.transform = `translateY(${((1 - reveal) * 16).toFixed(1)}px)`;
       casesNav.style.pointerEvents = reveal > .5 ? 'auto' : 'none';
+      if (strip) { strip.style.opacity = reveal.toFixed(3); strip.style.transform = `translateY(${((1 - reveal) * 16).toFixed(1)}px)`; strip.style.visibility = reveal > 0 ? 'visible' : 'hidden'; }
       if ((reveal > .5) === casesNav.inert) casesNav.inert = reveal <= .5;
       hint.style.opacity = n > 1.8 && G < .04 ? '1' : '0';
 
