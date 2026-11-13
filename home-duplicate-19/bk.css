@@ -1,0 +1,95 @@
+/* ---------- Hero (work wall), after baked.design, dark ----------
+   A cylinder of work cards around the viewer (bk.js places every card each frame). Scroll scatters the wall and reveals
+   the centre copy, the CTA and a curved case-study strip. Brand: #621DD0 / #AB24F2 on #070511; Sora / DM Sans. */
+.bk { --bg: #070511; --ink: #f1eefb; --muted: rgba(233, 228, 250, .58); --hair: rgba(255, 255, 255, .07); --surface: #110f24;
+  position: relative; height: 240svh; margin-top: var(--header-h); background: var(--bg); color: var(--ink); }
+.bk-stage { position: sticky; top: var(--header-h); height: calc(100svh - var(--header-h)); overflow: hidden; isolation: isolate; background: var(--bg); }
+/* depth: a faint violet bloom in the middle, the edges sink into the page colour */
+.bk-stage::before { content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(60% 55% at 50% 50%, rgba(98, 29, 208, .16), transparent 70%); }
+.bk-stage::after { content: ""; position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  background: radial-gradient(140% 110% at 50% 50%, transparent 58%, rgba(7, 5, 17, .72) 100%); }
+
+.bk-world { position: absolute; inset: 0; z-index: 1; perspective: 1100px; perspective-origin: 50% 50%; cursor: default; touch-action: pan-y; user-select: none; }
+.bk-world.grab { cursor: grabbing; }
+.bk-card { position: absolute; top: 50%; left: 50%; display: block; visibility: hidden; overflow: hidden; border-radius: 10px; cursor: pointer;
+  background: var(--surface); box-shadow: 0 0 0 1px var(--hair), 0 18px 40px -22px rgba(0, 0, 0, .9); -webkit-user-drag: none; }
+.bk-card img, .bk-card video { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; transition: transform .3s cubic-bezier(.2, .8, .2, 1); }
+.bk-card:hover img, .bk-card:hover video { transform: scale(1.04); }
+.bk-card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06); transition: box-shadow .25s ease; }
+.bk-card:hover::after { box-shadow: inset 0 0 0 1px rgba(171, 36, 242, .55), inset 0 0 30px rgba(171, 36, 242, .12); }
+
+/* the chip that follows the cursor over a card */
+.bk-chip { position: fixed; left: 0; top: 0; z-index: 30; padding: 5px 11px; border-radius: 999px; pointer-events: none; white-space: nowrap;
+  background: rgba(17, 15, 36, .86); border: 1px solid rgba(255, 255, 255, .12); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  font: 400 13px/18px "DM Sans", sans-serif; color: var(--ink); opacity: 0; scale: .96; transition: opacity .15s ease-out, scale .15s ease-out; }
+.bk-chip.on { opacity: 1; scale: 1; }
+
+/* centre copy */
+.bk-center { position: absolute; z-index: 5; left: 50%; top: calc(50% - 90px); width: min(380px, 100% - 48px); display: flex; flex-direction: column; align-items: center; gap: 24px;
+  text-align: center; pointer-events: none; opacity: 0; transform: translate(-50%, -50%); }
+.bk-mark { width: 56px; height: 56px; border-radius: 16px; filter: drop-shadow(0 10px 24px rgba(98, 29, 208, .55)); }
+.bk-lead { margin: 0; font: 400 16px/24px "DM Sans", sans-serif; color: var(--ink); text-wrap: balance; }
+.bk-lead b { font-weight: 600; }
+.bk-now { color: var(--muted); }
+
+/* the CTA: centred at rest, slides under the copy on scroll */
+.bk-book { position: absolute; z-index: 7; top: 0; left: 50%; display: flex; align-items: center; justify-content: center; height: 56px; padding: 0 34px; border-radius: 999px; opacity: 0;
+  background: linear-gradient(135deg, #621dd0, #ab24f2); color: #fff; text-decoration: none; font: 500 16px/1 "DM Sans", sans-serif; white-space: nowrap;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28), 0 16px 38px -14px rgba(98, 29, 208, .9), 0 0 0 1px rgba(255, 255, 255, .08);
+  transition: filter .15s ease-out, scale .15s ease-out; }
+.bk-book:hover { filter: brightness(1.12) saturate(1.08); }
+.bk-book:active { scale: .97; }
+
+/* the curved strip of case studies */
+.bk-cases { position: absolute; z-index: 6; left: 0; right: 0; bottom: 24px; height: 122px; perspective: 1100px; perspective-origin: 50% 50%; cursor: grab; touch-action: pan-y; opacity: 0; }
+.bk-case { position: absolute; left: 0; top: 0; width: 219px; height: 122px; display: flex; align-items: center; justify-content: center; border-radius: 8px; text-decoration: none; will-change: transform;
+  background: rgba(20, 18, 42, .9); box-shadow: inset 0 0 0 1px var(--hair); color: var(--muted); -webkit-user-drag: none; transition: background-color .15s ease-out, box-shadow .15s ease-out; }
+.bk-case .nm { font: 600 19px/24px "Sora", sans-serif; letter-spacing: -.03em; color: rgba(241, 238, 251, .42); transition: color .2s ease-out; pointer-events: none; }
+.bk-case .dot { position: absolute; top: 14px; right: 14px; display: flex; align-items: center; gap: 8px; pointer-events: none; }
+.bk-case .dot::after { content: ""; width: 6px; height: 6px; border-radius: 50%; background: rgba(241, 238, 251, .26); transition: background .2s ease-out, box-shadow .2s ease-out; }
+.bk-case .dtx { font: 400 13px/18px "DM Sans", sans-serif; color: var(--ink); opacity: 0; transform: translateX(4px); transition: opacity .2s ease-out, transform .2s ease-out; }
+.bk-case .fnd { position: absolute; left: 18px; bottom: 12px; font: 400 14px/20px "DM Sans", sans-serif; color: var(--muted); transition: color .2s ease-out; pointer-events: none; }
+.bk-case:hover { background: rgba(30, 24, 62, .96); box-shadow: inset 0 0 0 1px rgba(171, 36, 242, .35); }
+.bk-case:hover .nm { color: var(--ink); }
+.bk-case:hover .dtx, .bk-case:focus-visible .dtx { opacity: 1; transform: none; }
+.bk-case:hover .dot::after { background: #ab24f2; box-shadow: 0 0 10px #ab24f2; }
+.bk-case:hover .fnd, .bk-case:focus-visible .fnd { color: var(--ink); }
+.bk-case:focus-visible, .bk-book:focus-visible { outline: 2px solid #ab24f2; outline-offset: 3px; }
+
+/* hint + pause */
+.bk-hint { position: absolute; z-index: 6; left: 50%; bottom: 24px; transform: translateX(-50%); margin: 0; padding: 8px 14px; border-radius: 999px; pointer-events: none; white-space: nowrap; opacity: 0;
+  background: rgba(17, 15, 36, .78); box-shadow: 0 0 0 1px var(--hair); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  font: 400 13px/18px "DM Sans", sans-serif; color: var(--muted); transition: opacity .3s ease-out; }
+.bk-pause { position: absolute; z-index: 8; left: 24px; bottom: 158px; display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px; border: 0; border-radius: 8px; cursor: pointer;
+  background: rgba(255, 255, 255, .07); box-shadow: inset 0 0 0 1px var(--hair); color: var(--ink); font: 400 13px/18px "DM Sans", sans-serif;
+  transition: background-color .15s ease-out, scale .15s ease-out, opacity .3s cubic-bezier(.2, .8, .2, 1); }
+.bk-pause:hover { background: rgba(255, 255, 255, .12); }
+.bk-pause:active { scale: .96; }
+.bk-pause svg { width: 14px; height: 14px; }
+.bk-pause .ic-play, .bk-pause[data-paused="1"] .ic-pause { display: none; }
+.bk-pause[data-paused="1"] .ic-play { display: inline-flex; }
+.bk-pause.gone { opacity: 0; pointer-events: none; }
+
+/* floating CTA after the hero */
+.bk-float { position: fixed; z-index: 40; left: 50%; bottom: max(20px, env(safe-area-inset-bottom)); translate: -50%; transform-origin: 50% 100%; display: flex; align-items: center; justify-content: center;
+  border-radius: 999px; background: linear-gradient(135deg, #621dd0, #ab24f2); color: #fff; text-decoration: none; font: 500 16px/1 "DM Sans", sans-serif; white-space: nowrap;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28), 0 16px 38px -14px rgba(98, 29, 208, .9); opacity: 0; pointer-events: none; transition: opacity .2s ease-out, filter .15s ease-out; }
+.bk-float.on { opacity: 1; pointer-events: auto; }
+.bk-float.on.foot { opacity: 0; pointer-events: none; }
+.bk-float:hover { filter: brightness(1.12); }
+
+@media (max-width: 760px) {
+  .bk-center { top: calc(50% - 110px); }
+  .bk-book { height: 52px; padding: 0 30px; }
+  .bk-cases { height: 96px; bottom: 16px; }
+  .bk-case { width: 150px; height: 96px; }
+  .bk-case .nm { font-size: 15px; }
+  .bk-case .fnd { font-size: 12px; left: 12px; bottom: 8px; }
+  .bk-pause { left: 16px; bottom: 124px; }
+}
+@media (prefers-reduced-motion: reduce) { .bk-pause { display: none; } .bk-card img, .bk-case, .bk-case .dtx { transition: none; } }
+
+/* contact dock stays hidden while the wall fills the screen */
+.qc { transition: opacity .4s ease, transform .5s cubic-bezier(.2, .8, .2, 1); }
+body.qc-hide .qc { opacity: 0 !important; transform: translateX(24px); pointer-events: none; visibility: hidden; transition: opacity .4s ease, transform .5s cubic-bezier(.2, .8, .2, 1), visibility 0s .5s; }
